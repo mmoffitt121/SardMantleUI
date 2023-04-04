@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SharedService {
-  readonly APIUrl = "https://localhost:7094";
+  /*readonly APIUrl = "https://localhost:7094";
   constructor(private http:HttpClient) { }
 
   getMaps():Observable<any[]>
@@ -27,5 +27,5 @@ export class SharedService {
   deleteMap(val:any)
   {
     return this.http.delete(this.APIUrl + "/Library/Map/" + val)
-  }
+  }*/
 }

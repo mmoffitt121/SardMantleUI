@@ -3,31 +3,29 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LibraryComponent } from './library/library.component';
-import { BooksComponent } from './library/books/books.component';
-import { SearchComponent } from './library/search/search.component';
-import { AddComponent } from './library/add/add.component';
-import { TimelineComponent } from './timeline/timeline.component';
+import { HomeComponent } from './home/home.component';
 import { SharedService } from './shared.service';
 
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { MatButtonToggleModule, MatSlideToggleModule, MatCardModule, MatButtonModule } from '@angular/material';
+
 @NgModule({
   declarations: [
     AppComponent,
-    LibraryComponent,
-    BooksComponent,
-    SearchComponent,
-    AddComponent,
-    TimelineComponent
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule, 
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButtonToggleModule,
+    MatSlideToggleModule,
+    MatCardModule,
+    MatButtonModule
   ],
   providers: [SharedService],
   bootstrap: [AppComponent]

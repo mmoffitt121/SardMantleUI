@@ -1,1 +1,72 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
+@import '~leaflet/dist/leaflet.css';
+@font-face {
+    font-family: 'IM Fell English';
+    src: url('./assets/fonts/IMFellEnglish-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --primary-color: rgba(71, 59, 59, 1);
+    --text-color: rgba(255, 255, 255, 1);
+    --background-color: rgb(218, 197, 192);
+    --primary-font: 'IM Fell English';
+}
+
+body {
+    font-family: var(--primary-font);
+    background-color: var(--background-color);
+}
+
+button.mat-button {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    font-family: var(--primary-font);
+}
+
+.mat-card {
+    box-shadow: 10px 12px 14px rgba(0, 0, 0, 0.51);
+    background-color: var(--primary-color);
+    font-family: var(--primary-font);
+    flex-direction: column;
+    display: flex;
+    height: 20%
+}
+
+.container {
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+.pad-container {
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+}
+
+.mat-card-actions {
+    margin-top: auto;
+}
+
+h1 {
+    text-align: center;
+}
+
+.horizontal-card-container {
+    display: flex;
+}
+
+.horizontal-card {
+    display: flex;
+    flex: 1;
+    margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.header-image {
+    width: 45px;
+    height: 45px;
+}
