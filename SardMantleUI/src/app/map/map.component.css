@@ -4,14 +4,65 @@
     left: 0;
     right: 0;
     bottom: 0;
-    margin: 30px;
+    margin: 0px;
 }
 
 .map-frame {
-    border: 2px solid black;
     height: 100%;
 }
 
 #map {
     height: 100%;
+}
+
+.map-sidebar {
+    overflow: hidden;
+    background-color: var(--secondary-background-color);
+    padding: 10px;
+}
+
+.expansion-panel-content {
+    max-width: 300px;
+    flex-direction: column;
+}
+
+.mat-checkbox {
+    font-family: var(--primary-font);
+    padding-right: 20px
+}
+
+.map-overlay-button {
+    position: absolute;
+    right: 11px;
+    top: 11px;
+    width: 32px;
+    height: 32px;
+    z-index: 1000;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+    min-height: 0;
+    background-color: var(--primary-color);
+}
+
+.map-overlay-topbar-content {
+    height: 100%;
+    overflow:auto;
+}
+
+.map-overlay-infopanel {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 1000;
+}
+
+.mat-divider {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    visibility: hidden;
+}
+
+.scrollable-panel {
+    overflow: auto;
 }

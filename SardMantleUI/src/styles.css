@@ -12,6 +12,7 @@
     --primary-color: rgba(71, 59, 59, 1);
     --text-color: rgba(255, 255, 255, 1);
     --background-color: rgb(218, 197, 192);
+    --secondary-background-color: rgb(48, 34, 34);
     --primary-font: 'IM Fell English';
 }
 
@@ -69,4 +70,19 @@ h1 {
 .header-image {
     width: 45px;
     height: 45px;
+}
+
+.mat-expansion-panel {
+    background-color: var(--primary-color);
+    font-family: var(--primary-font);
+}
+
+.mat-expansion-panel-header {
+    font-family: var(--primary-font);
+    margin: 15px;
+}
+
+p {
+    font-family: var(--primary-font);
+    margin: 10px;
 }
