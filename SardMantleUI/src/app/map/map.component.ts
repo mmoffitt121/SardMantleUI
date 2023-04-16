@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { MapService } from './map.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css']
+  styleUrls: ['./map.component.css'],
+  providers: [ MapService ]
 })
 export class MapComponent implements OnInit {
-
   private map: L.Map;
-  private centroid: L.LatLngExpression = [42.3601, -71.0589]; //
+  private centroid: L.LatLngExpression = [42.3601, -71.0589];
+  private primaryMarkerLayer: any = L.layerGroup();
+
+  @ViewChild('sideBar') sideBar: any;
 
   private initMap(): void {
     this.map = L.map('map', {
@@ -34,13 +38,8 @@ export class MapComponent implements OnInit {
       {lat: 46.0046, lng: 5.3173, name: "Minh Vanil"},
       {lat: 40.7128, lng: -74.0060, name: "New York"}
     ];
-  
-    // Loop through the array and add each marker to the map
-    for (var i = 0; i < markers.length; i++) {
-        var marker = markers[i];
-        L.circleMarker([marker.lat, marker.lng], { color: '#FFFFFF'}).addTo(this.map)
-            .bindPopup(marker.name);
-    }
+
+    this.addMarkers(markers);
 
     tilesOuter.addTo(this.map);
     tilesInner.addTo(this.map);
@@ -53,7 +52,32 @@ export class MapComponent implements OnInit {
     });
   }
 
-  constructor() { }
+  public applyFilter(): void {
+    this.primaryMarkerLayer.clearLayers();
+    console.log(this.queryLocations());
+    
+    this.addMarkers(this.queryLocations());
+    this.sideBar.close();
+    this.queryLocations();
+  }
+
+  public queryLocations() {
+    let markers;
+    this.mapService.getLocations([]).subscribe(mrkrs => { markers = mrkrs});
+    console.log(markers);
+    return markers;
+  }
+
+  public addMarkers(markers: any): void {
+    // Loop through the array and add each marker to the map
+    for (var i = 0; i < markers.length; i++) {
+      var marker = markers[i];
+      L.circleMarker([marker.lat, marker.lng], { color: '#FFFFFF'}).addTo(this.primaryMarkerLayer).bindPopup(marker.name);
+      this.primaryMarkerLayer.addTo(this.map);
+    }
+  }
+
+  constructor(private mapService: MapService) { }
 
   ngOnInit(): void {
     this.initMap();

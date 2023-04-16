@@ -1,6 +1,6 @@
 
 <mat-drawer-container class="map-container" >
-    <mat-drawer #drawer mode="over" position="end" class="map-sidebar">
+    <mat-drawer #drawer mode="over" position="end" class="map-sidebar" #sideBar>
         <mat-accordion [multi]="true" class="map-sidebar-accordion">
             <mat-expansion-panel>
                 <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
@@ -11,19 +11,34 @@
                         
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <div class="expansion-panel-content">
-                <mat-checkbox> Continents </mat-checkbox>
-                <mat-checkbox> Subcontinents </mat-checkbox>
-                <mat-checkbox> Regions </mat-checkbox>
-                <mat-checkbox> Subregions </mat-checkbox>
-                <mat-checkbox> Areas </mat-checkbox>
-                <mat-form-field>
-                    <input type="tel" matInput placeholder="Filter">
-                </mat-form-field>
-                <mat-form-field>
-                    <input matInput placeholder="Placeholder">
-                </mat-form-field>
+                <!--<div class="expansion-panel-content">
+                    <mat-checkbox> Continents </mat-checkbox>
+                    <mat-checkbox> Subcontinents </mat-checkbox>
+                    <mat-checkbox> Regions </mat-checkbox>
+                    <mat-checkbox> Subregions </mat-checkbox>
+                    <mat-checkbox> Areas </mat-checkbox>
                 </div>
+                <div class="expansion-panel-content-wide">
+                    <mat-form-field>
+                        <input type="tel" matInput placeholder="Filter">
+                    </mat-form-field>
+                </div>
+                <mat-divider></mat-divider>-->
+                <div class="expansion-panel-content">
+                    <mat-checkbox> Cities </mat-checkbox>
+                    <mat-checkbox> Towns </mat-checkbox>
+                    <mat-checkbox> Villages </mat-checkbox>
+                    <mat-checkbox> Hamlets </mat-checkbox>
+                    <mat-checkbox> Fortresses </mat-checkbox>
+                </div>
+                <div class="expansion-panel-content-wide">
+                    <mat-form-field>
+                        <input type="tel" matInput placeholder="Filter">
+                    </mat-form-field>
+                </div>
+                <button mat-button class="expansion-panel-apply-button" (click)="applyFilter()">
+                    Apply
+                </button>
             </mat-expansion-panel>
             <mat-expansion-panel>
                 <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
@@ -34,9 +49,22 @@
                         
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <p>I'm visible because I am open</p>
+                <div class="expansion-panel-content">
+                </div>
             </mat-expansion-panel>
             <mat-expansion-panel>
+                <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
+                    <mat-panel-title>
+                        Layers
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="expansion-panel-content">
+                </div>
+            </mat-expansion-panel>
+            <!--<mat-expansion-panel>
                 <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
                     <mat-panel-title>
                         People
@@ -66,14 +94,14 @@
             <mat-expansion-panel>
                 <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
                     <mat-panel-title>
-                        Religion
+                        Time
                     </mat-panel-title>
                     <mat-panel-description>
                         
                     </mat-panel-description>
                 </mat-expansion-panel-header>
                 <p>I'm visible because I am open</p>
-            </mat-expansion-panel>
+            </mat-expansion-panel>-->
         </mat-accordion>
     </mat-drawer>
     <mat-drawer-content>

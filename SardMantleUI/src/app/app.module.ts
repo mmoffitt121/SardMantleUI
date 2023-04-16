@@ -37,6 +37,7 @@ import * as mt from '@angular/material';
     mt.MatTabsModule,
     mt.MatIconModule,
     mt.MatCheckboxModule,
+    mt.MatSelectModule,
     BrowserAnimationsModule
   ],
   providers: [SharedService],

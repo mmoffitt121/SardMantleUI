@@ -22,14 +22,32 @@
 }
 
 .expansion-panel-content {
-    max-width: 300px;
-    flex-direction: column;
+    max-width: 600px;
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-row: auto;
+}
+
+.expansion-panel-content-wide {
+    max-width: 400px;
+    display: grid;
+    grid-template-columns: auto;
+    grid-row: auto;
+}
+
+.expansion-panel-apply-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .mat-checkbox {
     font-family: var(--primary-font);
-    padding-right: 20px
+    padding-right: 20px;
+    size: fixed;
 }
+
 
 .map-overlay-button {
     position: absolute;
@@ -60,7 +78,6 @@
 .mat-divider {
     margin-top: 10px;
     margin-bottom: 10px;
-    visibility: hidden;
 }
 
 .scrollable-panel {
