@@ -96,3 +96,8 @@ p {
     background-color: var(--primary-color);
     font-family: var(--primary-font);
 }
+
+.mat-form-field {
+    background-color: var(--primary-color);
+    font-family: var(--primary-font);
+}

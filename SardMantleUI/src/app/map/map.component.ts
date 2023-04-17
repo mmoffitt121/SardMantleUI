@@ -5,6 +5,7 @@ import { AddLocationComponent } from './add-location/add-location/add-location.c
 import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
 import * as L from 'leaflet';
 import { MatDrawer, MatDrawerContainer, MatDrawerToggleResult, MatSelect } from '@angular/material';
+import { MapIconMaps } from './models/map-icon-maps/map-icon-maps';
 
 interface LocationType {
   id: number;
@@ -103,7 +104,7 @@ export class MapComponent implements OnInit {
   }
 
   public applyFilter(): void {
-    this.primaryMarkerLayer.clearLayers();
+    this.clearAllMarkerLayers();
     this.queryLocations();
   }
 
@@ -112,10 +113,15 @@ export class MapComponent implements OnInit {
     this.addMarkerLng = lng;
   }
 
+  public clearAllMarkerLayers() {
+    this.primaryMarkerLayer.clearLayers();
+  }
+
   public queryLocations() {
     this.mapService.getLocations([]).subscribe(data => {
       this.locations = data;
       this.addMarkers(this.locations);
+      console.log(data);
     },
     error => {
       console.error(error);
@@ -149,8 +155,8 @@ export class MapComponent implements OnInit {
       latitude: this.addMarkerLat,
       longitude: this.addMarkerLng
     };
-    console.log(model);
     this.mapService.postLocation(model).subscribe(data => {
+      this.clearAllMarkerLayers();
       this.queryLocations();
       this.placing = false;
       this.addLocationMarkerIcon = 'add';
@@ -167,15 +173,15 @@ export class MapComponent implements OnInit {
     for (var i = 0; i < markers.length; i++) {
       var marker = markers[i];
       if (!(marker.latitude && marker.longitude)) continue;
-      L.circleMarker([marker.latitude, marker.longitude], { color: '#FFFFFF'}).addTo(this.primaryMarkerLayer).bindPopup( "<div> hello </div>" );
+      console.log(marker.locationTypeId + " " + MapIconMaps.colorMap.get(marker.locationTypeId));
+      L.circleMarker([marker.latitude, marker.longitude], { color: MapIconMaps.colorMap.get(marker.locationTypeId), radius: 20 }).addTo(this.primaryMarkerLayer).bindPopup( "<div> hello </div>" );
       this.primaryMarkerLayer.addTo(this.map);
     }
   }
 
   public showMarkers() {
-    console.log(this);
     var zoom = this.map.getZoom();
-    if (zoom < 10) {
+    if (zoom < 6) {
       this.map.removeLayer(this.primaryMarkerLayer);
     }
     else if (!this.map.hasLayer(this.primaryMarkerLayer))
@@ -189,5 +195,6 @@ export class MapComponent implements OnInit {
   ngOnInit(): void {
     this.queryLocationTypes();
     this.initMap();
+    this.map.on("zoomend", (e: any) => {this.showMarkers();});
   }
 }
