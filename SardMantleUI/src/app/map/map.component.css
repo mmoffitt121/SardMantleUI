@@ -63,6 +63,49 @@
     background-color: var(--primary-color);
 }
 
+.map-add-button {
+    position: absolute;
+    right: 11px;
+    top: 50px;
+    width: 32px;
+    height: 32px;
+    z-index: 1000;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+    min-height: 0;
+    background-color: var(--primary-color);
+}
+
+.map-add-topbar {
+    position: absolute;
+    top: 11px;
+    left: 50px;
+    right: 50px;
+    z-index: 1000;
+    height: 20px;
+}
+
+.map-add-bottombar {
+    position: absolute;
+    height: fit-content;
+    bottom: 11px;
+    /*left: 11px;*/
+    right: 11px;
+    z-index: 1000;
+    /*height: 20px;*/
+    margin-left: 11px
+}
+
+.mat-icon {
+    position: relative;
+    top: -3px;
+}
+
+.leaflet-pane.leaflet-shadow-pane {
+    display: none;
+}
+
 .map-overlay-topbar-content {
     height: 100%;
     overflow:auto;
@@ -82,4 +125,8 @@
 
 .scrollable-panel {
     overflow: auto;
+}
+
+.settings-field {
+    display: block;
 }

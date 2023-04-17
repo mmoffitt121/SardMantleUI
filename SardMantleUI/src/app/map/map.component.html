@@ -11,19 +11,6 @@
                         
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <!--<div class="expansion-panel-content">
-                    <mat-checkbox> Continents </mat-checkbox>
-                    <mat-checkbox> Subcontinents </mat-checkbox>
-                    <mat-checkbox> Regions </mat-checkbox>
-                    <mat-checkbox> Subregions </mat-checkbox>
-                    <mat-checkbox> Areas </mat-checkbox>
-                </div>
-                <div class="expansion-panel-content-wide">
-                    <mat-form-field>
-                        <input type="tel" matInput placeholder="Filter">
-                    </mat-form-field>
-                </div>
-                <mat-divider></mat-divider>-->
                 <div class="expansion-panel-content">
                     <mat-checkbox> Cities </mat-checkbox>
                     <mat-checkbox> Towns </mat-checkbox>
@@ -64,44 +51,6 @@
                 <div class="expansion-panel-content">
                 </div>
             </mat-expansion-panel>
-            <!--<mat-expansion-panel>
-                <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
-                    <mat-panel-title>
-                        People
-                    </mat-panel-title>
-                    <mat-panel-description>
-                        
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <mat-form-field>
-                    <input type="tel" matInput placeholder="Search">
-                </mat-form-field>
-                <mat-form-field>
-                    <input matInput placeholder="Age">
-                </mat-form-field>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
-                    <mat-panel-title>
-                        Biology
-                    </mat-panel-title>
-                    <mat-panel-description>
-                        
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <p>I'm visible because I am open</p>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
-                    <mat-panel-title>
-                        Time
-                    </mat-panel-title>
-                    <mat-panel-description>
-                        
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <p>I'm visible because I am open</p>
-            </mat-expansion-panel>-->
         </mat-accordion>
     </mat-drawer>
     <mat-drawer-content>
@@ -111,37 +60,32 @@
             </div>
         </div>
     <button mat-raised-button (click)="drawer.toggle()" class="map-overlay-button"><mat-icon>menu</mat-icon></button>
-    </mat-drawer-content>
-  </mat-drawer-container>
-<!--<mat-drawer-container class="example-container">
-    
-    <mat-drawer #drawer>I'm a drawer</mat-drawer>
-    <mat-drawer-content>
-        
-      <button mat-raised-button>Toggle drawer</button>
-    </mat-drawer-content>
-  </mat-drawer-container>-->
-
-
-    <!--<mat-card  class="map-overlay-sidebar">
-        <mat-card-header>
-            <mat-card-title>Map Settings</mat-card-title>
-        </mat-card-header>
-        <mat-card-content style="overflow: auto; max-height: 90%">
-            
-        </mat-card-content>
+    <button mat-raised-button (click)="addPlaceIcon()" class="map-add-button"><mat-icon>{{ addLocationMarkerIcon }}</mat-icon></button>
+    <mat-card class="map-add-topbar" *ngIf="placing">
+        <h3> Adding Location </h3>
     </mat-card>
-    <div class="map-overlay-topbar">
-        <mat-accordion>
-            <mat-expansion-panel class="full-height"> 
-                <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
-                    <mat-panel-title>
-                        Map Settings
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <mat-card-content class="map-overlay-topbar-content">
-                    
-                </mat-card-content>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </div>-->
+    <mat-card class="map-add-bottombar" *ngIf="placing">
+        <h4> Settings </h4>
+        <mat-form-field class="settings-field">
+            <mat-label>Name</mat-label>
+            <input matInput [(ngModel)]="addName" [formControl]="addNameControl">
+            <mat-hint *ngIf="addNameControl.touched && (addNameControl.hasError('minlength') || addNameControl.hasError('required'))">
+                {{ addNameControl.hasError('required') ? 'Location Name is required.' : 'Name cannot be larger than 1000 characters.' }}
+            </mat-hint>
+        </mat-form-field>
+        <mat-form-field class="settings-field">
+            <mat-label>Location Type</mat-label>
+            <mat-select #locationTypeSelect [formControl]="addLocationTypeControl">
+                <mat-option *ngFor="let locationType of locationTypes" [value]="locationType">
+                    {{locationType.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <p class="coord-display">Latitude:  {{ addMarkerLat | number: '.4-4' }}</p>
+        <p class="coord-display">Longitude: {{ addMarkerLng | number: '.4-4' }}</p>
+        <button mat-button style="width: 100%" (click)="createLocation()">
+            Create
+        </button>
+    </mat-card>
+    </mat-drawer-content>
+</mat-drawer-container>

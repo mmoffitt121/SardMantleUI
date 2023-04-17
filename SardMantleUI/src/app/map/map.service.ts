@@ -8,11 +8,15 @@ import { map } from 'rxjs/operators';
 })
 export class MapService {
   public getLocations(criteria: any) {
-    return this.http.get<any[]>('https://localhost:7094/Library/LocationType/GetLocations', { params: criteria }).pipe(
-      map((response: any) => {
-        return response.data;
-      })
-    );
+    return this.http.get<any>('https://localhost:7094/Library/Location/GetLocations'/*, { params: criteria }*/)
+  }
+
+  public postLocation(location: any) {
+    return this.http.post('https://localhost:7094/Library/Location/PostLocation', location);
+  }
+
+  public getLocationTypes(criteria: any) {
+    return this.http.get<any>('https://localhost:7094/Library/LocationType/GetLocationTypes');
   }
 
   constructor(private http: HttpClient) { }

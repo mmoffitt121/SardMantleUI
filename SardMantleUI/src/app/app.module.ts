@@ -12,12 +12,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import * as mt from '@angular/material';
+import { AddLocationComponent } from './map/add-location/add-location/add-location.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    MapComponent
+    MapComponent,
+    AddLocationComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +40,7 @@ import * as mt from '@angular/material';
     mt.MatIconModule,
     mt.MatCheckboxModule,
     mt.MatSelectModule,
+    mt.MatAutocompleteModule,
     BrowserAnimationsModule
   ],
   providers: [SharedService],
