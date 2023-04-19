@@ -3,6 +3,7 @@ import { MapService } from './map.service';
 import { FormControl, Validators } from '@angular/forms';
 import { AddLocationComponent } from './add-location/add-location/add-location.component';
 import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import * as L from 'leaflet';
 import { MatDrawer, MatDrawerContainer, MatDrawerToggleResult, MatSelect } from '@angular/material';
 import { MapIconMaps } from './models/map-icon-maps/map-icon-maps';
@@ -23,6 +24,7 @@ export class MapComponent implements OnInit {
   private centroid: L.LatLngExpression = [42.3601, -71.0589];
   private locations: [];
   private primaryMarkerLayer: any = L.layerGroup();
+  private primaryMarkerLayerZoom: number = 6;
   private addMarkerLayer: any = L.layerGroup();
   public placing = false;
   public addLocationMarkerIcon = 'add';
@@ -33,6 +35,7 @@ export class MapComponent implements OnInit {
   public addMarkerLng: number;
   public addName: string;
 
+  addMapDataTypeControl = new FormControl('', []);
   addNameControl = new FormControl('', [Validators.required, Validators.maxLength(1000)]);
   addLocationTypeControl = new FormControl('', []);
 
@@ -77,13 +80,11 @@ export class MapComponent implements OnInit {
       const coord = e.latlng;
       const lat = coord.lat;
       const lng = coord.lng;
-      console.log(`You clicked the map at latitude: ${lat} and longitude: ${lng}`);
     });
   }
 
   // Called when the Add icon is clicked. Creates a movable icon for location creation.
   public addPlaceIcon(): void {
-    console.log(this.locationTypes);
     if (this.placing) {
       this.addLocationMarkerIcon = 'add';
       this.addMarkerLayer.clearLayers();
@@ -121,7 +122,6 @@ export class MapComponent implements OnInit {
     this.mapService.getLocations([]).subscribe(data => {
       this.locations = data;
       this.addMarkers(this.locations);
-      console.log(data);
     },
     error => {
       console.error(error);
@@ -131,7 +131,6 @@ export class MapComponent implements OnInit {
   public queryLocationTypes() {
     this.mapService.getLocationTypes([]).subscribe(data => {
       this.locationTypes = data;
-      console.log(this.locationTypes);
     },
     error => {
       console.error(error);
@@ -161,7 +160,8 @@ export class MapComponent implements OnInit {
       this.placing = false;
       this.addLocationMarkerIcon = 'add';
       this.addMarkerLayer.clearLayers();
-      this.addName = '';
+      this.addNameControl.setValue('');
+      this.addNameControl.markAsUntouched();
     },
     error => {
       console.error(error);
@@ -173,15 +173,22 @@ export class MapComponent implements OnInit {
     for (var i = 0; i < markers.length; i++) {
       var marker = markers[i];
       if (!(marker.latitude && marker.longitude)) continue;
-      console.log(marker.locationTypeId + " " + MapIconMaps.colorMap.get(marker.locationTypeId));
-      L.circleMarker([marker.latitude, marker.longitude], { color: MapIconMaps.colorMap.get(marker.locationTypeId), radius: 20 }).addTo(this.primaryMarkerLayer).bindPopup( "<div> hello </div>" );
+
+      L.circleMarker([marker.latitude, marker.longitude], { 
+        color: MapIconMaps.colorMap.get(marker.locationTypeId), 
+        radius: MapIconMaps.radiusMap.get(marker.locationTypeId)
+      }).addTo(this.primaryMarkerLayer).bindPopup( 
+        `<h3>` + marker.locationName + `</h3>
+        <button mat-raised-button (click)="drawer.toggle()" class="map-overlay-button"><mat-icon>menu</mat-icon></button>
+        `
+      );
       this.primaryMarkerLayer.addTo(this.map);
     }
   }
 
   public showMarkers() {
     var zoom = this.map.getZoom();
-    if (zoom < 6) {
+    if (zoom < this.primaryMarkerLayerZoom) {
       this.map.removeLayer(this.primaryMarkerLayer);
     }
     else if (!this.map.hasLayer(this.primaryMarkerLayer))

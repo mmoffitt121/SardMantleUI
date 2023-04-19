@@ -67,20 +67,33 @@
     <mat-card class="map-add-bottombar" *ngIf="placing">
         <h4> Settings </h4>
         <mat-form-field class="settings-field">
+            <mat-label>Map Data Type</mat-label>
+            <mat-select #mapDataTypeSelect [formControl]="addMapDataTypeControl">
+                <mat-option value="0">Location</mat-option>
+                <mat-option value="1">Area</mat-option>
+                <mat-option value="2">Subregion</mat-option>
+                <mat-option value="3">Region</mat-option>
+                <mat-option value="4">Subcontinent</mat-option>
+                <mat-option value="5">Continent</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="settings-field">
             <mat-label>Name</mat-label>
-            <input matInput [(ngModel)]="addName" [formControl]="addNameControl">
+            <input matInput [formControl]="addNameControl">
             <mat-hint *ngIf="addNameControl.touched && (addNameControl.hasError('minlength') || addNameControl.hasError('required'))">
                 {{ addNameControl.hasError('required') ? 'Location Name is required.' : 'Name cannot be larger than 1000 characters.' }}
             </mat-hint>
         </mat-form-field>
-        <mat-form-field class="settings-field">
-            <mat-label>Location Type</mat-label>
-            <mat-select #locationTypeSelect [formControl]="addLocationTypeControl">
-                <mat-option *ngFor="let locationType of locationTypes" [value]="locationType">
-                    {{locationType.name}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+        <div *ngIf="mapDataTypeSelect.value == 0">
+            <mat-form-field class="settings-field">
+                <mat-label>Location Type</mat-label>
+                <mat-select #locationTypeSelect [formControl]="addLocationTypeControl" (click)="queryLocationTypes">
+                    <mat-option *ngFor="let locationType of locationTypes" [value]="locationType">
+                        {{locationType.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
         <p class="coord-display">Latitude:  {{ addMarkerLat | number: '.4-4' }}</p>
         <p class="coord-display">Longitude: {{ addMarkerLng | number: '.4-4' }}</p>
         <button mat-button style="width: 100%" (click)="createLocation()">
