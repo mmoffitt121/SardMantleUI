@@ -4,10 +4,13 @@ import { FormControl, Validators } from '@angular/forms';
 import { AddLocationComponent } from './add-location/add-location/add-location.component';
 import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
+import { map, filter, debounceTime, switchMap } from 'rxjs/operators';
 import * as L from 'leaflet';
-import { MatDrawer, MatDrawerContainer, MatDrawerToggleResult, MatSelect } from '@angular/material';
+import { MatDrawer, MatDrawerContainer, MatDrawerToggleResult, MatOptionSelectionChange, MatSelect } from '@angular/material';
 import { MapIconMaps } from './models/map-icon-maps/map-icon-maps';
 
+// #region Interfaces
 interface LocationType {
   id: number;
   name: string;
@@ -36,6 +39,7 @@ interface CelestialObject {
   id: number;
   name: string;
 }
+// #endregion
 
 @Component({
   selector: 'app-map',
@@ -75,6 +79,20 @@ export class MapComponent implements OnInit {
   public subcontinents: Subcontinent[];
   public continents: Continent[];
   public celestialObjects: CelestialObject[];
+
+  public selectedArea: number = -1;
+  public selectedSubregion: number = -1;
+  public selectedRegion: number = -1;
+  public selectedSubcontinent: number = -1;
+  public selectedContinent: number = -1;
+  public selectedCelestialObject: number = -1;
+
+  public filteredAreas: Area[];
+  public filteredSubregions: Subregion[];
+  public filteredRegions: Region[];
+  public filteredSubcontinents: Subcontinent[];
+  public filteredContinents: Continent[];
+  public filteredCelestialObjects: CelestialObject[];
 
   addAreaControl = new FormControl('', []);
   addSubregionControl = new FormControl('', []);
@@ -169,6 +187,7 @@ export class MapComponent implements OnInit {
     this.primaryMarkerLayer.clearLayers();
   }
 
+  // #region Queries
   public queryLocations() {
     this.mapService.getLocations([]).subscribe(data => {
       this.locations = data;
@@ -191,6 +210,7 @@ export class MapComponent implements OnInit {
   public queryAreas() {
     this.mapService.getAreas([]).subscribe(data => {
       this.areas = data;
+      this.filteredAreas = this.areas;
     },
     error => {
       console.error(error);
@@ -200,6 +220,7 @@ export class MapComponent implements OnInit {
   public querySubregions() {
     this.mapService.getSubregions([]).subscribe(data => {
       this.subregions = data;
+      this.filteredSubregions = this.subregions;
     },
     error => {
       console.error(error);
@@ -209,6 +230,7 @@ export class MapComponent implements OnInit {
   public queryRegions() {
     this.mapService.getRegions([]).subscribe(data => {
       this.regions = data;
+      this.filteredRegions = this.regions;
     },
     error => {
       console.error(error);
@@ -218,6 +240,7 @@ export class MapComponent implements OnInit {
   public querySubcontinents() {
     this.mapService.getSubcontinents([]).subscribe(data => {
       this.subcontinents = data;
+      this.filteredSubcontinents = this.subcontinents;
     },
     error => {
       console.error(error);
@@ -227,6 +250,7 @@ export class MapComponent implements OnInit {
   public queryContinents() {
     this.mapService.getContinents([]).subscribe(data => {
       this.continents = data;
+      this.filteredContinents = this.continents;
     },
     error => {
       console.error(error);
@@ -236,11 +260,13 @@ export class MapComponent implements OnInit {
   public queryCelestialObjects() {
     this.mapService.getCelestialObjects([]).subscribe(data => {
       this.celestialObjects = data;
+      this.filteredCelestialObjects = this.celestialObjects;
     },
     error => {
       console.error(error);
     })
   }
+  // #endregion
 
   public validateAdd() {
     if (this.addNameControl.invalid) {
@@ -337,7 +363,6 @@ export class MapComponent implements OnInit {
 
       // Continent
       case "5":
-        console.log(this.celestialObjectSelect);
         var continentModel = {
           name: this.addNameControl.value,
           continentId: this.celestialObjectSelect.value ? this.celestialObjectSelect.value.id : null,
@@ -370,6 +395,12 @@ export class MapComponent implements OnInit {
     this.queryContinents();
     this.queryCelestialObjects();
     this.applyDivIcons(this.areas);
+    this.selectedArea = -1;
+    this.selectedSubregion = -1;
+    this.selectedRegion = -1;
+    this.selectedSubcontinent = -1;
+    this.selectedContinent = -1;
+    this.selectedCelestialObject = -1;
   }
 
   public addMarkers(markers: any): void {
@@ -416,6 +447,271 @@ export class MapComponent implements OnInit {
       this.map.addLayer(this.primaryMarkerLayer);
     }
   }
+
+  // #region Reset Fields
+  public resetAreaField() {
+    var filter = this.addAreaControl.value ? this.addAreaControl.value : '';
+    // If filter value not empty
+    if (filter != '') {
+      var areasFiltered = this.areas.filter(area => {
+        return area.name.toLowerCase() === filter.toString().toLowerCase();
+      });
+      if (areasFiltered.length > 0) {
+        this.selectedArea = areasFiltered[0].id;
+        this.addAreaControl.setValue(areasFiltered[0].name);
+      }
+      else {
+        areasFiltered = this.areas.filter( area => {
+          return area.id == this.selectedArea;
+        });
+        this.addAreaControl.setValue(areasFiltered[0] != null ? areasFiltered[0].name : '');
+      }
+    }
+    // Else, set to what it was before
+    else {
+      this.selectedArea = -1;
+      this.addAreaControl.setValue(null);
+    }
+  }
+
+  public resetSubregionField() {
+    var filter = this.addSubregionControl.value ? this.addSubregionControl.value : '';
+    // If filter value not empty
+    if (filter != '') {
+      var filtered = this.subregions.filter(item => {
+        return item.name.toLowerCase() === filter.toString().toLowerCase();
+      });
+      if (filtered.length > 0) {
+        this.selectedSubregion = filtered[0].id;
+        this.addSubregionControl.setValue(filtered[0].name);
+      }
+      else {
+        filtered = this.subregions.filter( item => {
+          return item.id == this.selectedSubregion;
+        });
+        this.addSubregionControl.setValue(filtered[0] != null ? filtered[0].name : '');
+      }
+    }
+    // Else, set to what it was before
+    else {
+      this.selectedSubregion = -1;
+      this.addSubregionControl.setValue(null);
+    }
+  }
+
+  public resetRegionField() {
+    var filter = this.addRegionControl.value ? this.addRegionControl.value : '';
+    // If filter value not empty
+    if (filter != '') {
+      var filtered = this.regions.filter(item => {
+        return item.name.toLowerCase() === filter.toString().toLowerCase();
+      });
+      if (filtered.length > 0) {
+        this.selectedRegion = filtered[0].id;
+        this.addRegionControl.setValue(filtered[0].name);
+      }
+      else {
+        filtered = this.regions.filter( item => {
+          return item.id == this.selectedRegion;
+        });
+        this.addRegionControl.setValue(filtered[0] != null ? filtered[0].name : '');
+      }
+    }
+    // Else, set to what it was before
+    else {
+      this.selectedRegion = -1;
+      this.addRegionControl.setValue(null);
+    }
+  }
+
+  public resetSubcontinentField() {
+    var filter = this.addSubcontinentControl.value ? this.addSubcontinentControl.value : '';
+    // If filter value not empty
+    if (filter != '') {
+      var filtered = this.subcontinents.filter(item => {
+        return item.name.toLowerCase() === filter.toString().toLowerCase();
+      });
+      if (filtered.length > 0) {
+        this.selectedSubcontinent = filtered[0].id;
+        this.addSubcontinentControl.setValue(filtered[0].name);
+      }
+      else {
+        filtered = this.subcontinents.filter( item => {
+          return item.id == this.selectedSubcontinent;
+        });
+        this.addSubcontinentControl.setValue(filtered[0] != null ? filtered[0].name : '');
+      }
+    }
+    // Else, set to what it was before
+    else {
+      this.selectedSubcontinent = -1;
+      this.addSubcontinentControl.setValue(null);
+    }
+  }
+
+  public resetContinentField() {
+    var filter = this.addContinentControl.value ? this.addContinentControl.value : '';
+    // If filter value not empty
+    if (filter != '') {
+      var filtered = this.continents.filter(item => {
+        return item.name.toLowerCase() === filter.toString().toLowerCase();
+      });
+      if (filtered.length > 0) {
+        this.selectedContinent = filtered[0].id;
+        this.addContinentControl.setValue(filtered[0].name);
+      }
+      else {
+        filtered = this.continents.filter( item => {
+          return item.id == this.selectedContinent;
+        });
+        this.addContinentControl.setValue(filtered[0] != null ? filtered[0].name : '');
+      }
+    }
+    // Else, set to what it was before
+    else {
+      this.selectedContinent = -1;
+      this.addContinentControl.setValue(null);
+    }
+  }
+
+  public resetCelestialObjectField() {
+    var filter = this.addCelestialObjectControl.value ? this.addCelestialObjectControl.value : '';
+    // If filter value not empty
+    if (filter != '') {
+      var filtered = this.celestialObjects.filter(item => {
+        return item.name.toLowerCase() === filter.toString().toLowerCase();
+      });
+      if (filtered.length > 0) {
+        this.selectedCelestialObject = filtered[0].id;
+        this.addCelestialObjectControl.setValue(filtered[0].name);
+      }
+      else {
+        filtered = this.celestialObjects.filter( item => {
+          return item.id == this.selectedCelestialObject;
+        });
+        this.addCelestialObjectControl.setValue(filtered[0] != null ? filtered[0].name : '');
+      }
+    }
+    // Else, set to what it was before
+    else {
+      this.selectedCelestialObject = -1;
+      this.addCelestialObjectControl.setValue(null);
+    }
+  }
+  // endregion
+
+  // #region Select Events
+  public selectAreaEvent(event: MatOptionSelectionChange) {
+    if (!event.isUserInput) { return; } 
+    var filtered = this.areas.filter(item => {return item.id == event.source.value})[0];
+    this.selectedArea = filtered.id;
+    this.addAreaControl.setValue(filtered.name);
+  }
+
+  public selectSubregionEvent(event: MatOptionSelectionChange) {
+    if (!event.isUserInput) { return; } 
+    var filtered = this.subregions.filter(item => {return item.id == event.source.value})[0];
+    this.selectedSubregion = filtered.id;
+    this.addSubregionControl.setValue(filtered.name);
+  }
+
+  public selectRegionEvent(event: MatOptionSelectionChange) {
+    if (!event.isUserInput) { return; } 
+    var filtered = this.regions.filter(item => {return item.id == event.source.value})[0];
+    this.selectedRegion = filtered.id;
+    this.addRegionControl.setValue(filtered.name);
+  }
+
+  public selectSubcontinentEvent(event: MatOptionSelectionChange) {
+    if (!event.isUserInput) { return; } 
+    var filtered = this.subcontinents.filter(item => {return item.id == event.source.value})[0];
+    this.selectedSubcontinent = filtered.id;
+    this.addSubcontinentControl.setValue(filtered.name);
+  }
+
+  public selectContinentEvent(event: MatOptionSelectionChange) {
+    if (!event.isUserInput) { return; } 
+    var filtered = this.continents.filter(item => {return item.id == event.source.value})[0];
+    this.selectedContinent = filtered.id;
+    this.addContinentControl.setValue(filtered.name);
+  }
+
+  public selectCelestialObjectEvent(event: MatOptionSelectionChange) {
+    if (!event.isUserInput) { return; } 
+    var filtered = this.celestialObjects.filter(item => {return item.id == event.source.value})[0];
+    this.selectedCelestialObject = filtered.id;
+    this.addCelestialObjectControl.setValue(filtered.name);
+  }
+  // #endregion
+
+  // #region Field Filtering
+  public filterAreas(filter: string | null) {
+    if (filter == null)
+    {
+      this.filteredAreas = this.areas; 
+      return;
+    }
+    this.filteredAreas = this.areas.filter(area => {
+      return area.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
+    })
+  }
+
+  public filterSubregions(filter: string | null) {
+    if (filter == null)
+    {
+      this.filteredSubregions = this.subregions; 
+      return;
+    }
+    this.filteredSubregions = this.subregions.filter(item => {
+      return item.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
+    })
+  }
+
+  public filterRegions(filter: string | null) {
+    if (filter == null)
+    {
+      this.filteredRegions = this.regions; 
+      return;
+    }
+    this.filteredRegions = this.regions.filter(item => {
+      return item.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
+    })
+  }
+
+  public filterSubcontinents(filter: string | null) {
+    if (filter == null)
+    {
+      this.filteredSubcontinents = this.subcontinents; 
+      return;
+    }
+    this.filteredSubcontinents = this.subcontinents.filter(item => {
+      return item.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
+    })
+  }
+
+  public filterContinents(filter: string | null) {
+    if (filter == null)
+    {
+      this.filteredContinents = this.continents; 
+      return;
+    }
+    this.filteredContinents = this.continents.filter(item => {
+      return item.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
+    })
+  }
+
+  public filterCelestialObjects(filter: string | null) {
+    if (filter == null)
+    {
+      this.filteredCelestialObjects = this.celestialObjects; 
+      return;
+    }
+    this.filteredCelestialObjects = this.celestialObjects.filter(item => {
+      return item.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
+    })
+  }
+  // #endregion
+
   constructor(private mapService: MapService, private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -429,13 +725,23 @@ export class MapComponent implements OnInit {
     this.initMap();
     this.map.on("zoomend", (e: any) => {this.showMarkers();});
 
-    /*// Adds a layer
-    var ciLayer = L.canvasIconLayer({}).addTo(this.map);
-
-    // Marker definition
-    var marker =  L.marker([58.5578, 29.0087]);
-
-    // Adding marker to layer
-    ciLayer.addMarker(marker);*/
+    this.addAreaControl.valueChanges.subscribe( data => {
+      this.filterAreas(data);
+    });
+    this.addSubregionControl.valueChanges.subscribe( data => {
+      this.filterSubregions(data);
+    });
+    this.addRegionControl.valueChanges.subscribe( data => {
+      this.filterRegions(data);
+    });
+    this.addSubcontinentControl.valueChanges.subscribe( data => {
+      this.filterSubcontinents(data);
+    });
+    this.addContinentControl.valueChanges.subscribe( data => {
+      this.filterContinents(data);
+    });
+    this.addCelestialObjectControl.valueChanges.subscribe( data => {
+      this.filterCelestialObjects(data);
+    });
   }
 }

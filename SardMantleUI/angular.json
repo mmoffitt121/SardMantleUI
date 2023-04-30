@@ -29,9 +29,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [
-              "src/assets/scripts/leaflet.canvas-markers.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
