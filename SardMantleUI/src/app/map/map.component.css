@@ -48,6 +48,13 @@
     size: fixed;
 }
 
+.mat-input {
+    font-family: var(--primary-font);
+}
+
+.mat-select {
+    font-family: var(--primary-font);
+}
 
 .map-overlay-button {
     position: absolute;

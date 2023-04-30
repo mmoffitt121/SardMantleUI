@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { MapService } from './map.service';
 import { FormControl, Validators } from '@angular/forms';
 import { AddLocationComponent } from './add-location/add-location/add-location.component';
+import { dataMarker, DataMarker } from '../leaflet/leaflet-extensions/data-marker/data-marker';
 import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
@@ -9,6 +10,7 @@ import { map, filter, debounceTime, switchMap } from 'rxjs/operators';
 import * as L from 'leaflet';
 import { MatDrawer, MatDrawerContainer, MatDrawerToggleResult, MatOptionSelectionChange, MatSelect } from '@angular/material';
 import { MapIconMaps } from './models/map-icon-maps/map-icon-maps';
+import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 
 // #region Interfaces
 interface LocationType {
@@ -63,6 +65,11 @@ export class MapComponent implements OnInit {
   public placing = false;
   public addLocationMarkerIcon = 'add';
   public locationTypes: LocationType[] = [];
+  public viewingObject: boolean = false;
+
+  @ViewChild('drawer') drawer: MatDrawer;
+
+  // #region Add Marker Fields
 
   @Output() positionChanged = new EventEmitter<{ addMarkerLat: number, addMarkerLng: number }>();
   public addMarkerLat: number;
@@ -119,6 +126,11 @@ export class MapComponent implements OnInit {
   @ViewChild('continentSelect') continentSelect: MatSelect;
   @ViewChild('celestialObjectSelect') celestialObjectSelect: MatSelect;
   private selectedLocationType: LocationType;
+  // #endregion
+
+  // #region View Marker Fields
+  public selectedMapObject: any;
+  // #endregion
 
   // Initializes the map
   private initMap(): void {
@@ -282,9 +294,10 @@ export class MapComponent implements OnInit {
     switch (this.addMapDataTypeControl.value) {
       // Location
       case "0":
+        console.log(this.areaSelect);
         var locationModel = {
           locationName: this.addNameControl.value,
-          areaId: this.areaSelect.value ? this.areaSelect.value.id : null,
+          areaId: this.selectedArea != -1 ? this.selectedArea: null,
           locationTypeId: (this.locationTypeSelect && this.locationTypeSelect.value) ? this.locationTypeSelect.value.id : null,
           latitude: this.addMarkerLat,
           longitude: this.addMarkerLng
@@ -301,7 +314,7 @@ export class MapComponent implements OnInit {
       case "1":
         var areaModel = {
           name: this.addNameControl.value,
-          subregionId: this.subregionSelect.value ? this.subregionSelect.value.id : null,
+          subregionId: this.selectedSubregion != -1 ? this.selectedSubregion : null,
           latitude: this.addMarkerLat,
           longitude: this.addMarkerLng
         };
@@ -317,7 +330,7 @@ export class MapComponent implements OnInit {
       case "2":
         var subregionModel = {
           name: this.addNameControl.value,
-          regionId: this.regionSelect.value ? this.regionSelect.value.id : null,
+          regionId: this.selectedRegion != -1 ? this.selectedRegion : null,
           latitude: this.addMarkerLat,
           longitude: this.addMarkerLng
         };
@@ -333,7 +346,7 @@ export class MapComponent implements OnInit {
       case "3":
         var regionModel = {
           name: this.addNameControl.value,
-          subcontinentId: this.subcontinentSelect.value ? this.subcontinentSelect.value.id : null,
+          subcontinentId: this.selectedSubcontinent != -1 ? this.selectedSubcontinent : null,
           latitude: this.addMarkerLat,
           longitude: this.addMarkerLng
         };
@@ -349,7 +362,7 @@ export class MapComponent implements OnInit {
       case "4":
         var subcontinentModel = {
           name: this.addNameControl.value,
-          continentId: this.continentSelect.value ? this.continentSelect.value.id : null,
+          continentId: this.selectedContinent != -1 ? this.selectedContinent : null,
           latitude: this.addMarkerLat,
           longitude: this.addMarkerLng
         };
@@ -365,7 +378,7 @@ export class MapComponent implements OnInit {
       case "5":
         var continentModel = {
           name: this.addNameControl.value,
-          continentId: this.celestialObjectSelect.value ? this.celestialObjectSelect.value.id : null,
+          continentId: this.selectedCelestialObject != -1 ? this.selectedCelestialObject : null,
           latitude: this.addMarkerLat,
           longitude: this.addMarkerLng
         };
@@ -404,21 +417,23 @@ export class MapComponent implements OnInit {
   }
 
   public addMarkers(markers: any): void {
-    // Loop through the array and add each marker to the map
     for (var i = 0; i < markers.length; i++) {
       var marker = markers[i];
       if (!(marker.latitude && marker.longitude)) continue;
 
-      L.circleMarker([marker.latitude, marker.longitude], { 
+      dataMarker([marker.latitude, marker.longitude], { 
         color: MapIconMaps.colorMap.get(marker.locationTypeId), 
         radius: MapIconMaps.radiusMap.get(marker.locationTypeId)
-      }).addTo(this.primaryMarkerLayer).bindPopup( 
-        `<h3>` + marker.locationName + `</h3>
-        <button mat-raised-button (click)="drawer.toggle()" class="map-overlay-button"><mat-icon>menu</mat-icon></button>
-        `
-      );
+      }, marker.id).addTo(this.primaryMarkerLayer).on('click', this.onMarkerClick);
       this.primaryMarkerLayer.addTo(this.map);
     }
+  }
+
+  public onMarkerClick(e: any) {
+    /*console.log(e.target.id);
+    this.drawer.toggle();    !!! DO COOL LOGIC TO GET THE OBJECT HERE !!!
+
+    this.selectedMapObject = {e.target.id}*/
   }
 
   public addAreas(): void {
@@ -448,7 +463,7 @@ export class MapComponent implements OnInit {
     }
   }
 
-  // #region Reset Fields
+  //#region Field Resetting
   public resetAreaField() {
     var filter = this.addAreaControl.value ? this.addAreaControl.value : '';
     // If filter value not empty
@@ -598,9 +613,9 @@ export class MapComponent implements OnInit {
       this.addCelestialObjectControl.setValue(null);
     }
   }
-  // endregion
+  // #endregion
 
-  // #region Select Events
+  // #region Field Select Events
   public selectAreaEvent(event: MatOptionSelectionChange) {
     if (!event.isUserInput) { return; } 
     var filtered = this.areas.filter(item => {return item.id == event.source.value})[0];
@@ -743,5 +758,7 @@ export class MapComponent implements OnInit {
     this.addCelestialObjectControl.valueChanges.subscribe( data => {
       this.filterCelestialObjects(data);
     });
+
+    this.selectedMapObject = { id: -1, name: "NONE" };
   }
 }
