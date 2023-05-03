@@ -1,62 +1,75 @@
-<mat-drawer-container class="map-container" >
-    <mat-drawer #drawer mode="over" position="end" class="map-sidebar" #sideBar>
-        <mat-accordion [multi]="true" class="map-sidebar-accordion" *ngIf="!viewingObject">
+<mat-drawer-container class="map-container">
+    <mat-drawer #sideDrawer mode="over" position="end" class="map-sidebar">
+        <div *ngIf="!viewingObject">
+            <mat-accordion [multi]="true" class="map-sidebar-accordion">
+                <h3>
+                    Map Settings
+                </h3>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
+                        <mat-panel-title>
+                            Geography
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="expansion-panel-content">
+                        <mat-checkbox> Cities </mat-checkbox>
+                        <mat-checkbox> Towns </mat-checkbox>
+                        <mat-checkbox> Villages </mat-checkbox>
+                        <mat-checkbox> Hamlets </mat-checkbox>
+                        <mat-checkbox> Fortresses </mat-checkbox>
+                    </div>
+                    <mat-divider class="divider-invisible"></mat-divider>
+                    <div class="expansion-panel-content">
+                        <mat-checkbox> Areas </mat-checkbox>
+                        <mat-checkbox> Subregions </mat-checkbox>
+                        <mat-checkbox> Regions </mat-checkbox>
+                        <mat-checkbox> Subcontinents </mat-checkbox>
+                        <mat-checkbox> Continents </mat-checkbox>
+                    </div>
+                    <mat-divider class="divider-invisible"></mat-divider>
+                    <div class="expansion-panel-content-wide">
+                        <mat-form-field>
+                            <input type="tel" matInput placeholder="Filter">
+                        </mat-form-field>
+                    </div>
+                    <button mat-button class="expansion-panel-apply-button" (click)="applyFilter()">
+                        Apply
+                    </button>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
+                        <mat-panel-title>
+                            States
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="expansion-panel-content">
+                    </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
+                        <mat-panel-title>
+                            Layers
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="expansion-panel-content">
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+        <div *ngIf="viewingObject">
             <h3>
-                Map Settings
+                {{selectedMapObject.name}}
             </h3>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
-                    <mat-panel-title>
-                        Geography
-                    </mat-panel-title>
-                    <mat-panel-description>
-                        
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <div class="expansion-panel-content">
-                    <mat-checkbox> Cities </mat-checkbox>
-                    <mat-checkbox> Towns </mat-checkbox>
-                    <mat-checkbox> Villages </mat-checkbox>
-                    <mat-checkbox> Hamlets </mat-checkbox>
-                    <mat-checkbox> Fortresses </mat-checkbox>
-                </div>
-                <div class="expansion-panel-content-wide">
-                    <mat-form-field>
-                        <input type="tel" matInput placeholder="Filter">
-                    </mat-form-field>
-                </div>
-                <button mat-button class="expansion-panel-apply-button" (click)="applyFilter()">
-                    Apply
-                </button>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
-                    <mat-panel-title>
-                        States
-                    </mat-panel-title>
-                    <mat-panel-description>
-                        
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <div class="expansion-panel-content">
-                </div>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
-                    <mat-panel-title>
-                        Layers
-                    </mat-panel-title>
-                    <mat-panel-description>
-                        
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <div class="expansion-panel-content">
-                </div>
-            </mat-expansion-panel>
-        </mat-accordion>
-        <h2>
-            {{selectedMapObject.name}}
-        </h2>
+        </div>
     </mat-drawer>
     <mat-drawer-content>
         <div class="map-container">
@@ -64,7 +77,7 @@
                 <div id="map"></div>
             </div>
         </div>
-        <button mat-raised-button (click)="drawer.toggle()" class="map-overlay-button"><mat-icon>menu</mat-icon></button>
+        <button mat-raised-button (click)="openMapSettings()" class="map-overlay-button"><mat-icon>menu</mat-icon></button>
         <button mat-raised-button (click)="addPlaceIcon()" class="map-add-button"><mat-icon>{{ addLocationMarkerIcon }}</mat-icon></button>
         <mat-card class="map-add-topbar" *ngIf="placing">
             <h3> Adding Location </h3>

@@ -3,9 +3,9 @@ import { MapService } from './map.service';
 import { FormControl, Validators } from '@angular/forms';
 import { AddLocationComponent } from './add-location/add-location/add-location.component';
 import { dataMarker, DataMarker } from '../leaflet/leaflet-extensions/data-marker/data-marker';
-import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, Output, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators';
 import * as L from 'leaflet';
 import { MatDrawer, MatDrawerContainer, MatDrawerToggleResult, MatOptionSelectionChange, MatSelect } from '@angular/material';
@@ -54,20 +54,25 @@ export class MapComponent implements OnInit {
   private centroid: L.LatLngExpression = [42.3601, -71.0589];
   private locations: [];
   private primaryMarkerLayer: any = L.layerGroup();
-  private primaryMarkerLayerZoom: number = 6;
+  private primaryMarkerLayerZoom: number = 8;
   private addMarkerLayer: any = L.layerGroup();
   private areaLayer: any = L.layerGroup();
+  private areaLayerZoom: number = 7;
   private subregionLayer: any = L.layerGroup();
+  private subregionLayerZoom: number = 6;
   private regionLayer: any = L.layerGroup();
+  private regionLayerZoom: number = 5;
   private subcontinentLayer: any = L.layerGroup();
+  private subcontinentLayerZoom: number = 4;
   private continentLayer: any = L.layerGroup();
+  private continentLayerZoom: number = 2;
   //private markersCanvas: any = L.MarkersCanvas();
   public placing = false;
   public addLocationMarkerIcon = 'add';
   public locationTypes: LocationType[] = [];
   public viewingObject: boolean = false;
 
-  @ViewChild('drawer') drawer: MatDrawer;
+  @ViewChild('sideDrawer', {static: false}) drawer: MatDrawer;
 
   // #region Add Marker Fields
 
@@ -152,6 +157,11 @@ export class MapComponent implements OnInit {
     });
 
     this.queryLocations();
+    this.queryAreas();
+    this.querySubregions();
+    this.queryRegions();
+    this.querySubcontinents();
+    this.queryContinents();
 
     tilesOuter.addTo(this.map);
     tilesInner.addTo(this.map);
@@ -197,13 +207,18 @@ export class MapComponent implements OnInit {
 
   public clearAllMarkerLayers() {
     this.primaryMarkerLayer.clearLayers();
+    this.areaLayer.clearLayers();
+    this.subregionLayer.clearLayers();
+    this.regionLayer.clearLayers();
+    this.subcontinentLayer.clearLayers();
+    this.continentLayer.clearLayers();
   }
 
   // #region Queries
   public queryLocations() {
     this.mapService.getLocations([]).subscribe(data => {
       this.locations = data;
-      this.addMarkers(this.locations);
+      this.addMarkers(this.locations, 0);
     },
     error => {
       console.error(error);
@@ -223,6 +238,7 @@ export class MapComponent implements OnInit {
     this.mapService.getAreas([]).subscribe(data => {
       this.areas = data;
       this.filteredAreas = this.areas;
+      this.addMarkers(this.areas, 1);
     },
     error => {
       console.error(error);
@@ -233,6 +249,7 @@ export class MapComponent implements OnInit {
     this.mapService.getSubregions([]).subscribe(data => {
       this.subregions = data;
       this.filteredSubregions = this.subregions;
+      this.addMarkers(this.subregions, 2);
     },
     error => {
       console.error(error);
@@ -243,6 +260,7 @@ export class MapComponent implements OnInit {
     this.mapService.getRegions([]).subscribe(data => {
       this.regions = data;
       this.filteredRegions = this.regions;
+      this.addMarkers(this.regions, 3);
     },
     error => {
       console.error(error);
@@ -253,6 +271,7 @@ export class MapComponent implements OnInit {
     this.mapService.getSubcontinents([]).subscribe(data => {
       this.subcontinents = data;
       this.filteredSubcontinents = this.subcontinents;
+      this.addMarkers(this.subcontinents, 4);
     },
     error => {
       console.error(error);
@@ -263,6 +282,7 @@ export class MapComponent implements OnInit {
     this.mapService.getContinents([]).subscribe(data => {
       this.continents = data;
       this.filteredContinents = this.continents;
+      this.addMarkers(this.continents, 5);
     },
     error => {
       console.error(error);
@@ -279,6 +299,10 @@ export class MapComponent implements OnInit {
     })
   }
   // #endregion
+
+  public queryLocation() {
+    
+  }
 
   public validateAdd() {
     if (this.addNameControl.invalid) {
@@ -407,59 +431,115 @@ export class MapComponent implements OnInit {
     this.querySubcontinents();
     this.queryContinents();
     this.queryCelestialObjects();
-    this.applyDivIcons(this.areas);
     this.selectedArea = -1;
     this.selectedSubregion = -1;
     this.selectedRegion = -1;
     this.selectedSubcontinent = -1;
     this.selectedContinent = -1;
     this.selectedCelestialObject = -1;
+    this.showMarkers();
   }
 
-  public addMarkers(markers: any): void {
+  public addMarkers(markers: any, dataType: number): void {
+    var markerLayer;
+    switch (dataType) {
+      case 0:
+        markerLayer = this.primaryMarkerLayer;
+        break;
+      case 1:
+        markerLayer = this.areaLayer;
+        break;
+      case 2:
+        markerLayer = this.subregionLayer;
+        break;
+      case 3:
+        markerLayer = this.regionLayer;
+        break;
+      case 4:
+        markerLayer = this.subcontinentLayer;
+        break;
+      case 5:
+        markerLayer = this.continentLayer;
+        break;
+    }
     for (var i = 0; i < markers.length; i++) {
       var marker = markers[i];
       if (!(marker.latitude && marker.longitude)) continue;
 
-      dataMarker([marker.latitude, marker.longitude], { 
-        color: MapIconMaps.colorMap.get(marker.locationTypeId), 
-        radius: MapIconMaps.radiusMap.get(marker.locationTypeId)
-      }, marker.id).addTo(this.primaryMarkerLayer).on('click', this.onMarkerClick);
-      this.primaryMarkerLayer.addTo(this.map);
+      if (dataType == 0) {
+        dataMarker([marker.latitude, marker.longitude], { 
+          color: MapIconMaps.colorMap.get((marker.locationTypeId)), 
+          radius: MapIconMaps.radiusMap.get((marker.locationTypeId))
+        }, marker.id, dataType).addTo(markerLayer).on('click', (e: any) => { this.openEditLocation(e) });
+      }
+      else {
+        dataMarker([marker.latitude, marker.longitude], { 
+          color: MapIconMaps.nonLocationColorMap.get((dataType)), 
+          radius: MapIconMaps.nonLocationRadiusMap.get((dataType))
+        }, marker.id, dataType).addTo(markerLayer).on('click', (e: any) => { this.openEditLocation(e) });
+      }
+      
+      markerLayer.addTo(this.map);
     }
   }
 
-  public onMarkerClick(e: any) {
-    /*console.log(e.target.id);
-    this.drawer.toggle();    !!! DO COOL LOGIC TO GET THE OBJECT HERE !!!
+  public openEditLocation(e: any) {
+    switch (e.dataType) {
 
-    this.selectedMapObject = {e.target.id}*/
-  }
-
-  public addAreas(): void {
-    this.applyDivIcons(this.areas);
-  }
-
-  public applyDivIcons(icons: any): void {
-    for (var i = 0; i < icons.length; i++) {
-      var icon = icons[i];
-      if (!(icon.latitude && icon.longitude)) continue;
-
-      L.divIcon({ 
-        html: "<div>" + icon.name + "</div>"
-      }).addTo(this.areaLayer);
-      this.areaLayer.addTo(this.map);
     }
+    this.viewingObject = true;
+    this.selectedMapObject = { id: e.target.id, name: e.target.id + " " + e.target.dataType };
+    this.drawer.open();
+  }
+
+  public openMapSettings() {
+    this.viewingObject = false;
+    this.drawer.open();
   }
 
   public showMarkers() {
     var zoom = this.map.getZoom();
+    // Locations
     if (zoom < this.primaryMarkerLayerZoom) {
       this.map.removeLayer(this.primaryMarkerLayer);
     }
-    else if (!this.map.hasLayer(this.primaryMarkerLayer))
-    {
+    else if (!this.map.hasLayer(this.primaryMarkerLayer)) {
       this.map.addLayer(this.primaryMarkerLayer);
+    }
+    // Areas
+    if (zoom < this.areaLayerZoom) {
+      this.map.removeLayer(this.areaLayer);
+    }
+    else if (!this.map.hasLayer(this.areaLayer)) {
+      this.map.addLayer(this.areaLayer);
+    }
+    // Subregions
+    if (zoom < this.subregionLayerZoom) {
+      this.map.removeLayer(this.subregionLayer);
+    }
+    else if (!this.map.hasLayer(this.subregionLayer)) {
+      this.map.addLayer(this.subregionLayer);
+    }
+    // Regions
+    if (zoom < this.regionLayerZoom) {
+      this.map.removeLayer(this.regionLayer);
+    }
+    else if (!this.map.hasLayer(this.regionLayer)) {
+      this.map.addLayer(this.regionLayer);
+    }
+    // Subcontinents
+    if (zoom < this.subcontinentLayerZoom) {
+      this.map.removeLayer(this.subcontinentLayer);
+    }
+    else if (!this.map.hasLayer(this.subcontinentLayer)) {
+      this.map.addLayer(this.subcontinentLayer);
+    }
+    // Continents
+    if (zoom < this.continentLayerZoom) {
+      this.map.removeLayer(this.continentLayer);
+    }
+    else if (!this.map.hasLayer(this.continentLayer)) {
+      this.map.addLayer(this.continentLayer);
     }
   }
 
@@ -731,14 +811,9 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     this.queryLocationTypes();
-    this.queryAreas();
-    this.querySubregions();
-    this.queryRegions();
-    this.querySubcontinents();
-    this.queryContinents();
     this.queryCelestialObjects();
     this.initMap();
-    this.map.on("zoomend", (e: any) => {this.showMarkers();});
+    this.map.on("zoomend", (e: any) => { this.showMarkers(); });
 
     this.addAreaControl.valueChanges.subscribe( data => {
       this.filterAreas(data);

@@ -24,8 +24,12 @@
 .expansion-panel-content {
     max-width: 600px;
     display: grid;
-    grid-template-columns: repeat(3, 100px);
+    grid-template-columns: repeat(3, 130px);
     grid-row: auto;
+}
+
+.divider-invisible {
+    border-color: transparent;
 }
 
 .expansion-panel-content-wide {

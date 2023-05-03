@@ -27,4 +27,20 @@ export class MapIconMaps {
         [10, 7],
         [11, 7],
     ])
+    public static nonLocationColorMap = new Map<number | null, string>([
+        [null, "#FFFFFFFF"],
+        [1, "#8a0900"], // Area
+        [2, "#30acff"], // Subregion
+        [3, "#005bdb"], // Region
+        [4, "#0028ab"], // Subcontinent
+        [5, "#631651"]  // Continent
+    ])
+    public static nonLocationRadiusMap = new Map<number | null, number>([
+        [null, 10],
+        [1, 7], // Area
+        [2, 10], // Subregion
+        [3, 13],  // Region
+        [4, 16],  // Subcontinent
+        [5, 18]   // Continent
+    ])
 }

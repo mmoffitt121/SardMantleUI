@@ -18,6 +18,10 @@ export class MapService {
     return this.http.post('https://localhost:7094/Library/Location/PostLocation', location);
   }
 
+  /*public getLocation(criteria: any) {
+    return this.http.get<any>('https://localhost:7094/Library/Location/GetLocation')
+  }*/
+
   // Location Types
 
   public getLocationTypes(criteria: any) {
