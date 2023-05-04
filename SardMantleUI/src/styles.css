@@ -106,14 +106,12 @@ p {
     background-color: var(--primary-color); 
     color:  var(--text-color);
     font-family: var(--primary-font);
+    font-size: 15px;
+    text-align: center;
 }
 
-.leaflet-popup-content-wrapper .mat-button{
-    background-color: var(--primary-color); 
-    color:  var(--text-color);
-    font-family: var(--primary-font);
-}
 
 .leaflet-popup-tip {
+    pointer-events: none;
     background-color: var(--primary-color);
 }

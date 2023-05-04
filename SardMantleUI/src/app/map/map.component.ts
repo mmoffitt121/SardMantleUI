@@ -153,13 +153,13 @@ export class MapComponent implements OnInit {
     });
 
     const tilesOuter = L.tileLayer('https://localhost:7094/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=1', {
-      maxZoom: 11,
+      maxZoom: 15,
       minZoom: 0,
       maxNativeZoom: 5
     });
 
     const tilesInner = L.tileLayer('https://localhost:7094/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=1', {
-      maxZoom: 11,
+      maxZoom: 15,
       minZoom: 5,
       maxNativeZoom: 10
     });
@@ -470,23 +470,38 @@ export class MapComponent implements OnInit {
         markerLayer = this.continentLayer;
         break;
     }
+    var newMarker;
     for (var i = 0; i < markers.length; i++) {
       var marker = markers[i];
       if (!(marker.latitude && marker.longitude)) continue;
 
       if (dataType == 0) {
-        dataMarker([marker.latitude, marker.longitude], { 
+        newMarker = dataMarker([marker.latitude, marker.longitude], { 
           color: MapIconMaps.colorMap.get((marker.locationTypeId)), 
           radius: MapIconMaps.radiusMap.get((marker.locationTypeId))
-        }, marker.id, dataType).addTo(markerLayer).on('click', (e: any) => { this.openEditLocation(e) });
+        }, marker.id, dataType).addTo(markerLayer);
       }
       else {
-        dataMarker([marker.latitude, marker.longitude], { 
+        newMarker = dataMarker([marker.latitude, marker.longitude], { 
           color: MapIconMaps.nonLocationColorMap.get((dataType)), 
           radius: MapIconMaps.nonLocationRadiusMap.get((dataType))
-        }, marker.id, dataType).addTo(markerLayer).on('click', (e: any) => { this.openEditLocation(e) });
+        }, marker.id, dataType).addTo(markerLayer);
       }
+
+      const popupContent = marker.name != null && marker.name != '' ? marker.name : marker.locationName;
+      const popupOptions = { closeButton: false };
+      const popup = L.popup().setContent(popupContent);
       
+      newMarker.on('click', (e: any) => { this.openEditLocation(e) });
+      newMarker.bindPopup(popup, popupOptions).on({
+        mouseover: (e) => {
+          e.target.openPopup();
+        },
+        mouseout: (e) => {
+          e.target.closePopup();
+        }
+      })
+
       markerLayer.addTo(this.map);
     }
   }
