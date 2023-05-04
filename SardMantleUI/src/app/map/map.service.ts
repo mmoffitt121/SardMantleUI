@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -18,9 +18,10 @@ export class MapService {
     return this.http.post('https://localhost:7094/Library/Location/PostLocation', location);
   }
 
-  /*public getLocation(criteria: any) {
-    return this.http.get<any>('https://localhost:7094/Library/Location/GetLocation')
-  }*/
+  public getLocation(id: number) {
+    let params = new HttpParams().set('Id', id);
+    return this.http.get<any>('https://localhost:7094/Library/Location/GetLocation', { params: params });
+  }
 
   // Location Types
 

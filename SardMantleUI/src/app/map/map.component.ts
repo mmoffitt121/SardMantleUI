@@ -13,6 +13,14 @@ import { MapIconMaps } from './models/map-icon-maps/map-icon-maps';
 import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 
 // #region Interfaces
+interface Location {
+  id: number;
+  locationName: string;
+  latitude: number;
+  longitude: number;
+  areaId: number;
+  area: string;
+}
 interface LocationType {
   id: number;
   name: string;
@@ -300,8 +308,8 @@ export class MapComponent implements OnInit {
   }
   // #endregion
 
-  public queryLocation() {
-    
+  public queryLocation(id: number): any {
+    return this.mapService.getLocation(id);
   }
 
   public validateAdd() {
@@ -484,12 +492,29 @@ export class MapComponent implements OnInit {
   }
 
   public openEditLocation(e: any) {
-    switch (e.dataType) {
-
+    switch (e.target.dataType) {
+      case 0:
+        var data: Location | undefined;
+        this.queryLocation(e.target.id).subscribe((d: Location) => {
+          data = d;
+          this.viewingObject = true;
+          this.selectedMapObject = { id: data.id, name: data.locationName };
+          this.drawer.open();
+        })
+        break;
+      
+      case 1:
+        break;
+      case 2:
+        break;
+      case 3:
+        break;
+      case 4:
+        break;
+      case 5:
+        break;
     }
-    this.viewingObject = true;
-    this.selectedMapObject = { id: e.target.id, name: e.target.id + " " + e.target.dataType };
-    this.drawer.open();
+    
   }
 
   public openMapSettings() {
