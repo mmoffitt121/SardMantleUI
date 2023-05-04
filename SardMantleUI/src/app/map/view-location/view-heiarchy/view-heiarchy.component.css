@@ -1,0 +1,23 @@
+.column-content {
+    max-width: 600px;
+    display: grid;
+    grid-template-columns: 33% 33% 34%;
+    grid-template-rows: max-content;
+    grid-row: auto;
+}
+
+.tree-view {
+    text-align: center;
+}
+
+.divider-upright {
+    height: 20px;
+    width: 50%;
+    border-color: var(--secondary-text-color);
+}
+
+.p2 {
+    color: var(--secondary-text-color);
+    font-size: 12px;
+    margin-top: -10px;
+}

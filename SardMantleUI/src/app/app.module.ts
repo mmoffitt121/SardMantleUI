@@ -12,13 +12,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import * as mt from '@angular/material';
 import { AddLocationComponent } from './map/add-location/add-location/add-location.component';
+import { ViewLocationComponent } from './map/view-location/view-location.component';
+import { ViewHeiarchyComponent } from './map/view-location/view-heiarchy/view-heiarchy.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     MapComponent,
-    AddLocationComponent
+    AddLocationComponent,
+    ViewLocationComponent,
+    ViewHeiarchyComponent
   ],
   imports: [
     BrowserModule,

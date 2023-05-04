@@ -1,0 +1,15 @@
+<div class="view-location-container">
+    <h3>{{dataType == 0 ? selectedMapObject.locationName : selectedMapObject.name}}</h3>
+    <div class="column-content">
+        <mat-card>
+            <h4>Heiarchy</h4>
+            <mat-card-content class="tree-view">
+                <app-view-heiarchy #viewHeiarchy></app-view-heiarchy>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="column-content">
+        <p class="coord-display">Latitude:  {{ selectedMapObject.latitude | number: '.4-4' }}</p>
+        <p class="coord-display">Longitude: {{ selectedMapObject.longitude | number: '.4-4' }}</p>
+    </div>
+</div>

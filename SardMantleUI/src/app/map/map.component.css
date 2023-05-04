@@ -101,10 +101,8 @@
     position: absolute;
     height: fit-content;
     bottom: 11px;
-    /*left: 11px;*/
     right: 11px;
     z-index: 1000;
-    /*height: 20px;*/
     margin-left: 11px
 }
 
@@ -141,4 +139,3 @@
 .settings-field {
     display: block;
 }
-

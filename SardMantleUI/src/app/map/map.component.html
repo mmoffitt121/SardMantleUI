@@ -66,9 +66,8 @@
             </mat-accordion>
         </div>
         <div *ngIf="viewingObject">
-            <h3>
-                {{selectedMapObject.name}}
-            </h3>
+            <app-view-location #locationViewer>
+            </app-view-location>
         </div>
     </mat-drawer>
     <mat-drawer-content>

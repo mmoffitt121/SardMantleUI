@@ -14,13 +14,13 @@ export class MapService {
     return this.http.get<any>('https://localhost:7094/Library/Location/GetLocations'/*, { params: criteria }*/)
   }
 
-  public postLocation(location: any) {
-    return this.http.post('https://localhost:7094/Library/Location/PostLocation', location);
-  }
-
   public getLocation(id: number) {
     let params = new HttpParams().set('Id', id);
     return this.http.get<any>('https://localhost:7094/Library/Location/GetLocation', { params: params });
+  }
+
+  public postLocation(location: any) {
+    return this.http.post('https://localhost:7094/Library/Location/PostLocation', location);
   }
 
   // Location Types
@@ -35,6 +35,11 @@ export class MapService {
     return this.http.get<any>('https://localhost:7094/Library/Area/GetAreas');
   }
 
+  public getArea(id: number) {
+    let params = new HttpParams().set('Id', id);
+    return this.http.get<any>('https://localhost:7094/Library/Area/GetArea', { params: params });
+  }
+
   public postArea(data: any) {
     return this.http.post('https://localhost:7094/Library/Area/PostArea', data);
   }
@@ -43,6 +48,11 @@ export class MapService {
 
   public getSubregions(criteria: any) {
     return this.http.get<any>('https://localhost:7094/Library/Area/GetSubregions');
+  }
+
+  public getSubregion(id: number) {
+    let params = new HttpParams().set('Id', id);
+    return this.http.get<any>('https://localhost:7094/Library/Area/GetSubregion', { params: params });
   }
 
   public postSubregion(data: any) {
@@ -55,6 +65,11 @@ export class MapService {
     return this.http.get<any>('https://localhost:7094/Library/Area/GetRegions');
   }
 
+  public getRegion(id: number) {
+    let params = new HttpParams().set('Id', id);
+    return this.http.get<any>('https://localhost:7094/Library/Area/GetRegion', { params: params });
+  }
+
   public postRegion(data: any) {
     return this.http.post('https://localhost:7094/Library/Area/PostRegion', data);
   }
@@ -63,6 +78,11 @@ export class MapService {
 
   public getSubcontinents(criteria: any) {
     return this.http.get<any>('https://localhost:7094/Library/Area/GetSubcontinents');
+  }
+
+  public getSubcontinent(id: number) {
+    let params = new HttpParams().set('Id', id);
+    return this.http.get<any>('https://localhost:7094/Library/Area/GetSubcontinent', { params: params });
   }
 
   public postSubcontinent(data: any) {
@@ -75,6 +95,11 @@ export class MapService {
     return this.http.get<any>('https://localhost:7094/Library/Area/GetContinents');
   }
 
+  public getContinent(id: number) {
+    let params = new HttpParams().set('Id', id);
+    return this.http.get<any>('https://localhost:7094/Library/Area/GetContinent', { params: params });
+  }
+
   public postContinent(data: any) {
     return this.http.post('https://localhost:7094/Library/Area/PostContinent', data);
   }
@@ -83,6 +108,11 @@ export class MapService {
 
   public getCelestialObjects(criteria: any) {
     return this.http.get<any>('https://localhost:7094/Library/Area/GetCelestialObjects');
+  }
+
+  public getCelestialObject(id: number) {
+    let params = new HttpParams().set('Id', id);
+    return this.http.get<any>('https://localhost:7094/Library/Area/GetCelestialObject', { params: params });
   }
 
   public postCelestialObject(data: any) {
@@ -95,6 +125,11 @@ export class MapService {
     return this.http.get<any>('https://localhost:7094/Library/Area/GetCelestialSystems');
   }
 
+  public getCelestialSystem(id: number) {
+    let params = new HttpParams().set('Id', id);
+    return this.http.get<any>('https://localhost:7094/Library/Area/GetCelestialSystem', { params: params });
+  }
+
   public postCelestialSystem(data: any) {
     return this.http.post('https://localhost:7094/Library/Area/PostCelestialSystem', data);
   }
@@ -103,6 +138,11 @@ export class MapService {
 
   public getManifolds(criteria: any) {
     return this.http.get<any>('https://localhost:7094/Library/Area/GetManifolds');
+  }
+
+  public getManifold(id: number) {
+    let params = new HttpParams().set('Id', id);
+    return this.http.get<any>('https://localhost:7094/Library/Area/GetManifold', { params: params });
   }
 
   public postManifold(data: any) {

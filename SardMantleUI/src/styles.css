@@ -11,6 +11,7 @@
 :root {
     --primary-color: rgba(71, 59, 59, 1);
     --text-color: rgba(255, 255, 255, 1);
+    --secondary-text-color: rgba(200, 200, 200, 1);
     --background-color: rgb(218, 197, 192);
     --secondary-background-color: rgb(48, 34, 34);
     --primary-font: 'IM Fell English';
@@ -32,7 +33,6 @@ button.mat-button {
     font-family: var(--primary-font);
     flex-direction: column;
     display: flex;
-    height: 20%
 }
 
 .container {
@@ -109,7 +109,6 @@ p {
     font-size: 15px;
     text-align: center;
 }
-
 
 .leaflet-popup-tip {
     pointer-events: none;

@@ -1,0 +1,33 @@
+.view-location-container {
+    max-width: 500px;
+    min-width: 400px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.view-location-content-container {
+    overflow-y: auto;
+}
+
+h3 {
+    padding-bottom: 20px;
+}
+
+.column-content {
+    max-width: 600px;
+    display: grid;
+    grid-template-columns: 33% 33% 34%;
+    grid-template-rows: max-content;
+    grid-row: auto;
+}
+
+.tree-view {
+    text-align: center;
+}
+
+.divider-upright {
+    height: 20px;
+    width: 50%;
+    border-color: var(--secondary-text-color);
+}

@@ -3,7 +3,8 @@ import { MapService } from './map.service';
 import { FormControl, Validators } from '@angular/forms';
 import { AddLocationComponent } from './add-location/add-location/add-location.component';
 import { dataMarker, DataMarker } from '../leaflet/leaflet-extensions/data-marker/data-marker';
-import { Component, OnInit, ViewChild, EventEmitter, Output, ElementRef, AfterViewInit } from '@angular/core';
+import { ViewLocationComponent } from './view-location/view-location.component';
+import { Component, OnInit, ViewChild, EventEmitter, Output, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
 import { map, filter, debounceTime, switchMap } from 'rxjs/operators';
@@ -82,6 +83,13 @@ export class MapComponent implements OnInit {
 
   @ViewChild('sideDrawer', {static: false}) drawer: MatDrawer;
 
+  private viewLocationComponent: ViewLocationComponent;
+  @ViewChild('locationViewer') set content(content: ViewLocationComponent) {
+    if (content) {
+      this.viewLocationComponent = content;
+    }
+  };
+
   // #region Add Marker Fields
 
   @Output() positionChanged = new EventEmitter<{ addMarkerLat: number, addMarkerLng: number }>();
@@ -139,10 +147,6 @@ export class MapComponent implements OnInit {
   @ViewChild('continentSelect') continentSelect: MatSelect;
   @ViewChild('celestialObjectSelect') celestialObjectSelect: MatSelect;
   private selectedLocationType: LocationType;
-  // #endregion
-
-  // #region View Marker Fields
-  public selectedMapObject: any;
   // #endregion
 
   // Initializes the map
@@ -222,7 +226,7 @@ export class MapComponent implements OnInit {
     this.continentLayer.clearLayers();
   }
 
-  // #region Queries
+  // #region Group Queries
   public queryLocations() {
     this.mapService.getLocations([]).subscribe(data => {
       this.locations = data;
@@ -308,9 +312,35 @@ export class MapComponent implements OnInit {
   }
   // #endregion
 
+  // #region Specific Queries
   public queryLocation(id: number): any {
     return this.mapService.getLocation(id);
   }
+
+  public queryArea(id: number): any {
+    return this.mapService.getArea(id);
+  }
+
+  public querySubregion(id: number): any {
+    return this.mapService.getSubregion(id);
+  }
+
+  public queryRegion(id: number): any {
+    return this.mapService.getRegion(id);
+  }
+
+  public querySubcontinent(id: number): any {
+    return this.mapService.getSubcontinent(id);
+  }
+
+  public queryContinent(id: number): any {
+    return this.mapService.getContinent(id);
+  }
+
+  public queryCelestialObject(id: number): any {
+    return this.mapService.getCelestialObject(id);
+  }
+  // #endregion
 
   public validateAdd() {
     if (this.addNameControl.invalid) {
@@ -326,7 +356,6 @@ export class MapComponent implements OnInit {
     switch (this.addMapDataTypeControl.value) {
       // Location
       case "0":
-        console.log(this.areaSelect);
         var locationModel = {
           locationName: this.addNameControl.value,
           areaId: this.selectedArea != -1 ? this.selectedArea: null,
@@ -509,24 +538,69 @@ export class MapComponent implements OnInit {
   public openEditLocation(e: any) {
     switch (e.target.dataType) {
       case 0:
-        var data: Location | undefined;
+        var locationData: Location | undefined;
         this.queryLocation(e.target.id).subscribe((d: Location) => {
-          data = d;
+          locationData = d;
           this.viewingObject = true;
-          this.selectedMapObject = { id: data.id, name: data.locationName };
+          this.changeDetector.detectChanges();
+          this.viewLocationComponent.setSelectedMapObject(locationData, 0);
           this.drawer.open();
         })
         break;
       
       case 1:
+        var areaData: Area | undefined;
+        this.queryArea(e.target.id).subscribe((d: Area) => {
+          areaData = d;
+          this.viewingObject = true;
+          this.changeDetector.detectChanges();
+          this.viewLocationComponent.setSelectedMapObject(areaData, 1);
+          this.drawer.open();
+        })
         break;
+
       case 2:
+        var subregionData: Area | undefined;
+        this.querySubregion(e.target.id).subscribe((d: Subregion) => {
+          subregionData = d;
+          this.viewingObject = true;
+          this.changeDetector.detectChanges();
+          this.viewLocationComponent.setSelectedMapObject(subregionData, 2);
+          this.drawer.open();
+        })
         break;
+
       case 3:
+        var regionData: Area | undefined;
+        this.queryRegion(e.target.id).subscribe((d: Area) => {
+          regionData = d;
+          this.viewingObject = true;
+          this.changeDetector.detectChanges();
+          this.viewLocationComponent.setSelectedMapObject(regionData, 3);
+          this.drawer.open();
+        })
         break;
+
       case 4:
+        var subcontinentData: Area | undefined;
+        this.querySubcontinent(e.target.id).subscribe((d: Area) => {
+          subcontinentData = d;
+          this.viewingObject = true;
+          this.changeDetector.detectChanges();
+          this.viewLocationComponent.setSelectedMapObject(subcontinentData, 4);
+          this.drawer.open();
+        })
         break;
+
       case 5:
+        var continentData: Area | undefined;
+        this.queryContinent(e.target.id).subscribe((d: Area) => {
+          continentData = d;
+          this.viewingObject = true;
+          this.changeDetector.detectChanges();
+          this.viewLocationComponent.setSelectedMapObject(continentData, 5);
+          this.drawer.open();
+        })
         break;
     }
     
@@ -847,7 +921,7 @@ export class MapComponent implements OnInit {
   }
   // #endregion
 
-  constructor(private mapService: MapService, private http: HttpClient) { }
+  constructor(private mapService: MapService, private http: HttpClient, private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.queryLocationTypes();
@@ -873,7 +947,5 @@ export class MapComponent implements OnInit {
     this.addCelestialObjectControl.valueChanges.subscribe( data => {
       this.filterCelestialObjects(data);
     });
-
-    this.selectedMapObject = { id: -1, name: "NONE" };
   }
 }
