@@ -1,4 +1,4 @@
-<mat-drawer-container class="map-container">
+<mat-drawer-container class="map-container" [hasBackdrop]="false">
     <mat-drawer #sideDrawer mode="over" position="end" class="map-sidebar">
         <div *ngIf="!viewingObject">
             <mat-accordion [multi]="true" class="map-sidebar-accordion">
@@ -66,9 +66,16 @@
             </mat-accordion>
         </div>
         <div *ngIf="viewingObject">
-            <app-view-location #locationViewer>
+            <app-view-location *ngIf="!editingObject" (deleted)="deleteComplete()" (editBegin)="editBegin()" #locationViewer>
             </app-view-location>
+            <app-edit-location *ngIf="editingObject" (editComplete)="editComplete()" #locationEditor>
+            </app-edit-location>
         </div>
+        <mat-card class="centered-button-card">
+            <button mat-icon-button (click)="viewCancel()" class="centered-button">
+                <mat-icon>close</mat-icon> 
+            </button>
+        </mat-card>
     </mat-drawer>
     <mat-drawer-content>
         <div class="map-container">

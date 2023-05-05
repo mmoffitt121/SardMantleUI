@@ -23,6 +23,15 @@ export class MapService {
     return this.http.post('https://localhost:7094/Library/Location/PostLocation', location);
   }
 
+  public putLocation(location: any) {
+    return this.http.put('https://localhost:7094/Library/Location/PutLocation', location);
+  }
+
+  public deleteLocation(id: number) {
+    let params = new HttpParams().set("Id", id);
+    return this.http.delete('https://localhost:7094/Library/Location/DeleteLocation', { params: params })
+  }
+
   // Location Types
 
   public getLocationTypes(criteria: any) {

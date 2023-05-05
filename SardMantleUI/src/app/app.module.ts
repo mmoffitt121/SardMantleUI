@@ -14,6 +14,8 @@ import * as mt from '@angular/material';
 import { AddLocationComponent } from './map/add-location/add-location/add-location.component';
 import { ViewLocationComponent } from './map/view-location/view-location.component';
 import { ViewHeiarchyComponent } from './map/view-location/view-heiarchy/view-heiarchy.component';
+import { EditLocationComponent } from './map/edit-location/edit-location.component';
+import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { ViewHeiarchyComponent } from './map/view-location/view-heiarchy/view-he
     MapComponent,
     AddLocationComponent,
     ViewLocationComponent,
-    ViewHeiarchyComponent
+    ViewHeiarchyComponent,
+    EditLocationComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,

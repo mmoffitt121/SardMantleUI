@@ -88,6 +88,17 @@
     background-color: var(--primary-color);
 }
 
+.centered-button {
+    display: block;
+    margin: auto;
+}
+
+.centered-button-card {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 16px
+}
+
 .map-add-topbar {
     position: absolute;
     top: 11px;

@@ -12,6 +12,7 @@ import * as L from 'leaflet';
 import { MatDrawer, MatDrawerContainer, MatDrawerToggleResult, MatOptionSelectionChange, MatSelect } from '@angular/material';
 import { MapIconMaps } from './models/map-icon-maps/map-icon-maps';
 import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
+import { EditLocationComponent } from './edit-location/edit-location.component';
 
 // #region Interfaces
 interface Location {
@@ -80,15 +81,13 @@ export class MapComponent implements OnInit {
   public addLocationMarkerIcon = 'add';
   public locationTypes: LocationType[] = [];
   public viewingObject: boolean = false;
+  public editingObject: boolean = false;
 
   @ViewChild('sideDrawer', {static: false}) drawer: MatDrawer;
 
-  private viewLocationComponent: ViewLocationComponent;
-  @ViewChild('locationViewer') set content(content: ViewLocationComponent) {
-    if (content) {
-      this.viewLocationComponent = content;
-    }
-  };
+  @ViewChild('locationViewer') viewLocationComponent: ViewLocationComponent;
+  @ViewChild('locationEditor') editLocationComponent: EditLocationComponent;
+
 
   // #region Add Marker Fields
 
@@ -604,6 +603,26 @@ export class MapComponent implements OnInit {
         break;
     }
     
+  }
+
+  public editComplete() {
+    console.log("Beginning Edit");
+    this.editingObject = false;
+  }
+
+  public editBegin() {
+    console.log("Beginning Edit");
+    this.editingObject = true;
+  }
+
+  public deleteComplete() {
+    this.drawer.close();
+    this.handlePosted();
+  }
+
+  public viewCancel() {
+    this.drawer.close();
+    this.editingObject = false;
   }
 
   public openMapSettings() {

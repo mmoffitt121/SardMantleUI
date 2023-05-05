@@ -10,8 +10,20 @@
     overflow-y: auto;
 }
 
-h3 {
-    padding-bottom: 20px;
+.subtitled-title {
+    margin-bottom: 5px;
+    padding-right: 100px;
+}
+
+.button-holder {
+    position: absolute; 
+    right: 5px; 
+    top: 17px;
+}
+
+.subtitle {
+    margin-top: 0px;
+    color: var(--secondary-text-color);
 }
 
 .column-content {

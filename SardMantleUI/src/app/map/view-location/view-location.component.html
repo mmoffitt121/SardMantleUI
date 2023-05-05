@@ -1,5 +1,14 @@
 <div class="view-location-container">
-    <h3>{{dataType == 0 ? selectedMapObject.locationName : selectedMapObject.name}}</h3>
+    <h3 class="subtitled-title">{{dataType == 0 ? selectedMapObject.locationName : selectedMapObject.name}}</h3>
+    <h5 class="subtitle">{{dataTypeName + (dataType == 0 && selectedMapObject.locationType != null ? " - " + selectedMapObject.locationType : "")}}</h5>
+    <div class="button-holder">
+        <button mat-icon-button (click)="editMapObject()">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="deleteMapObject()">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
     <div class="column-content">
         <mat-card>
             <h4>Heiarchy</h4>

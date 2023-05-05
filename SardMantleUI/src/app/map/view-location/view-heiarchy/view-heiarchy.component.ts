@@ -10,7 +10,6 @@ export class ViewHeiarchyComponent implements OnInit {
   public dataType: number;
 
   public setSelectedMapObject(model: any, dataType: number) {
-    console.log(model);
     this.selectedMapObject = model;
     this.dataType = dataType;
   }
