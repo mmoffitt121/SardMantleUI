@@ -22,7 +22,6 @@ export class ViewLocationComponent implements OnInit {
   @Output() deleted = new EventEmitter();
 
   public editMapObject() {
-    console.log("Editing");
     this.editBegin.emit();
   }
 

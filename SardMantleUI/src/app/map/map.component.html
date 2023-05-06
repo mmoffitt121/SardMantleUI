@@ -71,7 +71,7 @@
             <app-edit-location *ngIf="editingObject" (editComplete)="editComplete()" #locationEditor>
             </app-edit-location>
         </div>
-        <mat-card class="centered-button-card">
+        <mat-card *ngIf="!editingObject" class="centered-button-card">
             <button mat-icon-button (click)="viewCancel()" class="centered-button">
                 <mat-icon>close</mat-icon> 
             </button>

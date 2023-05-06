@@ -13,45 +13,7 @@ import { MatDrawer, MatDrawerContainer, MatDrawerToggleResult, MatOptionSelectio
 import { MapIconMaps } from './models/map-icon-maps/map-icon-maps';
 import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 import { EditLocationComponent } from './edit-location/edit-location.component';
-
-// #region Interfaces
-interface Location {
-  id: number;
-  locationName: string;
-  latitude: number;
-  longitude: number;
-  areaId: number;
-  area: string;
-}
-interface LocationType {
-  id: number;
-  name: string;
-}
-interface Area {
-  id: number;
-  name: string;
-}
-interface Subregion {
-  id: number;
-  name: string;
-}
-interface Region {
-  id: number;
-  name: string;
-}
-interface Subcontinent {
-  id: number;
-  name: string;
-}
-interface Continent {
-  id: number;
-  name: string;
-}
-interface CelestialObject {
-  id: number;
-  name: string;
-}
-// #endregion
+import { Location, LocationType, Area, Subregion, Region, Subcontinent, Continent, CelestialObject } from './models/location-data-types/area-data-types'; 
 
 @Component({
   selector: 'app-map',
@@ -530,7 +492,7 @@ export class MapComponent implements OnInit {
       const popupOptions = { closeButton: false };
       const popup = L.popup().setContent(popupContent);
       
-      newMarker.on('click', (e: any) => { this.openEditLocation(e) });
+      newMarker.on('click', (e: any) => { this.openViewLocation(e) });
       newMarker.bindPopup(popup, popupOptions).on({
         mouseover: (e) => {
           e.target.openPopup();
@@ -544,7 +506,8 @@ export class MapComponent implements OnInit {
     }
   }
 
-  public openEditLocation(e: any) {
+  public openViewLocation(e: any) {
+    if (this.editingObject) { return; }
     switch (e.target.dataType) {
       case 0:
         var locationData: Location | undefined;
@@ -569,7 +532,7 @@ export class MapComponent implements OnInit {
         break;
 
       case 2:
-        var subregionData: Area | undefined;
+        var subregionData: Subregion | undefined;
         this.querySubregion(e.target.id).subscribe((d: Subregion) => {
           subregionData = d;
           this.viewingObject = true;
@@ -580,7 +543,7 @@ export class MapComponent implements OnInit {
         break;
 
       case 3:
-        var regionData: Area | undefined;
+        var regionData: Region | undefined;
         this.queryRegion(e.target.id).subscribe((d: Area) => {
           regionData = d;
           this.viewingObject = true;
@@ -591,7 +554,7 @@ export class MapComponent implements OnInit {
         break;
 
       case 4:
-        var subcontinentData: Area | undefined;
+        var subcontinentData: Subcontinent | undefined;
         this.querySubcontinent(e.target.id).subscribe((d: Area) => {
           subcontinentData = d;
           this.viewingObject = true;
@@ -602,7 +565,7 @@ export class MapComponent implements OnInit {
         break;
 
       case 5:
-        var continentData: Area | undefined;
+        var continentData: Continent | undefined;
         this.queryContinent(e.target.id).subscribe((d: Area) => {
           continentData = d;
           this.viewingObject = true;
@@ -612,17 +575,25 @@ export class MapComponent implements OnInit {
         })
         break;
     }
-    
+  }
+
+  public openEditLocation() {
+    var data = this.viewLocationComponent.selectedMapObject;
+    var dataType = this.viewLocationComponent.dataType;
+    this.viewingObject = true;
+    this.editingObject = true;
+    this.changeDetector.detectChanges();
+    this.editLocationComponent.setSelectedMapObject(data, dataType);
+    this.drawer.open();
   }
 
   public editComplete() {
-    console.log("Beginning Edit");
     this.editingObject = false;
   }
 
   public editBegin() {
-    console.log("Beginning Edit");
     this.editingObject = true;
+    this.openEditLocation();
   }
 
   public deleteComplete() {
