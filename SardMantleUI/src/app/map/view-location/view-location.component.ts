@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ViewHeiarchyComponent } from './view-heiarchy/view-heiarchy.component';
 import { LocationDataTypes } from '../models/location-data-types/location-data-types';
 import { MapService } from '../map.service';
-import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -28,22 +28,48 @@ export class ViewLocationComponent implements OnInit {
   public confirmDeleteObject() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '500px',
-      data: "right click"
+      data: { 
+        title: "Confirm Deletion", 
+        content: "Are you sure you want to delete " +
+        (LocationDataTypes.dataTypeMap.get(this.dataType))?.toLowerCase() + " " + 
+        (this.dataType == 0 ? this.selectedMapObject.locationName : this.selectedMapObject.name) + "?"
+      }
     });
 
-    /*dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });*/
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteMapObject();
+      }
+    });
   }
 
   public deleteMapObject() {
-    console.log("Deleting");
-    this.mapService.deleteLocation(this.selectedMapObject.id).subscribe(data => {
-      this.deleted.emit();
-    },
-    error => {
-      console.error(error);
-    })
+    switch (this.dataType) {
+      case 0:
+        this.mapService.deleteLocation(this.selectedMapObject.id).subscribe(data => {
+          this.deleted.emit();
+        },
+        error => {
+          console.error(error);
+        })
+        break;
+
+      case 1:
+        break;
+
+      case 2:
+        break;
+
+      case 3:
+        break;
+
+      case 4:
+        break;
+        
+      case 5:
+        break;
+    }
+    
   }
 
   public setSelectedMapObject(model: any, dataType: number) {

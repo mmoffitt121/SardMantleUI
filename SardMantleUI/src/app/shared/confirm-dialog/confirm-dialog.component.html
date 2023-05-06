@@ -1,1 +1,6 @@
-<p>confirm-dialog works!</p>
+<h3>{{title}}</h3>
+<p>{{content}}</p>
+<mat-dialog-actions>
+    <button mat-button (click)="cancelChoice()" class="secondary-button">Cancel</button>
+    <button mat-button (click)="confirmChoice()" class="primary-button">Confirm</button>
+</mat-dialog-actions>
