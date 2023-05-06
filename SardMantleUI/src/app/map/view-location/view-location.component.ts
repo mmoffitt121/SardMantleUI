@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/cor
 import { ViewHeiarchyComponent } from './view-heiarchy/view-heiarchy.component';
 import { LocationDataTypes } from '../models/location-data-types/location-data-types';
 import { MapService } from '../map.service';
-import { MatDialog, MatDialogModule } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-view-location',
@@ -25,11 +26,12 @@ export class ViewLocationComponent implements OnInit {
   }
 
   public confirmDeleteObject() {
-    /*const dialogRef = this.dialog.open(, {
-      
-    })
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '500px',
+      data: "right click"
+    });
 
-    dialogRef.afterClosed().subscribe(result => {
+    /*dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });*/
   }
@@ -51,7 +53,7 @@ export class ViewLocationComponent implements OnInit {
     this.viewHeiarchy.setSelectedMapObject(model, dataType);
   }
 
-  constructor(private mapService: MapService, private dialog: MatDialog) { }
+  constructor(private mapService: MapService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.selectedMapObject = { id: -1, name: "NONE" };

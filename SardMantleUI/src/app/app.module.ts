@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import * as mt from '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
 import { AddLocationComponent } from './map/add-location/add-location/add-location.component';
 import { ViewLocationComponent } from './map/view-location/view-location.component';
 import { ViewHeiarchyComponent } from './map/view-location/view-heiarchy/view-heiarchy.component';
@@ -26,6 +27,9 @@ import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.c
     ViewLocationComponent,
     ViewHeiarchyComponent,
     EditLocationComponent,
+    ConfirmDialogComponent
+  ],
+  entryComponents: [
     ConfirmDialogComponent
   ],
   imports: [
@@ -48,6 +52,7 @@ import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.c
     mt.MatCheckboxModule,
     mt.MatSelectModule,
     mt.MatAutocompleteModule,
+    MatDialogModule,
     BrowserAnimationsModule
   ],
   providers: [SharedService],
