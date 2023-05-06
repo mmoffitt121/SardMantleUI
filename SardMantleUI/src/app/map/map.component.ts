@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { MapService } from './map.service';
+import { MapService } from './services/map-services/map.service';
 import { FormControl, Validators } from '@angular/forms';
 import { AddLocationComponent } from './add-location/add-location/add-location.component';
 import { dataMarker, DataMarker } from '../leaflet/leaflet-extensions/data-marker/data-marker';
@@ -460,6 +460,16 @@ export class MapComponent implements OnInit {
     this.addMarkerLayer.clearLayers();
     this.addNameControl.setValue('');
     this.addNameControl.markAsUntouched();
+    this.addAreaControl.setValue('');
+    this.addAreaControl.markAsUntouched();
+    this.addSubregionControl.setValue('');
+    this.addSubregionControl.markAsUntouched();
+    this.addRegionControl.setValue('');
+    this.addRegionControl.markAsUntouched();
+    this.addSubcontinentControl.setValue('');
+    this.addSubcontinentControl.markAsUntouched();
+    this.addContinentControl.setValue('');
+    this.addContinentControl.markAsUntouched();
     this.queryLocationTypes();
     this.queryAreas();
     this.querySubregions();

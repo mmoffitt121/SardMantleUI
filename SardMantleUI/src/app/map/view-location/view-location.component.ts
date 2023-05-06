@@ -2,8 +2,9 @@ import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/cor
 import { MatDialog } from '@angular/material/dialog';
 import { ViewHeiarchyComponent } from './view-heiarchy/view-heiarchy.component';
 import { LocationDataTypes } from '../models/location-data-types/location-data-types';
-import { MapService } from '../map.service';
+import { MapService } from '../services/map-services/map.service';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
+import { MapErrorService } from '../services/map-services/map-error.service';
 
 @Component({
   selector: 'app-view-location',
@@ -50,23 +51,53 @@ export class ViewLocationComponent implements OnInit {
           this.deleted.emit();
         },
         error => {
-          console.error(error);
+          this.errorHandler.handle(error)
         })
         break;
 
       case 1:
+        this.mapService.deleteArea(this.selectedMapObject.id).subscribe(data => {
+          this.deleted.emit();
+        },
+        error => {
+          this.errorHandler.handle(error)
+        })
         break;
 
       case 2:
+        this.mapService.deleteSubregion(this.selectedMapObject.id).subscribe(data => {
+          this.deleted.emit();
+        },
+        error => {
+          this.errorHandler.handle(error)
+        })
         break;
 
       case 3:
+        this.mapService.deleteRegion(this.selectedMapObject.id).subscribe(data => {
+          this.deleted.emit();
+        },
+        error => {
+          this.errorHandler.handle(error)
+        })
         break;
 
       case 4:
+        this.mapService.deleteSubcontinent(this.selectedMapObject.id).subscribe(data => {
+          this.deleted.emit();
+        },
+        error => {
+          this.errorHandler.handle(error)
+        })
         break;
         
       case 5:
+        this.mapService.deleteContinent(this.selectedMapObject.id).subscribe(data => {
+          this.deleted.emit();
+        },
+        error => {
+          this.errorHandler.handle(error)
+        })
         break;
     }
     
@@ -79,7 +110,7 @@ export class ViewLocationComponent implements OnInit {
     this.viewHeiarchy.setSelectedMapObject(model, dataType);
   }
 
-  constructor(private mapService: MapService, public dialog: MatDialog) { }
+  constructor(private mapService: MapService, public dialog: MatDialog, private errorHandler: MapErrorService) { }
 
   ngOnInit(): void {
     this.selectedMapObject = { id: -1, name: "NONE" };

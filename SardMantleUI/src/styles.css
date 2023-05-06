@@ -131,3 +131,12 @@ p {
 ::ng-deep .mat-dialog-container {
     background-color: #f0f0f0;
 }
+
+.error-toast {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+  }
+  

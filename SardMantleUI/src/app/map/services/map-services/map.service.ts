@@ -53,6 +53,11 @@ export class MapService {
     return this.http.post('https://localhost:7094/Library/Area/PostArea', data);
   }
 
+  public deleteArea(id: number) {
+    let params = new HttpParams().set("Id", id);
+    return this.http.delete('https://localhost:7094/Library/Area/DeleteArea', { params: params })
+  }
+
   // Subregion
 
   public getSubregions(criteria: any) {
@@ -66,6 +71,11 @@ export class MapService {
 
   public postSubregion(data: any) {
     return this.http.post('https://localhost:7094/Library/Area/PostSubregion', data);
+  }
+
+  public deleteSubregion(id: number) {
+    let params = new HttpParams().set("Id", id);
+    return this.http.delete('https://localhost:7094/Library/Area/DeleteSubregion', { params: params })
   }
 
   // Region
@@ -83,6 +93,11 @@ export class MapService {
     return this.http.post('https://localhost:7094/Library/Area/PostRegion', data);
   }
 
+  public deleteRegion(id: number) {
+    let params = new HttpParams().set("Id", id);
+    return this.http.delete('https://localhost:7094/Library/Area/DeleteRegion', { params: params })
+  }
+
   // Subcontinent
 
   public getSubcontinents(criteria: any) {
@@ -96,6 +111,11 @@ export class MapService {
 
   public postSubcontinent(data: any) {
     return this.http.post('https://localhost:7094/Library/Area/PostSubcontinent', data);
+  }
+
+  public deleteSubcontinent(id: number) {
+    let params = new HttpParams().set("Id", id);
+    return this.http.delete('https://localhost:7094/Library/Area/DeleteSubcontinent', { params: params })
   }
 
   // Continent
@@ -113,6 +133,11 @@ export class MapService {
     return this.http.post('https://localhost:7094/Library/Area/PostContinent', data);
   }
 
+  public deleteContinent(id: number) {
+    let params = new HttpParams().set("Id", id);
+    return this.http.delete('https://localhost:7094/Library/Area/DeleteContinent', { params: params })
+  }
+
   // Celestial Object
 
   public getCelestialObjects(criteria: any) {
@@ -126,6 +151,11 @@ export class MapService {
 
   public postCelestialObject(data: any) {
     return this.http.post('https://localhost:7094/Library/Area/PostCelestialObject', data);
+  }
+
+  public deleteCelestialObject(id: number) {
+    let params = new HttpParams().set("Id", id);
+    return this.http.delete('https://localhost:7094/Library/Area/DeleteCelestialObject', { params: params })
   }
 
   // Celestial System
@@ -143,6 +173,11 @@ export class MapService {
     return this.http.post('https://localhost:7094/Library/Area/PostCelestialSystem', data);
   }
 
+  public deleteCelestialSystem(id: number) {
+    let params = new HttpParams().set("Id", id);
+    return this.http.delete('https://localhost:7094/Library/Area/DeleteCelestialSystem', { params: params })
+  }
+
   // Manifold
 
   public getManifolds(criteria: any) {
@@ -156,6 +191,11 @@ export class MapService {
 
   public postManifold(data: any) {
     return this.http.post('https://localhost:7094/Library/Area/PostManifold', data);
+  }
+
+  public deleteManifold(id: number) {
+    let params = new HttpParams().set("Id", id);
+    return this.http.delete('https://localhost:7094/Library/Area/DeleteManifold', { params: params })
   }
 
   constructor(private http: HttpClient) { }

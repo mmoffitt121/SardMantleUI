@@ -17,6 +17,7 @@ import { ViewLocationComponent } from './map/view-location/view-location.compone
 import { ViewHeiarchyComponent } from './map/view-location/view-heiarchy/view-heiarchy.component';
 import { EditLocationComponent } from './map/edit-location/edit-location.component';
 import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
+import { ErrorToastComponent } from './shared/error-toast/error-toast.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.c
     ViewLocationComponent,
     ViewHeiarchyComponent,
     EditLocationComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ErrorToastComponent
   ],
   entryComponents: [
     ConfirmDialogComponent
@@ -52,6 +54,7 @@ import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.c
     mt.MatCheckboxModule,
     mt.MatSelectModule,
     mt.MatAutocompleteModule,
+    mt.MatSnackBarModule,
     MatDialogModule,
     BrowserAnimationsModule
   ],

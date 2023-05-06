@@ -1,0 +1,10 @@
+.close-button{
+    position: fixed;
+    right: 3px;
+    top: 3px;
+}
+
+.message-container {
+    padding-right: 30px;
+    word-break:break-word;
+}
