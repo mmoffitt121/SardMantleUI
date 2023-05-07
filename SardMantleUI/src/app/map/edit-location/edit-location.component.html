@@ -1,100 +1,107 @@
 <h4> Settings </h4>
-<mat-form-field class="settings-field">
-    <mat-label>Map Data Type</mat-label>
-    <mat-select #mapDataTypeSelect [formControl]="mapDataTypeControl">
-        <mat-option value="0">Location</mat-option>
-        <mat-option value="1">Area</mat-option>
-        <mat-option value="2">Subregion</mat-option>
-        <mat-option value="3">Region</mat-option>
-        <mat-option value="4">Subcontinent</mat-option>
-        <mat-option value="5">Continent</mat-option>
-    </mat-select>
-</mat-form-field>
-<mat-form-field class="settings-field" *ngIf="mapDataTypeSelect.value != null">
-    <mat-label>Name</mat-label>
-    <input matInput [formControl]="nameControl">
-    <mat-hint *ngIf="nameControl.touched && (nameControl.hasError('minlength') || nameControl.hasError('required'))">
-        {{ nameControl.hasError('required') ? 'Location Name is required.' : 'Name cannot be larger than 1000 characters.' }}
-    </mat-hint>
-</mat-form-field>
-<div *ngIf="mapDataTypeSelect.value == 0">
-    <mat-form-field class="settings-field">
-        <mat-label>Location Type</mat-label>
-        <mat-select #locationTypeSelect [formControl]="locationTypeControl" (click)="queryLocationTypes">
-            <mat-option *ngFor="let locationType of locationTypes" [value]="locationType">
-                {{locationType.name}}
-            </mat-option>
+<mat-card class="card">
+    <mat-form-field class="settings-field" style="width: 100%">
+        <mat-label>Name</mat-label>
+        <input matInput [formControl]="nameControl">
+        <mat-hint *ngIf="nameControl.touched && (nameControl.hasError('minlength') || nameControl.hasError('required'))">
+            {{ nameControl.hasError('required') ? 'Location Name is required.' : 'Name cannot be larger than 1000 characters.' }}
+        </mat-hint>
+    </mat-form-field>
+</mat-card>
+<mat-card class="card">
+    <mat-form-field class="settings-field" style="width: 100%">
+        <mat-label>Map Data Type</mat-label>
+        <mat-select #mapDataTypeSelect [formControl]="mapDataTypeControl">
+            <mat-option value="0">Location</mat-option>
+            <mat-option value="1">Area</mat-option>
+            <mat-option value="2">Subregion</mat-option>
+            <mat-option value="3">Region</mat-option>
+            <mat-option value="4">Subcontinent</mat-option>
+            <mat-option value="5">Continent</mat-option>
         </mat-select>
     </mat-form-field>
-</div>
-<div *ngIf="mapDataTypeSelect.value == 0">
-    <mat-form-field class="settings-field">
-        <mat-label>Area</mat-label>
-        <input matInput placeholder="Area" [matAutocomplete]="areaAutocomplete" [formControl]="addAreaControl" (blur)="resetAreaField()"/>
-        <mat-autocomplete #areaAutocomplete>
-            <mat-option *ngFor="let area of filteredAreas" [value]="area.id" (onSelectionChange)="selectAreaEvent($event)">
-                {{area.name}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-</div>
-<div *ngIf="mapDataTypeSelect.value == 1">
-    <mat-form-field class="settings-field">
-        <mat-label>Subregion</mat-label>
-        <input matInput placeholder="Subregion" [matAutocomplete]="subregionAutocomplete" [formControl]="addSubregionControl" (blur)="resetSubregionField()"/>
-        <mat-autocomplete #subregionAutocomplete>
-            <mat-option *ngFor="let subregion of filteredSubregions" [value]="subregion.id" (onSelectionChange)="selectSubregionEvent($event)">
-                {{subregion.name}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-</div>
-<div *ngIf="mapDataTypeSelect.value == 2">
-    <mat-form-field class="settings-field">
-        <mat-label>Region</mat-label>
-        <input matInput placeholder="Region" [matAutocomplete]="regionAutocomplete" [formControl]="addRegionControl" (blur)="resetRegionField()"/>
-        <mat-autocomplete #regionAutocomplete>
-            <mat-option *ngFor="let item of filteredRegions" [value]="item.id" (onSelectionChange)="selectRegionEvent($event)">
-                {{item.name}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-</div>
-<div *ngIf="mapDataTypeSelect.value == 3">
-    <mat-form-field class="settings-field">
-        <mat-label>Subcontinent</mat-label>
-        <input matInput placeholder="Subcontinent" [matAutocomplete]="subcontinentAutocomplete" [formControl]="addSubcontinentControl" (blur)="resetSubcontinentField()"/>
-        <mat-autocomplete #subcontinentAutocomplete>
-            <mat-option *ngFor="let item of filteredSubcontinents" [value]="item.id" (onSelectionChange)="selectSubcontinentEvent($event)">
-                {{item.name}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-</div>
-<div *ngIf="mapDataTypeSelect.value == 4">
-    <mat-form-field class="settings-field">
-        <mat-label>Continent</mat-label>
-        <input matInput placeholder="Continent" [matAutocomplete]="continentAutocomplete" [formControl]="addContinentControl" (blur)="resetContinentField()"/>
-        <mat-autocomplete #continentAutocomplete>
-            <mat-option *ngFor="let item of filteredContinents" [value]="item.id" (onSelectionChange)="selectContinentEvent($event)">
-                {{item.name}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-</div>
-<div *ngIf="mapDataTypeSelect.value == 5">
-    <mat-form-field class="settings-field">
-        <mat-label>Celestial Object</mat-label>
-        <input matInput placeholder="Celestial Object" [matAutocomplete]="celestialObjectAutocomplete" [formControl]="addCelestialObjectControl" (blur)="resetCelestialObjectField()"/>
-        <mat-autocomplete #celestialObjectAutocomplete>
-            <mat-option *ngFor="let item of filteredCelestialObjects" [value]="item.id" (onSelectionChange)="selectCelestialObjectEvent($event)">
-                {{item.name}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-</div>
-<p class="coord-display">Latitude:  {{ addMarkerLat | number: '.4-4' }}</p>
-<p class="coord-display">Longitude: {{ addMarkerLng | number: '.4-4' }}</p>
-<button mat-button style="width: 100%" (click)="createLocation()" *ngIf="mapDataTypeSelect.value != null">
-    Create
+    <div *ngIf="mapDataTypeSelect.value == 0">
+        <mat-form-field class="settings-field" style="width: 100%">
+            <mat-label>Location Type</mat-label>
+            <mat-select #locationTypeSelect [formControl]="locationTypeControl">
+                <mat-option *ngFor="let locationType of locationTypes" [value]="locationType">
+                    {{locationType.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div *ngIf="mapDataTypeSelect.value == 0">
+        <mat-form-field class="settings-field" style="width: 100%">
+            <mat-label>Area</mat-label>
+            <input matInput placeholder="Area" [matAutocomplete]="areaAutocomplete" [formControl]="areaControl" (blur)="resetAreaField()"/>
+            <mat-autocomplete #areaAutocomplete>
+                <mat-option *ngFor="let area of filteredAreas" [value]="area.id" (onSelectionChange)="selectAreaEvent($event)">
+                    {{area.name}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div *ngIf="mapDataTypeSelect.value == 1">
+        <mat-form-field class="settings-field" style="width: 100%">
+            <mat-label>Subregion</mat-label>
+            <input matInput placeholder="Subregion" [matAutocomplete]="subregionAutocomplete" [formControl]="subregionControl" (blur)="resetSubregionField()"/>
+            <mat-autocomplete #subregionAutocomplete>
+                <mat-option *ngFor="let subregion of filteredSubregions" [value]="subregion.id" (onSelectionChange)="selectSubregionEvent($event)">
+                    {{subregion.name}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div *ngIf="mapDataTypeSelect.value == 2">
+        <mat-form-field class="settings-field" style="width: 100%">
+            <mat-label>Region</mat-label>
+            <input matInput placeholder="Region" [matAutocomplete]="regionAutocomplete" [formControl]="regionControl" (blur)="resetRegionField()"/>
+            <mat-autocomplete #regionAutocomplete>
+                <mat-option *ngFor="let item of filteredRegions" [value]="item.id" (onSelectionChange)="selectRegionEvent($event)">
+                    {{item.name}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div *ngIf="mapDataTypeSelect.value == 3">
+        <mat-form-field class="settings-field" style="width: 100%">
+            <mat-label>Subcontinent</mat-label>
+            <input matInput placeholder="Subcontinent" [matAutocomplete]="subcontinentAutocomplete" [formControl]="subcontinentControl" (blur)="resetSubcontinentField()"/>
+            <mat-autocomplete #subcontinentAutocomplete>
+                <mat-option *ngFor="let item of filteredSubcontinents" [value]="item.id" (onSelectionChange)="selectSubcontinentEvent($event)">
+                    {{item.name}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div *ngIf="mapDataTypeSelect.value == 4">
+        <mat-form-field class="settings-field" style="width: 100%">
+            <mat-label>Continent</mat-label>
+            <input matInput placeholder="Continent" [matAutocomplete]="continentAutocomplete" [formControl]="continentControl" (blur)="resetContinentField()"/>
+            <mat-autocomplete #continentAutocomplete>
+                <mat-option *ngFor="let item of filteredContinents" [value]="item.id" (onSelectionChange)="selectContinentEvent($event)">
+                    {{item.name}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div *ngIf="mapDataTypeSelect.value == 5">
+        <mat-form-field class="settings-field" style="width: 100%">
+            <mat-label>Celestial Object</mat-label>
+            <input matInput placeholder="Celestial Object" [matAutocomplete]="celestialObjectAutocomplete" [formControl]="celestialObjectControl" (blur)="resetCelestialObjectField()"/>
+            <mat-autocomplete #celestialObjectAutocomplete>
+                <mat-option *ngFor="let item of filteredCelestialObjects" [value]="item.id" (onSelectionChange)="selectCelestialObjectEvent($event)">
+                    {{item.name}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+</mat-card>
+<p class="coord-display">Latitude:  {{ markerLat | number: '.4-4' }}</p>
+<p class="coord-display">Longitude: {{ markerLng | number: '.4-4' }}</p>
+<button mat-button class="secondary-button" style="width: 31%; margin-right: 3%;" (click)="cancelAddEdit()">
+    Cancel
+</button>
+<button mat-button class="primary-button" style="width: 66%;" (click)="submit()" *ngIf="mapDataTypeSelect.value != null">
+    {{editing ? "Save" : "Create"}}
 </button>

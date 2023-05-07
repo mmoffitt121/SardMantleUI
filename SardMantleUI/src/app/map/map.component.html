@@ -66,12 +66,12 @@
             </mat-accordion>
         </div>
         <div *ngIf="viewingObject">
-            <app-view-location *ngIf="!editingObject" (deleted)="deleteComplete()" (editBegin)="editBegin()" #locationViewer>
+            <app-view-location *ngIf="!editingObject && !addingObject" (deleted)="deleteComplete()" (editBegin)="editBegin()" #locationViewer>
             </app-view-location>
-            <app-edit-location *ngIf="editingObject" (editComplete)="editComplete()" #locationEditor>
+            <app-edit-location *ngIf="editingObject || addingObject" (complete)="addEditComplete()" (cancel)="addEditCancel()" #locationEditor>
             </app-edit-location>
         </div>
-        <mat-card *ngIf="!editingObject" class="centered-button-card">
+        <mat-card class="centered-button-card" *ngIf="!editingObject && !addingObject">
             <button mat-icon-button (click)="viewCancel()" class="centered-button">
                 <mat-icon>close</mat-icon> 
             </button>
@@ -84,111 +84,6 @@
             </div>
         </div>
         <button mat-raised-button (click)="openMapSettings()" class="map-overlay-button"><mat-icon>menu</mat-icon></button>
-        <button mat-raised-button (click)="addPlaceIcon()" class="map-add-button"><mat-icon>{{ addLocationMarkerIcon }}</mat-icon></button>
-        <mat-card class="map-add-topbar" *ngIf="placing">
-            <h3> Adding Location </h3>
-        </mat-card>
-        <mat-card class="map-add-bottombar" *ngIf="placing">
-            <h4> Settings </h4>
-            <mat-form-field class="settings-field">
-                <mat-label>Map Data Type</mat-label>
-                <mat-select #mapDataTypeSelect [formControl]="addMapDataTypeControl">
-                    <mat-option value="0">Location</mat-option>
-                    <mat-option value="1">Area</mat-option>
-                    <mat-option value="2">Subregion</mat-option>
-                    <mat-option value="3">Region</mat-option>
-                    <mat-option value="4">Subcontinent</mat-option>
-                    <mat-option value="5">Continent</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field class="settings-field" *ngIf="mapDataTypeSelect.value != null">
-                <mat-label>Name</mat-label>
-                <input matInput [formControl]="addNameControl">
-                <mat-hint *ngIf="addNameControl.touched && (addNameControl.hasError('minlength') || addNameControl.hasError('required'))">
-                    {{ addNameControl.hasError('required') ? 'Location Name is required.' : 'Name cannot be larger than 1000 characters.' }}
-                </mat-hint>
-            </mat-form-field>
-            <div *ngIf="mapDataTypeSelect.value == 0">
-                <mat-form-field class="settings-field">
-                    <mat-label>Location Type</mat-label>
-                    <mat-select #locationTypeSelect [formControl]="addLocationTypeControl" (click)="queryLocationTypes">
-                        <mat-option *ngFor="let locationType of locationTypes" [value]="locationType">
-                            {{locationType.name}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div *ngIf="mapDataTypeSelect.value == 0">
-                <mat-form-field class="settings-field">
-                    <mat-label>Area</mat-label>
-                    <input matInput placeholder="Area" [matAutocomplete]="areaAutocomplete" [formControl]="addAreaControl" (blur)="resetAreaField()"/>
-                    <mat-autocomplete #areaAutocomplete>
-                        <mat-option *ngFor="let area of filteredAreas" [value]="area.id" (onSelectionChange)="selectAreaEvent($event)">
-                            {{area.name}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-            <div *ngIf="mapDataTypeSelect.value == 1">
-                <mat-form-field class="settings-field">
-                    <mat-label>Subregion</mat-label>
-                    <input matInput placeholder="Subregion" [matAutocomplete]="subregionAutocomplete" [formControl]="addSubregionControl" (blur)="resetSubregionField()"/>
-                    <mat-autocomplete #subregionAutocomplete>
-                        <mat-option *ngFor="let subregion of filteredSubregions" [value]="subregion.id" (onSelectionChange)="selectSubregionEvent($event)">
-                            {{subregion.name}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-            <div *ngIf="mapDataTypeSelect.value == 2">
-                <mat-form-field class="settings-field">
-                    <mat-label>Region</mat-label>
-                    <input matInput placeholder="Region" [matAutocomplete]="regionAutocomplete" [formControl]="addRegionControl" (blur)="resetRegionField()"/>
-                    <mat-autocomplete #regionAutocomplete>
-                        <mat-option *ngFor="let item of filteredRegions" [value]="item.id" (onSelectionChange)="selectRegionEvent($event)">
-                            {{item.name}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-            <div *ngIf="mapDataTypeSelect.value == 3">
-                <mat-form-field class="settings-field">
-                    <mat-label>Subcontinent</mat-label>
-                    <input matInput placeholder="Subcontinent" [matAutocomplete]="subcontinentAutocomplete" [formControl]="addSubcontinentControl" (blur)="resetSubcontinentField()"/>
-                    <mat-autocomplete #subcontinentAutocomplete>
-                        <mat-option *ngFor="let item of filteredSubcontinents" [value]="item.id" (onSelectionChange)="selectSubcontinentEvent($event)">
-                            {{item.name}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-            <div *ngIf="mapDataTypeSelect.value == 4">
-                <mat-form-field class="settings-field">
-                    <mat-label>Continent</mat-label>
-                    <input matInput placeholder="Continent" [matAutocomplete]="continentAutocomplete" [formControl]="addContinentControl" (blur)="resetContinentField()"/>
-                    <mat-autocomplete #continentAutocomplete>
-                        <mat-option *ngFor="let item of filteredContinents" [value]="item.id" (onSelectionChange)="selectContinentEvent($event)">
-                            {{item.name}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-            <div *ngIf="mapDataTypeSelect.value == 5">
-                <mat-form-field class="settings-field">
-                    <mat-label>Celestial Object</mat-label>
-                    <input matInput placeholder="Celestial Object" [matAutocomplete]="celestialObjectAutocomplete" [formControl]="addCelestialObjectControl" (blur)="resetCelestialObjectField()"/>
-                    <mat-autocomplete #celestialObjectAutocomplete>
-                        <mat-option *ngFor="let item of filteredCelestialObjects" [value]="item.id" (onSelectionChange)="selectCelestialObjectEvent($event)">
-                            {{item.name}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-            <p class="coord-display">Latitude:  {{ addMarkerLat | number: '.4-4' }}</p>
-            <p class="coord-display">Longitude: {{ addMarkerLng | number: '.4-4' }}</p>
-            <button mat-button style="width: 100%" (click)="createLocation()" *ngIf="mapDataTypeSelect.value != null">
-                Create
-            </button>
-        </mat-card>
+        <button mat-raised-button (click)="openAddLocation()" class="map-add-button"><mat-icon>add</mat-icon></button>
     </mat-drawer-content>
 </mat-drawer-container>

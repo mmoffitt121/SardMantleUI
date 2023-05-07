@@ -99,7 +99,6 @@ export class ViewLocationComponent implements OnInit {
         })
         break;
     }
-    
   }
 
   public setSelectedMapObject(model: any, dataType: number) {
