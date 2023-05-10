@@ -375,7 +375,6 @@ export class EditLocationComponent implements OnInit {
 
   // #region Field Select Events
   public selectAreaEvent(event: MatOptionSelectionChange) {
-    console.log(event.source.value);
     if (!event.isUserInput) { return; } 
     var filtered = this.areas.filter(item => {return item.id == event.source.value})[0];
     this.selectedArea = filtered.id;
@@ -515,7 +514,6 @@ export class EditLocationComponent implements OnInit {
           latitude: this.markerLat,
           longitude: this.markerLng
         };
-        console.log(model);
         this.mapService.postLocation(model).subscribe((data: any) => {
           this.submitOperation();
         },
@@ -582,7 +580,7 @@ export class EditLocationComponent implements OnInit {
       case 5:
         model = {
           name: this.nameControl.value,
-          continentId: this.selectedCelestialObject != -1 ? this.selectedCelestialObject : null,
+          celestialObjectId: this.selectedCelestialObject != -1 ? this.selectedCelestialObject : null,
           latitude: this.markerLat,
           longitude: this.markerLng
         };
@@ -683,7 +681,7 @@ export class EditLocationComponent implements OnInit {
         model = {
           id: this.selectedMapObject.id,
           name: this.nameControl.value,
-          continentId: this.selectedCelestialObject != -1 ? this.selectedCelestialObject : null,
+          celestialObjectId: this.selectedCelestialObject != -1 ? this.selectedCelestialObject : null,
           latitude: this.markerLat,
           longitude: this.markerLng
         };

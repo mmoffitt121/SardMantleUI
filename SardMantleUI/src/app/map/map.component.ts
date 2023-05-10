@@ -148,13 +148,19 @@ export class MapComponent implements OnInit {
   }
 
   // Called when the Add icon is clicked. Creates a movable icon for location creation.
-  public addPlaceIcon(): any {
+  public addPlaceIcon(coords: any = null): any {
+    if (coords != null) {
+      this.addMarkerLat = coords.lat;
+      this.addMarkerLng = coords.lng;
+    }
+    else {
+      this.addMarkerLat = this.map.getCenter().lat;
+      this.addMarkerLng = this.map.getCenter().lng;
+    }
     this.addMapDataTypeControl.setValue(null);
-    this.addMarkerLat = this.map.getCenter().lat;
-    this.addMarkerLng = this.map.getCenter().lng;
     this.addLocationMarkerIcon = 'close';
     this.addMarkerLayer.clearLayers();
-    var addMarker = L.marker([this.map.getCenter().lat, this.map.getCenter().lng], {draggable: true, icon: this.addLocationDraggableIcon}).addTo(this.addMarkerLayer);
+    var addMarker = L.marker([this.addMarkerLat, this.addMarkerLng], {draggable: true, icon: this.addLocationDraggableIcon}).addTo(this.addMarkerLayer);
     addMarker.on('drag', (event) => {
       const position = event.target.getLatLng();
       this.onPositionChanged(position.lat, position.lng);
@@ -473,6 +479,8 @@ export class MapComponent implements OnInit {
     this.editingObject = true;
     this.addingObject = false;
     this.changeDetector.detectChanges();
+    console.log(data);
+    this.addPlaceIcon({lat: data.latitude, lng: data.longitude});
     this.editLocationComponent.setSelectedMapObject(data, dataType, true);
     this.drawer.open();
   }
