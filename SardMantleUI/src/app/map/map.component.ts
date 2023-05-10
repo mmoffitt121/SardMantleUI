@@ -473,7 +473,7 @@ export class MapComponent implements OnInit {
     this.editingObject = true;
     this.addingObject = false;
     this.changeDetector.detectChanges();
-    this.editLocationComponent.setSelectedMapObject(data, dataType);
+    this.editLocationComponent.setSelectedMapObject(data, dataType, true);
     this.drawer.open();
   }
 

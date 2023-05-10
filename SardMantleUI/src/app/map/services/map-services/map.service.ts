@@ -51,6 +51,10 @@ export class MapService {
     return this.http.post('https://localhost:7094/Library/Area/PostArea', data);
   }
 
+  public putArea(data: any) {
+    return this.http.put('https://localhost:7094/Library/Area/PutArea', data);
+  }
+
   public deleteArea(id: number) {
     let params = new HttpParams().set("Id", id);
     return this.http.delete('https://localhost:7094/Library/Area/DeleteArea', { params: params })
@@ -69,6 +73,10 @@ export class MapService {
 
   public postSubregion(data: any) {
     return this.http.post('https://localhost:7094/Library/Area/PostSubregion', data);
+  }
+
+  public putSubregion(data: any) {
+    return this.http.put('https://localhost:7094/Library/Area/PutSubregion', data);
   }
 
   public deleteSubregion(id: number) {
@@ -91,6 +99,10 @@ export class MapService {
     return this.http.post('https://localhost:7094/Library/Area/PostRegion', data);
   }
 
+  public putRegion(data: any) {
+    return this.http.put('https://localhost:7094/Library/Area/PutRegion', data);
+  }
+
   public deleteRegion(id: number) {
     let params = new HttpParams().set("Id", id);
     return this.http.delete('https://localhost:7094/Library/Area/DeleteRegion', { params: params })
@@ -109,6 +121,10 @@ export class MapService {
 
   public postSubcontinent(data: any) {
     return this.http.post('https://localhost:7094/Library/Area/PostSubcontinent', data);
+  }
+
+  public putSubcontinent(data: any) {
+    return this.http.put('https://localhost:7094/Library/Area/PutSubcontinent', data);
   }
 
   public deleteSubcontinent(id: number) {
@@ -131,6 +147,10 @@ export class MapService {
     return this.http.post('https://localhost:7094/Library/Area/PostContinent', data);
   }
 
+  public putContinent(data: any) {
+    return this.http.put('https://localhost:7094/Library/Area/PutContinent', data);
+  }
+
   public deleteContinent(id: number) {
     let params = new HttpParams().set("Id", id);
     return this.http.delete('https://localhost:7094/Library/Area/DeleteContinent', { params: params })
@@ -149,6 +169,10 @@ export class MapService {
 
   public postCelestialObject(data: any) {
     return this.http.post('https://localhost:7094/Library/Area/PostCelestialObject', data);
+  }
+
+  public putCelestialObject(data: any) {
+    return this.http.put('https://localhost:7094/Library/Area/PutCelestialObject', data);
   }
 
   public deleteCelestialObject(id: number) {
@@ -171,6 +195,10 @@ export class MapService {
     return this.http.post('https://localhost:7094/Library/Area/PostCelestialSystem', data);
   }
 
+  public putCelestialSystem(data: any) {
+    return this.http.put('https://localhost:7094/Library/Area/PutCelestialSystem', data);
+  }
+
   public deleteCelestialSystem(id: number) {
     let params = new HttpParams().set("Id", id);
     return this.http.delete('https://localhost:7094/Library/Area/DeleteCelestialSystem', { params: params })
@@ -189,6 +217,10 @@ export class MapService {
 
   public postManifold(data: any) {
     return this.http.post('https://localhost:7094/Library/Area/PostManifold', data);
+  }
+
+  public putManifold(data: any) {
+    return this.http.put('https://localhost:7094/Library/Area/PutManifold', data);
   }
 
   public deleteManifold(id: number) {

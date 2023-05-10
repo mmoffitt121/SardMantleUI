@@ -1,5 +1,5 @@
 <mat-drawer-container class="map-container" [hasBackdrop]="false">
-    <mat-drawer #sideDrawer mode="over" position="end" class="map-sidebar">
+    <mat-drawer #sideDrawer mode="over" position="end" class="map-sidebar" [disableClose]="true">
         <div *ngIf="!viewingObject">
             <mat-accordion [multi]="true" class="map-sidebar-accordion">
                 <h3>
