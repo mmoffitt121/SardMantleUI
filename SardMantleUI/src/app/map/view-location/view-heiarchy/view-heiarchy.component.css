@@ -21,3 +21,7 @@
     font-size: 12px;
     margin-top: -10px;
 }
+
+p {
+    word-break: break-word;
+}

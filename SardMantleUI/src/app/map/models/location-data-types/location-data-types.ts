@@ -12,3 +12,16 @@ export class LocationDataTypes {
         [8, "Manifold"]
     ])
 }
+
+export interface Location {
+    id: number;
+    locationName: string;
+    latitude: number;
+    longitude: number;
+    areaId: number;
+    area: string;
+}
+export interface LocationType {
+    id: number;
+    name: string;
+}

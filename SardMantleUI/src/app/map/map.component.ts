@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { MapService } from './services/map-services/map.service';
 import { FormControl, Validators } from '@angular/forms';
-import { AddLocationComponent } from './add-location/add-location/add-location.component';
 import { dataMarker, DataMarker } from '../leaflet/leaflet-extensions/data-marker/data-marker';
 import { ViewLocationComponent } from './view-location/view-location.component';
 import { Component, OnInit, ViewChild, EventEmitter, Output, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
@@ -13,7 +12,8 @@ import { MatDrawer, MatDrawerContainer, MatDrawerToggleResult, MatOptionSelectio
 import { MapIconMaps } from './models/map-icon-maps/map-icon-maps';
 import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 import { EditLocationComponent } from './edit-location/edit-location.component';
-import { Location, LocationType, Area, Subregion, Region, Subcontinent, Continent, CelestialObject } from './models/location-data-types/area-data-types'; 
+import { Area, Subregion, Region, Subcontinent, Continent, CelestialObject } from './models/location-data-types/area-data-types'; 
+import { Location, LocationType } from './models/location-data-types/location-data-types';
 
 @Component({
   selector: 'app-map',
@@ -43,6 +43,7 @@ export class MapComponent implements OnInit {
   public addLocationMarkerIcon = 'add';
   public locationTypes: LocationType[] = [];
   public viewingObject: boolean = false;
+  public addingObject: boolean = false;
   public editingObject: boolean = false;
 
   @ViewChild('sideDrawer', {static: false}) drawer: MatDrawer;
@@ -147,25 +148,26 @@ export class MapComponent implements OnInit {
   }
 
   // Called when the Add icon is clicked. Creates a movable icon for location creation.
-  public addPlaceIcon(): void {
-    this.addMapDataTypeControl.setValue(null);
-    if (this.placing) {
-      this.addLocationMarkerIcon = 'add';
-      this.addMarkerLayer.clearLayers();
+  public addPlaceIcon(coords: any = null): any {
+    if (coords != null) {
+      this.addMarkerLat = coords.lat;
+      this.addMarkerLng = coords.lng;
     }
     else {
       this.addMarkerLat = this.map.getCenter().lat;
       this.addMarkerLng = this.map.getCenter().lng;
-      this.addLocationMarkerIcon = 'close';
-      this.addMarkerLayer.clearLayers();
-      var addMarker = L.marker([this.map.getCenter().lat, this.map.getCenter().lng], {draggable: true, icon: this.addLocationDraggableIcon}).addTo(this.addMarkerLayer);
-      addMarker.on('drag', (event) => {
-        const position = event.target.getLatLng();
-        this.onPositionChanged(position.lat, position.lng);
-      });
-      this.addMarkerLayer.addTo(this.map);
     }
-    this.placing = !this.placing;
+    this.addMapDataTypeControl.setValue(null);
+    this.addLocationMarkerIcon = 'close';
+    this.addMarkerLayer.clearLayers();
+    var addMarker = L.marker([this.addMarkerLat, this.addMarkerLng], {draggable: true, icon: this.addLocationDraggableIcon}).addTo(this.addMarkerLayer);
+    addMarker.on('drag', (event) => {
+      const position = event.target.getLatLng();
+      this.onPositionChanged(position.lat, position.lng);
+    });
+    this.addMarkerLayer.addTo(this.map);
+
+    return addMarker;
   }
 
   public applyFilter(): void {
@@ -176,6 +178,9 @@ export class MapComponent implements OnInit {
   onPositionChanged(lat: number, lng: number) {
     this.addMarkerLat = lat;
     this.addMarkerLng = lng;
+    if (this.editLocationComponent != null) {
+      this.editLocationComponent.setMarkerLocations(lat, lng);
+    }
   }
 
   public clearAllMarkerLayers() {
@@ -303,118 +308,7 @@ export class MapComponent implements OnInit {
   }
   // #endregion
 
-  public validateAdd() {
-    if (this.addNameControl.invalid) {
-      this.addNameControl.markAllAsTouched(); // mark all input fields as touched to trigger error messages
-      return false;
-    }
-    return true;
-  }
-
-  public createLocation() {
-    if (!this.validateAdd()) return;
-
-    switch (this.addMapDataTypeControl.value) {
-      // Location
-      case "0":
-        var locationModel = {
-          locationName: this.addNameControl.value,
-          areaId: this.selectedArea != -1 ? this.selectedArea: null,
-          locationTypeId: (this.locationTypeSelect && this.locationTypeSelect.value) ? this.locationTypeSelect.value.id : null,
-          latitude: this.addMarkerLat,
-          longitude: this.addMarkerLng
-        };
-        this.mapService.postLocation(locationModel).subscribe(data => {
-          this.handlePosted();
-        },
-        error => {
-          console.error(error);
-        })
-        break;
-
-      // Area
-      case "1":
-        var areaModel = {
-          name: this.addNameControl.value,
-          subregionId: this.selectedSubregion != -1 ? this.selectedSubregion : null,
-          latitude: this.addMarkerLat,
-          longitude: this.addMarkerLng
-        };
-        this.mapService.postArea(areaModel).subscribe(data => {
-          this.handlePosted();
-        },
-        error => {
-          console.error(error);
-        })
-        break;
-
-      // Subregion
-      case "2":
-        var subregionModel = {
-          name: this.addNameControl.value,
-          regionId: this.selectedRegion != -1 ? this.selectedRegion : null,
-          latitude: this.addMarkerLat,
-          longitude: this.addMarkerLng
-        };
-        this.mapService.postSubregion(subregionModel).subscribe(data => {
-          this.handlePosted();
-        },
-        error => {
-          console.error(error);
-        })
-        break;
-
-      // Region
-      case "3":
-        var regionModel = {
-          name: this.addNameControl.value,
-          subcontinentId: this.selectedSubcontinent != -1 ? this.selectedSubcontinent : null,
-          latitude: this.addMarkerLat,
-          longitude: this.addMarkerLng
-        };
-        this.mapService.postRegion(regionModel).subscribe(data => {
-          this.handlePosted();
-        },
-        error => {
-          console.error(error);
-        })
-        break;
-
-      // Subcontinent
-      case "4":
-        var subcontinentModel = {
-          name: this.addNameControl.value,
-          continentId: this.selectedContinent != -1 ? this.selectedContinent : null,
-          latitude: this.addMarkerLat,
-          longitude: this.addMarkerLng
-        };
-        this.mapService.postSubcontinent(subcontinentModel).subscribe(data => {
-          this.handlePosted();
-        },
-        error => {
-          console.error(error);
-        })
-        break;
-
-      // Continent
-      case "5":
-        var continentModel = {
-          name: this.addNameControl.value,
-          continentId: this.selectedCelestialObject != -1 ? this.selectedCelestialObject : null,
-          latitude: this.addMarkerLat,
-          longitude: this.addMarkerLng
-        };
-        this.mapService.postContinent(continentModel).subscribe(data => {
-          this.handlePosted();
-        },
-        error => {
-          console.error(error);
-        })
-        break;
-    }
-  }
-
-  public handlePosted() {
+  public reloadMap() {
     this.clearAllMarkerLayers();
     this.queryLocations();
     this.placing = false;
@@ -507,7 +401,8 @@ export class MapComponent implements OnInit {
   }
 
   public openViewLocation(e: any) {
-    if (this.editingObject) { return; }
+    if (this.editingObject || this.addingObject) { return; }
+
     switch (e.target.dataType) {
       case 0:
         var locationData: Location | undefined;
@@ -582,13 +477,42 @@ export class MapComponent implements OnInit {
     var dataType = this.viewLocationComponent.dataType;
     this.viewingObject = true;
     this.editingObject = true;
+    this.addingObject = false;
     this.changeDetector.detectChanges();
-    this.editLocationComponent.setSelectedMapObject(data, dataType);
+    console.log(data);
+    this.addPlaceIcon({lat: data.latitude, lng: data.longitude});
+    this.editLocationComponent.setSelectedMapObject(data, dataType, true);
     this.drawer.open();
   }
 
-  public editComplete() {
+  public openAddLocation() {
+    this.viewingObject = true;
     this.editingObject = false;
+    this.addingObject = true;
+    this.changeDetector.detectChanges();
+    this.addPlaceIcon();
+    this.editLocationComponent.setMarkerLocations(this.addMarkerLat, this.addMarkerLng);
+    this.drawer.open();
+  }
+
+  public addEditComplete() {
+    if (this.addingObject) {
+      this.drawer.close();
+    }
+    else {
+      this.openViewLocation({ target: { dataType: this.editLocationComponent.dataType, id: this.editLocationComponent.selectedMapObject.id}});
+    }
+    this.drawer.close();
+    this.addingObject = false;
+    this.editingObject = false;
+    this.reloadMap();
+  }
+
+  public addEditCancel() {
+    this.drawer.close();
+    this.addingObject = false;
+    this.editingObject = false;
+    this.addMarkerLayer.clearLayers();
   }
 
   public editBegin() {
@@ -598,7 +522,7 @@ export class MapComponent implements OnInit {
 
   public deleteComplete() {
     this.drawer.close();
-    this.handlePosted();
+    this.reloadMap();
   }
 
   public viewCancel() {
@@ -809,118 +733,6 @@ export class MapComponent implements OnInit {
   }
   // #endregion
 
-  // #region Field Select Events
-  public selectAreaEvent(event: MatOptionSelectionChange) {
-    if (!event.isUserInput) { return; } 
-    var filtered = this.areas.filter(item => {return item.id == event.source.value})[0];
-    this.selectedArea = filtered.id;
-    this.addAreaControl.setValue(filtered.name);
-  }
-
-  public selectSubregionEvent(event: MatOptionSelectionChange) {
-    if (!event.isUserInput) { return; } 
-    var filtered = this.subregions.filter(item => {return item.id == event.source.value})[0];
-    this.selectedSubregion = filtered.id;
-    this.addSubregionControl.setValue(filtered.name);
-  }
-
-  public selectRegionEvent(event: MatOptionSelectionChange) {
-    if (!event.isUserInput) { return; } 
-    var filtered = this.regions.filter(item => {return item.id == event.source.value})[0];
-    this.selectedRegion = filtered.id;
-    this.addRegionControl.setValue(filtered.name);
-  }
-
-  public selectSubcontinentEvent(event: MatOptionSelectionChange) {
-    if (!event.isUserInput) { return; } 
-    var filtered = this.subcontinents.filter(item => {return item.id == event.source.value})[0];
-    this.selectedSubcontinent = filtered.id;
-    this.addSubcontinentControl.setValue(filtered.name);
-  }
-
-  public selectContinentEvent(event: MatOptionSelectionChange) {
-    if (!event.isUserInput) { return; } 
-    var filtered = this.continents.filter(item => {return item.id == event.source.value})[0];
-    this.selectedContinent = filtered.id;
-    this.addContinentControl.setValue(filtered.name);
-  }
-
-  public selectCelestialObjectEvent(event: MatOptionSelectionChange) {
-    if (!event.isUserInput) { return; } 
-    var filtered = this.celestialObjects.filter(item => {return item.id == event.source.value})[0];
-    this.selectedCelestialObject = filtered.id;
-    this.addCelestialObjectControl.setValue(filtered.name);
-  }
-  // #endregion
-
-  // #region Field Filtering
-  public filterAreas(filter: string | null) {
-    if (filter == null)
-    {
-      this.filteredAreas = this.areas; 
-      return;
-    }
-    this.filteredAreas = this.areas.filter(area => {
-      return area.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
-    })
-  }
-
-  public filterSubregions(filter: string | null) {
-    if (filter == null)
-    {
-      this.filteredSubregions = this.subregions; 
-      return;
-    }
-    this.filteredSubregions = this.subregions.filter(item => {
-      return item.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
-    })
-  }
-
-  public filterRegions(filter: string | null) {
-    if (filter == null)
-    {
-      this.filteredRegions = this.regions; 
-      return;
-    }
-    this.filteredRegions = this.regions.filter(item => {
-      return item.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
-    })
-  }
-
-  public filterSubcontinents(filter: string | null) {
-    if (filter == null)
-    {
-      this.filteredSubcontinents = this.subcontinents; 
-      return;
-    }
-    this.filteredSubcontinents = this.subcontinents.filter(item => {
-      return item.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
-    })
-  }
-
-  public filterContinents(filter: string | null) {
-    if (filter == null)
-    {
-      this.filteredContinents = this.continents; 
-      return;
-    }
-    this.filteredContinents = this.continents.filter(item => {
-      return item.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
-    })
-  }
-
-  public filterCelestialObjects(filter: string | null) {
-    if (filter == null)
-    {
-      this.filteredCelestialObjects = this.celestialObjects; 
-      return;
-    }
-    this.filteredCelestialObjects = this.celestialObjects.filter(item => {
-      return item.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
-    })
-  }
-  // #endregion
-
   constructor(private mapService: MapService, private http: HttpClient, private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit(): void {
@@ -928,24 +740,5 @@ export class MapComponent implements OnInit {
     this.queryCelestialObjects();
     this.initMap();
     this.map.on("zoomend", (e: any) => { this.showMarkers(); });
-
-    this.addAreaControl.valueChanges.subscribe( data => {
-      this.filterAreas(data);
-    });
-    this.addSubregionControl.valueChanges.subscribe( data => {
-      this.filterSubregions(data);
-    });
-    this.addRegionControl.valueChanges.subscribe( data => {
-      this.filterRegions(data);
-    });
-    this.addSubcontinentControl.valueChanges.subscribe( data => {
-      this.filterSubcontinents(data);
-    });
-    this.addContinentControl.valueChanges.subscribe( data => {
-      this.filterContinents(data);
-    });
-    this.addCelestialObjectControl.valueChanges.subscribe( data => {
-      this.filterCelestialObjects(data);
-    });
   }
 }

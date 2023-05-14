@@ -12,7 +12,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import * as mt from '@angular/material';
 import { MatDialogModule } from '@angular/material/dialog';
-import { AddLocationComponent } from './map/add-location/add-location/add-location.component';
 import { ViewLocationComponent } from './map/view-location/view-location.component';
 import { ViewHeiarchyComponent } from './map/view-location/view-heiarchy/view-heiarchy.component';
 import { EditLocationComponent } from './map/edit-location/edit-location.component';
@@ -24,7 +23,6 @@ import { ErrorToastComponent } from './shared/error-toast/error-toast.component'
     AppComponent,
     HomeComponent,
     MapComponent,
-    AddLocationComponent,
     ViewLocationComponent,
     ViewHeiarchyComponent,
     EditLocationComponent,

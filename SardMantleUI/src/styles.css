@@ -37,7 +37,7 @@ button.mat-button {
 }
 
 .secondary-button {
-    background-color: var(--secondary-accent-color)
+    background-color: var(--secondary-accent-color);
 }
 
 .mat-card {
