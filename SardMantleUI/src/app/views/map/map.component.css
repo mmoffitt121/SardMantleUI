@@ -1,0 +1,158 @@
+.map-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0px;
+}
+
+.map-frame {
+    height: 100%;
+}
+
+#map {
+    height: 100%;
+}
+
+.map-sidebar {
+    overflow: hidden;
+    background-color: var(--secondary-background-color);
+    padding: 10px;
+}
+
+.expansion-panel-content {
+    max-width: 600px;
+    display: grid;
+    grid-template-columns: repeat(3, 130px);
+    grid-row: auto;
+}
+
+.divider-invisible {
+    border-color: transparent;
+}
+
+.expansion-panel-content-wide {
+    max-width: 400px;
+    display: grid;
+    grid-template-columns: auto;
+    grid-row: auto;
+}
+
+.expansion-panel-apply-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mat-checkbox {
+    font-family: var(--primary-font);
+    padding-right: 20px;
+    size: fixed;
+}
+
+.mat-input {
+    font-family: var(--primary-font);
+}
+
+.mat-select {
+    font-family: var(--primary-font);
+}
+
+.map-overlay-buttons-container {
+    position: absolute;
+    right: 11px;
+    top: 11px;
+    width: 30px;
+    z-index: 1000;
+}
+
+.map-overlay-button {
+    width: 32px;
+    height: 32px;
+    z-index: 1000;
+    padding: 0;
+    margin: 0px;
+    margin-bottom: 7px;
+    min-width: 0;
+    min-height: 0;
+    background-color: var(--primary-color);
+}
+
+.map-add-button {
+    position: absolute;
+    right: 11px;
+    top: 50px;
+    width: 32px;
+    height: 32px;
+    z-index: 1000;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+    min-height: 0;
+    background-color: var(--primary-color);
+}
+
+.centered-button {
+    display: block;
+    margin: auto;
+}
+
+.centered-button-card {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 16px
+}
+
+.map-add-topbar {
+    position: absolute;
+    top: 11px;
+    left: 50px;
+    right: 50px;
+    z-index: 1000;
+    height: 20px;
+}
+
+.map-add-bottombar {
+    position: absolute;
+    height: fit-content;
+    bottom: 11px;
+    right: 11px;
+    z-index: 1000;
+    margin-left: 11px
+}
+
+.mat-icon {
+    position: relative;
+    top: -3px;
+}
+
+.leaflet-pane.leaflet-shadow-pane {
+    display: none;
+}
+
+.map-overlay-topbar-content {
+    height: 100%;
+    overflow:auto;
+}
+
+.map-overlay-infopanel {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 1000;
+}
+
+.mat-divider {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.scrollable-panel {
+    overflow: auto;
+}
+
+.settings-field {
+    display: block;
+}

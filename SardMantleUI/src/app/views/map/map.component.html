@@ -1,0 +1,92 @@
+<mat-drawer-container class="map-container" [hasBackdrop]="false">
+    <mat-drawer #sideDrawer mode="over" position="end" class="map-sidebar" [disableClose]="true">
+        <div *ngIf="!viewingObject">
+            <mat-accordion [multi]="true" class="map-sidebar-accordion">
+                <h3>
+                    Map Settings
+                </h3>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
+                        <mat-panel-title>
+                            Geography
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="expansion-panel-content">
+                        <mat-checkbox> Cities </mat-checkbox>
+                        <mat-checkbox> Towns </mat-checkbox>
+                        <mat-checkbox> Villages </mat-checkbox>
+                        <mat-checkbox> Hamlets </mat-checkbox>
+                        <mat-checkbox> Fortresses </mat-checkbox>
+                    </div>
+                    <mat-divider class="divider-invisible"></mat-divider>
+                    <div class="expansion-panel-content">
+                        <mat-checkbox> Areas </mat-checkbox>
+                        <mat-checkbox> Subregions </mat-checkbox>
+                        <mat-checkbox> Regions </mat-checkbox>
+                        <mat-checkbox> Subcontinents </mat-checkbox>
+                        <mat-checkbox> Continents </mat-checkbox>
+                    </div>
+                    <mat-divider class="divider-invisible"></mat-divider>
+                    <div class="expansion-panel-content-wide">
+                        <mat-form-field>
+                            <input type="tel" matInput placeholder="Filter">
+                        </mat-form-field>
+                    </div>
+                    <button mat-button class="expansion-panel-apply-button" (click)="applyFilter()">
+                        Apply
+                    </button>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
+                        <mat-panel-title>
+                            States
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="expansion-panel-content">
+                    </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
+                        <mat-panel-title>
+                            Layers
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="expansion-panel-content">
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+        <div *ngIf="viewingObject">
+            <app-view-location *ngIf="!editingObject && !addingObject" (deleted)="deleteComplete()" (editBegin)="editBegin()" #locationViewer>
+            </app-view-location>
+            <app-edit-location *ngIf="editingObject || addingObject" (complete)="addEditComplete()" (cancel)="addEditCancel()" #locationEditor>
+            </app-edit-location>
+        </div>
+        <mat-card class="centered-button-card" *ngIf="!editingObject && !addingObject">
+            <button mat-icon-button (click)="viewCancel()" class="centered-button">
+                <mat-icon>close</mat-icon> 
+            </button>
+        </mat-card>
+    </mat-drawer>
+    <mat-drawer-content>
+        <div class="map-container">
+            <div class="map-frame">
+                <div id="map"></div>
+            </div>
+        </div>
+        <div class="map-overlay-buttons-container">
+            <button mat-raised-button (click)="router.navigate(['/home']);" class="map-overlay-button"><mat-icon>home</mat-icon></button>
+            <button mat-raised-button (click)="openMapSettings()" class="map-overlay-button"><mat-icon>menu</mat-icon></button>
+            <button mat-raised-button (click)="openAddLocation()" class="map-overlay-button"><mat-icon>add</mat-icon></button>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

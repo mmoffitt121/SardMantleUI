@@ -1,0 +1,31 @@
+<div class="document-screen-container">
+    <div class="document-type-grid">
+        <div class="button-holder">
+            <button mat-icon-button class="button" (click)="router.navigate(['/home'])">
+                <mat-icon> home </mat-icon>
+            </button>
+            <button mat-icon-button class="button">
+                <mat-icon> search </mat-icon>
+            </button>
+            <button mat-icon-button class="button">
+                <mat-icon> add </mat-icon>
+            </button>
+            <button mat-icon-button class="button">
+                <mat-icon> settings </mat-icon>
+            </button>
+        </div>
+        <mat-card class="document-type-container" style="height: 100fr">
+            <app-document-type> </app-document-type>
+        </mat-card>
+    </div>
+    <div class="document-list-grid">
+        <mat-card class="document-list-container">
+            <app-document-list> </app-document-list>
+        </mat-card>
+    </div>
+    <div class="document-view-grid">
+        <mat-card class="document-view-container">
+            <app-document-info> </app-document-info>
+        </mat-card>
+    </div>
+</div>
