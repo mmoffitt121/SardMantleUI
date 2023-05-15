@@ -20,6 +20,21 @@
     --primary-font: 'IM Fell English';
 }
 
+::-webkit-scrollbar {
+    width: 8px;
+}
+  
+::-webkit-scrollbar-track {
+    margin: 8px;
+    padding: 8px;
+    background-color: #00000000;
+}
+  
+::-webkit-scrollbar-thumb {
+    background-color: var(--secondary-accent-color);
+    border-radius: 4px;
+}
+
 body {
     font-family: var(--primary-font);
     background-color: var(--background-color);
@@ -138,5 +153,37 @@ p {
     justify-content: space-between;
     background-color: var(--primary-color);
     color: var(--text-color);
-  }
+}
+
+/* --------------- */
+/* NGX Text Editor */
+/* --------------- */
   
+.NgxEditor__Wrapper {
+    border: 0px !important;
+}
+
+.NgxEditor__MenuBar {
+    color: var(--primary-accent-color);
+    background-color: var(--primary-color) !important;
+}
+
+.NgxEditor__MenuItem {
+    color: var(--primary-accent-color);
+    background-color: var(--secondary-accent-color);
+}
+
+.NgxEditor__Seperator {
+    border-left: 3px solid var(--secondary-accent-color) !important;
+}
+
+/*
+ngx-editor-menu {
+    color: red;
+    background-color: red;
+}
+
+ngx-editor {
+    color: red;
+    background-color: red;
+}*/

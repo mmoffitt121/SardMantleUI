@@ -1,0 +1,54 @@
+.document-screen-container {
+    display: grid;
+    grid-template-columns: minmax(100px, 200px) minmax(150px, 250px) 1fr;
+    overflow-y: auto;
+    background-color: var(--secondary-background-color);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0px;
+}
+
+.document-type-grid {
+    display: grid;
+    grid-template-rows: 50px auto;
+    bottom: 100px;
+    overflow-y: auto;
+}
+
+.document-list-grid {
+    display: grid;
+    grid-template-rows: auto;
+    bottom: 100px;
+    overflow-y: auto;
+}
+
+.document-type-container {
+    height: 1fr;
+    margin: 5px;
+    overflow-y: auto;
+    background-color: var(--primary-color);
+}
+
+.document-list-container {
+    margin: 5px;
+    overflow-y: auto;
+    background-color: var(--primary-color);
+}
+
+.document-view-container {
+    margin: 5px;
+    overflow-y: auto;
+    background-color: var(--primary-color)
+}
+
+.button-holder {
+    margin: 10px;
+    color: var(--text-color);
+    
+    .button {
+        margin-left: 4px;
+    }
+}
