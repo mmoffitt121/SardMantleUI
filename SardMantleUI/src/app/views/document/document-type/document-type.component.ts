@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./document-type.component.css']
 })
 export class DocumentTypeComponent implements OnInit {
+  documentTypes: DocumentType[];
 
   constructor() { }
 

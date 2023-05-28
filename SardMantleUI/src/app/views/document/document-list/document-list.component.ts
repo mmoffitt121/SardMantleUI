@@ -10,6 +10,6 @@ export class DocumentListComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
   }
-
 }
