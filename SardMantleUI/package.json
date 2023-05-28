@@ -21,7 +21,7 @@
     "@angular/router": "^16.0.3",
     "leaflet": "^1.9.3",
     "leaflet-markers-canvas": "^0.2.2",
-    "ngx-editor": "^14.2.0",
+    "ngx-editor": "^15.3.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
