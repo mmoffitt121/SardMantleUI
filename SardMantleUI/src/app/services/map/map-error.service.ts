@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ErrorToastComponent } from 'src/app/views/shared/error-toast/error-toast.component';

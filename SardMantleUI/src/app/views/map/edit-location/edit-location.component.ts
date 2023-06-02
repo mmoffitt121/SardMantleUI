@@ -2,7 +2,8 @@ import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/cor
 import { Area, Subregion, Region, Subcontinent, Continent, CelestialObject } from "../../../models/map/location-data-types/area-data-types";
 import { LocationType, Location } from '../../../models/map/location-data-types/location-data-types';
 import { FormControl, Validators } from '@angular/forms';
-import { MatOptionSelectionChange, MatSelect } from '@angular/material';
+import { MatSelect } from '@angular/material/select';
+import { MatOptionSelectionChange } from '@angular/material/core';
 import { MapService } from '../../../services/map/map.service';
 import { MapErrorService } from '../../../services/map/map-error.service';
 import { LocationDataTypes } from '../../../models/map/location-data-types/location-data-types';

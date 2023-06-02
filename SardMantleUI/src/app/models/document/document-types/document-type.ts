@@ -1,4 +1,6 @@
-export interface DocumentType {
+import { Selectable } from "../../selectable/selectable";
+
+export interface DocumentType extends Selectable {
     id: number;
     name: string;
     summary: string;

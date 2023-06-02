@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DocumentInfoComponent } from './document-info/document-info.component';
@@ -11,6 +11,17 @@ import { Editor, Toolbar, Validators } from 'ngx-editor';
   templateUrl: './document.component.html',
   styleUrls: ['./document.component.css']
 })
-export class DocumentComponent {
+export class DocumentComponent implements OnInit {
+  @ViewChild('documentTypeComponent') documentTypeComponent: DocumentTypeComponent;
+  @ViewChild('documentListComponent') documentListComponent: DocumentListComponent;
+
+  public loadDocumentList(data: any) {
+    this.documentListComponent.setDocumentType(data.id);
+  }
+
   constructor(public router: Router) { }
+
+  ngOnInit(): void {
+    
+  }
 }

@@ -12,6 +12,24 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import * as mt from '@angular/material';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatListModule } from '@angular/material/list';
+import { MatMenu, MatMenuModule } from '@angular/material/menu';
+
 import { NgxEditorModule } from 'ngx-editor';
 
 import { ViewLocationComponent } from './views/map/view-location/view-location.component';
@@ -41,32 +59,30 @@ import { DocumentEditComponent } from './views/document/document-edit/document-e
     DocumentInfoComponent,
     DocumentEditComponent
   ],
-  entryComponents: [
-    ConfirmDialogComponent
-  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule, 
     ReactiveFormsModule,
-    mt.MatButtonToggleModule,
-    mt.MatSlideToggleModule,
-    mt.MatCardModule,
-    mt.MatButtonModule,
-    mt.MatInputModule,
-    mt.MatFormFieldModule,
-    mt.MatExpansionModule,
-    mt.MatDividerModule,
-    mt.MatSidenavModule,
-    mt.MatTabsModule,
-    mt.MatIconModule,
-    mt.MatCheckboxModule,
-    mt.MatSelectModule,
-    mt.MatAutocompleteModule,
-    mt.MatSnackBarModule,
-    mt.MatListModule,
+    MatButtonToggleModule,
+    MatSlideToggleModule,
+    MatCardModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatExpansionModule,
+    MatDividerModule,
+    MatSidenavModule,
+    MatTabsModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    MatSnackBarModule,
+    MatListModule,
     MatDialogModule,
+    MatMenuModule,
     BrowserAnimationsModule,
     NgxEditorModule
   ],

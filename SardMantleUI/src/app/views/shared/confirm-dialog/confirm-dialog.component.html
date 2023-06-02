@@ -1,6 +1,10 @@
-<h3>{{title}}</h3>
-<p>{{content}}</p>
+<mat-card-header>
+    <h3>{{title}}</h3>
+</mat-card-header>
+<mat-card-content>
+    <p>{{content}}</p>
+</mat-card-content>
 <mat-dialog-actions>
-    <button mat-button (click)="cancelChoice()" class="secondary-button">Cancel</button>
-    <button mat-button (click)="confirmChoice()" class="primary-button">Confirm</button>
+    <button mat-button (click)="cancelChoice()">Cancel</button>
+    <button mat-button (click)="confirmChoice()" color="primary">Confirm</button>
 </mat-dialog-actions>

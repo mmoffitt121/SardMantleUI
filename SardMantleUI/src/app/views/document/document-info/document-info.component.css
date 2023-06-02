@@ -1,5 +1,6 @@
 .subtitled-title {
     margin-bottom: 5px;
+    padding-left: 10px;
     padding-right: 100px;
 }
 
@@ -11,5 +12,6 @@
 
 .subtitle {
     margin-top: 0px;
+    padding-left: 10px;
     color: var(--secondary-text-color);
 }

@@ -15,12 +15,16 @@
             </button>
         </div>
         <mat-card class="document-type-container" style="height: 100fr">
-            <app-document-type> </app-document-type>
+            <mat-card-content>
+                <app-document-type (select)="loadDocumentList($event)" #documentTypeComponent> </app-document-type>
+            </mat-card-content>
         </mat-card>
     </div>
     <div class="document-list-grid">
         <mat-card class="document-list-container">
-            <app-document-list> </app-document-list>
+            <mat-card-content>
+                <app-document-list #documentListComponent> </app-document-list>
+            </mat-card-content>
         </mat-card>
     </div>
     <div class="document-view-grid">
