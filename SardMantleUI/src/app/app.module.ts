@@ -42,6 +42,20 @@ import { DocumentTypeComponent } from './views/document/document-type/document-t
 import { DocumentListComponent } from './views/document/document-list/document-list.component';
 import { DocumentInfoComponent } from './views/document/document-info/document-info.component';
 import { DocumentEditComponent } from './views/document/document-edit/document-edit.component';
+import { EditBoolComponent } from './views/shared/document-components/edit/edit-bool/edit-bool.component';
+import { EditIntComponent } from './views/shared/document-components/edit/edit-int/edit-int.component';
+import { EditDoubleComponent } from './views/shared/document-components/edit/edit-double/edit-double.component';
+import { EditStringComponent } from './views/shared/document-components/edit/edit-string/edit-string.component';
+import { EditSummaryComponent } from './views/shared/document-components/edit/edit-summary/edit-summary.component';
+import { EditArticleComponent } from './views/shared/document-components/edit/edit-article/edit-article.component';
+import { EditDataPointComponent } from './views/shared/document-components/edit/edit-data-point/edit-data-point.component';
+import { ViewArticleComponent } from './views/shared/document-components/view/view-article/view-article.component';
+import { ViewBoolComponent } from './views/shared/document-components/view/view-bool/view-bool.component';
+import { ViewDataPointComponent } from './views/shared/document-components/view/view-data-point/view-data-point.component';
+import { ViewDoubleComponent } from './views/shared/document-components/view/view-double/view-double.component';
+import { ViewIntComponent } from './views/shared/document-components/view/view-int/view-int.component';
+import { ViewStringComponent } from './views/shared/document-components/view/view-string/view-string.component';
+import { ViewSummaryComponent } from './views/shared/document-components/view/view-summary/view-summary.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +71,21 @@ import { DocumentEditComponent } from './views/document/document-edit/document-e
     DocumentTypeComponent,
     DocumentListComponent,
     DocumentInfoComponent,
-    DocumentEditComponent
+    DocumentEditComponent,
+    EditBoolComponent,
+    EditIntComponent,
+    EditDoubleComponent,
+    EditStringComponent,
+    EditSummaryComponent,
+    EditArticleComponent,
+    EditDataPointComponent,
+    ViewArticleComponent,
+    ViewBoolComponent,
+    ViewDataPointComponent,
+    ViewDoubleComponent,
+    ViewIntComponent,
+    ViewStringComponent,
+    ViewSummaryComponent
   ],
   imports: [
     BrowserModule,

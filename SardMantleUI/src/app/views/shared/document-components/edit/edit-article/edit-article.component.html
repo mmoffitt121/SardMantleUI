@@ -1,0 +1,8 @@
+<h4 class="subtitled-title"> {{ parameterName }} </h4>
+<h5 class="subtitle"> {{ parameterSummary }} <h5>
+<form [formGroup]="form">
+    <div class="NgxEditor__Wrapper">
+        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
+        <ngx-editor [editor]="editor" formControlName="editorContent"> </ngx-editor>
+    </div>
+</form>

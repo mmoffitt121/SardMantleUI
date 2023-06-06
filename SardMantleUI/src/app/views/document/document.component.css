@@ -11,11 +11,24 @@
     margin: 0px;
 }
 
+.document-type-container {
+    height: 1fr;
+    margin: 5px;
+    overflow-y: auto;
+    background-color: var(--primary-color);
+}
+
 .document-type-grid {
     display: grid;
     grid-template-rows: 50px auto;
     bottom: 100px;
     overflow-y: auto;
+}
+
+.document-list-container {
+    margin: 5px;
+    overflow-y: auto;
+    background-color: var(--primary-color);
 }
 
 .document-list-grid {
@@ -25,23 +38,17 @@
     overflow-y: auto;
 }
 
-.document-type-container {
-    height: 1fr;
-    margin: 5px;
-    overflow-y: auto;
-    background-color: var(--primary-color);
-}
-
-.document-list-container {
-    margin: 5px;
-    overflow-y: auto;
-    background-color: var(--primary-color);
-}
-
 .document-view-container {
     margin: 5px;
     overflow-y: auto;
     background-color: var(--primary-color)
+}
+
+.document-view-grid {
+    display: grid;
+    grid-template-rows: auto;
+    bottom: 100px;
+    overflow-y: auto;
 }
 
 .button-holder {

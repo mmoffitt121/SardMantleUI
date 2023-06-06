@@ -176,6 +176,18 @@ p {
     color: var(--text-color);
 }
 
+.subtitled-title {
+    margin-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 100px;
+}
+
+.subtitle {
+    margin-top: 0px;
+    padding-left: 10px;
+    color: var(--secondary-text-color);
+}
+
 /* --------------- */
 /* NGX Text Editor */
 /* --------------- */
@@ -208,3 +220,13 @@ ngx-editor {
     color: red;
     background-color: red;
 }*/
+
+.leaflet-bar {
+    /*margin-top: 130px !important;*/
+    border: 0px;
+}
+
+.leaflet-bar a {
+    color: var(--text-color);
+    background-color: var(--primary-color);
+}
