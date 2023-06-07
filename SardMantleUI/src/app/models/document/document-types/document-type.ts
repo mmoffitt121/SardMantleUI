@@ -7,7 +7,7 @@ export interface DocumentType extends Selectable {
     typeParameters: DocumentTypeParameter[];
 }
 
-export interface DocumentTypeParameter {
+export interface DocumentTypeParameter extends Selectable {
     id: number;
     name: string;
     summary: string;

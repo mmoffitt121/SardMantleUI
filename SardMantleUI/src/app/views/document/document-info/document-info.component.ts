@@ -78,13 +78,6 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterSummary = p.summary;
     });
 
-    this.document.parameters.forEach(p => {
-      if (p?.dataPointTypeParameterId == 11) {
-        console.log("Yeah")
-      }
-    })
-    console.log(this.document);
-
     this.cdref.detectChanges();
   }
 

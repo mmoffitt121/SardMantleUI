@@ -30,6 +30,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator'; 
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { NgxEditorModule } from 'ngx-editor';
 
@@ -57,6 +58,7 @@ import { ViewDoubleComponent } from './views/shared/document-components/view/vie
 import { ViewIntComponent } from './views/shared/document-components/view/view-int/view-int.component';
 import { ViewStringComponent } from './views/shared/document-components/view/view-string/view-string.component';
 import { ViewSummaryComponent } from './views/shared/document-components/view/view-summary/view-summary.component';
+import { EditDocumentTypeComponent } from './views/document/document-type/edit-document-type/edit-document-type.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +88,8 @@ import { ViewSummaryComponent } from './views/shared/document-components/view/vi
     ViewDoubleComponent,
     ViewIntComponent,
     ViewStringComponent,
-    ViewSummaryComponent
+    ViewSummaryComponent,
+    EditDocumentTypeComponent
   ],
   imports: [
     BrowserModule,
@@ -113,6 +116,7 @@ import { ViewSummaryComponent } from './views/shared/document-components/view/vi
     MatDialogModule,
     MatMenuModule,
     MatPaginatorModule,
+    DragDropModule,
     BrowserAnimationsModule,
     NgxEditorModule
   ],

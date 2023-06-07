@@ -1,0 +1,42 @@
+
+<div class="document-screen-container">
+    <div class="button-holder">
+        <button mat-icon-button (click)="returnToDocument()">
+            <mat-icon>
+                arrow_back
+            </mat-icon>
+        </button>
+    </div>
+    <div class="document-type-grid">
+        <mat-card>
+            <mat-card-title>
+                {{ title }}
+            </mat-card-title>
+            <mat-card-subtitle>
+                {{ subtitle }}
+            </mat-card-subtitle>
+            <div class="floating-button-holder">
+                <button mat-icon-button>
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </div>
+        </mat-card>
+        <mat-card class="document-type-container">
+            <mat-card-content>
+                <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+                    <div *ngFor="let parameter of documentType?.typeParameters" cdkDrag>
+                        <mat-card class="type-parameter-box" [style.background-color]="parameter.selected ? 'var(--secondary-accent-color-selected)' : 'var(--secondary-accent-color)'" (click)="select(parameter)">
+                            <mat-card-title>
+                                {{ parameter.name }}
+                            </mat-card-title>
+                            <mat-card-subtitle>
+                                {{ parameter.summary }}
+                            </mat-card-subtitle>
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <mat-card> </mat-card>
+</div>

@@ -21,6 +21,9 @@ export class DocumentComponent implements AfterViewInit {
   public editing = false;
   public adding = false;
 
+  public currentDocumentTypeId = -1;
+  private currentDocumentId: number;
+
   public handleAddDocument(event: any) {
     this.editing = true;
     const typeId = this.documentInfoComponent.document.typeId;
@@ -35,19 +38,30 @@ export class DocumentComponent implements AfterViewInit {
     this.documentEditComponent.setDocument(id);
   }
 
+  public cancelAddEdit(event: any) {
+    this.editing = false;
+    this.loadDocument({ id: this.currentDocumentId });
+  }
+
   public handleDeleteDocument(event: any) {
   }
 
   public loadDocumentList(data: any) {
     this.editing = false;
     this.cdref.detectChanges();
+    this.currentDocumentTypeId = data.id;
     this.documentListComponent.setDocumentType(data.id);
   }
 
   public loadDocument(data: any) {
     this.editing = false;
     this.cdref.detectChanges();
+    this.currentDocumentId = data.id;
     this.documentInfoComponent.setDocument(data.id);
+  }
+
+  public editDocumentType() {
+    this.router.navigate(['/document/type/edit/' + this.currentDocumentTypeId]);
   }
 
   constructor(public router: Router, private cdref: ChangeDetectorRef) { }

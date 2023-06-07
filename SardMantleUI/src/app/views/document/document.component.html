@@ -10,7 +10,7 @@
             <button mat-icon-button class="button">
                 <mat-icon> library_add </mat-icon>
             </button>
-            <button mat-icon-button class="button">
+            <button mat-icon-button class="button" [disabled]="currentDocumentTypeId == -1" (click)="editDocumentType()">
                 <mat-icon> edit </mat-icon>
             </button>
             <mat-menu #menu="matMenu">
@@ -47,7 +47,12 @@
                 (delete)="handleDeleteDocument($event)"
             >
             </app-document-info>
-            <app-document-edit #documentEditComponent *ngIf="editing"> </app-document-edit>
+            <app-document-edit 
+                #documentEditComponent 
+                *ngIf="editing"
+                (cancel)="cancelAddEdit($event)"
+            > 
+            </app-document-edit>
         </mat-card>
     </div>
 </div>

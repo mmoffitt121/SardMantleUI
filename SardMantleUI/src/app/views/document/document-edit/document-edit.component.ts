@@ -36,28 +36,50 @@ export class DocumentEditComponent implements AfterViewInit {
   private loadDocument() {
     this.container.clear();
     this.parameterComponents = [];
+    this.nameControl.setValue(this.document.name);
     this.documentType?.typeParameters.forEach(p => {
       switch (p.typeValue) {
         case 'int':
           this.parameterComponents.push(this.container.createComponent(EditIntComponent));
+          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
+            this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.intValue
+          );
           break;
         case 'dub':
           this.parameterComponents.push(this.container.createComponent(EditDoubleComponent));
+          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
+            this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.doubleValue
+          );
           break;
         case 'str':
           this.parameterComponents.push(this.container.createComponent(EditStringComponent));
+          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
+            this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.stringValue
+          );
           break;
         case 'sum':
           this.parameterComponents.push(this.container.createComponent(EditSummaryComponent));
+          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
+            this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.summaryValue
+          );
           break;
         case 'doc':
           this.parameterComponents.push(this.container.createComponent(EditArticleComponent));
+          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
+            this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.documentValue
+          );
           break;
         case 'dat':
           this.parameterComponents.push(this.container.createComponent(EditDataPointComponent));
+          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
+            this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.dataPointValue
+          );
           break;
         case 'bit':
           this.parameterComponents.push(this.container.createComponent(EditBoolComponent));
+          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
+            this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.boolValue
+          );
           break;
       }
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterName = p.name;
