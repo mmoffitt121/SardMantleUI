@@ -5,7 +5,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
   providedIn: 'root'
 })
 export class DocumentTypeService {
-
   public getDocumentTypes(criteria: any) {
     return this.http.get<any>('https://localhost:7094/Library/DataPointType/GetDataPointTypes', { params: criteria })
   }

@@ -482,7 +482,6 @@ export class MapComponent implements OnInit {
     this.editingObject = true;
     this.addingObject = false;
     this.changeDetector.detectChanges();
-    console.log(data);
     this.addPlaceIcon({lat: data.latitude, lng: data.longitude});
     this.editLocationComponent.setSelectedMapObject(data, dataType, true);
     this.drawer.open();

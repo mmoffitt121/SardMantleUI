@@ -80,7 +80,6 @@ export class EditLocationComponent implements OnInit {
       this.editing = editing;
     }
     this.selectedMapObject = model;
-    console.log(model);
     this.dataType = dataType;
     this.dataTypeName = LocationDataTypes.dataTypeMap.get(dataType);
 

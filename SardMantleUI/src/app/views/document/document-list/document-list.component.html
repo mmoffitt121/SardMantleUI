@@ -1,5 +1,12 @@
 <mat-action-list>
-    <button mat-list-item style="background-color:var(--secondary-accent-color); font: var(--primary-font); border-radius:4px; margin-bottom:3px;">
-        Save 
+    <button 
+        mat-list-item class="list-item" 
+        *ngFor="let document of documents" 
+        [value]="document.id" 
+        (click)="selectDocument($event)"
+        [style.--mdc-list-list-item-label-text-size]="document.selected ? '19px' : '16px'"
+        [style.background-color]="document.selected ? 'var(--secondary-accent-color-selected)' : 'var(--secondary-accent-color)'"
+    >
+        {{document.name}}
     </button>
 </mat-action-list>

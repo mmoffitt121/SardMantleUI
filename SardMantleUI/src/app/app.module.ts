@@ -28,7 +28,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatListModule } from '@angular/material/list';
-import { MatMenu, MatMenuModule } from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator'; 
 
 import { NgxEditorModule } from 'ngx-editor';
 
@@ -111,6 +112,7 @@ import { ViewSummaryComponent } from './views/shared/document-components/view/vi
     MatListModule,
     MatDialogModule,
     MatMenuModule,
+    MatPaginatorModule,
     BrowserAnimationsModule,
     NgxEditorModule
   ],
