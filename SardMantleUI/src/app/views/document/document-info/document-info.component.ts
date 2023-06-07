@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, Directive, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, Directive, EventEmitter, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { EditBoolComponent } from '../../shared/document-components/edit/edit-bool/edit-bool.component';
 import { Document } from 'src/app/models/document/document-types/document';
 import { DocumentType, DocumentTypeParameter } from 'src/app/models/document/document-types/document-type';
@@ -24,13 +24,17 @@ import { ViewBoolComponent } from '../../shared/document-components/view/view-bo
   styleUrls: ['./document-info.component.css']
 })
 export class DocumentInfoComponent implements OnInit, AfterViewInit {
-  private document: Document;
+  public document: Document;
   private documentType: DocumentType;
 
   public title: string;
   public subtitle: string;
 
   private parameterComponents: any[] = [];
+
+  @Output() add = new EventEmitter();
+  @Output() edit = new EventEmitter();
+  @Output() delete = new EventEmitter();
 
   @ViewChild('parameterContainer', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
 
@@ -43,35 +47,50 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
       switch (p.typeValue) {
         case 'int':
           this.parameterComponents.push(this.container.createComponent(ViewIntComponent));
+          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.intValue;
           break;
         case 'dub':
           this.parameterComponents.push(this.container.createComponent(ViewDoubleComponent));
+          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.doubleValue;
           break;
         case 'str':
           this.parameterComponents.push(this.container.createComponent(ViewStringComponent));
+          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.stringValue;
           break;
         case 'sum':
           this.parameterComponents.push(this.container.createComponent(ViewSummaryComponent));
+          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.summaryValue;
           break;
         case 'doc':
           this.parameterComponents.push(this.container.createComponent(ViewArticleComponent));
+          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.documentValue;
           break;
         case 'dat':
           this.parameterComponents.push(this.container.createComponent(ViewDataPointComponent));
+          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.dataPointValue;
           break;
         case 'bit':
           this.parameterComponents.push(this.container.createComponent(ViewBoolComponent));
+          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.boolValue;
           break;
       }
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterName = p.name;
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterSummary = p.summary;
     });
+
+    this.document.parameters.forEach(p => {
+      if (p?.dataPointTypeParameterId == 11) {
+        console.log("Yeah")
+      }
+    })
+    console.log(this.document);
+
     this.cdref.detectChanges();
   }
 
   public setDocument(id: number) {
-    this.documentService.getDocuments({id: id}).subscribe(data => {
-      this.document = data[0];
+    this.documentService.getDocument(id).subscribe(data => {
+      this.document = data;
       this.documentTypeService.getDocumentType(this.document.typeId).subscribe(data => {
         this.documentType = data;
         this.loadDocument();

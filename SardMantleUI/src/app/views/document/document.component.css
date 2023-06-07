@@ -40,6 +40,7 @@
 
 .document-view-container {
     margin: 5px;
+    padding: 10px;
     overflow-y: auto;
     background-color: var(--primary-color)
 }

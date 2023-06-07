@@ -39,7 +39,15 @@
     </div>
     <div class="document-view-grid">
         <mat-card class="document-view-container">
-            <app-document-info #documentLInfoComponent> </app-document-info>
+            <app-document-info 
+                #documentInfoComponent 
+                *ngIf="!editing" 
+                (add)="handleAddDocument($event)"
+                (edit)="handleEditDocument($event)"
+                (delete)="handleDeleteDocument($event)"
+            >
+            </app-document-info>
+            <app-document-edit #documentEditComponent *ngIf="editing"> </app-document-edit>
         </mat-card>
     </div>
 </div>

@@ -1,7 +1,7 @@
 <h3> {{editing ? "Editing " + (dataType == 0 ? selectedMapObject.locationName : selectedMapObject.name) : "Add Location"}} </h3>
 <mat-card class="card">
     <mat-card-content>
-        <mat-form-field class="settings-field" style="width: 100%">
+        <mat-form-field class="settings-field" style="width: 100%" appearance="outline">
             <mat-label>Name</mat-label>
             <input matInput [formControl]="nameControl">
             <mat-hint *ngIf="nameControl.touched && (nameControl.hasError('minlength') || nameControl.hasError('required'))">
@@ -13,12 +13,12 @@
 <mat-card class="card">
     <mat-card-content>
         <div *ngIf="editing">
-            <mat-form-field class="settings-field" style="width: 100%">
+            <mat-form-field class="settings-field" style="width: 100%" appearance="outline">
                 <mat-label>Map Data Type</mat-label>
                 <input matInput placeholder="Area" [disabled]="true" value={{dataTypeName}}/>
             </mat-form-field>
         </div>
-        <mat-form-field class="settings-field" style="width: 100%" *ngIf="!editing">
+        <mat-form-field class="settings-field" style="width: 100%" *ngIf="!editing" appearance="outline">
             <mat-label>Map Data Type</mat-label>
             <mat-select #mapDataTypeSelect [formControl]="mapDataTypeControl" (valueChange)="changeDataType($event)">
                 <mat-option value="0">Location</mat-option>
@@ -31,7 +31,7 @@
         </mat-form-field>
         
         <div *ngIf="dataType == 0">
-            <mat-form-field class="settings-field" style="width: 100%">
+            <mat-form-field class="settings-field" style="width: 100%" appearance="outline">
                 <mat-label>Location Type</mat-label>
                 <mat-select #locationTypeSelect [formControl]="locationTypeControl">
                     <mat-option *ngFor="let locationType of locationTypes" [value]="locationType.id">
@@ -41,7 +41,7 @@
             </mat-form-field>
         </div>
         <div *ngIf="dataType == 0">
-            <mat-form-field class="settings-field" style="width: 100%">
+            <mat-form-field class="settings-field" style="width: 100%" appearance="outline">
                 <mat-label>Area</mat-label>
                 <input matInput placeholder="Area" [matAutocomplete]="areaAutocomplete" [formControl]="areaControl" (blur)="resetAreaField()"/>
                 <mat-autocomplete #areaAutocomplete>
@@ -52,7 +52,7 @@
             </mat-form-field>
         </div>
         <div *ngIf="dataType == 1">
-            <mat-form-field class="settings-field" style="width: 100%">
+            <mat-form-field class="settings-field" style="width: 100%" appearance="outline">
                 <mat-label>Subregion</mat-label>
                 <input matInput placeholder="Subregion" [matAutocomplete]="subregionAutocomplete" [formControl]="subregionControl" (blur)="resetSubregionField()"/>
                 <mat-autocomplete #subregionAutocomplete>
@@ -63,7 +63,7 @@
             </mat-form-field>
         </div>
         <div *ngIf="dataType == 2">
-            <mat-form-field class="settings-field" style="width: 100%">
+            <mat-form-field class="settings-field" style="width: 100%" appearance="outline">
                 <mat-label>Region</mat-label>
                 <input matInput placeholder="Region" [matAutocomplete]="regionAutocomplete" [formControl]="regionControl" (blur)="resetRegionField()"/>
                 <mat-autocomplete #regionAutocomplete>
@@ -74,7 +74,7 @@
             </mat-form-field>
         </div>
         <div *ngIf="dataType == 3">
-            <mat-form-field class="settings-field" style="width: 100%">
+            <mat-form-field class="settings-field" style="width: 100%" appearance="outline">
                 <mat-label>Subcontinent</mat-label>
                 <input matInput placeholder="Subcontinent" [matAutocomplete]="subcontinentAutocomplete" [formControl]="subcontinentControl" (blur)="resetSubcontinentField()"/>
                 <mat-autocomplete #subcontinentAutocomplete>
@@ -85,7 +85,7 @@
             </mat-form-field>
         </div>
         <div *ngIf="dataType == 4">
-            <mat-form-field class="settings-field" style="width: 100%">
+            <mat-form-field class="settings-field" style="width: 100%" appearance="outline">
                 <mat-label>Continent</mat-label>
                 <input matInput placeholder="Continent" [matAutocomplete]="continentAutocomplete" [formControl]="continentControl" (blur)="resetContinentField()"/>
                 <mat-autocomplete #continentAutocomplete>
@@ -96,7 +96,7 @@
             </mat-form-field>
         </div>
         <div *ngIf="dataType == 5">
-            <mat-form-field class="settings-field" style="width: 100%">
+            <mat-form-field class="settings-field" style="width: 100%" appearance="outline">
                 <mat-label>Celestial Object</mat-label>
                 <input matInput placeholder="Celestial Object" [matAutocomplete]="celestialObjectAutocomplete" [formControl]="celestialObjectControl" (blur)="resetCelestialObjectField()"/>
                 <mat-autocomplete #celestialObjectAutocomplete>

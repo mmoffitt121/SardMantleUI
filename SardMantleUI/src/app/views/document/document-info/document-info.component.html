@@ -1,13 +1,13 @@
 <h3 class="subtitled-title"> {{ title }} </h3>
 <h5 class="subtitle"> {{ subtitle }} </h5>
-<div class="button-holder"> 
-    <button mat-icon-button>
+<div class="button-holder" *ngIf="document != undefined"> 
+    <button mat-icon-button (click)="add.emit(document)">
         <mat-icon> library_add </mat-icon>
     </button>
-    <button mat-icon-button>
+    <button mat-icon-button (click)="edit.emit(document)">
         <mat-icon> edit </mat-icon>
     </button>
-    <button mat-icon-button>
+    <button mat-icon-button (click)="delete.emit(document)">
         <mat-icon> delete </mat-icon>
     </button>
 </div>

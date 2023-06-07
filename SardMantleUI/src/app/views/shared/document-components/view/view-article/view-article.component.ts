@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./view-article.component.css']
 })
 export class ViewArticleComponent {
-
+  public parameterName: string = 'Parameter Name';
+  public parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?';
+  public value: string;
 }

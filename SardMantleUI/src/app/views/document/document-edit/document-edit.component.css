@@ -1,0 +1,13 @@
+.button-holder {
+    display: flex;
+    justify-content: flex-end;
+}
+
+button {
+    margin: 5px;
+}
+
+.common-attributes-container mat-form-field {
+    margin-left: 10px;
+    margin-right: 10px;
+}
