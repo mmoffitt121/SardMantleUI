@@ -30,6 +30,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator'; 
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { NgxEditorModule } from 'ngx-editor';
@@ -59,6 +60,16 @@ import { ViewIntComponent } from './views/shared/document-components/view/view-i
 import { ViewStringComponent } from './views/shared/document-components/view/view-string/view-string.component';
 import { ViewSummaryComponent } from './views/shared/document-components/view/view-summary/view-summary.component';
 import { EditDocumentTypeComponent } from './views/document/document-type/edit-document-type/edit-document-type.component';
+import { EditTypeParameterComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter.component';
+import { EditDocumentTypePropertiesComponent } from './views/document/document-type/edit-document-type/edit-document-type-properties/edit-document-type-properties.component';
+import { EditTypeParameterIntComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-int/edit-type-parameter-int.component';
+import { EditTypeParameterDoubleComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-double/edit-type-parameter-double.component';
+import { EditTypeParameterStringComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-string/edit-type-parameter-string.component';
+import { EditTypeParameterSummaryComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-summary/edit-type-parameter-summary.component';
+import { EditTypeParameterDocumentComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-document/edit-type-parameter-document.component';
+import { EditTypeParameterImageComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-image/edit-type-parameter-image.component';
+import { EditTypeParameterDataPointComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-data-point/edit-type-parameter-data-point.component';
+import { EditTypeParameterBoolComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-bool/edit-type-parameter-bool.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +100,17 @@ import { EditDocumentTypeComponent } from './views/document/document-type/edit-d
     ViewIntComponent,
     ViewStringComponent,
     ViewSummaryComponent,
-    EditDocumentTypeComponent
+    EditDocumentTypeComponent,
+    EditTypeParameterComponent,
+    EditDocumentTypePropertiesComponent,
+    EditTypeParameterIntComponent,
+    EditTypeParameterDoubleComponent,
+    EditTypeParameterStringComponent,
+    EditTypeParameterSummaryComponent,
+    EditTypeParameterDocumentComponent,
+    EditTypeParameterImageComponent,
+    EditTypeParameterDataPointComponent,
+    EditTypeParameterBoolComponent
   ],
   imports: [
     BrowserModule,
@@ -116,6 +137,7 @@ import { EditDocumentTypeComponent } from './views/document/document-type/edit-d
     MatDialogModule,
     MatMenuModule,
     MatPaginatorModule,
+    MatTooltipModule,
     DragDropModule,
     BrowserAnimationsModule,
     NgxEditorModule

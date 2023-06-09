@@ -1,7 +1,7 @@
 
 <div class="document-screen-container">
     <div class="button-holder">
-        <button mat-icon-button (click)="returnToDocument()">
+        <button mat-icon-button (click)="returnToDocument()" matTooltip="Back">
             <mat-icon>
                 arrow_back
             </mat-icon>
@@ -10,13 +10,13 @@
     <div class="document-type-grid">
         <mat-card>
             <mat-card-title>
-                {{ title }}
+                {{ documentType === undefined ? '' : documentType.name }}
             </mat-card-title>
             <mat-card-subtitle>
-                {{ subtitle }}
+                {{ documentType === undefined ? '' : documentType.summary }}
             </mat-card-subtitle>
             <div class="floating-button-holder">
-                <button mat-icon-button>
+                <button mat-icon-button (click)="selectType()" matTooltip="Edit Type Information">
                     <mat-icon>edit</mat-icon>
                 </button>
             </div>
@@ -32,11 +32,88 @@
                             <mat-card-subtitle>
                                 {{ parameter.summary }}
                             </mat-card-subtitle>
+                            <div>
+                                <mat-icon style="margin-bottom: -5px">
+                                    {{ iconMap.iconMap.get(parameter.typeValue) }}
+                                </mat-icon>
+                                {{ iconMap.nameMap.get(parameter.typeValue) }}
+                            </div>
                         </mat-card>
                     </div>
+                </div>
+                <button mat-button class="add-parameter-button" [matMenuTriggerFor]="addParameterMenu" (click)="add()" matTooltip="Add Parameter">
+                    <mat-icon>
+                        add
+                    </mat-icon>
+                </button>
+                <mat-menu #addParameterMenu class="parameter-menu">
+                    <button mat-menu-item class="parameter-menu-item">
+                        <mat-icon>
+                            {{ iconMap.iconMap.get('doc') }}
+                        </mat-icon>
+                        {{ iconMap.nameMap.get('doc') }}
+                    </button>
+                    <button mat-menu-item class="parameter-menu-item">
+                        <mat-icon>
+                            {{ iconMap.iconMap.get('bit') }}
+                        </mat-icon>
+                        {{ iconMap.nameMap.get('bit') }}
+                    </button>
+                    <button mat-menu-item class="parameter-menu-item">
+                        <mat-icon>
+                            {{ iconMap.iconMap.get('dat') }}
+                        </mat-icon>
+                        {{ iconMap.nameMap.get('dat') }}
+                    </button>
+                    <button mat-menu-item class="parameter-menu-item">
+                        <mat-icon>
+                            {{ iconMap.iconMap.get('dub') }}
+                        </mat-icon>
+                        {{ iconMap.nameMap.get('dub') }}
+                    </button>
+                    <button mat-menu-item class="parameter-menu-item">
+                        <mat-icon>
+                            {{ iconMap.iconMap.get('int') }}
+                        </mat-icon>
+                        {{ iconMap.nameMap.get('int') }}
+                    </button>
+                    <button mat-menu-item class="parameter-menu-item">
+                        <mat-icon>
+                            {{ iconMap.iconMap.get('str') }}
+                        </mat-icon>
+                        {{ iconMap.nameMap.get('str') }}
+                    </button>
+                    <button mat-menu-item class="parameter-menu-item">
+                        <mat-icon>
+                            {{ iconMap.iconMap.get('sum') }}
+                        </mat-icon>
+                        {{ iconMap.nameMap.get('sum') }}
+                    </button>
+                </mat-menu>
+            </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-content>
+                <div class="save-cancel-button-holder">
+                    <button mat-button (click)="returnToDocument()">
+                        Cancel
+                    </button>
+                    <button color="primary" (click)="save()" mat-button>
+                        Save
+                    </button>
                 </div>
             </mat-card-content>
         </mat-card>
     </div>
-    <mat-card> </mat-card>
+    <mat-card>
+        <app-edit-document-type-properties
+            #editPropertiesComponent
+            *ngIf="!parameterSelected"
+        >
+        </app-edit-document-type-properties>
+        <app-edit-type-parameter 
+            #editParameterComponent 
+            *ngIf="parameterSelected">
+        </app-edit-type-parameter>
+    </mat-card>
 </div>

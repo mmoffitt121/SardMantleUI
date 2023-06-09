@@ -585,8 +585,9 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 }
 
 .mat-mdc-tooltip {
-    --mdc-plain-tooltip-container-color: #616161;
-    --mdc-plain-tooltip-supporting-text-color: white
+    --mdc-plain-tooltip-container-color: var(--secondary-accent-color);
+    --mdc-plain-tooltip-supporting-text-color: var(--text-color);
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.5);
 }
 
 .mat-mdc-tooltip {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -6,9 +6,13 @@ import { FormControl } from '@angular/forms';
   templateUrl: './edit-string.component.html',
   styleUrls: ['./edit-string.component.css']
 })
-export class EditStringComponent {
-  public parameterName: string = 'Parameter Name';
-  public parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?';
+export class EditStringComponent implements OnInit {
+  @Input() parameterName: string = 'Parameter Name';
+  @Input() parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?';
+  @Input() placeholder: string = '';
+
+  @Output() valueChanged = new EventEmitter(); 
+
   public control = new FormControl();
 
   public setValue(value: any) {
@@ -20,5 +24,9 @@ export class EditStringComponent {
 
   public getValue() {
     return this.control.value;
+  }
+
+  ngOnInit() {
+    this.control.valueChanges.subscribe(value => this.valueChanged.emit(value))
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -7,8 +7,12 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./edit-summary.component.css']
 })
 export class EditSummaryComponent {
-  public parameterName: string = 'Parameter Name';
-  public parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?';
+  @Input() parameterName: string = 'Parameter Name';
+  @Input() parameterSummary: string = '';
+  @Input() placeholder: string = '';
+
+  @Output() valueChanged = new EventEmitter(); 
+
   public control = new FormControl();
 
   public setValue(value: any) {
@@ -20,5 +24,9 @@ export class EditSummaryComponent {
 
   public getValue() {
     return this.control.value;
+  }
+
+  ngOnInit() {
+    this.control.valueChanges.subscribe(value => this.valueChanged.emit(value))
   }
 }

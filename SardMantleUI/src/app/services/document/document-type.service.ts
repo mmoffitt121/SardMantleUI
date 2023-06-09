@@ -14,12 +14,12 @@ export class DocumentTypeService {
     return this.http.get<any>('https://localhost:7094/Library/DataPointType/GetDataPointType', { params: params });
   }
 
-  public postDocumentType(location: any) {
-    return this.http.post('https://localhost:7094/Library/DataPointType/PostDataPointType', location);
+  public postDocumentType(data: any) {
+    return this.http.post('https://localhost:7094/Library/DataPointType/PostDataPointType', data);
   }
 
-  public putDocumentType(location: any) {
-    return this.http.put('https://localhost:7094/Library/DataPointType/PutDataPointType', location);
+  public putDocumentType(data: any) {
+    return this.http.put('https://localhost:7094/Library/DataPointType/PutDataPointType', data);
   }
 
   public deleteDocumentType(id: number) {

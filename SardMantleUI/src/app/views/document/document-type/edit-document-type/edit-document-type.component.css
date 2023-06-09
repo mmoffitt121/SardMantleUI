@@ -20,7 +20,7 @@
 
 .document-type-grid {
     display: grid;
-    grid-template-rows: 100px auto;
+    grid-template-rows: 100px auto 85px;
     bottom: 100px;
     overflow-y: auto;
 }
@@ -44,10 +44,15 @@ mat-card-subtitle {
     grid-template-columns: 100%;
     margin: 10px;
     color: var(--text-color);
-    
-    .button {
-        margin-left: 4px;
-    }
+}
+
+.save-cancel-button-holder {
+    display: flex;
+    justify-content: flex-end;
+}
+
+button {
+    margin-left: 5px;
 }
 
 .floating-button-holder {
@@ -58,4 +63,19 @@ mat-card-subtitle {
 
 .type-parameter-box {
     background-color: var(--secondary-accent-color);
+}
+
+.add-parameter-button {
+    width: calc(100% - 10px);
+    margin-top: 15px;
+}
+
+::ng-deep .parameter-menu {
+    overflow: hidden !important;
+    margin-right: 20px;
+}
+
+.parameter-menu-item {
+    margin-right: 30px;
+    margin-left: 0px;
 }

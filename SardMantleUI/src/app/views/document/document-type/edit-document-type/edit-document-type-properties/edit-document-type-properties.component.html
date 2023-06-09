@@ -1,0 +1,16 @@
+<app-edit-string 
+    #titleComponent 
+    [parameterName]="'Title'" 
+    [parameterSummary]="'The title of the data type.'" 
+    [placeholder]="'\'\'Item\'\', \'\'Food\'\', \'\'Person\'\'...'"
+    (valueChanged)="onTitleChanged($event)"
+>
+</app-edit-string>
+<app-edit-summary 
+    #summaryComponent 
+    [parameterName]="'Summary'" 
+    [parameterSummary]="'A brief description of the data type.'" 
+    [placeholder]="'A man is a featherless biped...'"
+    (valueChanged)="onSummaryChanged($event)"
+>
+</app-edit-summary>
