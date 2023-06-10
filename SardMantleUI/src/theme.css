@@ -2771,10 +2771,6 @@ html {
     text-transform: var(--mdc-typography-subtitle2-text-transform, none)
 }
 
-.mat-mdc-progress-spinner {
-    --mdc-circular-progress-active-indicator-color: var(--primary-accent-color)
-}
-
 .mat-mdc-progress-spinner.mat-accent {
     --mdc-circular-progress-active-indicator-color: #b0bec5
 }

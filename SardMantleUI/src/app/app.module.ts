@@ -31,6 +31,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator'; 
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { NgxEditorModule } from 'ngx-editor';
@@ -138,6 +139,7 @@ import { EditTypeParameterBoolComponent } from './views/document/document-type/e
     MatMenuModule,
     MatPaginatorModule,
     MatTooltipModule,
+    MatProgressSpinnerModule,
     DragDropModule,
     BrowserAnimationsModule,
     NgxEditorModule

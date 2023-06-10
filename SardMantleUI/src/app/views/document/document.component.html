@@ -1,13 +1,13 @@
 <div class="document-screen-container">
     <div class="document-type-grid">
         <div class="button-holder">
-            <button mat-icon-button class="button" (click)="router.navigate(['/home'])">
+            <button mat-icon-button class="button" (click)="router.navigate(['/home'])"  matTooltip="Return to Home">
                 <mat-icon> home </mat-icon>
             </button>
-            <button mat-icon-button class="button">
+            <button mat-icon-button class="button" matTooltip="Search/Filter">
                 <mat-icon> search </mat-icon>
             </button>
-            <button mat-icon-button class="button">
+            <button mat-icon-button class="button" matTooltip="Add Data Type">
                 <mat-icon> library_add </mat-icon>
             </button>
             <button mat-icon-button class="button" [disabled]="currentDocumentTypeId == -1" (click)="editDocumentType()">

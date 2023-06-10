@@ -25,9 +25,13 @@
     --background-color: rgb(218, 197, 192);
     --secondary-background-color: rgb(48, 34, 34);
     --field-overlay-color: rgba(46, 28, 27, 0.25);
+    --destructive-action-color: rgb(119, 0, 0);
     --primary-font: 'IM Fell English';
     --font-weight-bold: bold;
     --data-point-value-font-size: 20px;
+
+    --button-circular-loading-indicator-size: 30px;
+    --button-circular-loading-indicator-stroke: 200px;
 
     --disabled-color: var(--primary-color);
 
@@ -87,6 +91,22 @@ button.mat-mdc-button {
 
 .secondary-button {
     background-color: var(--secondary-accent-color);
+}
+
+.destructive-button {
+    background-color: var(--destructive-action-color) !important;
+}
+
+.button-loading {
+    stroke: var(--primary-accent-color);
+    width: var(--button-circular-loading-indicator-size) !important;
+    height: var(--button-circular-loading-indicator-size) !important;
+}
+
+.primary-button-loading {
+    stroke: var(--secondary-accent-color);
+    width: var(--button-circular-loading-indicator-size) !important;
+    height: var(--button-circular-loading-indicator-size) !important;
 }
 
 /* Cards */

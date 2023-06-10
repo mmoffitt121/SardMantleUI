@@ -6,6 +6,7 @@ import { DragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-dro
 import { DocumentIconMaps } from 'src/app/models/document/document-icon-maps/document-icon-maps';
 import { EditDocumentTypePropertiesComponent } from './edit-document-type-properties/edit-document-type-properties.component';
 import { EditTypeParameterComponent } from './edit-type-parameter/edit-type-parameter.component';
+import { ErrorService } from 'src/app/services/error.service';
 
 @Component({
   selector: 'app-edit-document-type',
@@ -17,6 +18,8 @@ export class EditDocumentTypeComponent {
   public documentType: DocumentType;
   public title: string;
   public subtitle: string;
+
+  public saving = false;
 
   public parameterSelected = false;
 
@@ -33,16 +36,18 @@ export class EditDocumentTypeComponent {
     this.selectParameter(parameter.sequence);
   }
 
-  add() {
+  add(typeValue: string) {
 
   }
 
   save() {
+    this.saving = true;
     this.typeService.putDocumentType(this.documentType).subscribe(result => {
-
+      this.saving = false;
     },
     (error: any) => {
-      console.log(error);
+      this.errorHandler.handle(error);
+      this.saving = false;
     });
   }
 
@@ -88,10 +93,15 @@ export class EditDocumentTypeComponent {
     this.documentType.summary = summary;
   }
 
+  public deleteParameter(param : any) {
+    this.documentType.typeParameters = this.documentType.typeParameters.filter(p => p != param);
+  }
+
   constructor (private route: ActivatedRoute, 
     public router: Router, 
     private typeService: DocumentTypeService,
-    private cdref: ChangeDetectorRef
+    private cdref: ChangeDetectorRef,
+    private errorHandler: ErrorService
   ) {
     this.route.params.subscribe(params => this.id = params['id'])
     this.typeService.getDocumentType(this.id).subscribe(data => {

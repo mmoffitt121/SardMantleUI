@@ -8,7 +8,7 @@ import { ErrorToastComponent } from 'src/app/views/shared/error-toast/error-toas
 @Injectable({
   providedIn: 'root'
 })
-export class MapErrorService {
+export class ErrorService {
     public handle(error: any, duration?: number) {
         console.error(error);
         if (typeof error.error === 'string') {

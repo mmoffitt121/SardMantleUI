@@ -5,7 +5,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { MapService } from '../../../services/map/map.service';
-import { MapErrorService } from '../../../services/map/map-error.service';
+import { ErrorService } from '../../../services/error.service';
 import { LocationDataTypes } from '../../../models/map/location-data-types/location-data-types';
 
 @Component({
@@ -715,7 +715,7 @@ export class EditLocationComponent implements OnInit {
     this.cancel.emit();
   }
 
-  constructor(public mapService: MapService, private errorHandler: MapErrorService) { }
+  constructor(public mapService: MapService, private errorHandler: ErrorService) { }
 
   ngOnInit(): void {
     this.selectedMapObject = { id: -1, name: "NONE" };

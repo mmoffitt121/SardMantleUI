@@ -1,16 +1,20 @@
 <app-edit-string 
     #titleComponent 
-    [parameterName]="'Title'" 
-    [parameterSummary]="'The title of the data type.'" 
+    [parameterName]="'Parameter Name'" 
+    [parameterSummary]="'The Display Name of this parameter.'" 
     [placeholder]="'\'\'Item\'\', \'\'Food\'\', \'\'Person\'\'...'"
     (valueChanged)="onTitleChanged($event)"
 >
 </app-edit-string>
 <app-edit-summary 
     #summaryComponent 
-    [parameterName]="'Summary'" 
-    [parameterSummary]="'A brief description of the data type.'" 
+    [parameterName]="'Parameter Summary'" 
+    [parameterSummary]="'A brief description of this parameter.'" 
     [placeholder]="'A man is a featherless biped...'"
     (valueChanged)="onSummaryChanged($event)"
 >
 </app-edit-summary>
+
+<button mat-button class="destructive-button" style="margin-left: 10px" (click)="confirmDeleteObject()">
+    Delete Parameter
+</button>   

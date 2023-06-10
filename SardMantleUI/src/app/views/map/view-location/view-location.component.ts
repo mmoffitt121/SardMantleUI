@@ -4,7 +4,7 @@ import { ViewHeiarchyComponent } from './view-heiarchy/view-heiarchy.component';
 import { LocationDataTypes } from '../../../models/map/location-data-types/location-data-types';
 import { MapService } from '../../../services/map/map.service';
 import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
-import { MapErrorService } from '../../../services/map/map-error.service';
+import { ErrorService } from '../../../services/error.service';
 
 @Component({
   selector: 'app-view-location',
@@ -108,7 +108,7 @@ export class ViewLocationComponent implements OnInit {
     this.viewHeiarchy.setSelectedMapObject(model, dataType);
   }
 
-  constructor(private mapService: MapService, public dialog: MatDialog, private errorHandler: MapErrorService) { }
+  constructor(private mapService: MapService, public dialog: MatDialog, private errorHandler: ErrorService) { }
 
   ngOnInit(): void {
     this.selectedMapObject = { id: -1, name: "NONE" };

@@ -1,7 +1,7 @@
 <app-edit-string 
     #titleComponent 
     [parameterName]="'Title'" 
-    [parameterSummary]="'The title of the data type.'" 
+    [parameterSummary]="'The title of this data type.'" 
     [placeholder]="'\'\'Item\'\', \'\'Food\'\', \'\'Person\'\'...'"
     (valueChanged)="onTitleChanged($event)"
 >
@@ -9,8 +9,13 @@
 <app-edit-summary 
     #summaryComponent 
     [parameterName]="'Summary'" 
-    [parameterSummary]="'A brief description of the data type.'" 
+    [parameterSummary]="'A brief description of this data type.'" 
     [placeholder]="'A man is a featherless biped...'"
     (valueChanged)="onSummaryChanged($event)"
 >
 </app-edit-summary>
+<div>
+    <button mat-button class="destructive-button" style="margin-left: 10px">
+        Delete Data Type
+    </button>   
+</div>

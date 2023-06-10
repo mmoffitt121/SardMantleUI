@@ -41,49 +41,49 @@
                         </mat-card>
                     </div>
                 </div>
-                <button mat-button class="add-parameter-button" [matMenuTriggerFor]="addParameterMenu" (click)="add()" matTooltip="Add Parameter">
+                <button mat-button class="add-parameter-button" [matMenuTriggerFor]="addParameterMenu" matTooltip="Add Parameter">
                     <mat-icon>
                         add
                     </mat-icon>
                 </button>
                 <mat-menu #addParameterMenu class="parameter-menu">
-                    <button mat-menu-item class="parameter-menu-item">
+                    <button mat-menu-item class="parameter-menu-item" (click)="add('doc')">
                         <mat-icon>
                             {{ iconMap.iconMap.get('doc') }}
                         </mat-icon>
                         {{ iconMap.nameMap.get('doc') }}
                     </button>
-                    <button mat-menu-item class="parameter-menu-item">
+                    <button mat-menu-item class="parameter-menu-item" (click)="add('bit')">
                         <mat-icon>
                             {{ iconMap.iconMap.get('bit') }}
                         </mat-icon>
                         {{ iconMap.nameMap.get('bit') }}
                     </button>
-                    <button mat-menu-item class="parameter-menu-item">
+                    <button mat-menu-item class="parameter-menu-item" (click)="add('dat')">
                         <mat-icon>
                             {{ iconMap.iconMap.get('dat') }}
                         </mat-icon>
                         {{ iconMap.nameMap.get('dat') }}
                     </button>
-                    <button mat-menu-item class="parameter-menu-item">
+                    <button mat-menu-item class="parameter-menu-item" (click)="add('dub')">
                         <mat-icon>
                             {{ iconMap.iconMap.get('dub') }}
                         </mat-icon>
                         {{ iconMap.nameMap.get('dub') }}
                     </button>
-                    <button mat-menu-item class="parameter-menu-item">
+                    <button mat-menu-item class="parameter-menu-item" (click)="add('int')">
                         <mat-icon>
                             {{ iconMap.iconMap.get('int') }}
                         </mat-icon>
                         {{ iconMap.nameMap.get('int') }}
                     </button>
-                    <button mat-menu-item class="parameter-menu-item">
+                    <button mat-menu-item class="parameter-menu-item" (click)="add('str')">
                         <mat-icon>
                             {{ iconMap.iconMap.get('str') }}
                         </mat-icon>
                         {{ iconMap.nameMap.get('str') }}
                     </button>
-                    <button mat-menu-item class="parameter-menu-item">
+                    <button mat-menu-item class="parameter-menu-item" (click)="add('sum')">
                         <mat-icon>
                             {{ iconMap.iconMap.get('sum') }}
                         </mat-icon>
@@ -95,11 +95,17 @@
         <mat-card>
             <mat-card-content>
                 <div class="save-cancel-button-holder">
-                    <button mat-button (click)="returnToDocument()">
-                        Cancel
+                    <button mat-button (click)="returnToDocument()" [disabled]="saving">
+                        <div *ngIf="!saving">
+                            Cancel
+                        </div>
+                        <mat-progress-spinner class="button-loading" mode="indeterminate" *ngIf="saving"></mat-progress-spinner>
                     </button>
-                    <button color="primary" (click)="save()" mat-button>
-                        Save
+                    <button color="primary" (click)="save()" mat-button [disabled]="saving">
+                        <div *ngIf="!saving">
+                            Save
+                        </div>
+                        <mat-progress-spinner class="primary-button-loading" mode="indeterminate" *ngIf="saving"></mat-progress-spinner>
                     </button>
                 </div>
             </mat-card-content>
@@ -113,7 +119,8 @@
         </app-edit-document-type-properties>
         <app-edit-type-parameter 
             #editParameterComponent 
-            *ngIf="parameterSelected">
+            *ngIf="parameterSelected"
+            (delete)="deleteParameter($event)">
         </app-edit-type-parameter>
     </mat-card>
 </div>
