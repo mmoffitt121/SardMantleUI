@@ -1,0 +1,28 @@
+<mat-card-header>
+    <mat-card-title>
+        <h2>
+            Add Data Type
+        </h2>
+    </mat-card-title>
+</mat-card-header>
+<mat-card-content style="margin-right: 10px">
+    <app-edit-string
+        [parameterName]="'Title'" 
+        [parameterSummary]="'The title of this data type.'" 
+        [placeholder]="'\'\'Item\'\', \'\'Food\'\', \'\'Person\'\'...'"
+        (valueChanged)="onTitleChanged($event)"
+        [required]="true"
+    >
+    </app-edit-string>
+    <app-edit-summary
+        [parameterName]="'Summary'" 
+        [parameterSummary]="'A brief description of this data type.'" 
+        [placeholder]="'A man is a featherless biped...'"
+        (valueChanged)="onSummaryChanged($event)"
+    >
+    </app-edit-summary>
+</mat-card-content>
+<mat-dialog-actions>
+    <button mat-button (click)="close()">Cancel</button>
+    <button mat-button (click)="add()" color="primary">Confirm</button>
+</mat-dialog-actions>

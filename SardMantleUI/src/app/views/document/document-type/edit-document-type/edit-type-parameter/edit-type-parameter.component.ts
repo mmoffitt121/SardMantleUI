@@ -28,7 +28,6 @@ export class EditTypeParameterComponent {
   }
 
   public setValues(p: DocumentTypeParameter) {
-    console.log(p)
     this.parameter = p;
     this.titleComponent.setValue(p.name);
     this.summaryComponent.setValue(p.summary);

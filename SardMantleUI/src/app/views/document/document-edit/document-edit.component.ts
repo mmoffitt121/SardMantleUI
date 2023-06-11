@@ -86,8 +86,6 @@ export class DocumentEditComponent implements AfterViewInit {
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterSummary = p.summary;
     });
     this.cdref.detectChanges();
-
-    //console.log(this.nameFieldControl)
   }
 
   public setDocument(id: number) {

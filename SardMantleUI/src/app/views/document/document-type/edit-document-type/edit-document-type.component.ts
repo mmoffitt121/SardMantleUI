@@ -1,12 +1,14 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentTypeService } from 'src/app/services/document/document-type.service';
-import { DocumentType } from 'src/app/models/document/document-types/document-type';
+import { DocumentType, DocumentTypeParameter } from 'src/app/models/document/document-types/document-type';
 import { DragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DocumentIconMaps } from 'src/app/models/document/document-icon-maps/document-icon-maps';
 import { EditDocumentTypePropertiesComponent } from './edit-document-type-properties/edit-document-type-properties.component';
 import { EditTypeParameterComponent } from './edit-type-parameter/edit-type-parameter.component';
 import { ErrorService } from 'src/app/services/error.service';
+import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
+import { ErrorToastComponent } from 'src/app/views/shared/error-toast/error-toast.component';
 
 @Component({
   selector: 'app-edit-document-type',
@@ -37,13 +39,25 @@ export class EditDocumentTypeComponent {
   }
 
   add(typeValue: string) {
+    var param: DocumentTypeParameter = {
+      dataPointTypeId: this.documentType.id,
+      id: null,
+      name: "New " + (this.iconMap.nameMap.get(typeValue) ? this.iconMap.nameMap.get(typeValue) as string : "") + " Parameter",
+      sequence: this.documentType.typeParameters.length,
+      summary: "",
+      typeValue: typeValue,
+      selected: false
+    };
 
+    this.documentType.typeParameters = this.documentType.typeParameters.concat(param);
   }
 
   save() {
     this.saving = true;
     this.typeService.putDocumentType(this.documentType).subscribe(result => {
+      this.errorHandler.showSnackBar("Data Type " + this.documentType.name + " saved successfully.");
       this.saving = false;
+      this.returnToDocument();
     },
     (error: any) => {
       this.errorHandler.handle(error);

@@ -27,7 +27,6 @@ export class EditArticleComponent implements OnInit {
     if (value == null) {
       return;
     }
-    console.log(value);
   }
 
   form = new FormGroup({

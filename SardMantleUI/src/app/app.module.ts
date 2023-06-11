@@ -71,6 +71,7 @@ import { EditTypeParameterDocumentComponent } from './views/document/document-ty
 import { EditTypeParameterImageComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-image/edit-type-parameter-image.component';
 import { EditTypeParameterDataPointComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-data-point/edit-type-parameter-data-point.component';
 import { EditTypeParameterBoolComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-bool/edit-type-parameter-bool.component';
+import { AddDocumentTypeComponent } from './views/document/document-type/add-document-type/add-document-type.component';
 
 @NgModule({
   declarations: [
@@ -111,7 +112,8 @@ import { EditTypeParameterBoolComponent } from './views/document/document-type/e
     EditTypeParameterDocumentComponent,
     EditTypeParameterImageComponent,
     EditTypeParameterDataPointComponent,
-    EditTypeParameterBoolComponent
+    EditTypeParameterBoolComponent,
+    AddDocumentTypeComponent
   ],
   imports: [
     BrowserModule,

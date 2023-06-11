@@ -7,10 +7,10 @@
             <button mat-icon-button class="button" matTooltip="Search/Filter">
                 <mat-icon> search </mat-icon>
             </button>
-            <button mat-icon-button class="button" matTooltip="Add Data Type">
+            <button mat-icon-button class="button" matTooltip="Add Data Type" (click)="addDocumentType()">
                 <mat-icon> library_add </mat-icon>
             </button>
-            <button mat-icon-button class="button" [disabled]="currentDocumentTypeId == -1" (click)="editDocumentType()">
+            <button mat-icon-button class="button" matTooltip="Edit Data Type" [disabled]="currentDocumentTypeId == -1" (click)="editDocumentType()">
                 <mat-icon> edit </mat-icon>
             </button>
             <mat-menu #menu="matMenu">

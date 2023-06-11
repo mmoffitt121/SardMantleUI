@@ -8,7 +8,7 @@ export interface DocumentType extends Selectable {
 }
 
 export interface DocumentTypeParameter extends Selectable {
-    id: number;
+    id: number | null;
     name: string;
     summary: string;
     dataPointTypeId: number;

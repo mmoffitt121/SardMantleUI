@@ -15,6 +15,5 @@ export class EditBoolComponent {
     if (value == null) {
       return;
     }
-    console.log(value);
   }
 }
