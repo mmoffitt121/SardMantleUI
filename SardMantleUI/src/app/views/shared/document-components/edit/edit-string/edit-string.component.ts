@@ -19,7 +19,6 @@ export class EditStringComponent implements OnInit {
 
   public validate(e: any) {
     this.control.markAsTouched();
-    console.log(e);
   }
 
   public setValue(value: any) {

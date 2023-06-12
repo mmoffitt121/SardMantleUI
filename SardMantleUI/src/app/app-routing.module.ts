@@ -11,8 +11,11 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path:'home', component:HomeComponent },
   { path:'map', component:MapComponent },
+  { path:'map/:mapId', component:MapComponent},
   { path:'timeline', component:TimelineComponent },
   { path:'document', component:DocumentComponent },
+  { path:'document/:typeId', component:DocumentComponent},
+  { path:'document/:typeId/:documentId', component:DocumentComponent},
   { path:'document/type/edit/:id', component:EditDocumentTypeComponent }
 ];
 

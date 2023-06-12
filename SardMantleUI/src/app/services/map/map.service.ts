@@ -5,6 +5,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class MapService {
+  // Map
+  public getMaps(criteria: any) {
+    return this.http.get<any>('https://localhost:7094/Library/Area/GetAreas');
+  }
 
   // Location
 

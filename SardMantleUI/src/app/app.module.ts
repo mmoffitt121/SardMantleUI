@@ -72,6 +72,8 @@ import { EditTypeParameterImageComponent } from './views/document/document-type/
 import { EditTypeParameterDataPointComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-data-point/edit-type-parameter-data-point.component';
 import { EditTypeParameterBoolComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-bool/edit-type-parameter-bool.component';
 import { AddDocumentTypeComponent } from './views/document/document-type/add-document-type/add-document-type.component';
+import { MapSelectComponent } from './views/map/map-select/map-select.component';
+import { MapEditComponent } from './views/map/map-edit/map-edit.component';
 
 @NgModule({
   declarations: [
@@ -113,7 +115,9 @@ import { AddDocumentTypeComponent } from './views/document/document-type/add-doc
     EditTypeParameterImageComponent,
     EditTypeParameterDataPointComponent,
     EditTypeParameterBoolComponent,
-    AddDocumentTypeComponent
+    AddDocumentTypeComponent,
+    MapSelectComponent,
+    MapEditComponent
   ],
   imports: [
     BrowserModule,

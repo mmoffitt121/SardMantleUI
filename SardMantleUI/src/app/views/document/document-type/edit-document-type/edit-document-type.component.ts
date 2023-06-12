@@ -9,6 +9,7 @@ import { EditTypeParameterComponent } from './edit-type-parameter/edit-type-para
 import { ErrorService } from 'src/app/services/error.service';
 import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
 import { ErrorToastComponent } from 'src/app/views/shared/error-toast/error-toast.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-edit-document-type',
@@ -50,6 +51,39 @@ export class EditDocumentTypeComponent {
     };
 
     this.documentType.typeParameters = this.documentType.typeParameters.concat(param);
+  }
+
+  delete() {
+    this.saving = true;
+    this.typeService.deleteDocumentType(this.documentType.id).subscribe(result => {
+      this.errorHandler.showSnackBar("Data Type " + this.documentType.name + " deleted successfully.");
+      this.saving = false;
+      this.returnToDocument();
+    },
+    error => {
+      this.errorHandler.handle(error);
+      this.saving = false;
+    });
+  }
+
+  public confirmDelete() {
+    var deleteMessage = (this.documentType.name) ? 
+    ("Are you sure you want to delete data type " + (this.documentType.name) + "?") : 
+    ("Are you sure you want to delete this data type?");
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '500px',
+      data: { 
+        title: "Confirm Deletion", 
+        content: deleteMessage
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.delete();
+      }
+    });
   }
 
   save() {
@@ -114,6 +148,7 @@ export class EditDocumentTypeComponent {
   constructor (private route: ActivatedRoute, 
     public router: Router, 
     private typeService: DocumentTypeService,
+    private dialog: MatDialog,
     private cdref: ChangeDetectorRef,
     private errorHandler: ErrorService
   ) {

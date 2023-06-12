@@ -8,57 +8,38 @@
                 <mat-expansion-panel>
                     <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
                         <mat-panel-title>
-                            Geography
+                            Map
                         </mat-panel-title>
-                        <mat-panel-description>
-                            
-                        </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <div class="expansion-panel-content">
-                        <mat-checkbox> Cities </mat-checkbox>
-                        <mat-checkbox> Towns </mat-checkbox>
-                        <mat-checkbox> Villages </mat-checkbox>
-                        <mat-checkbox> Hamlets </mat-checkbox>
-                        <mat-checkbox> Fortresses </mat-checkbox>
-                    </div>
-                    <mat-divider class="divider-invisible"></mat-divider>
-                    <div class="expansion-panel-content">
-                        <mat-checkbox> Areas </mat-checkbox>
-                        <mat-checkbox> Subregions </mat-checkbox>
-                        <mat-checkbox> Regions </mat-checkbox>
-                        <mat-checkbox> Subcontinents </mat-checkbox>
-                        <mat-checkbox> Continents </mat-checkbox>
-                    </div>
-                    <mat-divider class="divider-invisible"></mat-divider>
-                    <div class="expansion-panel-content-wide">
-                        <mat-form-field>
-                            <input type="tel" matInput placeholder="Filter">
-                        </mat-form-field>
-                    </div>
-                    <button mat-button class="expansion-panel-apply-button" (click)="applyFilter()">
-                        Apply
-                    </button>
-                </mat-expansion-panel>
-                <mat-expansion-panel>
-                    <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
-                        <mat-panel-title>
-                            States
-                        </mat-panel-title>
-                        <mat-panel-description>
-                            
-                        </mat-panel-description>
-                    </mat-expansion-panel-header>
-                    <div class="expansion-panel-content">
-                    </div>
+                    <ng-template matExpansionPanelContent >
+                        <div style="display: grid; grid-template-columns: auto auto;">
+                            <div style="display: grid; grid-template-columns: 200px auto;">
+                                <div>
+                                    <h3 class="subtitled-title"> Map Title </h3>
+                                    <h4 class="subtitle"> Map Subtitle </h4>
+                                    <button mat-button style="margin-left: 10px; margin-top: 30px;"> Change </button>
+                                </div>
+                                <div>
+                                    <button mat-icon-button style="margin: 10px">
+                                        <mat-icon>
+                                            edit
+                                        </mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <mat-card class="map-card">
+                                    <mat-icon>map</mat-icon>
+                                </mat-card>
+                            </div>
+                        </div>
+                    </ng-template>
                 </mat-expansion-panel>
                 <mat-expansion-panel>
                     <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
                         <mat-panel-title>
                             Layers
                         </mat-panel-title>
-                        <mat-panel-description>
-                            
-                        </mat-panel-description>
                     </mat-expansion-panel-header>
                     <div class="expansion-panel-content">
                     </div>

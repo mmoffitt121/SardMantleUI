@@ -115,6 +115,7 @@
         <app-edit-document-type-properties
             #editPropertiesComponent
             *ngIf="!parameterSelected"
+            (delete)="confirmDelete()"
         >
         </app-edit-document-type-properties>
         <app-edit-type-parameter 

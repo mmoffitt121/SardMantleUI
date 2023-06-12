@@ -1,0 +1,14 @@
+.map-card {
+    display: inline-flex;
+    flex-wrap: wrap;
+    width: 150px;
+    height: 150px;
+    margin: 5px;
+}
+
+.map-card-container {
+    max-width: 320px;
+    display:block;
+    overflow-x: auto;
+    flex-wrap: wrap;
+}

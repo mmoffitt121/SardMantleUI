@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DocumentInfoComponent } from './document-info/document-info.component';
 import { DocumentListComponent } from './document-list/document-list.component';
@@ -8,6 +8,7 @@ import { Editor, Toolbar, Validators } from 'ngx-editor';
 import { DocumentEditComponent } from './document-edit/document-edit.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AddDocumentTypeComponent } from './document-type/add-document-type/add-document-type.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-document',
@@ -23,8 +24,8 @@ export class DocumentComponent implements AfterViewInit {
   public editing = false;
   public adding = false;
 
-  public currentDocumentTypeId = -1;
-  private currentDocumentId: number;
+  public currentDocumentTypeId: number | undefined;
+  private currentDocumentId: number | undefined;
 
   public handleAddDocument(event: any) {
     this.editing = true;
@@ -53,6 +54,7 @@ export class DocumentComponent implements AfterViewInit {
     this.cdref.detectChanges();
     this.currentDocumentTypeId = data.id;
     this.documentListComponent.setDocumentType(data.id);
+    this.location.replaceState("/document/" + data.id);
   }
 
   public loadDocument(data: any) {
@@ -60,6 +62,7 @@ export class DocumentComponent implements AfterViewInit {
     this.cdref.detectChanges();
     this.currentDocumentId = data.id;
     this.documentInfoComponent.setDocument(data.id);
+    this.location.replaceState("/document/" + this.currentDocumentTypeId + "/" + data.id);
   }
 
   public addDocumentType() {
@@ -76,12 +79,30 @@ export class DocumentComponent implements AfterViewInit {
   }
 
   public editDocumentType() {
-    this.router.navigate(['/document/type/edit/' + this.currentDocumentTypeId]);
+    this.router.
+    navigate(['/document/type/edit/' + this.currentDocumentTypeId]);
   }
 
-  constructor(public router: Router, private cdref: ChangeDetectorRef, public dialog: MatDialog) { }
+  constructor (
+    public router: Router, 
+    private cdref: ChangeDetectorRef, 
+    public dialog: MatDialog, 
+    private location: Location,
+    private route: ActivatedRoute
+  ) { 
+    this.route.params.subscribe(params => {
+      this.currentDocumentTypeId = params['typeId'];
+      this.currentDocumentId = params['documentId'];
+    });
+  }
 
   ngAfterViewInit(): void {
-    this.loadDocumentList({id: -1});
+    if (this.currentDocumentTypeId != undefined) {
+      this.documentTypeComponent.selectDocumentType({currentTarget: {value: this.currentDocumentTypeId}});
+      this.loadDocumentList({id: this.currentDocumentTypeId});
+      if (this.currentDocumentId != undefined) {
+        this.documentInfoComponent.setDocument(this.currentDocumentId);
+      }
+    }
   }
 }

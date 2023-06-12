@@ -17,7 +17,7 @@ export class DocumentTypeComponent implements OnInit {
     this.select.emit({id: e.currentTarget.value});
     this.allSelected = e.currentTarget.value == -1;
 
-    this.documentTypes.forEach(dt => {
+    this.documentTypes?.forEach(dt => {
       if (dt.id == e.currentTarget.value) {
         dt.selected = true;
       }

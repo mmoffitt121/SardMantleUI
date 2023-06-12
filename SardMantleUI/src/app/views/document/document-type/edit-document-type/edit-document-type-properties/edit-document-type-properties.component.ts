@@ -12,6 +12,8 @@ export class EditDocumentTypePropertiesComponent {
   @ViewChild('titleComponent') titleComponent: EditStringComponent;
   @ViewChild('summaryComponent') summaryComponent: EditSummaryComponent;
 
+  @Output() delete = new EventEmitter();
+
   public documentType: DocumentType;
 
   public onTitleChanged(event: any) {
@@ -20,6 +22,10 @@ export class EditDocumentTypePropertiesComponent {
   
   public onSummaryChanged(event: any) {
     this.documentType.summary = event;
+  }
+
+  public onDelete() {
+    this.delete.emit();
   }
 
   public setValues(dt: DocumentType) {
