@@ -17,10 +17,10 @@
                                 <div>
                                     <h3 class="subtitled-title"> Map Title </h3>
                                     <h4 class="subtitle"> Map Subtitle </h4>
-                                    <button mat-button style="margin-left: 10px; margin-top: 30px;"> Change </button>
+                                    <button mat-button style="margin-left: 10px; margin-top: 30px;"> Change Map </button>
                                 </div>
                                 <div>
-                                    <button mat-icon-button style="margin: 10px">
+                                    <button mat-icon-button style="margin: 10px"  matTooltip="Edit Map Settings">
                                         <mat-icon>
                                             edit
                                         </mat-icon>
@@ -33,6 +33,30 @@
                                 </mat-card>
                             </div>
                         </div>
+                        <mat-card style="margin-top: 10px; background-color: var(--secondary-background-color)">
+                            <mat-card-header>
+                                <mat-card-content style="width: 100%">
+                                    <p>Minimum Zoom: 0</p>
+                                    <p>Maximum Zoom: 10</p>
+                                    <mat-divider></mat-divider>
+                                    <p>Area Zoom Prominence: 5</p>
+                                    <p>Subregion Zoom Prominence: 5</p>
+                                    <p>Region Zoom Prominence: 5</p>
+                                    <p>Subcontinent Zoom Prominence: 5</p>
+                                    <p>Continent Zoom Prominence: 5</p>
+                                    <mat-divider></mat-divider>
+                                    <p>Default Latitude: 0.00</p>
+                                    <p>Default Longitude: 0.00</p>
+                                    <p>Default Zoom Level: 0</p>
+                                    <div class="button-holder">
+                                        <button mat-button>Go</button>
+                                        <button mat-button>Set</button>
+                                    </div>
+                                    <mat-divider></mat-divider>
+                                    <p>Default Map: Yes</p>
+                                </mat-card-content>
+                            </mat-card-header>
+                        </mat-card>
                     </ng-template>
                 </mat-expansion-panel>
                 <mat-expansion-panel>

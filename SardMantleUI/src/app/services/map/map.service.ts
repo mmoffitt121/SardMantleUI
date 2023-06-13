@@ -1,13 +1,39 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Map } from 'src/app/models/map/map';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapService {
+
   // Map
+
   public getMaps(criteria: any) {
-    return this.http.get<any>('https://localhost:7094/Library/Area/GetAreas');
+    return this.http.get<any>('https://localhost:7094/Library/Map/GetMaps', { params: criteria });
+  }
+
+  public postMap(map: Map) {
+    return this.http.post('https://localhost:7094/Library/Map/PostMap', map);
+  }
+
+  public putMap(map: Map) {
+    return this.http.put('https://localhost:7094/Library/Map/PutMap', map);
+  }
+
+  public deleteMap(id: number) {
+    let params = new HttpParams().set("Id", id);
+    return this.http.delete('https://localhost:7094/Library/Map/DeleteMap', { params: params });
+  }
+
+  public getMapIcon(id: number) {
+    let params = new HttpParams().set('Id', id);
+    return this.http.get<any>('https://localhost:7094/Library/Map/GetMapIcon', { params: params });
+  }
+
+  public uploadMapIcon(icon: File, id: number) {
+    let params = new HttpParams().set('Id', id);
+    this.http.post('https://localhost:7094/Library/Map/PostMapIcon', icon, { params: params })
   }
 
   // Location

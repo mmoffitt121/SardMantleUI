@@ -74,6 +74,7 @@ import { EditTypeParameterBoolComponent } from './views/document/document-type/e
 import { AddDocumentTypeComponent } from './views/document/document-type/add-document-type/add-document-type.component';
 import { MapSelectComponent } from './views/map/map-select/map-select.component';
 import { MapEditComponent } from './views/map/map-edit/map-edit.component';
+import { NewMapComponent } from './views/map/new-map/new-map.component';
 
 @NgModule({
   declarations: [
@@ -117,7 +118,8 @@ import { MapEditComponent } from './views/map/map-edit/map-edit.component';
     EditTypeParameterBoolComponent,
     AddDocumentTypeComponent,
     MapSelectComponent,
-    MapEditComponent
+    MapEditComponent,
+    NewMapComponent
   ],
   imports: [
     BrowserModule,

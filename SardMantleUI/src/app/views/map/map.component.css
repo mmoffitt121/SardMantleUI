@@ -173,3 +173,16 @@
     justify-content: center; 
     align-items: center;
 }
+
+.button-holder {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.button-holder button {
+    margin-left: 5px;
+}
+
+mat-card-content {
+    width: 100%;
+}

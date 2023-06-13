@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -7,8 +7,8 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./edit-double.component.css']
 })
 export class EditDoubleComponent {
-  public parameterName: string = 'Parameter Name';
-  public parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?';
+  @Input() parameterName: string = 'Parameter Name';
+  @Input() parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?';
   public control = new FormControl();
 
   public setValue(value: any) {

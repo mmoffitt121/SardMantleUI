@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Editor, Toolbar, Validators } from 'ngx-editor';
 
@@ -20,8 +20,8 @@ export class EditArticleComponent implements OnInit {
     ['align_left', 'align_center', 'align_right', 'align_justify'],
   ];
 
-  public parameterName: string = 'Parameter Name';
-  public parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?'
+  @Input() parameterName: string = 'Parameter Name';
+  @Input() parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?'
 
   public setValue(value: any) {
     if (value == null) {

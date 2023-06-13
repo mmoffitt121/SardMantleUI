@@ -17,6 +17,7 @@ import { EditLocationComponent } from './edit-location/edit-location.component';
 import { Area, Subregion, Region, Subcontinent, Continent, CelestialObject } from '../../models/map/location-data-types/area-data-types'; 
 import { Location, LocationType } from '../../models/map/location-data-types/location-data-types';
 import { Router } from '@angular/router';
+import { Map } from 'src/app/models/map/map';
 
 @Component({
   selector: 'app-map',
@@ -48,6 +49,8 @@ export class MapComponent implements OnInit {
   public viewingObject: boolean = false;
   public addingObject: boolean = false;
   public editingObject: boolean = false;
+
+  public mapData: Map;
 
   @ViewChild('sideDrawer', {static: false}) drawer: MatDrawer;
 
@@ -738,6 +741,19 @@ export class MapComponent implements OnInit {
   constructor(private mapService: MapService, public router: Router, private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    this.mapService.getMaps({isDefault: true}).subscribe(data => {
+      if (data.length > 0) {
+        this.mapData = data[0];
+      } else {
+        this.mapService.getMaps({}).subscribe(nonDefaultData => {
+          if (nonDefaultData.length > 0) {
+            this.mapData = nonDefaultData[0]
+          } else {
+            this.router.navigate(['new-map']);
+          }
+        })
+      }
+    })
     this.queryLocationTypes();
     this.queryCelestialObjects();
     this.initMap();

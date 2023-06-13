@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-map-edit',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./map-edit.component.css']
 })
 export class MapEditComponent {
-
+  @Input() adding = false;
 }

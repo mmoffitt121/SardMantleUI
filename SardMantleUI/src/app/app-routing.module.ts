@@ -6,12 +6,15 @@ import { HomeComponent } from './views/home/home.component';
 import { MapComponent } from './views/map/map.component';
 import { DocumentComponent } from './views/document/document.component';
 import { EditDocumentTypeComponent } from './views/document/document-type/edit-document-type/edit-document-type.component';
+import { NewMapComponent } from './views/map/new-map/new-map.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path:'home', component:HomeComponent },
   { path:'map', component:MapComponent },
   { path:'map/:mapId', component:MapComponent},
+  { path:'map/:mapId/:Z/:X/:Y', component:MapComponent },
+  { path:'new-map', component:NewMapComponent },
   { path:'timeline', component:TimelineComponent },
   { path:'document', component:DocumentComponent },
   { path:'document/:typeId', component:DocumentComponent},

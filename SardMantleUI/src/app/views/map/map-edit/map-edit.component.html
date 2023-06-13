@@ -1,1 +1,21 @@
-<p>map-edit works!</p>
+<app-edit-string [parameterName]="'Map Name'" [parameterSummary]="'The title that this map will go by.'"></app-edit-string>
+<div *ngIf="!adding">
+    <mat-divider></mat-divider>
+    <app-edit-int [parameterName]="'Area Zoom Prominence'" [parameterSummary]="'At which zoom level areas start appearing on the map.'"></app-edit-int>
+    <app-edit-int [parameterName]="'Subregion Zoom Prominence'" [parameterSummary]="'At which zoom level subregions start appearing on the map.'"></app-edit-int>
+    <app-edit-int [parameterName]="'Region Zoom Prominence'" [parameterSummary]="'At which zoom level regions start appearing on the map.'"></app-edit-int>
+    <app-edit-int [parameterName]="'Subcontinent Zoom Prominence'" [parameterSummary]="'At which zoom level subcontinents start appearing on the map.'"></app-edit-int>
+    <app-edit-int [parameterName]="'Continent Zoom Prominence'" [parameterSummary]="'At which zoom level continents start appearing on the map.'"></app-edit-int>
+    <mat-divider></mat-divider>
+    <app-edit-int [parameterName]="'Default Zoom'" [parameterSummary]="'The default zoom level upon first loading the map.'"></app-edit-int>
+    <app-edit-double [parameterName]="'Default Longitude'" [parameterSummary]="'The default longitude upon first loading the map.'"></app-edit-double>
+    <app-edit-double [parameterName]="'Default Latitude'" [parameterSummary]="'The default latitude upon first loading the map.'"></app-edit-double>
+    <mat-divider></mat-divider>
+    <app-edit-int [parameterName]="'Minimum Zoom Level'" [parameterSummary]="'The farthest out a viewer can zoom out on this map.'"></app-edit-int>
+    <app-edit-int [parameterName]="'Maximum Zoom Level'" [parameterSummary]="'The closest in a viewer can zoom in on this map.'"></app-edit-int>
+</div>
+<mat-divider></mat-divider>
+<app-edit-bool [parameterName]="'Default Map'" [parameterSummary]="'Whether or not this is the default map users will see upon entering the map screen.'"></app-edit-bool>
+<button mat-button style="float: right;">
+    Save
+</button>

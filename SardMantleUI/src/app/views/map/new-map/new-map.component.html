@@ -1,0 +1,22 @@
+<mat-card style="max-width: 500px; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 30px;">
+    <mat-card-title>
+        <button mat-icon-button matTooltip="Return to Home" style="float: right; margin-top: 20px; margin-right: 20px" (click)="home()">
+            <mat-icon>
+                home
+            </mat-icon>
+        </button>
+        <h2 style="margin-left: 10px; margin-bottom: 0px;">
+            Create Map
+        </h2>
+    </mat-card-title>
+    <mat-card-subtitle>
+        <h4 style="margin-left: 10px;">
+            It looks like you don't have any maps in your database. Add a new one here.
+        </h4>
+    </mat-card-subtitle>
+    <mat-card-content>
+        <app-map-edit [adding]="true"></app-map-edit>
+    </mat-card-content>
+</mat-card>
+
+
