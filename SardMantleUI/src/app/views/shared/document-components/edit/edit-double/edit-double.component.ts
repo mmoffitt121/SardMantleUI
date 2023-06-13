@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-edit-double',
   templateUrl: './edit-double.component.html',
-  styleUrls: ['./edit-double.component.css']
+  styleUrls: ['./edit-double.component.scss']
 })
 export class EditDoubleComponent {
   @Input() parameterName: string = 'Parameter Name';

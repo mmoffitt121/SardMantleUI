@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-view-data-point',
   templateUrl: './view-data-point.component.html',
-  styleUrls: ['./view-data-point.component.css']
+  styleUrls: ['./view-data-point.component.scss']
 })
 export class ViewDataPointComponent {
   public parameterName: string = 'Parameter Name';

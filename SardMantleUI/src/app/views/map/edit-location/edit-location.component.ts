@@ -11,7 +11,7 @@ import { LocationDataTypes } from '../../../models/map/location-data-types/locat
 @Component({
   selector: 'app-edit-location',
   templateUrl: './edit-location.component.html',
-  styleUrls: ['./edit-location.component.css'],
+  styleUrls: ['./edit-location.component.scss'],
   providers: [ MapService ]
 })
 export class EditLocationComponent implements OnInit {

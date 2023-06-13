@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-edit-int',
   templateUrl: './edit-int.component.html',
-  styleUrls: ['./edit-int.component.css']
+  styleUrls: ['./edit-int.component.scss']
 })
 export class EditIntComponent {
   @Input() parameterName: string = 'Parameter Name';

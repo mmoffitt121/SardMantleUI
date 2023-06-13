@@ -11,16 +11,16 @@
                             Map
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <ng-template matExpansionPanelContent >
+                    <ng-template matExpansionPanelContent>
                         <div style="display: grid; grid-template-columns: auto auto;">
                             <div style="display: grid; grid-template-columns: 200px auto;">
                                 <div>
-                                    <h3 class="subtitled-title"> Map Title </h3>
-                                    <h4 class="subtitle"> Map Subtitle </h4>
-                                    <button mat-button style="margin-left: 10px; margin-top: 30px;"> Change Map </button>
+                                    <h3 class="subtitled-title"> {{ mapData.name }} </h3>
+                                    <h4 class="subtitle"> {{ mapData.summary }} </h4>
+                                    <button mat-button style="margin-left: 10px; margin-top: 30px;" (click)="changeMap()"> Change Map </button>
                                 </div>
                                 <div>
-                                    <button mat-icon-button style="margin: 10px"  matTooltip="Edit Map Settings">
+                                    <button mat-icon-button style="margin: 10px" matTooltip="Edit Map Settings" (click)="editMap()">
                                         <mat-icon>
                                             edit
                                         </mat-icon>
@@ -35,25 +35,25 @@
                         </div>
                         <mat-card style="margin-top: 10px; background-color: var(--secondary-background-color)">
                             <mat-card-header>
-                                <mat-card-content style="width: 100%">
-                                    <p>Minimum Zoom: 0</p>
-                                    <p>Maximum Zoom: 10</p>
+                                <mat-card-content style="width: 100%; font-size: 15px;">
+                                    <p>Minimum Zoom: {{ mapData.minZoom }}</p>
+                                    <p>Maximum Zoom: {{ mapData.maxZoom }}</p>
                                     <mat-divider></mat-divider>
-                                    <p>Area Zoom Prominence: 5</p>
-                                    <p>Subregion Zoom Prominence: 5</p>
-                                    <p>Region Zoom Prominence: 5</p>
-                                    <p>Subcontinent Zoom Prominence: 5</p>
-                                    <p>Continent Zoom Prominence: 5</p>
+                                    <p>Area Zoom Prominence: {{ mapData.areaZoomProminence }}</p>
+                                    <p>Subregion Zoom Prominence: {{ mapData.subregionZoomProminence }}</p>
+                                    <p>Region Zoom Prominence: {{ mapData.regionZoomProminence }}</p>
+                                    <p>Subcontinent Zoom Prominence: {{ mapData.subcontinentZoomProminence }}</p>
+                                    <p>Continent Zoom Prominence: {{ mapData.continentZoomProminence }}</p>
                                     <mat-divider></mat-divider>
-                                    <p>Default Latitude: 0.00</p>
-                                    <p>Default Longitude: 0.00</p>
-                                    <p>Default Zoom Level: 0</p>
+                                    <p>Default Latitude: {{ mapData.defaultY }}</p>
+                                    <p>Default Longitude: {{ mapData.defaultX }}</p>
+                                    <p>Default Zoom Level: {{ mapData.defaultZ }}</p>
                                     <div class="button-holder">
                                         <button mat-button>Go</button>
                                         <button mat-button>Set</button>
                                     </div>
                                     <mat-divider></mat-divider>
-                                    <p>Default Map: Yes</p>
+                                    <p>Default Map: {{ mapData.isDefault ? "Yes" : "No" }}</p>
                                 </mat-card-content>
                             </mat-card-header>
                         </mat-card>
@@ -65,8 +65,9 @@
                             Layers
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <div class="expansion-panel-content">
-                    </div>
+                    <ng-template matExpansionPanelContent>
+                        <app-map-layers></app-map-layers>
+                    </ng-template>
                 </mat-expansion-panel>
             </mat-accordion>
         </div>

@@ -1,4 +1,5 @@
-<app-edit-string [parameterName]="'Map Name'" [parameterSummary]="'The title that this map will go by.'"></app-edit-string>
+<app-edit-string [parameterName]="'Map Name'" [parameterSummary]="'The title that this map will go by.'" [required]="true" [control]="name"></app-edit-string>
+<app-edit-summary [parameterName]="'Map Summary'" [parameterSummary]="'A brief description of this map.'" [control]="summary"></app-edit-summary>
 <div *ngIf="!adding">
     <mat-divider></mat-divider>
     <app-edit-int [parameterName]="'Area Zoom Prominence'" [parameterSummary]="'At which zoom level areas start appearing on the map.'"></app-edit-int>
@@ -15,7 +16,13 @@
     <app-edit-int [parameterName]="'Maximum Zoom Level'" [parameterSummary]="'The closest in a viewer can zoom in on this map.'"></app-edit-int>
 </div>
 <mat-divider></mat-divider>
-<app-edit-bool [parameterName]="'Default Map'" [parameterSummary]="'Whether or not this is the default map users will see upon entering the map screen.'"></app-edit-bool>
-<button mat-button style="float: right;">
-    Save
-</button>
+<app-edit-bool [parameterName]="'Default Map'" [parameterSummary]="'Whether or not this is the default map users will see upon entering the map screen.'" [control]="isDefault"></app-edit-bool>
+<div style="float: right;">
+    <button mat-button style="margin-left: 10px;" (click)="cancel.emit();">
+        Cancel
+    </button>
+
+    <button mat-button style="margin-left: 10px;" color="primary" (click)="handleSave()">
+        Save
+    </button>
+</div>

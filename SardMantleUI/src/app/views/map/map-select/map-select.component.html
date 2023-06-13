@@ -1,8 +1,35 @@
-<div class="map-card-container">
-    <mat-card 
-        class="map-card"
-        *ngFor="let map of maps"
-    >
-        {{ map.name }}
-    </mat-card>
+<div style="float: right">
+    <button mat-icon-button class="corner-button">
+        <mat-icon>
+            library_add
+        </mat-icon>
+    </button>
+    <button mat-icon-button class="corner-button">
+        <mat-icon>
+            close
+        </mat-icon>
+    </button>
 </div>
+<mat-card-header>
+    <mat-card-title>
+        <h2>Select a Map</h2>
+    </mat-card-title>
+</mat-card-header>
+<mat-card-content>
+    <app-search-bar></app-search-bar>
+    <div class="map-card-container">
+        <mat-card class="map-card" *ngFor="let map of maps">
+            <img src="https://www.seiu1000.org/sites/main/files/main-images/camera_lense_0.jpeg" />
+            <div class="label-over">
+                <p> {{ map.name | valueShorten: 18:1 }} </p>
+            </div>
+        </mat-card>
+    </div>
+    <mat-paginator 
+        [length]="length"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onPageChange($event)">
+    </mat-paginator>
+</mat-card-content>

@@ -13,7 +13,7 @@ import { Location } from '@angular/common';
 @Component({
   selector: 'app-document',
   templateUrl: './document.component.html',
-  styleUrls: ['./document.component.css']
+  styleUrls: ['./document.component.scss']
 })
 export class DocumentComponent implements AfterViewInit {
   @ViewChild('documentTypeComponent') documentTypeComponent: DocumentTypeComponent;

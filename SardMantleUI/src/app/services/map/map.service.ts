@@ -13,6 +13,10 @@ export class MapService {
     return this.http.get<any>('https://localhost:7094/Library/Map/GetMaps', { params: criteria });
   }
 
+  public getMapCount(criteria: any) {
+    return this.http.get<any>('https://localhost:7094/Library/Map/GetMapCount', { params: criteria });
+  }
+
   public postMap(map: Map) {
     return this.http.post('https://localhost:7094/Library/Map/PostMap', map);
   }

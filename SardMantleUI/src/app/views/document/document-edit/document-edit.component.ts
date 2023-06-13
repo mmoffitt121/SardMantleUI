@@ -16,7 +16,7 @@ import { DocumentTypeService } from 'src/app/services/document/document-type.ser
 @Component({
   selector: 'app-document-edit',
   templateUrl: './document-edit.component.html',
-  styleUrls: ['./document-edit.component.css']
+  styleUrls: ['./document-edit.component.scss']
 })
 export class DocumentEditComponent implements AfterViewInit {
   public document: Document;

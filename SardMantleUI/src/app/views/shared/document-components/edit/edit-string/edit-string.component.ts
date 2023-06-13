@@ -4,7 +4,7 @@ import { FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'app-edit-string',
   templateUrl: './edit-string.component.html',
-  styleUrls: ['./edit-string.component.css']
+  styleUrls: ['./edit-string.component.scss']
 })
 export class EditStringComponent implements OnInit {
   @Input() parameterName: string = 'Parameter Name';
@@ -15,7 +15,7 @@ export class EditStringComponent implements OnInit {
 
   @Output() valueChanged = new EventEmitter(); 
 
-  public control = new FormControl();
+  @Input() control = new FormControl();
 
   public validate(e: any) {
     this.control.markAsTouched();

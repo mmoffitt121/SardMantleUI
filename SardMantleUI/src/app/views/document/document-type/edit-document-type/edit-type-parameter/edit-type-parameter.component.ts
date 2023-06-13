@@ -9,7 +9,7 @@ import { EditSummaryComponent } from 'src/app/views/shared/document-components/e
 @Component({
   selector: 'app-edit-type-parameter',
   templateUrl: './edit-type-parameter.component.html',
-  styleUrls: ['./edit-type-parameter.component.css']
+  styleUrls: ['./edit-type-parameter.component.scss']
 })
 export class EditTypeParameterComponent {
   @ViewChild('titleComponent') titleComponent: EditStringComponent;

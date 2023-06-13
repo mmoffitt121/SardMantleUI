@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-view-summary',
   templateUrl: './view-summary.component.html',
-  styleUrls: ['./view-summary.component.css']
+  styleUrls: ['./view-summary.component.scss']
 })
 export class ViewSummaryComponent {
   public parameterName: string = 'Parameter Name';

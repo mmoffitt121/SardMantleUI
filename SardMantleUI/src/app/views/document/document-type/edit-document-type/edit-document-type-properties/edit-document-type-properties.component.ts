@@ -6,7 +6,7 @@ import { EditSummaryComponent } from 'src/app/views/shared/document-components/e
 @Component({
   selector: 'app-edit-document-type-properties',
   templateUrl: './edit-document-type-properties.component.html',
-  styleUrls: ['./edit-document-type-properties.component.css']
+  styleUrls: ['./edit-document-type-properties.component.scss']
 })
 export class EditDocumentTypePropertiesComponent {
   @ViewChild('titleComponent') titleComponent: EditStringComponent;

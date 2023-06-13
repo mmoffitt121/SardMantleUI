@@ -1,19 +1,19 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-summary',
   templateUrl: './edit-summary.component.html',
-  styleUrls: ['./edit-summary.component.css']
+  styleUrls: ['./edit-summary.component.scss']
 })
-export class EditSummaryComponent {
+export class EditSummaryComponent implements OnInit {
   @Input() parameterName: string = 'Parameter Name';
   @Input() parameterSummary: string = '';
   @Input() placeholder: string = '';
 
   @Output() valueChanged = new EventEmitter(); 
 
-  public control = new FormControl();
+  @Input() control = new FormControl();
 
   public setValue(value: any) {
     if (value == null) {

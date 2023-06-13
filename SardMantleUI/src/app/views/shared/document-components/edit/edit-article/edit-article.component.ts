@@ -5,7 +5,7 @@ import { Editor, Toolbar, Validators } from 'ngx-editor';
 @Component({
   selector: 'app-edit-article',
   templateUrl: './edit-article.component.html',
-  styleUrls: ['./edit-article.component.css']
+  styleUrls: ['./edit-article.component.scss']
 })
 export class EditArticleComponent implements OnInit {
   editor: Editor;

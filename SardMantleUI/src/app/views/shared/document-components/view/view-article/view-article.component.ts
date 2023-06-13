@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-view-article',
   templateUrl: './view-article.component.html',
-  styleUrls: ['./view-article.component.css']
+  styleUrls: ['./view-article.component.scss']
 })
 export class ViewArticleComponent {
   public parameterName: string = 'Parameter Name';

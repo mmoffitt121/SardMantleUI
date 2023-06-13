@@ -3,6 +3,6 @@
 <mat-form-field appearance="outline">
     <input matInput [formControl]="control" [placeholder]="placeholder" (input)="validate($event)"/>
     <mat-hint *ngIf="control.touched && (control.hasError('minlength') || control.hasError('required'))">
-        {{ control.hasError('required') ? 'Location Name is required.' : 'Name cannot be larger than 1000 characters.' }}
+        {{ control.hasError('required') ? 'Field is required.' : 'Field cannot be larger than 1000 characters.' }}
     </mat-hint>
 </mat-form-field>

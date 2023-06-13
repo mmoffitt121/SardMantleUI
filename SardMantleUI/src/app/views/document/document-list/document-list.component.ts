@@ -7,7 +7,7 @@ import { DocumentService } from 'src/app/services/document/document.service';
 @Component({
   selector: 'app-document-list',
   templateUrl: './document-list.component.html',
-  styleUrls: ['./document-list.component.css']
+  styleUrls: ['./document-list.component.scss']
 })
 export class DocumentListComponent implements OnInit {
   documents: Document[]

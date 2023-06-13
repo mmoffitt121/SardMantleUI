@@ -15,7 +15,7 @@
         </h4>
     </mat-card-subtitle>
     <mat-card-content>
-        <app-map-edit [adding]="true"></app-map-edit>
+        <app-map-edit [adding]="true" (cancel)="home()" (save)="handleSave($event)"></app-map-edit>
     </mat-card-content>
 </mat-card>
 

@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-view-double',
   templateUrl: './view-double.component.html',
-  styleUrls: ['./view-double.component.css']
+  styleUrls: ['./view-double.component.scss']
 })
 export class ViewDoubleComponent {
   public parameterName: string = 'Parameter Name';

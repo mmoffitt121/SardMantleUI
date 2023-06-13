@@ -5,7 +5,7 @@ import { DocumentTypeService } from 'src/app/services/document/document-type.ser
 @Component({
   selector: 'app-document-type',
   templateUrl: './document-type.component.html',
-  styleUrls: ['./document-type.component.css']
+  styleUrls: ['./document-type.component.scss']
 })
 export class DocumentTypeComponent implements OnInit {
   allSelected: boolean = true;

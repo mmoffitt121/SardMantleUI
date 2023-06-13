@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-edit-data-point',
   templateUrl: './edit-data-point.component.html',
-  styleUrls: ['./edit-data-point.component.css']
+  styleUrls: ['./edit-data-point.component.scss']
 })
 export class EditDataPointComponent {
   formControl = new FormControl();

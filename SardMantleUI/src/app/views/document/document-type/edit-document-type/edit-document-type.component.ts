@@ -14,7 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-edit-document-type',
   templateUrl: './edit-document-type.component.html',
-  styleUrls: ['./edit-document-type.component.css']
+  styleUrls: ['./edit-document-type.component.scss']
 })
 export class EditDocumentTypeComponent {
   private id: number;

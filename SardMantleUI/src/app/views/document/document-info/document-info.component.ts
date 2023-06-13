@@ -21,7 +21,7 @@ import { ViewBoolComponent } from '../../shared/document-components/view/view-bo
 @Component({
   selector: 'app-document-info',
   templateUrl: './document-info.component.html',
-  styleUrls: ['./document-info.component.css']
+  styleUrls: ['./document-info.component.scss']
 })
 export class DocumentInfoComponent implements OnInit, AfterViewInit {
   public document: Document;

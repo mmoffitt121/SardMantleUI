@@ -2047,8 +2047,8 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mat-mdc-paginator {
-    background: #424242;
-    color: rgba(255, 255, 255, .87)
+    background: var(--primary-color);
+    color: var(--text-color);
 }
 
 .mat-mdc-paginator-icon {

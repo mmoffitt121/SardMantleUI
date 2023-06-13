@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'app-view-string',
   templateUrl: './view-string.component.html',
-  styleUrls: ['./view-string.component.css']
+  styleUrls: ['./view-string.component.scss']
 })
 export class ViewStringComponent {
   @Input() parameterName: string = 'Parameter Name';

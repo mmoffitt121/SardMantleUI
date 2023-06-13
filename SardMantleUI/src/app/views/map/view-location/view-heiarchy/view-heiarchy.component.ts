@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-view-heiarchy',
   templateUrl: './view-heiarchy.component.html',
-  styleUrls: ['./view-heiarchy.component.css']
+  styleUrls: ['./view-heiarchy.component.scss']
 })
 export class ViewHeiarchyComponent implements OnInit {
   public selectedMapObject: any;

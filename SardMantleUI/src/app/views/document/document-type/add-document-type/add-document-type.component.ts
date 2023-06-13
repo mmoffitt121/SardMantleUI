@@ -8,7 +8,7 @@ import { ErrorService } from 'src/app/services/error.service';
 @Component({
   selector: 'app-add-document-type',
   templateUrl: './add-document-type.component.html',
-  styleUrls: ['./add-document-type.component.css']
+  styleUrls: ['./add-document-type.component.scss']
 })
 export class AddDocumentTypeComponent {
   private title: string;

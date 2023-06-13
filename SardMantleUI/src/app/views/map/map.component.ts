@@ -6,7 +6,6 @@ import { ViewLocationComponent } from './view-location/view-location.component';
 import { Component, OnInit, ViewChild, EventEmitter, Output, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
-import { map, filter, debounceTime, switchMap } from 'rxjs/operators';
 import * as L from 'leaflet';
 import { MatSidenavModule, MatDrawer, MatDrawerContainer, MatDrawerToggleResult } from '@angular/material/sidenav';
 import { MatSelect } from '@angular/material/select';
@@ -17,12 +16,16 @@ import { EditLocationComponent } from './edit-location/edit-location.component';
 import { Area, Subregion, Region, Subcontinent, Continent, CelestialObject } from '../../models/map/location-data-types/area-data-types'; 
 import { Location, LocationType } from '../../models/map/location-data-types/location-data-types';
 import { Router } from '@angular/router';
-import { Map } from 'src/app/models/map/map';
+import { Map as MapData } from 'src/app/models/map/map';
+import { MatDialog } from '@angular/material/dialog';
+import { MapEditComponent } from './map-edit/map-edit.component';
+import { MapSelectComponent } from './map-select/map-select.component';
+import { MapEditWindowComponent } from './map-edit/map-edit-window/map-edit-window.component';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css'],
+  styleUrls: ['./map.component.scss'],
   providers: [ MapService ]
 })
 export class MapComponent implements OnInit {
@@ -50,7 +53,7 @@ export class MapComponent implements OnInit {
   public addingObject: boolean = false;
   public editingObject: boolean = false;
 
-  public mapData: Map;
+  public mapData: MapData;
 
   @ViewChild('sideDrawer', {static: false}) drawer: MatDrawer;
 
@@ -586,6 +589,32 @@ export class MapComponent implements OnInit {
     }
   }
 
+  public changeMap() {
+    const dialogRef = this.dialog.open(MapSelectComponent, {
+      width: '525px',
+      data: { }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result > 0) {
+        this.router.navigate(['/document/type/edit/' + result]);
+      }
+    });
+  }
+
+  public editMap() {
+    const dialogRef = this.dialog.open(MapEditWindowComponent, {
+      width: '500px',
+      data: { }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result > 0) {
+        this.router.navigate(['/document/type/edit/' + result]);
+      }
+    });
+  }
+
   //#region Field Resetting
   public resetAreaField() {
     var filter = this.addAreaControl.value ? this.addAreaControl.value : '';
@@ -738,7 +767,11 @@ export class MapComponent implements OnInit {
   }
   // #endregion
 
-  constructor(private mapService: MapService, public router: Router, private changeDetector: ChangeDetectorRef) { }
+  constructor(
+    private mapService: MapService, 
+    public router: Router, 
+    private changeDetector: ChangeDetectorRef,
+    public dialog: MatDialog ) { }
 
   ngOnInit(): void {
     this.mapService.getMaps({isDefault: true}).subscribe(data => {

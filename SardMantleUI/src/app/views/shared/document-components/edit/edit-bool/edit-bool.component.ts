@@ -1,19 +1,28 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-bool',
   templateUrl: './edit-bool.component.html',
-  styleUrls: ['./edit-bool.component.css']
+  styleUrls: ['./edit-bool.component.scss']
 })
-export class EditBoolComponent {
+export class EditBoolComponent implements OnInit {
   @Input() parameterName: string = 'Parameter Name';
   @Input() parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?';
-  public control = new FormControl();
+  @Input() control = new FormControl();
+  @Input() default = false;
+
+  @Output() valueChanged = new EventEmitter(); 
 
   public setValue(value: any) {
     if (value == null) {
       return;
     }
+    this.control.setValue(value);
+  }
+
+  public ngOnInit(): void {
+    this.setValue(this.default);
+    this.control.valueChanges.subscribe(value => this.valueChanged.emit(value));
   }
 }
