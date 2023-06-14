@@ -9,6 +9,7 @@ import { FormControl } from '@angular/forms';
 export class SearchBarComponent {
   @Input() placeholder: string = 'Search...';
   @Input() maxLength: number | null = null;
+  @Input() disabled: boolean = false;
 
   @Output() valueChanged = new EventEmitter(); 
   @Output() search = new EventEmitter();
@@ -20,7 +21,7 @@ export class SearchBarComponent {
   }
 
   public handleSearch() {
-    this.search.emit();
+    this.search.emit(this.control.value);
   }
 
   public setValue(value: any) {

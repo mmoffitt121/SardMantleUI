@@ -1,7 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ErrorService } from 'src/app/services/error.service';
 import { MapService } from 'src/app/services/map/map.service';
+import { Map } from 'src/app/models/map/map';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-map-select',
@@ -13,25 +16,55 @@ export class MapSelectComponent {
   public pageSizeOptions = [12, 21, 51];
   public pageIndex: number = 0;
   public pageSize: number = 12;
-  public maps: any[] = [];
+  public query: string = "";
+  public maps: Map[] = [];
 
   @Input() formControl = new FormControl();
+
+  @Output() select = new EventEmitter();
 
   public loading = false;
 
   public loadMaps() {
     this.loading = true;
-    this.mapService.getMapCount({ query: this.formControl.value === null ? "" : this.formControl.value }).subscribe(data => {
+    this.mapService.getMapCount({ query: this.query }).subscribe(data => {
       this.length = data;
     });
-    this.mapService.getMaps({ pageNumber: this.pageIndex, pageSize: this.pageSize, query: this.formControl.value === null ? "" : this.formControl.value }).subscribe(data => {
+    this.mapService.getMaps({ pageNumber: this.pageIndex, pageSize: this.pageSize, query: this.query }).subscribe(data => {
       this.maps = data;
       this.loading = false;
+      this.maps.forEach(map => {
+        this.mapService.getMapIcon(map.id).subscribe(icon => {
+          if (icon.body != null) {
+            map.url = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(icon.body));
+          }
+          else {
+            map.url = null;
+          }
+        });
+      })
     },
     error => {
       this.errorHandler.handle(error);
       this.loading = false;
     })
+  }
+
+  public onSelect(event: any) {
+    this.dialogRef.close(event.id);
+  }
+
+  public onCancel() {
+    this.dialogRef.close();
+  }
+
+  public onAdd() {
+    this.dialogRef.close("Add");
+  }
+
+  public onSearch(event: any) {
+    this.query = event ? event : '';
+    this.loadMaps();
   }
 
   public onPageChange(event: any) {
@@ -40,7 +73,12 @@ export class MapSelectComponent {
     this.loadMaps();
   }
   
-  constructor (private mapService: MapService, private errorHandler: ErrorService) { }
+  constructor (
+    private mapService: MapService, 
+    private errorHandler: ErrorService, 
+    private domSanitizer: DomSanitizer,
+    public dialogRef: MatDialogRef<MapSelectComponent>, 
+    @Inject(MAT_DIALOG_DATA) public data: any, ) { }
 
   ngOnInit() {
     this.loadMaps();

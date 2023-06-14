@@ -1,0 +1,20 @@
+<div class="corner-button-container">
+    <button mat-icon-button class="corner-button" matTooltip="Add Map">
+        <mat-icon>
+            library_add
+        </mat-icon>
+    </button>
+    <button mat-icon-button class="corner-button" (click)="onCancel()">
+        <mat-icon>
+            close
+        </mat-icon>
+    </button>
+</div>
+<mat-card-header>
+    <mat-card-title> 
+        <h2> New Map </h2>
+    </mat-card-title>
+</mat-card-header>
+<mat-card-content class="map-edit-container">
+    <app-map-edit #mapEditComponent [adding]="true" (save)="onSave($event)"></app-map-edit>
+</mat-card-content>

@@ -170,9 +170,23 @@
     width: 150px;
     height: 150px;
     margin: 5px;
+    border-radius: 5px;
     display: flex; 
     justify-content: center; 
     align-items: center;
+    cursor: pointer;
+}
+
+.map-card-over {
+    width: 150px;
+    height: 150px;
+    margin: 5px;
+    border-radius: 5px;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    pointer-events: none;
+    background-color: var(--field-overlay-color-dark);
 }
 
 .button-holder {

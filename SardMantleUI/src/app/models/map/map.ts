@@ -1,3 +1,4 @@
+import { SafeUrl } from "@angular/platform-browser";
 import { Selectable } from "../selectable/selectable";
 
 export interface Map extends Selectable {
@@ -16,4 +17,5 @@ export interface Map extends Selectable {
     minZoom: number;
     maxZoom: number;
     isDefault: boolean;
+    url: SafeUrl | null;
 }

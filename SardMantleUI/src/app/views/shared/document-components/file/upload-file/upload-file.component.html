@@ -1,0 +1,17 @@
+<mat-card-title>
+    <h2>
+        {{title}}
+    </h2>
+</mat-card-title>
+<mat-card-content>
+    <p>
+        {{content}}
+    </p>
+    <button type="button" mat-button (click)="fileInput.click()">Choose File</button>
+    {{fileName}}
+    <input hidden (change)="onFileSelected()" #fileInput type="file" id="file" [accept]="options">
+    <div class="bottom-corner-button-container">
+        <button type="button" class="bottom-corner-button" mat-button (click)="confirmChoice()">Cancel</button>
+        <button type="button" class="bottom-corner-button" mat-button (click)="confirmChoice()" color="primary">Confirm</button>
+    </div>
+</mat-card-content>

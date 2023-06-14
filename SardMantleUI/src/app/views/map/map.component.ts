@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { Location as RouteLocation } from '@angular/common';
 import { MapService } from '../../services/map/map.service';
 import { FormControl, Validators } from '@angular/forms';
 import { dataMarker, DataMarker } from 'src/app/models/leaflet/leaflet-extensions/data-marker/data-marker';
@@ -15,12 +16,16 @@ import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 import { EditLocationComponent } from './edit-location/edit-location.component';
 import { Area, Subregion, Region, Subcontinent, Continent, CelestialObject } from '../../models/map/location-data-types/area-data-types'; 
 import { Location, LocationType } from '../../models/map/location-data-types/location-data-types';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Map as MapData } from 'src/app/models/map/map';
 import { MatDialog } from '@angular/material/dialog';
 import { MapEditComponent } from './map-edit/map-edit.component';
 import { MapSelectComponent } from './map-select/map-select.component';
 import { MapEditWindowComponent } from './map-edit/map-edit-window/map-edit-window.component';
+import { ErrorService } from 'src/app/services/error.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MapAddWindowComponent } from './map-edit/map-add-window/map-add-window.component';
+import { UploadFileComponent } from '../shared/document-components/file/upload-file/upload-file.component';
 
 @Component({
   selector: 'app-map',
@@ -54,6 +59,8 @@ export class MapComponent implements OnInit {
   public editingObject: boolean = false;
 
   public mapData: MapData;
+
+  public mapIconHovered = false;
 
   @ViewChild('sideDrawer', {static: false}) drawer: MatDrawer;
 
@@ -145,6 +152,8 @@ export class MapComponent implements OnInit {
     this.queryRegions();
     this.querySubcontinents();
     this.queryContinents();
+    this.queryLocationTypes();
+    this.queryCelestialObjects();
 
     tilesOuter.addTo(this.map);
     tilesInner.addTo(this.map);
@@ -154,6 +163,8 @@ export class MapComponent implements OnInit {
       const lat = coord.lat;
       const lng = coord.lng;
     });
+
+    this.map.on("zoomend", (e: any) => { this.showMarkers(); });
   }
 
   // Called when the Add icon is clicked. Creates a movable icon for location creation.
@@ -409,6 +420,8 @@ export class MapComponent implements OnInit {
     }
   }
 
+  // #region Location
+
   public openViewLocation(e: any) {
     if (this.editingObject || this.addingObject) { return; }
 
@@ -538,6 +551,8 @@ export class MapComponent implements OnInit {
     this.editingObject = false;
   }
 
+  // #endregion
+
   public openMapSettings() {
     this.viewingObject = false;
     this.drawer.open();
@@ -589,6 +604,40 @@ export class MapComponent implements OnInit {
     }
   }
 
+  // #region Map Data
+  public loadMap(id: number) {
+    this.mapService.getMaps({id: id}).subscribe(data => {
+      if (data.length > 0) {
+        this.mapData = data[0];
+        this.routeLocation.replaceState('/map/' + id);
+        this.loadMapIcon();
+      } 
+      else {
+        this.errorService.showSnackBar("Map not found.");
+      }
+    })
+  }
+
+  public loadDefaultMap() {
+    this.mapService.getMaps({isDefault: true}).subscribe(data => {
+      if (data.length > 0) {
+        this.mapData = data[0];
+        this.routeLocation.replaceState('/map/' + this.mapData.id);
+        this.loadMapIcon();
+      } else {
+        this.mapService.getMaps({}).subscribe(nonDefaultData => {
+          if (nonDefaultData.length > 0) {
+            this.mapData = nonDefaultData[0];
+            this.routeLocation.replaceState('/map/' + this.mapData.id);
+            this.loadMapIcon();
+          } else {
+            this.router.navigate(['new-map']);
+          }
+        })
+      }
+    })
+  }
+  
   public changeMap() {
     const dialogRef = this.dialog.open(MapSelectComponent, {
       width: '525px',
@@ -596,8 +645,54 @@ export class MapComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result > 0) {
-        this.router.navigate(['/document/type/edit/' + result]);
+      if (result === "Add") {
+        this.addMap();
+      }
+      else if (result != null && result > 0) {
+        this.loadMap(result);
+      }
+    });
+  }
+
+  public loadMapIcon() {
+    this.mapService.getMapIcon(this.mapData.id).subscribe(icon => {
+      if (icon.body != null) {
+        this.mapData.url = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(icon.body));
+      }
+      else {
+        this.mapData.url = null;
+      }
+    });
+  }
+
+  public editMapIcon() {
+    const dialogRef = this.dialog.open(UploadFileComponent, {
+      width: '525px',
+      data: { title: "Upload File" }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.mapService.postMapIcon(result, this.mapData.id).subscribe(result => {
+          this.errorService.showSnackBar("Map Icon successfully uploaded.");
+          this.loadMap(this.mapData.id);
+        }, 
+        error => {
+          this.errorService.handle(error);
+        });
+      }
+    });
+  }
+
+  public addMap() {
+    const dialogRef = this.dialog.open(MapAddWindowComponent, {
+      width: '500px',
+      data: { map: this.mapData }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadMap(result);
       }
     });
   }
@@ -605,15 +700,22 @@ export class MapComponent implements OnInit {
   public editMap() {
     const dialogRef = this.dialog.open(MapEditWindowComponent, {
       width: '500px',
-      data: { }
+      data: { map: this.mapData }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result > 0) {
-        this.router.navigate(['/document/type/edit/' + result]);
+      if (result === "Add") {
+        this.addMap();
+      }
+      else if (result === "Deleted") {
+        this.loadDefaultMap();
+      }
+      else if (result) {
+        this.loadMap(this.mapData.id);
       }
     });
   }
+  //#endregion
 
   //#region Field Resetting
   public resetAreaField() {
@@ -769,27 +871,49 @@ export class MapComponent implements OnInit {
 
   constructor(
     private mapService: MapService, 
-    public router: Router, 
+    private errorService: ErrorService,
     private changeDetector: ChangeDetectorRef,
-    public dialog: MatDialog ) { }
+    public dialog: MatDialog,
+    public router: Router, 
+    private routeLocation: RouteLocation,
+    private route: ActivatedRoute,
+    private domSanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
-    this.mapService.getMaps({isDefault: true}).subscribe(data => {
-      if (data.length > 0) {
-        this.mapData = data[0];
-      } else {
-        this.mapService.getMaps({}).subscribe(nonDefaultData => {
-          if (nonDefaultData.length > 0) {
-            this.mapData = nonDefaultData[0]
+    this.route.params.subscribe(params => {
+      if (params['mapId']) {
+        this.mapService.getMaps({id: params['mapId']}).subscribe(data => {
+          if (data.length > 0) {
+            this.mapData = data[0];
+            this.loadMapIcon();
+            this.initMap();
           } else {
-            this.router.navigate(['new-map']);
+            this.errorService.showSnackBar('Map not found.');
+            this.router.navigate(['home']);
+          }
+        })
+      }
+      else {
+        this.mapService.getMaps({isDefault: true}).subscribe(data => {
+          if (data.length > 0) {
+            this.mapData = data[0];
+            this.routeLocation.replaceState('/map/' + this.mapData.id);
+            this.loadMapIcon();
+            this.initMap();
+          } else {
+            this.mapService.getMaps({}).subscribe(nonDefaultData => {
+              if (nonDefaultData.length > 0) {
+                this.mapData = nonDefaultData[0];
+                this.routeLocation.replaceState('/map/' + this.mapData.id);
+                this.loadMapIcon();
+                this.initMap();
+              } else {
+                this.router.navigate(['new-map']);
+              }
+            })
           }
         })
       }
     })
-    this.queryLocationTypes();
-    this.queryCelestialObjects();
-    this.initMap();
-    this.map.on("zoomend", (e: any) => { this.showMarkers(); });
   }
 }

@@ -11,8 +11,13 @@ export class EditBoolComponent implements OnInit {
   @Input() parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?';
   @Input() control = new FormControl();
   @Input() default = false;
+  @Input() required: boolean = false;
 
   @Output() valueChanged = new EventEmitter(); 
+
+  public validate(e: any) {
+    this.control.markAsTouched();
+  }
 
   public setValue(value: any) {
     if (value == null) {

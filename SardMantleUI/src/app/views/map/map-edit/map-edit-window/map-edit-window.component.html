@@ -1,1 +1,26 @@
-<p>map-edit-window works!</p>
+<div class="corner-button-container">
+    <button mat-icon-button class="corner-button" (click)="onAdd()" matTooltip="New Map">
+        <mat-icon>
+            library_add
+        </mat-icon>
+    </button>
+    <button mat-icon-button class="corner-button" (click)="onCancel()" matTooltip="Close">
+        <mat-icon>
+            close
+        </mat-icon>
+    </button>
+</div>
+<mat-card-header>
+    <mat-card-title> 
+        <h2> Edit Map </h2>
+    </mat-card-title>
+</mat-card-header>
+<mat-card-content class="map-edit-container">
+    <app-map-edit #mapEditComponent (save)="onSave()"></app-map-edit>
+    <mat-divider style="margin-top: 100px"></mat-divider>
+    <div>
+        <button mat-button class="destructive-button" style="margin-left: 10px; margin-top: 20px;" (click)="confirmDelete()">
+            Delete Map
+        </button>   
+    </div>    
+</mat-card-content>

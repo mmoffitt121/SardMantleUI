@@ -79,6 +79,8 @@ import { MapLayersComponent } from './views/map/map-layers/map-layers.component'
 import { MapEditWindowComponent } from './views/map/map-edit/map-edit-window/map-edit-window.component';
 import { ValueShortenPipe } from './pipes/value-shorten.pipe';
 import { SearchBarComponent } from './views/shared/document-components/search/search-bar/search-bar.component';
+import { MapAddWindowComponent } from './views/map/map-edit/map-add-window/map-add-window.component';
+import { UploadFileComponent } from './views/shared/document-components/file/upload-file/upload-file.component';
 
 @NgModule({
   declarations: [
@@ -127,7 +129,9 @@ import { SearchBarComponent } from './views/shared/document-components/search/se
     MapLayersComponent,
     MapEditWindowComponent,
     ValueShortenPipe,
-    SearchBarComponent
+    SearchBarComponent,
+    MapAddWindowComponent,
+    UploadFileComponent
   ],
   imports: [
     BrowserModule,

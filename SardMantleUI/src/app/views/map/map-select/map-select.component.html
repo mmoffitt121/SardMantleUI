@@ -1,10 +1,10 @@
-<div style="float: right">
-    <button mat-icon-button class="corner-button">
+<div class="corner-button-container">
+    <button mat-icon-button class="corner-button" (click)="onAdd()" matTooltip="New Map">
         <mat-icon>
             library_add
         </mat-icon>
     </button>
-    <button mat-icon-button class="corner-button">
+    <button mat-icon-button class="corner-button" (click)="onCancel()" matTooltip="Close">
         <mat-icon>
             close
         </mat-icon>
@@ -16,15 +16,22 @@
     </mat-card-title>
 </mat-card-header>
 <mat-card-content>
-    <app-search-bar></app-search-bar>
-    <div class="map-card-container">
-        <mat-card class="map-card" *ngFor="let map of maps">
-            <img src="https://www.seiu1000.org/sites/main/files/main-images/camera_lense_0.jpeg" />
+    <app-search-bar (search)="onSearch($event)" [disabled]="loading"></app-search-bar>
+    <div class="map-card-container" *ngIf="!loading">
+        <mat-card class="map-card" *ngFor="let map of maps" (mouseover)="map.selected=true" (mouseout)="map.selected=false" (click)="onSelect(map)">
+            <mat-icon *ngIf="map.url === null" class="icon-over"> map </mat-icon>
+            <div class="image">
+                <img [src]="map.url" *ngIf="map.url != null"/>
+            </div>
             <div class="label-over">
                 <p> {{ map.name | valueShorten: 18:1 }} </p>
             </div>
+            <mat-card class="select-overlay" *ngIf="map.selected">
+                <mat-icon class="icon-over" style="top: calc(50% - 12px);">arrow_forward</mat-icon>
+            </mat-card>
         </mat-card>
     </div>
+    <mat-progress-spinner *ngIf="loading" class="info-loading" mode="indeterminate" style="margin-left: auto; margin-right: auto; margin-top: 100px; margin-bottom: 100px"></mat-progress-spinner>
     <mat-paginator 
         [length]="length"
         [pageIndex]="pageIndex"

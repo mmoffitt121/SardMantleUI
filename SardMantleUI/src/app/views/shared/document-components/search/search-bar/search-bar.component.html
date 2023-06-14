@@ -1,8 +1,8 @@
 <div class="search-bar-form">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" (keyup.enter)="handleSearch()">
         <input matInput [formControl]="control" [placeholder]="placeholder"/>
     </mat-form-field>
-    <button mat-icon-button style="margin: 10px;" (click)="handleSearch()" (keyup.enter)="handleSearch()">
+    <button mat-icon-button style="margin: 10px;" [disabled]="disabled" (click)="handleSearch()">
         <mat-icon> search </mat-icon>
     </button>
 </div>

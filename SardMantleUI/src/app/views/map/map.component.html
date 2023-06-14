@@ -28,16 +28,32 @@
                                 </div>
                             </div>
                             <div>
-                                <mat-card class="map-card">
-                                    <mat-icon>map</mat-icon>
+                                <mat-card class="map-card-over" style="z-index: 1000; position: absolute; " *ngIf="mapIconHovered">
+                                    <mat-icon>edit</mat-icon>
+                                </mat-card>
+                                <img 
+                                    class="map-card" 
+                                    [src]="mapData.url" 
+                                    *ngIf="!(mapData.url === null || mapData.url === '')" 
+                                    (mouseover)="mapIconHovered=true" 
+                                    (mouseout)="mapIconHovered=false"
+                                    (click)="editMapIcon()"
+                                />
+                                <mat-card 
+                                    class="map-card" 
+                                    *ngIf="(mapData.url === null || mapData.url === '')" 
+                                    (mouseover)="mapIconHovered=true" 
+                                    (mouseout)="mapIconHovered=false"
+                                    (click)="editMapIcon()"
+                                >
+                                    <mat-icon *ngIf="!mapIconHovered">map</mat-icon>
                                 </mat-card>
                             </div>
                         </div>
                         <mat-card style="margin-top: 10px; background-color: var(--secondary-background-color)">
                             <mat-card-header>
                                 <mat-card-content style="width: 100%; font-size: 15px;">
-                                    <p>Minimum Zoom: {{ mapData.minZoom }}</p>
-                                    <p>Maximum Zoom: {{ mapData.maxZoom }}</p>
+                                    <p>Loops: {{ mapData.loops ? "Yes" : "No" }}</p>
                                     <mat-divider></mat-divider>
                                     <p>Area Zoom Prominence: {{ mapData.areaZoomProminence }}</p>
                                     <p>Subregion Zoom Prominence: {{ mapData.subregionZoomProminence }}</p>
@@ -52,6 +68,9 @@
                                         <button mat-button>Go</button>
                                         <button mat-button>Set</button>
                                     </div>
+                                    <mat-divider></mat-divider>
+                                    <p>Minimum Zoom: {{ mapData.minZoom }}</p>
+                                    <p>Maximum Zoom: {{ mapData.maxZoom }}</p>
                                     <mat-divider></mat-divider>
                                     <p>Default Map: {{ mapData.isDefault ? "Yes" : "No" }}</p>
                                 </mat-card-content>

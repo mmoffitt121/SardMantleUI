@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Map } from 'src/app/models/map/map';
 
@@ -32,12 +32,14 @@ export class MapService {
 
   public getMapIcon(id: number) {
     let params = new HttpParams().set('Id', id);
-    return this.http.get<any>('https://localhost:7094/Library/Map/GetMapIcon', { params: params });
+    return this.http.get<any>('https://localhost:7094/Library/Map/GetMapIcon', { params: params, observe: 'response', responseType: 'blob' as 'json' });
   }
 
-  public uploadMapIcon(icon: File, id: number) {
-    let params = new HttpParams().set('Id', id);
-    this.http.post('https://localhost:7094/Library/Map/PostMapIcon', icon, { params: params })
+  public postMapIcon(icon: File, id: number) {
+    let formData = new FormData();
+    formData.append('id', id.toString());
+    formData.append('data', new Blob([icon], { type: icon.type }), "name");
+    return this.http.post('https://localhost:7094/Library/Map/PostMapIcon', formData);
   }
 
   // Location
