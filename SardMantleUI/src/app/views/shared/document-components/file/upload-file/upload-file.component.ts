@@ -29,7 +29,7 @@ export class UploadFileComponent {
   }
 
   public cancelChoice() {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   public confirmChoice() {

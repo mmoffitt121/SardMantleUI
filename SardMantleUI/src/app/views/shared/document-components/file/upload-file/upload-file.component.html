@@ -11,7 +11,7 @@
     {{fileName}}
     <input hidden (change)="onFileSelected()" #fileInput type="file" id="file" [accept]="options">
     <div class="bottom-corner-button-container">
-        <button type="button" class="bottom-corner-button" mat-button (click)="confirmChoice()">Cancel</button>
+        <button type="button" class="bottom-corner-button" mat-button (click)="cancelChoice()">Cancel</button>
         <button type="button" class="bottom-corner-button" mat-button (click)="confirmChoice()" color="primary">Confirm</button>
     </div>
 </mat-card-content>

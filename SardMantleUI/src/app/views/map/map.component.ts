@@ -26,6 +26,7 @@ import { ErrorService } from 'src/app/services/error.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MapAddWindowComponent } from './map-edit/map-add-window/map-add-window.component';
 import { UploadFileComponent } from '../shared/document-components/file/upload-file/upload-file.component';
+import { MapLayersComponent } from './map-layers/map-layers.component';
 
 @Component({
   selector: 'app-map',
@@ -63,7 +64,6 @@ export class MapComponent implements OnInit {
   public mapIconHovered = false;
 
   @ViewChild('sideDrawer', {static: false}) drawer: MatDrawer;
-
   @ViewChild('locationViewer') viewLocationComponent: ViewLocationComponent;
   @ViewChild('locationEditor') editLocationComponent: EditLocationComponent;
 

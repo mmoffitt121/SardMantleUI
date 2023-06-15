@@ -1,1 +1,55 @@
-<mat-card>Hello</mat-card>
+<div *ngIf="!(iconLayers === undefined) && iconLayers.length > 0">
+    <div style="display: grid; grid-template-columns: auto 50px;">
+        <h3>Icon Layers</h3>
+        <button mat-icon-button>
+            <mat-icon>
+                add
+            </mat-icon>
+        </button>
+    </div>
+    <mat-card *ngFor="let layer of iconLayers" class="layer-item">
+        <div style="display: grid; grid-template-columns: auto 50px 50px;">
+            <img class="card-image" src="https://www.shutterstock.com/image-photo/surreal-image-african-elephant-wearing-260nw-1365289022.jpg" />
+            <button mat-icon-button matTooltip="Edit Layer" class="carded-button">
+                <mat-icon> edit </mat-icon>
+            </button>
+            <button mat-icon-button (click)="onCheck(layer)" class="carded-button">
+                <mat-icon *ngIf="layer.selected"> check_circle </mat-icon>
+                <mat-icon *ngIf="!layer.selected"> radio_button_unchecked </mat-icon>
+            </button>
+        </div>
+    </mat-card>
+</div>
+<div *ngIf="!(mapLayers === undefined) && mapLayers.length > 0">
+    <div style="display: grid; grid-template-columns: auto 50px;">
+        <h3>Map Layers</h3>
+        <button mat-icon-button>
+            <mat-icon>
+                add
+            </mat-icon>
+        </button>
+    </div>
+    <mat-card *ngFor="let layer of mapLayers" class="layer-item">
+        <div style="display: grid; grid-template-columns: auto 50px 50px;">
+            {{layer.name}}
+            <button mat-icon-button matTooltip="Edit Layer">
+                <mat-icon> edit </mat-icon>
+            </button>
+            <button mat-icon-button (click)="onCheck(layer)">
+                <mat-icon *ngIf="layer.selected"> check_circle </mat-icon>
+                <mat-icon *ngIf="!layer.selected"> radio_button_unchecked </mat-icon>
+            </button>
+        </div>
+    </mat-card>
+</div>
+<div *ngIf="!(baseLayer === undefined)">
+    <h3>Base Layer</h3>
+    <mat-card class="layer-item">
+        <div style="display: grid; grid-template-columns: auto 50px;">
+            {{baseLayer.name}}
+            <button mat-icon-button matTooltip="Edit Layer">
+                <mat-icon> edit </mat-icon>
+            </button>
+        </div>
+    </mat-card>
+</div>
