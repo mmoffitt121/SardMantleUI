@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Map } from 'src/app/models/map/map';
+import { MapLayer } from 'src/app/models/map/map-layer';
 
 @Injectable({
   providedIn: 'root'
@@ -14,17 +15,22 @@ export class MapLayerService {
     return this.http.get<any>('https://localhost:7094/Map/MapLayer/GetMapLayersCount', { params: criteria });
   }
 
-  public postMapLayer(map: Map) {
-    return this.http.post('https://localhost:7094/Map/MapLayer/PostMapLayer', map);
+  public postMapLayer(data: any) {
+    return this.http.post('https://localhost:7094/Map/MapLayer/PostMapLayer', data);
   }
 
-  public putMapLayer(map: Map) {
-    return this.http.put('https://localhost:7094/Map/MapLayer/PutMapLayer', map);
+  public putMapLayer(data: any) {
+    return this.http.put('https://localhost:7094/Map/MapLayer/PutMapLayer', data);
   }
 
   public deleteMapLayer(id: number) {
     let params = new HttpParams().set("Id", id);
     return this.http.delete('https://localhost:7094/Map/MapLayer/DeleteMapLayer', { params: params });
+  }
+
+  public deleteMapLayersOfMapId(id: number) {
+    let params = new HttpParams().set("Id", id);
+    return this.http.delete('https://localhost:7094/Map/MapLayer/DeleteMapLayersOfMapId', { params: params });
   }
 
   public getMapLayerIcon(id: number) {

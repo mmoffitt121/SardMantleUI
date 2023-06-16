@@ -81,6 +81,8 @@ import { ValueShortenPipe } from './pipes/value-shorten.pipe';
 import { SearchBarComponent } from './views/shared/document-components/search/search-bar/search-bar.component';
 import { MapAddWindowComponent } from './views/map/map-edit/map-add-window/map-add-window.component';
 import { UploadFileComponent } from './views/shared/document-components/file/upload-file/upload-file.component';
+import { EditMapLayerComponent } from './views/map/map-layers/edit-map-layer/edit-map-layer.component';
+import { MapTilesComponent } from './views/map-tiles/map-tiles.component';
 
 @NgModule({
   declarations: [
@@ -131,7 +133,9 @@ import { UploadFileComponent } from './views/shared/document-components/file/upl
     ValueShortenPipe,
     SearchBarComponent,
     MapAddWindowComponent,
-    UploadFileComponent
+    UploadFileComponent,
+    EditMapLayerComponent,
+    MapTilesComponent
   ],
   imports: [
     BrowserModule,

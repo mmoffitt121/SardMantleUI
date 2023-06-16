@@ -1,0 +1,147 @@
+
+<div class="screen-container">
+    <div class="button-holder">
+        <button mat-icon-button matTooltip="Back" (click)="navigateToMap()">
+            <mat-icon>
+                arrow_back
+            </mat-icon>
+        </button>
+    </div>
+    <div class="tile-grid-holder-left">
+        <h2>Current Tile</h2>
+        <mat-card>
+            <mat-card-content>
+                <div class="tile-display">
+                    <div class="map-card-over" *ngIf="currentTile.selected && !(currentTile.safeURL === undefined || currentTile.safeURL === '')">
+                        <mat-icon style="position: relative; margin: auto;">
+                            download
+                        </mat-icon>
+                    </div>
+                    <a
+                        [href]="currentTile.safeURL"
+                        [download]="getFileName()"
+                    >
+                        <img 
+                            class="map-card"
+                            [src]="currentTile.safeURL" 
+                            *ngIf="!(currentTile.safeURL === undefined || currentTile.safeURL === '')" 
+                            (mouseover)="currentTile.selected=true" 
+                            (mouseout)="currentTile.selected=false"
+                        />
+                    </a>
+                    <mat-card 
+                        class="map-card-unclickable" 
+                        *ngIf="(currentTile.safeURL === undefined || currentTile.safeURL === '')" 
+                        (mouseover)="currentTile.selected=true" 
+                        (mouseout)="currentTile.selected=false"
+                    >
+                    </mat-card>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <div class="options-under">
+            <mat-card class="action-button-holder" style="margin-left: 0px">
+                <button mat-icon-button class="action-button" (click)="return()"> 
+                    <mat-icon>
+                        upload_file
+                    </mat-icon>
+                </button>
+            </mat-card>
+            <div class="action-button-holder">
+                <p> Zoom Level: {{currentTile.z}} </p>
+                <p> X: {{currentTile.x}} </p>
+                <p> Y: {{currentTile.y}} </p>
+            </div>
+        </div>
+    </div>
+    <div class="tile-grid-holder-right">
+        <h2 *ngIf="viewModeSelectControl.value == 'children'">Children Tiles</h2>
+        <h2 *ngIf="viewModeSelectControl.value == 'adjacent-9' || viewModeSelectControl.value == 'adjacent-25'">Adjacent Tiles</h2>
+        <mat-card>
+            <mat-card-content>
+                <div class="tile-grid" [style.--tile-rows]="viewModeTiles">
+                    <div *ngFor="let tile of tiles">
+                        <div class="map-card-over" *ngIf="tile.selected && !(tile.safeURL === undefined || tile.safeURL === '')">
+                            <mat-icon style="position: relative; margin: auto;" *ngIf="viewModeSelectControl.value == 'children'">
+                                zoom_in
+                            </mat-icon>
+                            <mat-icon style="position: relative; margin: auto;" *ngIf="viewModeSelectControl.value == 'adjacent-9' || viewModeSelectControl.value == 'adjacent-25'">
+                                input
+                            </mat-icon>
+                        </div>
+                        <img 
+                            class="map-card" 
+                            [src]="tile.safeURL" 
+                            *ngIf="!(tile.safeURL === undefined || tile.safeURL === '')" 
+                            (mouseover)="tile.selected=true" 
+                            (mouseout)="tile.selected=false"
+                            (click)="setTile(tile)"
+                        />
+                        <mat-card 
+                            class="map-card-unclickable" 
+                            *ngIf="(tile.safeURL === undefined || tile.safeURL === '')" 
+                            (mouseover)="tile.selected=true" 
+                            (mouseout)="tile.selected=false"
+                        >
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <div class="options-under">
+            <mat-form-field class="view-mode-select" appearance="outline">
+                <mat-label>View Mode</mat-label>
+                <mat-select #viewModeSelect (valueChange)="setViewMode($event)" [formControl]="viewModeSelectControl">
+                    <mat-option value="children">Children Tiles</mat-option>
+                    <mat-option value="adjacent-9">Adjacent Tiles (9)</mat-option>
+                    <mat-option value="adjacent-25">Adjacent Tiles (25)</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-card class="action-button-holder">
+                <button mat-icon-button class="action-button" (click)="return()"> 
+                    <mat-icon>
+                        move_up
+                    </mat-icon>
+                </button>
+            </mat-card>
+            <mat-card class="action-button-holder">
+                <button mat-icon-button class="action-button" (click)="zoomIn()"> 
+                    <mat-icon>
+                        zoom_in
+                    </mat-icon>
+                </button>
+                <button mat-icon-button class="action-button"  (click)="zoomOut()"> 
+                    <mat-icon>
+                        zoom_out
+                    </mat-icon>
+                </button>
+            </mat-card>
+            <mat-card class="action-button-holder">
+                <div>
+                    <button mat-icon-button class="action-button" style="display: block; margin-left: auto; margin-right: auto" (click)="moveUp()"> 
+                        <mat-icon>
+                            arrow_upward
+                        </mat-icon>
+                    </button>
+                </div>
+                <div>
+                    <button mat-icon-button class="action-button" (click)="moveLeft()"> 
+                        <mat-icon>
+                            arrow_back
+                        </mat-icon>
+                    </button>
+                    <button mat-icon-button class="action-button" (click)="moveDown()"> 
+                        <mat-icon>
+                            arrow_downward
+                        </mat-icon>
+                    </button>
+                    <button mat-icon-button class="action-button" (click)="moveRight()"> 
+                        <mat-icon>
+                            arrow_forward
+                        </mat-icon>
+                    </button>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>

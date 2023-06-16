@@ -1,0 +1,13 @@
+mat-card-content {
+    padding-left: 10px; 
+    padding-right: 20px
+}
+
+.button-option-holder {
+    display: flex; 
+    margin-bottom: 20px;
+    .button-option {
+        margin-left: 10px; 
+        display: inline;
+    }
+}

@@ -5,6 +5,7 @@ import { MapService } from 'src/app/services/map/map.service';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { ErrorService } from 'src/app/services/error.service';
 import { Router } from '@angular/router';
+import { MapLayerService } from 'src/app/services/map/map-layer.service';
 
 @Component({
   selector: 'app-map-edit',
@@ -126,7 +127,13 @@ export class MapEditComponent {
     if (this.isValid()) {
       if (this.adding) {
         this.mapService.postMap(this.buildMapForAdd()).subscribe(response => {
-          this.errorService.showSnackBar("Map successfully created.");
+          this.mapLayerService.postMapLayer({name: "Base Layer", summary: "The foundation layer of this map.", mapId: response, isBaseLayer: true, isIconLayer: false}).subscribe(response => {
+            this.errorService.showSnackBar("Map successfully created.");
+          },
+          error => {
+            this.errorService.showSnackBar("The map was successfully created, but there was a problem creating the base layer.");
+          });
+          
           this.save.emit(response);
         }, 
         error => {
@@ -148,6 +155,10 @@ export class MapEditComponent {
     }
   }
 
-  constructor (public mapService: MapService, private errorService: ErrorService, private cdref: ChangeDetectorRef) {
+  constructor (
+    public mapService: MapService, 
+    public mapLayerService: MapLayerService,
+    private errorService: ErrorService, 
+    private cdref: ChangeDetectorRef) {
   }
 }

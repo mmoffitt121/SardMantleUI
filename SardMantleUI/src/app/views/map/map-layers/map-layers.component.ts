@@ -1,6 +1,10 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MapLayer } from 'src/app/models/map/map-layer';
+import { ErrorService } from 'src/app/services/error.service';
 import { MapLayerService } from 'src/app/services/map/map-layer.service';
+import { EditMapLayerComponent } from './edit-map-layer/edit-map-layer.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-map-layers',
@@ -9,6 +13,7 @@ import { MapLayerService } from 'src/app/services/map/map-layer.service';
 })
 export class MapLayersComponent implements OnChanges{
   public selectedLayers: MapLayer[];
+  public allLayers: MapLayer[];
   public baseLayer: MapLayer;
   public iconLayers: MapLayer[];
   public mapLayers: MapLayer[];
@@ -22,10 +27,51 @@ export class MapLayersComponent implements OnChanges{
 
   public loadLayers() {
     this.mapLayerService.getMapLayers({mapId: this.mapId}).subscribe(data => {
+      this.allLayers = data;
       this.iconLayers = data.filter((l: MapLayer) => l.isIconLayer && !l.isBaseLayer);
       this.mapLayers = data.filter((l: MapLayer) => !l.isIconLayer && !l.isBaseLayer);
       this.baseLayer = data.find((l: MapLayer) => l.isBaseLayer);
+      this.loadIcons();
     })
+  }
+
+  public loadIcons() {
+    this.allLayers.forEach(l => {
+      this.mapLayerService.getMapLayerIcon(l.id).subscribe(icon => {
+        if (icon.body != null) {
+          l.safeURL = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(icon.body));
+        }
+        else {
+          l.safeURL = undefined;
+        }
+      });
+    })
+  }
+
+  public handleAdd(layerType: any) {
+    const dialogRef = this.dialog.open(EditMapLayerComponent, {
+      width: '400px',
+      data: { title: "Add Layer", layerType, adding: true, mapId: this.mapId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadLayers();
+      }
+    });
+  }
+
+  public handleEdit(event: any) {
+    const dialogRef = this.dialog.open(EditMapLayerComponent, {
+      width: '450px',
+      data: { title: "Edit Layer", layer: event, mapId: this.mapId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadLayers();
+      }
+    });
   }
 
   public onCheck(event: any) {
@@ -33,16 +79,31 @@ export class MapLayersComponent implements OnChanges{
       event.selected = !event.selected;
     }
     else {
+      const selected = event.selected;
       this.mapLayers.forEach(l => {
         l.selected = false;
       })
-      event.selected = true;
+      event.selected = !selected;
     }
+  }
+
+  public generateBaseLayer() {
+    this.mapLayerService.postMapLayer({name: "Base Layer", summary: "The foundation layer of this map.", mapId: this.mapId, isBaseLayer: true, isIconLayer: false}).subscribe(response => {
+      this.errorService.showSnackBar("Base Layer successfully created.");
+      this.loadLayers();
+    },
+    error => {
+      this.errorService.showSnackBar("There was a problem creating the base layer.");
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.loadLayers();
   }
 
-  constructor(private mapLayerService: MapLayerService, cdref: ChangeDetectorRef) {}
+  constructor(
+    private mapLayerService: MapLayerService, 
+    private errorService: ErrorService, 
+    private dialog: MatDialog,
+    private domSanitizer: DomSanitizer) {}
 }

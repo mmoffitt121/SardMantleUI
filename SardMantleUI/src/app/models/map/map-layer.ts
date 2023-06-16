@@ -1,3 +1,4 @@
+import { SafeUrl } from "@angular/platform-browser";
 import { Selectable } from "../selectable/selectable";
 
 export interface MapLayer extends Selectable {
@@ -8,4 +9,5 @@ export interface MapLayer extends Selectable {
     isBaseLayer: boolean;
     isIconLayer: boolean;
     iconURL: string;
+    safeURL: SafeUrl | undefined;
 }

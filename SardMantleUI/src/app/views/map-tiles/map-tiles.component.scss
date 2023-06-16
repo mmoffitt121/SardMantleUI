@@ -1,0 +1,115 @@
+.screen-container {
+    display: grid;
+    grid-template-columns: 55px 0.3fr 0.7fr;
+    overflow-y: auto;
+    background-color: var(--secondary-background-color);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0px;
+}
+
+.button-holder {
+    justify-self: center;
+    display: grid;
+    grid-template-columns: 100%;
+    margin: 10px;
+    color: var(--text-color);
+}
+
+.floating-button-holder {
+    position: absolute; 
+    right: 5px; 
+    top: 17px;
+}
+
+.tile-grid-holder-left {
+    margin-left: auto;
+    margin-right: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+    .tile-display {
+        img {
+            width: 256px;
+            height: 256px;
+        }
+    }
+}
+
+.tile-grid-holder-right {
+    margin-left: 10px;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    .tile-grid {
+        display: grid;
+        grid-template-columns: repeat(var(--tile-rows, 2), 256px);
+        grid-template-rows: repeat(var(--tile-rows, 2), 256px);
+        img {
+            width: 256px;
+            height: 256px;
+        }
+    }
+
+    .actions {
+        display: flex;
+        flex-direction: column;
+        button {
+            margin: 5px;
+        }
+    }
+}
+
+.map-card {
+    display: inline-flex;
+    flex-wrap: wrap;
+    width: 256px;
+    height: 256px;
+    border-radius: 0px;
+    box-shadow: 0 0 0 0;
+    cursor: pointer;
+}
+
+.map-card-unclickable {
+    display: inline-flex;
+    flex-wrap: wrap;
+    width: 256px;
+    height: 256px;
+    border-radius: 0px;
+    box-shadow: 0 0 0 0;
+}
+
+.map-card-over {
+    position: absolute;
+    z-index: 1000;
+    pointer-events: none;
+    background-color: var(--field-overlay-color-dark);
+    width: 256px;
+    height: 256px;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+}
+
+.view-mode-select {
+    margin-top: 20px;
+    background-color: var(--secondary-background-color);
+}
+
+.options-under {
+    display: flex;
+}
+
+.action-button-holder {
+    margin-top: 20px; 
+    margin-left: 10px;
+    .action-button {
+        margin: 5px
+    }
+}
+
+p {
+    font-size: 12pt;
+}

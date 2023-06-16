@@ -1,0 +1,138 @@
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { MapLayer } from 'src/app/models/map/map-layer';
+import { ErrorService } from 'src/app/services/error.service';
+import { MapLayerService } from 'src/app/services/map/map-layer.service';
+import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
+import { UploadFileComponent } from 'src/app/views/shared/document-components/file/upload-file/upload-file.component';
+
+@Component({
+  selector: 'app-edit-map-layer',
+  templateUrl: './edit-map-layer.component.html',
+  styleUrls: ['./edit-map-layer.component.scss']
+})
+export class EditMapLayerComponent implements OnInit {
+  public mapLayer: MapLayer;
+  public mapId: number;
+  public iconLayer: boolean;
+  public baseLayer: boolean;
+  public adding: boolean;
+  public title: string = "Map Layer";
+
+  public iconChanged = false;
+  public icon: any;
+
+  public iconFile: any;
+
+  public name = new FormControl();
+  public summary = new FormControl();
+
+  public onSave() {
+    if (this.adding) {
+      this.mapLayer = {
+        name: this.name.value,
+        summary: this.summary.value,
+        mapId: this.mapId,
+        isBaseLayer: false,
+        isIconLayer: this.iconLayer
+      } as MapLayer;
+      this.mapLayerService.postMapLayer(this.mapLayer).subscribe(result => {
+        this.errorService.showSnackBar("Layer " + this.mapLayer.name + " successfully created.");
+        this.dialogRef.close(true);
+      },
+      error => {
+        this.errorService.handle(error);
+      });
+    }
+    else {
+      this.mapLayer.name = this.name.value;
+      this.mapLayer.summary = this.summary.value;
+      this.mapLayer.isBaseLayer = this.baseLayer;
+      this.mapLayerService.putMapLayer(this.mapLayer).subscribe(result => {
+        this.errorService.showSnackBar("Layer " + this.mapLayer.name + " successfully saved.");
+        if (this.iconChanged) {
+          this.mapLayerService.postMapLayerIcon(this.icon, this.mapLayer.id).subscribe(result => {
+            this.dialogRef.close(true);
+            this.errorService.showSnackBar("Map Icon successfully uploaded.");
+          }, 
+          error => {
+            this.errorService.handle(error);
+          });
+        }
+        else {
+          this.dialogRef.close(true);
+        }
+      },
+      error => {
+        this.errorService.handle(error);
+      });
+    }
+  }
+
+  public onDelete() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '480px',
+      data: { title: 'Confirm Deletion', content: 'Are you sure you want to delete Map Layer ' + this.mapLayer.name + '?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.mapLayerService.deleteMapLayer(this.mapLayer.id).subscribe(result => {
+          this.errorService.showSnackBar("Layer successfully deleted.");
+          this.dialogRef.close(true);
+        },
+        error => {
+          this.errorService.handle(error);
+        });
+      }
+    });
+  }
+
+  public onCancel() {
+    this.dialogRef.close();
+  }
+
+  public onChangeIcon() {
+    const dialogRef = this.dialog.open(UploadFileComponent, {
+      width: '525px',
+      data: { title: "Upload Icon" }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.icon = result;
+        this.iconChanged = true;
+      }
+    });
+  }
+
+  public onEditTiles() {
+    this.dialogRef.close();
+    this.router.navigate(['/map-tiles/' + this.mapLayer.id]);
+  }
+
+  constructor(
+    public dialogRef: MatDialogRef<EditMapLayerComponent>, 
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private mapLayerService: MapLayerService,
+    private errorService: ErrorService,
+    private dialog: MatDialog,
+    private router: Router
+  ) {
+    this.mapLayer = data.layer;
+    this.adding = data.adding;
+    this.title = data.title;
+    this.mapId = data.mapId;
+    this.iconLayer = data.layerType === "icon";
+    this.baseLayer = data.layer?.isBaseLayer;
+  }
+
+  ngOnInit(): void {
+    if (!this.adding && !(this.mapLayer === undefined)) {
+      this.name.setValue(this.mapLayer.name);
+      this.summary.setValue(this.mapLayer.summary);
+    }
+  }
+}

@@ -1,0 +1,41 @@
+<div class="corner-button-container">
+    <button mat-icon-button class="corner-button" (click)="onCancel()" matTooltip="Close">
+        <mat-icon>
+            close
+        </mat-icon>
+    </button>
+</div>
+<mat-card-title style="margin-left: 20px">
+    <h2>
+        {{title}}
+    </h2>
+</mat-card-title>
+<mat-card-content>
+    <app-edit-string [parameterName]="'Layer Name'" [required]="true" [control]="name"></app-edit-string>
+    <app-edit-summary [parameterName]="'Layer Summary'" [control]="summary"></app-edit-summary>
+    <div class="button-option-holder">
+        <div *ngIf="!adding" class="button-option">
+            <button mat-button (click)="onChangeIcon()">Change Icon</button>
+            <div style="margin: 10px;" *ngIf="iconChanged">File Selected.</div>
+        </div>
+        <div *ngIf="!adding && !mapLayer.isIconLayer" class="button-option">
+            <button mat-button (click)="onEditTiles()">Edit Map Tiles</button>
+        </div>
+        <div *ngIf="!adding && !mapLayer.isIconLayer" class="button-option">
+            <button mat-button [disabled]="baseLayer" (click)="baseLayer = true;">Make Base Layer</button>
+        </div>
+    </div>
+    <div class="button-option-holder">
+        <div *ngIf="!adding" class="button-option">
+            <button mat-button (click)="onDelete()" class="destructive-button" [disabled]="baseLayer">Delete Layer</button>
+        </div>
+    </div>
+</mat-card-content>
+<mat-card-actions style="float: right">
+    <button mat-button style="margin-left: 10px;" (click)="onCancel()">
+        Cancel
+    </button>
+    <button mat-button style="margin-left: 10px;" (click)="onSave()" color="primary">
+        Save
+    </button>
+</mat-card-actions>

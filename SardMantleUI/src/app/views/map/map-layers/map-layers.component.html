@@ -1,16 +1,20 @@
-<div *ngIf="!(iconLayers === undefined) && iconLayers.length > 0">
+<div>
     <div style="display: grid; grid-template-columns: auto 50px;">
-        <h3>Icon Layers</h3>
-        <button mat-icon-button>
+        <h3 *ngIf="!(iconLayers === undefined) && iconLayers.length > 0">Icon Layers</h3>
+        <h3 *ngIf="!(!(iconLayers === undefined) && iconLayers.length > 0)">Add New Icon Layer</h3>
+        <button mat-icon-button matTooltip="Add Layer" (click)="handleAdd('icon')">
             <mat-icon>
                 add
             </mat-icon>
         </button>
     </div>
     <mat-card *ngFor="let layer of iconLayers" class="layer-item">
-        <div style="display: grid; grid-template-columns: auto 50px 50px;">
-            <img class="card-image" src="https://www.shutterstock.com/image-photo/surreal-image-african-elephant-wearing-260nw-1365289022.jpg" />
-            <button mat-icon-button matTooltip="Edit Layer" class="carded-button">
+        <div style="display: grid; grid-template-columns: auto 50px 50px; height: 50px;">
+            <div>
+                <img class="card-image" [src]="layer.safeURL" *ngIf="layer.safeURL" />
+                <p class="label-over"> {{ layer.name | valueShorten: 25:1 }} </p>
+            </div>
+            <button mat-icon-button matTooltip="Edit Layer" class="carded-button"  (click)="handleEdit(layer)">
                 <mat-icon> edit </mat-icon>
             </button>
             <button mat-icon-button (click)="onCheck(layer)" class="carded-button">
@@ -20,22 +24,26 @@
         </div>
     </mat-card>
 </div>
-<div *ngIf="!(mapLayers === undefined) && mapLayers.length > 0">
+<div>
     <div style="display: grid; grid-template-columns: auto 50px;">
-        <h3>Map Layers</h3>
-        <button mat-icon-button>
+        <h3 *ngIf="!(mapLayers === undefined) && mapLayers.length > 0">Map Layers</h3>
+        <h3 *ngIf="!(!(mapLayers === undefined) && mapLayers.length > 0)">Add New Map Layer</h3>
+        <button mat-icon-button matTooltip="Add Layer" (click)="handleAdd('map')">
             <mat-icon>
                 add
             </mat-icon>
         </button>
     </div>
     <mat-card *ngFor="let layer of mapLayers" class="layer-item">
-        <div style="display: grid; grid-template-columns: auto 50px 50px;">
-            {{layer.name}}
-            <button mat-icon-button matTooltip="Edit Layer">
+        <div style="display: grid; grid-template-columns: auto 50px 50px; height: 50px;">
+            <div>
+                <img class="card-image" [src]="layer.safeURL" *ngIf="layer.safeURL" />
+                <p class="label-over"> {{ layer.name | valueShorten: 25:1 }} </p>
+            </div>
+            <button mat-icon-button matTooltip="Edit Layer" class="carded-button" (click)="handleEdit(layer)">
                 <mat-icon> edit </mat-icon>
             </button>
-            <button mat-icon-button (click)="onCheck(layer)">
+            <button mat-icon-button (click)="onCheck(layer)" class="carded-button">
                 <mat-icon *ngIf="layer.selected"> check_circle </mat-icon>
                 <mat-icon *ngIf="!layer.selected"> radio_button_unchecked </mat-icon>
             </button>
@@ -45,11 +53,22 @@
 <div *ngIf="!(baseLayer === undefined)">
     <h3>Base Layer</h3>
     <mat-card class="layer-item">
-        <div style="display: grid; grid-template-columns: auto 50px;">
-            {{baseLayer.name}}
-            <button mat-icon-button matTooltip="Edit Layer">
+        <div style="display: grid; grid-template-columns: auto 50px 50px; height: 50px;">
+            <div>
+                <img class="card-image" [src]="baseLayer.safeURL" *ngIf="baseLayer.safeURL" />
+                <p class="label-over"> {{ baseLayer.name | valueShorten: 25:1 }} </p>
+            </div>
+            <button mat-icon-button matTooltip="Edit Layer" class="carded-button" (click)="handleEdit(baseLayer)">
                 <mat-icon> edit </mat-icon>
+            </button>
+            <button mat-icon-button class="carded-button" disabled>
+                <mat-icon> check_circle </mat-icon>
             </button>
         </div>
     </mat-card>
+</div>
+
+<div *ngIf="baseLayer === undefined">
+    <h3>Base Layer</h3>
+    <button mat-button (click)="generateBaseLayer()"> Generate Base Layer </button>
 </div>
