@@ -2324,6 +2324,12 @@ html {
     background-color: var(--secondary-accent-color-disabled);
 }
 
+.mat-mdc-button.mat-primary[disabled][disabled] {
+    --mdc-text-button-disabled-label-text-color: var(--inverted-text-color-disabled);
+    --mdc-text-button-label-text-color: var(--inverted-text-color);
+    background-color: var(--primary-accent-color-disabled);
+}
+
 .mat-mdc-unelevated-button.mat-unthemed {
     --mdc-filled-button-container-color: #424242;
     --mdc-filled-button-label-text-color: #fff

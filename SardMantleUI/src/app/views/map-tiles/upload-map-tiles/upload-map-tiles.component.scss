@@ -1,0 +1,29 @@
+mat-card-content {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.secondary-card {
+    margin-left: 10px;
+    margin-right: 0;
+    padding-bottom: 10px;
+    background-color: var(--secondary-background-color);
+    h3 {
+        margin-left: 10px;
+        margin-bottom: 5px;
+        margin-top: 10px;
+    }
+    p {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+}
+
+.replaced-image {
+    width: 250px; 
+    height: 256px; 
+    margin-top: 0px; 
+    margin-left: 10px; 
+    background-color: var(--secondary-accent-color);
+    border-radius: 5px;
+}

@@ -1,10 +1,17 @@
+import { DialogRef } from '@angular/cdk/dialog';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MapTile } from 'src/app/models/map/map-tile';
 import { MapTileService } from 'src/app/services/map/map-tile-service';
+import { UploadMapTilesComponent } from './upload-map-tiles/upload-map-tiles.component';
+import { MapLayerService } from 'src/app/services/map/map-layer.service';
+import { MapService } from 'src/app/services/map/map.service';
+import { MapLayer } from 'src/app/models/map/map-layer';
+import { Map } from 'src/app/models/map/map';
 
 @Component({
   selector: 'app-map-tiles',
@@ -16,6 +23,29 @@ export class MapTilesComponent implements OnInit {
   currentTile: any;
   public viewModeSelectControl = new FormControl();
   public viewModeTiles = 2;
+  public mapLayer: MapLayer;
+  public map: Map;
+
+  public uploadTiles() {
+    const dialogRef = this.dialog.open(UploadMapTilesComponent, {
+      width: '650px',
+      data: { root: this.currentTile, map: this.map, mapLayer: this.mapLayer }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadTiles();
+      }
+    });
+  }
+
+  public uploadDisabled() {
+    return this.currentTile?.x < 0 ||
+      this.currentTile.x >= Math.pow(2, this.currentTile.z) || 
+      this.currentTile?.y < 0 || 
+      this.currentTile.y >= Math.pow(2, this.currentTile.z) || 
+      this.currentTile?.z < 0;
+  }
 
   public loadTiles() {
     this.routeLocation.replaceState('map-tiles/' 
@@ -201,9 +231,12 @@ export class MapTilesComponent implements OnInit {
   constructor(
     private domSanitizer: DomSanitizer, 
     private mapTileService: MapTileService,
+    private mapLayerService: MapLayerService,
+    private mapService: MapService,
     private route: ActivatedRoute,
     private router: Router,
-    private routeLocation: Location
+    private routeLocation: Location,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -215,6 +248,15 @@ export class MapTilesComponent implements OnInit {
       this.currentTile = {z, x, y, layerId} as MapTile;
       this.routeLocation.replaceState('map-tiles/' + layerId + '/' + z + '/' + y + '/' + x);
       this.loadTiles();
+
+      this.mapLayerService.getMapLayers({id: layerId}).subscribe(data => {
+        if (data?.length > 0) {
+          this.mapLayer = data?.length > 0 ? data[0] : null;
+          this.mapService.getMaps({id: this.mapLayer.mapId}).subscribe(mapData => {
+            this.map = mapData?.length > 0 ? mapData[0] : null;
+          })
+        }
+      })
     })
     
     this.viewModeSelectControl.setValue("children");

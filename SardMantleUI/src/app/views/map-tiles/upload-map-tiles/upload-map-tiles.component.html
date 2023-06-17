@@ -1,0 +1,74 @@
+<div class="corner-button-container">
+    <button mat-icon-button class="corner-button" (click)="onCancel()" matTooltip="Close" [disabled]="loading">
+        <mat-icon>
+            close
+        </mat-icon>
+    </button>
+</div>
+<mat-card-header>
+    <h3>
+        Upload Map Tile
+    </h3>
+</mat-card-header>
+<mat-card-content>
+    <div *ngIf="loading">
+        <mat-progress-bar mode="determinate" [value]="uploadProgress"></mat-progress-bar>
+        <p>
+            {{ uploadProgressMessage }}
+        </p>
+    </div>
+    <div *ngIf="!loading" style="display: grid; grid-template-columns: 0.6fr 0.4fr auto">
+        <div>
+            <mat-form-field class="view-mode-select" appearance="outline">
+                <mat-label>Insert Mode</mat-label>
+                <mat-select [formControl]="replaceModeControl">
+                    <mat-option value="replace-all">Replace All</mat-option>
+                    <mat-option value="fill">Fill</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-checkbox [formControl]="replaceRootControl">Replace Root</mat-checkbox>
+            <div style="display: flex; padding-top: 30px; display: grid; grid-template-columns: auto 55px;">
+                <button mat-button (click)="onUploadFile()">Upload Tile</button>
+                <mat-icon style="margin: 7px;" matTooltip="Warning: Images must be square, a multiple of 256, and a power of 2 in size. Images not meeting this criteria will be resized, which may cause data loss.">info_outline</mat-icon>
+            </div>
+            
+            <div style="margin: 10px;" *ngIf="newTile">File Selected.</div>
+        </div>
+        <div>
+            <mat-card class="secondary-card">
+                <h3>Inserting At</h3>
+                <p>Zoom Level: {{mapTile.z}}</p>
+                <p>X:  {{mapTile.x}}</p>
+                <p>Y:  {{mapTile.y}}</p>
+                <h3>Details</h3>
+                <p>Map: {{ map.name }}</p>
+                <p>Map Layer: {{ mapLayer.name }}</p>
+            </mat-card>
+        </div>
+        <div>
+            <img class="replaced-image" [src]="currentUrl" *ngIf="currentUrl"/>
+            <mat-card class="replaced-image" *ngIf="!currentUrl">
+                <div style="display: block; margin: auto">
+                    <mat-icon style="margin: auto" matTooltip="No Tile to Replace">
+                        image
+                    </mat-icon>
+                </div>
+                
+            </mat-card>
+        </div>
+    </div>
+</mat-card-content>
+<mat-card-actions style="float: right">
+    <button mat-button style="margin-left: 10px;" (click)="onCancel()" [disabled]="loading">
+        <div *ngIf="!loading">
+            Cancel
+        </div>
+        <mat-progress-spinner class="button-loading" mode="indeterminate" *ngIf="loading"></mat-progress-spinner>
+    </button>
+    <button mat-button style="margin-left: 10px;" (click)="onSave()" color="primary" [disabled]="loading || !newTile">
+        <div *ngIf="!loading">
+            Save
+        </div>
+        <mat-progress-spinner class="primary-button-loading" mode="indeterminate" *ngIf="loading"></mat-progress-spinner>
+    </button>
+</mat-card-actions>

@@ -8,7 +8,7 @@ import { FormControl } from '@angular/forms';
 })
 export class EditBoolComponent implements OnInit {
   @Input() parameterName: string = 'Parameter Name';
-  @Input() parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?';
+  @Input() parameterSummary: string = '';
   @Input() control = new FormControl();
   @Input() default = false;
   @Input() required: boolean = false;

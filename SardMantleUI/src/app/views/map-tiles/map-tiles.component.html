@@ -41,7 +41,7 @@
         </mat-card>
         <div class="options-under">
             <mat-card class="action-button-holder" style="margin-left: 0px">
-                <button mat-icon-button class="action-button" (click)="return()"> 
+                <button mat-icon-button class="action-button" (click)="uploadTiles()" [disabled]="uploadDisabled()"> 
                     <mat-icon>
                         upload_file
                     </mat-icon>

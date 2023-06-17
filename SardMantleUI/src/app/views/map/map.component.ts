@@ -715,7 +715,7 @@ export class MapComponent implements OnInit {
       }
     });
   }
-  //#endregion
+  // #endregion
 
   //#region Field Resetting
   public resetAreaField() {

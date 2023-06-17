@@ -32,6 +32,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator'; 
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { NgxEditorModule } from 'ngx-editor';
@@ -83,6 +84,7 @@ import { MapAddWindowComponent } from './views/map/map-edit/map-add-window/map-a
 import { UploadFileComponent } from './views/shared/document-components/file/upload-file/upload-file.component';
 import { EditMapLayerComponent } from './views/map/map-layers/edit-map-layer/edit-map-layer.component';
 import { MapTilesComponent } from './views/map-tiles/map-tiles.component';
+import { UploadMapTilesComponent } from './views/map-tiles/upload-map-tiles/upload-map-tiles.component';
 
 @NgModule({
   declarations: [
@@ -135,7 +137,8 @@ import { MapTilesComponent } from './views/map-tiles/map-tiles.component';
     MapAddWindowComponent,
     UploadFileComponent,
     EditMapLayerComponent,
-    MapTilesComponent
+    MapTilesComponent,
+    UploadMapTilesComponent
   ],
   imports: [
     BrowserModule,
@@ -164,6 +167,7 @@ import { MapTilesComponent } from './views/map-tiles/map-tiles.component';
     MatPaginatorModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     DragDropModule,
     BrowserAnimationsModule,
     NgxEditorModule
