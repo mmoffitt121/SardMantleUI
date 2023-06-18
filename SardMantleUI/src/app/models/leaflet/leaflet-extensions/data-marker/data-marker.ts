@@ -1,6 +1,6 @@
 import * as L from 'leaflet';
 
-export class DataMarker<P = any> extends L.CircleMarker {
+export class DataMarker<P = any> extends L.Marker {
     constructor(latlng: L.LatLngExpression, options?: L.CircleMarkerOptions, id?: number){
         super(latlng, options);
     }
@@ -8,9 +8,9 @@ export class DataMarker<P = any> extends L.CircleMarker {
     public dataType: number | undefined;
 }
 
-export function dataMarker(latlng: L.LatLngExpression, options?: L.CircleMarkerOptions, id?: number, dataType?: number): DataMarker
+export function dataMarker(latlng: L.LatLngExpression, options?: L.MarkerOptions, id?: number, dataType?: number): DataMarker
 {
-    var marker = L.circleMarker(latlng, options);
+    var marker = L.marker(latlng, options);
     var dataMarker = marker as DataMarker;
     dataMarker.id = id;
     dataMarker.dataType = dataType;

@@ -38,5 +38,20 @@ export class MapTileService {
     return this.http.post('https://localhost:7094/Map/TileProvider/UploadTile', formData, { reportProgress: true });
   }
 
+  public deleteMapTile(z: number, x: number, y: number, layerId: number) {
+    let params = new HttpParams().set('z', z).set('x', x).set('y', y).set('layerId', layerId);
+    return this.http.delete<any>('https://localhost:7094/Map/TileProvider/DeleteTile', { params: params });
+  }
+
+  public deleteMapTilesOfLayer(layerId: number) {
+    let params = new HttpParams().set('layerId', layerId);
+    return this.http.delete<any>('https://localhost:7094/Map/TileProvider/DeleteTilesOfLayer', { params: params });
+  }
+
+  public deleteMapTilesOfMap(mapId: number) {
+    let params = new HttpParams().set('mapId', mapId);
+    return this.http.delete<any>('https://localhost:7094/Map/TileProvider/DeleteTilesOfMap', { params: params });
+  }
+
   constructor(private http: HttpClient) { }
 }

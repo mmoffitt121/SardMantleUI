@@ -133,6 +133,11 @@ export class MapEditComponent {
           error => {
             this.errorService.showSnackBar("The map was successfully created, but there was a problem creating the base layer.");
           });
+          this.mapLayerService.postMapLayer({name: "Default Icon Layer", summary: "The default icon layer of this map.", mapId: response, isBaseLayer: true, isIconLayer: true}).subscribe(response => {
+          },
+          error => {
+            this.errorService.showSnackBar("The map was successfully created, but there was a problem creating the base icon layer.");
+          });
           
           this.save.emit(response);
         }, 

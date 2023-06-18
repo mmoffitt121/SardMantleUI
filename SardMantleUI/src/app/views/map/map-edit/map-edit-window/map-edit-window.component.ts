@@ -8,6 +8,7 @@ import { MapService } from 'src/app/services/map/map.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
 import { MapLayerService } from 'src/app/services/map/map-layer.service';
+import { MapTileService } from 'src/app/services/map/map-tile-service';
 
 @Component({
   selector: 'app-map-edit-window',
@@ -32,10 +33,15 @@ export class MapEditWindowComponent implements AfterViewInit {
   }
 
   public onDelete() {
-    this.mapLayerService.deleteMapLayersOfMapId(this.map.id).subscribe(result => {
-      this.mapService.deleteMap(this.map.id).subscribe(result => {
-        this.dialogRef.close("Deleted");
-        this.errorService.showSnackBar("Map successfully deleted.");
+    this.mapTileService.deleteMapTilesOfMap(this.map.id).subscribe(result => {
+      this.mapLayerService.deleteMapLayersOfMapId(this.map.id).subscribe(result => {
+        this.mapService.deleteMap(this.map.id).subscribe(result => {
+          this.dialogRef.close("Deleted");
+          this.errorService.showSnackBar("Map successfully deleted.");
+        },
+        error => {
+          this.errorService.handle(error);
+        });
       },
       error => {
         this.errorService.handle(error);
@@ -43,7 +49,8 @@ export class MapEditWindowComponent implements AfterViewInit {
     },
     error => {
       this.errorService.handle(error);
-    });
+    })
+    
   }
 
   public confirmDelete() {
@@ -63,6 +70,7 @@ export class MapEditWindowComponent implements AfterViewInit {
     @Inject(MAT_DIALOG_DATA) public data: any, 
     public mapService: MapService,
     public mapLayerService: MapLayerService,
+    private mapTileService: MapTileService,
     public errorService: ErrorService,
     public dialog: MatDialog
     ) { 

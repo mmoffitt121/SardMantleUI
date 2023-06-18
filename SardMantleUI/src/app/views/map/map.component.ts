@@ -246,7 +246,7 @@ export class MapComponent implements OnInit {
     this.mapService.getAreas([]).subscribe(data => {
       this.areas = data;
       this.filteredAreas = this.areas;
-      this.addMarkers(this.areas, 1);
+      this.addLabels(this.areas, 1);
     },
     error => {
       console.error(error);
@@ -257,7 +257,7 @@ export class MapComponent implements OnInit {
     this.mapService.getSubregions([]).subscribe(data => {
       this.subregions = data;
       this.filteredSubregions = this.subregions;
-      this.addMarkers(this.subregions, 2);
+      this.addLabels(this.subregions, 2);
     },
     error => {
       console.error(error);
@@ -268,7 +268,7 @@ export class MapComponent implements OnInit {
     this.mapService.getRegions([]).subscribe(data => {
       this.regions = data;
       this.filteredRegions = this.regions;
-      this.addMarkers(this.regions, 3);
+      this.addLabels(this.regions, 3);
     },
     error => {
       console.error(error);
@@ -279,7 +279,7 @@ export class MapComponent implements OnInit {
     this.mapService.getSubcontinents([]).subscribe(data => {
       this.subcontinents = data;
       this.filteredSubcontinents = this.subcontinents;
-      this.addMarkers(this.subcontinents, 4);
+      this.addLabels(this.subcontinents, 4);
     },
     error => {
       console.error(error);
@@ -290,7 +290,7 @@ export class MapComponent implements OnInit {
     this.mapService.getContinents([]).subscribe(data => {
       this.continents = data;
       this.filteredContinents = this.continents;
-      this.addMarkers(this.continents, 5);
+      this.addLabels(this.continents, 5);
     },
     error => {
       console.error(error);
@@ -399,17 +399,15 @@ export class MapComponent implements OnInit {
       var marker = markers[i];
       if (!(marker.latitude && marker.longitude)) continue;
 
+      var icon = new L.Icon.Default();
+      icon.options.shadowSize = [0, 0];
+      icon.options.shadowUrl = "";
+
       if (dataType == 0) {
-        newMarker = dataMarker([marker.latitude, marker.longitude], { 
-          color: MapIconMaps.colorMap.get((marker.locationTypeId)), 
-          radius: MapIconMaps.radiusMap.get((marker.locationTypeId))
-        }, marker.id, dataType).addTo(markerLayer);
+        newMarker = dataMarker([marker.latitude, marker.longitude], { icon }, marker.id, dataType).addTo(markerLayer);
       }
       else {
-        newMarker = dataMarker([marker.latitude, marker.longitude], { 
-          color: MapIconMaps.nonLocationColorMap.get((dataType)), 
-          radius: MapIconMaps.nonLocationRadiusMap.get((dataType))
-        }, marker.id, dataType).addTo(markerLayer);
+        newMarker = dataMarker([marker.latitude, marker.longitude], { icon }, marker.id, dataType).addTo(markerLayer);
       }
 
       const popupContent = marker.name != null && marker.name != '' ? marker.name : marker.locationName;
@@ -427,6 +425,49 @@ export class MapComponent implements OnInit {
       })
 
       markerLayer.addTo(this.map);
+    }
+  }
+
+  public addLabels(markers: any, dataType: number): void {
+    var layer;
+    var className;
+    switch (dataType) {
+      case 0:
+        layer = this.primaryMarkerLayer;
+        className = "location-label-icon";
+        break;
+      case 1:
+        layer = this.areaLayer;
+        className = "area-label-icon";
+        break;
+      case 2:
+        layer = this.subregionLayer;
+        className = "subregion-label-icon";
+        break;
+      case 3:
+        layer = this.regionLayer;
+        className = "region-label-icon";
+        break;
+      case 4:
+        layer = this.subcontinentLayer;
+        className = "subcontinent-label-icon";
+        break;
+      case 5:
+        layer = this.continentLayer;
+        className = "continent-label-icon";
+        break;
+    }
+    var newMarker;
+    var divIcon;
+    for (var i = 0; i < markers.length; i++) {
+      var marker = markers[i];
+      if (!(marker.latitude && marker.longitude)) continue;
+      
+      divIcon = L.divIcon({className: "label-icon-container", html: "<p class='" + className + "'>" + marker.name + "<p>"})
+      newMarker = dataMarker([marker.latitude, marker.longitude], {icon: divIcon}, marker.id, dataType).addTo(layer);
+      newMarker.on('click', (e: any) => { this.openViewLocation(e); console.log(e) });
+
+      layer.addTo(this.map);
     }
   }
 
@@ -641,6 +682,7 @@ export class MapComponent implements OnInit {
       } 
       else {
         this.errorService.showSnackBar("Map not found.");
+        this.loadDefaultMap();
       }
     })
   }
@@ -648,15 +690,11 @@ export class MapComponent implements OnInit {
   public loadDefaultMap() {
     this.mapService.getMaps({isDefault: true}).subscribe(data => {
       if (data.length > 0) {
-        this.mapData = data[0];
-        this.routeLocation.replaceState('/map/' + this.mapData.id);
-        this.loadMapIcon();
+        this.loadMap(data[0].id);
       } else {
         this.mapService.getMaps({}).subscribe(nonDefaultData => {
           if (nonDefaultData.length > 0) {
-            this.mapData = nonDefaultData[0];
-            this.routeLocation.replaceState('/map/' + this.mapData.id);
-            this.loadMapIcon();
+            this.loadMap(nonDefaultData[0].id);
           } else {
             this.router.navigate(['new-map']);
           }
@@ -942,8 +980,14 @@ export class MapComponent implements OnInit {
               } else {
                 this.router.navigate(['new-map']);
               }
+            }, 
+            error => {
+              this.router.navigate(['home']);
             })
           }
+        }, 
+        error => {
+          this.router.navigate(['home']);
         })
       }
     })
