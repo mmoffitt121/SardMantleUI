@@ -5,6 +5,7 @@ import { ErrorService } from 'src/app/services/error.service';
 import { MapLayerService } from 'src/app/services/map/map-layer.service';
 import { EditMapLayerComponent } from './edit-map-layer/edit-map-layer.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { MapTileService } from 'src/app/services/map/map-tile-service';
 
 @Component({
   selector: 'app-map-layers',
@@ -28,9 +29,13 @@ export class MapLayersComponent implements OnChanges{
   public loadLayers() {
     this.mapLayerService.getMapLayers({mapId: this.mapId}).subscribe(data => {
       this.allLayers = data;
-      this.iconLayers = data.filter((l: MapLayer) => l.isIconLayer && !l.isBaseLayer);
+      this.iconLayers = data.filter((l: MapLayer) => l.isIconLayer);
       this.mapLayers = data.filter((l: MapLayer) => !l.isIconLayer && !l.isBaseLayer);
-      this.baseLayer = data.find((l: MapLayer) => l.isBaseLayer);
+      this.baseLayer = data.find((l: MapLayer) => !l.isIconLayer && l.isBaseLayer);
+      let toSelect = data.find((l: MapLayer) => l.isIconLayer && l.isBaseLayer);
+      if (toSelect) {
+        toSelect.selected = true;
+      }
       this.loadIcons();
     })
   }
@@ -42,7 +47,14 @@ export class MapLayersComponent implements OnChanges{
           l.safeURL = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(icon.body));
         }
         else {
-          l.safeURL = undefined;
+          this.mapTileService.getMapTile(0, 0, 0, l.id).subscribe(tile => {
+            if (tile.body.size > 0) {
+              l.safeURL = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(tile.body));
+            }
+            else {
+              l.safeURL = undefined;
+            }
+          })
         }
       });
     })
@@ -103,6 +115,7 @@ export class MapLayersComponent implements OnChanges{
 
   constructor(
     private mapLayerService: MapLayerService, 
+    private mapTileService: MapTileService,
     private errorService: ErrorService, 
     private dialog: MatDialog,
     private domSanitizer: DomSanitizer) {}

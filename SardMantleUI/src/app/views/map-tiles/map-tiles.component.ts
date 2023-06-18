@@ -225,7 +225,7 @@ export class MapTilesComponent implements OnInit {
   }
 
   public navigateToMap() {
-    this.router.navigate(['map']);
+    this.router.navigate(['map/' + this.map.id]);
   }
 
   constructor(

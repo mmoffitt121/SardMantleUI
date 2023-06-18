@@ -24,10 +24,13 @@
         <div *ngIf="!adding && !mapLayer.isIconLayer" class="button-option">
             <button mat-button [disabled]="baseLayer" (click)="baseLayer = true;">Make Base Layer</button>
         </div>
+        <div *ngIf="!adding && mapLayer.isIconLayer" class="button-option">
+            <button mat-button [disabled]="baseLayer" (click)="baseLayer = true;">Make Default</button>
+        </div>
     </div>
     <div class="button-option-holder">
         <div *ngIf="!adding" class="button-option">
-            <button mat-button (click)="onDelete()" class="destructive-button" [disabled]="baseLayer">Delete Layer</button>
+            <button mat-button (click)="onDelete()" class="destructive-button" [disabled]="baseLayer && !iconLayer">Delete Layer</button>
         </div>
     </div>
 </mat-card-content>

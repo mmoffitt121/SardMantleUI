@@ -5,6 +5,9 @@ import { MapService } from 'src/app/services/map/map.service';
 import { Map } from 'src/app/models/map/map';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MapLayerService } from 'src/app/services/map/map-layer.service';
+import { MapTile } from 'src/app/models/map/map-tile';
+import { MapTileService } from 'src/app/services/map/map-tile-service';
 
 @Component({
   selector: 'app-map-select',
@@ -39,7 +42,22 @@ export class MapSelectComponent {
             map.url = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(icon.body));
           }
           else {
-            map.url = null;
+            this.mapLayerService.getMapLayers({mapId: map.id, baseLayer: true, isIconLayer: false}).subscribe(data => {
+              if (data.length > 0) {
+                let layerId = data[0].id;
+                this.mapTileService.getMapTile(0, 0, 0, layerId).subscribe(data => {
+                  if (data.body.size > 0) {
+                    map.url = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(data.body));
+                  }
+                  else {
+                    map.url = null;
+                  }
+                })
+              }
+              else {
+                map.url = null;
+              }
+            })
           }
         });
       })
@@ -75,6 +93,8 @@ export class MapSelectComponent {
   
   constructor (
     private mapService: MapService, 
+    private mapLayerService: MapLayerService,
+    private mapTileService: MapTileService,
     private errorHandler: ErrorService, 
     private domSanitizer: DomSanitizer,
     public dialogRef: MatDialogRef<MapSelectComponent>, 

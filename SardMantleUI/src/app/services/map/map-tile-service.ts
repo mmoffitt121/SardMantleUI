@@ -27,7 +27,6 @@ export class MapTileService {
     replaceMode: 'fill' | 'replace-all' | undefined, 
     replaceRoot: boolean | undefined
   ) {
-    console.log(replaceRoot);
     let formData = new FormData();
     formData.append('z', z.toString());
     formData.append('x', x.toString());

@@ -27,6 +27,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MapAddWindowComponent } from './map-edit/map-add-window/map-add-window.component';
 import { UploadFileComponent } from '../shared/document-components/file/upload-file/upload-file.component';
 import { MapLayersComponent } from './map-layers/map-layers.component';
+import { MapLayer } from 'src/app/models/map/map-layer';
+import { MapLayerService } from 'src/app/services/map/map-layer.service';
+import { MapTileService } from 'src/app/services/map/map-tile-service';
 
 @Component({
   selector: 'app-map',
@@ -36,7 +39,6 @@ import { MapLayersComponent } from './map-layers/map-layers.component';
 })
 export class MapComponent implements OnInit {
   private map: L.Map;
-  private centroid: L.LatLngExpression = [42.3601, -71.0589];
   private locations: [];
   private primaryMarkerLayer: any = L.layerGroup();
   private primaryMarkerLayerZoom: number = 8;
@@ -51,13 +53,18 @@ export class MapComponent implements OnInit {
   private subcontinentLayerZoom: number = 4;
   private continentLayer: any = L.layerGroup();
   private continentLayerZoom: number = 2;
-  //private markersCanvas: any = L.MarkersCanvas();
   public placing = false;
   public addLocationMarkerIcon = 'add';
   public locationTypes: LocationType[] = [];
   public viewingObject: boolean = false;
   public addingObject: boolean = false;
   public editingObject: boolean = false;
+
+  private defaultCenter: L.LatLngExpression = [42.3601, -71.0589];
+  private defaultZoom = 2;
+  private baseLayer: MapLayer | undefined;
+  private coverLayer: MapLayer | undefined;
+  private iconLayers: MapLayer[] = [];
 
   public mapData: MapData;
 
@@ -130,21 +137,27 @@ export class MapComponent implements OnInit {
   // Initializes the map
   private initMap(): void {
     this.map = L.map('map', {
-      center: this.centroid,
-      zoom: 12
+      center: this.defaultCenter,
+      zoom: this.defaultZoom
     });
 
-    const tilesOuter = L.tileLayer('https://localhost:7094/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=1', {
-      maxZoom: 15,
-      minZoom: 0,
-      maxNativeZoom: 5
-    });
+    if (this.baseLayer) {
+      const tilesOuter = L.tileLayer('https://localhost:7094/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.baseLayer.id, {
+        maxZoom: this.mapData.maxZoom + 5,
+        minZoom: this.mapData.minZoom,
+        maxNativeZoom: this.mapData.maxZoom,
+        noWrap: !this.mapData.loops
+      });
+      tilesOuter.addTo(this.map);
 
-    const tilesInner = L.tileLayer('https://localhost:7094/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=1', {
-      maxZoom: 15,
-      minZoom: 5,
-      maxNativeZoom: 10
-    });
+      /*const tilesInner = L.tileLayer('https://localhost:7094/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.baseLayer.id, {
+        maxZoom: 15,
+        minZoom: 5,
+        maxNativeZoom: 10,
+        noWrap: !this.mapData.loops
+      });
+      tilesInner.addTo(this.map);*/
+    }
 
     this.queryLocations();
     this.queryAreas();
@@ -154,9 +167,6 @@ export class MapComponent implements OnInit {
     this.queryContinents();
     this.queryLocationTypes();
     this.queryCelestialObjects();
-
-    tilesOuter.addTo(this.map);
-    tilesInner.addTo(this.map);
 
     this.map.on('click', (e: any) => {
       const coord = e.latlng;
@@ -606,11 +616,28 @@ export class MapComponent implements OnInit {
 
   // #region Map Data
   public loadMap(id: number) {
+    if (this.map) {
+      this.map.off();
+      this.map.remove();
+    }
+    
     this.mapService.getMaps({id: id}).subscribe(data => {
       if (data.length > 0) {
         this.mapData = data[0];
         this.routeLocation.replaceState('/map/' + id);
         this.loadMapIcon();
+        this.mapLayerService.getMapLayers({mapId: id, isBaseLayer: true, isIconLayer: false}).subscribe(data => {
+          if (data.length > 0) {
+            this.baseLayer = data[0];
+          }
+          else {
+            this.baseLayer = undefined;
+          }
+          this.initMap();
+        },
+        error => {
+          this.errorService.showSnackBar("There was an error finding the map base layer.");
+        })
       } 
       else {
         this.errorService.showSnackBar("Map not found.");
@@ -660,7 +687,22 @@ export class MapComponent implements OnInit {
         this.mapData.url = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(icon.body));
       }
       else {
-        this.mapData.url = null;
+        this.mapLayerService.getMapLayers({mapId: this.mapData.id, baseLayer: true, isIconLayer: false}).subscribe(data => {
+          if (data.length > 0) {
+            let layerId = data[0].id;
+            this.mapTileService.getMapTile(0, 0, 0, layerId).subscribe(data => {
+              if (data.body.size > 0) {
+                this.mapData.url = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(data.body));
+              }
+              else {
+                this.mapData.url = null;
+              }
+            })
+          }
+          else {
+            this.mapData.url = null;
+          }
+        })
       }
     });
   }
@@ -871,6 +913,8 @@ export class MapComponent implements OnInit {
 
   constructor(
     private mapService: MapService, 
+    private mapLayerService: MapLayerService,
+    private mapTileService: MapTileService,
     private errorService: ErrorService,
     private changeDetector: ChangeDetectorRef,
     public dialog: MatDialog,
@@ -881,32 +925,20 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
+      if (params['zoom'] != undefined && params['lat'] != undefined && params['lng'] != undefined) {
+
+      }
       if (params['mapId']) {
-        this.mapService.getMaps({id: params['mapId']}).subscribe(data => {
-          if (data.length > 0) {
-            this.mapData = data[0];
-            this.loadMapIcon();
-            this.initMap();
-          } else {
-            this.errorService.showSnackBar('Map not found.');
-            this.router.navigate(['home']);
-          }
-        })
+        this.loadMap(params['mapId']);
       }
       else {
         this.mapService.getMaps({isDefault: true}).subscribe(data => {
           if (data.length > 0) {
-            this.mapData = data[0];
-            this.routeLocation.replaceState('/map/' + this.mapData.id);
-            this.loadMapIcon();
-            this.initMap();
+            this.loadMap(data[0].id);
           } else {
             this.mapService.getMaps({}).subscribe(nonDefaultData => {
               if (nonDefaultData.length > 0) {
-                this.mapData = nonDefaultData[0];
-                this.routeLocation.replaceState('/map/' + this.mapData.id);
-                this.loadMapIcon();
-                this.initMap();
+                this.loadMap(nonDefaultData[0].id);
               } else {
                 this.router.navigate(['new-map']);
               }
