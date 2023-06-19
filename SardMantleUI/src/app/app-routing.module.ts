@@ -14,7 +14,7 @@ const routes: Routes = [
   { path:'home', component:HomeComponent },
   { path:'map', component:MapComponent },
   { path:'map/:mapId', component:MapComponent},
-  { path:'map/:mapId/:zoom,:lat,:lng', component:MapComponent },
+  { path:'map/:mapId/:zoom/:lat/:lng', component:MapComponent },
   { path:'new-map', component:NewMapComponent },
   { path:'map-tiles/:layerId', component:MapTilesComponent },
   { path:'map-tiles/:layerId/:z/:x/:y', component:MapTilesComponent },

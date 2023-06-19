@@ -60,8 +60,8 @@ export class MapComponent implements OnInit {
   public addingObject: boolean = false;
   public editingObject: boolean = false;
 
-  private defaultCenter: L.LatLngExpression = [42.3601, -71.0589];
-  private defaultZoom = 2;
+  private defaultCenter: L.LatLng;
+  private defaultZoom: number;
   private baseLayer: MapLayer | undefined;
   private coverLayer: MapLayer | undefined;
   private iconLayers: MapLayer[] = [];
@@ -174,7 +174,10 @@ export class MapComponent implements OnInit {
       const lng = coord.lng;
     });
 
-    this.map.on("zoomend", (e: any) => { this.showMarkers(); });
+    this.map.on("moveend", (e: any) => {
+      this.queryAll();
+      this.routeLocation.replaceState('/map/' + this.mapData.id + "/" + this.map.getZoom() + "/" + this.map.getCenter().lat + "/" + this.map.getCenter().lng);
+    })
   }
 
   // Called when the Add icon is clicked. Creates a movable icon for location creation.
@@ -224,7 +227,7 @@ export class MapComponent implements OnInit {
 
   // #region Group Queries
   public queryLocations() {
-    this.mapService.getLocations([]).subscribe(data => {
+    this.mapService.getLocations({}).subscribe(data => {
       this.locations = data;
       this.addMarkers(this.locations, 0);
     },
@@ -243,7 +246,7 @@ export class MapComponent implements OnInit {
   }
 
   public queryAreas() {
-    this.mapService.getAreas([]).subscribe(data => {
+    this.mapService.getAreas({}).subscribe(data => {
       this.areas = data;
       this.filteredAreas = this.areas;
       this.addLabels(this.areas, 1);
@@ -465,7 +468,7 @@ export class MapComponent implements OnInit {
       
       divIcon = L.divIcon({className: "label-icon-container", html: "<p class='" + className + "'>" + marker.name + "<p>"})
       newMarker = dataMarker([marker.latitude, marker.longitude], {icon: divIcon}, marker.id, dataType).addTo(layer);
-      newMarker.on('click', (e: any) => { this.openViewLocation(e); console.log(e) });
+      newMarker.on('click', (e: any) => { this.openViewLocation(e) });
 
       layer.addTo(this.map);
     }
@@ -609,6 +612,10 @@ export class MapComponent implements OnInit {
     this.drawer.open();
   }
 
+  public queryAll() {
+    this.showMarkers();
+  }
+
   public showMarkers() {
     var zoom = this.map.getZoom();
     // Locations
@@ -665,7 +672,12 @@ export class MapComponent implements OnInit {
     this.mapService.getMaps({id: id}).subscribe(data => {
       if (data.length > 0) {
         this.mapData = data[0];
-        this.routeLocation.replaceState('/map/' + id);
+        this.areaLayerZoom = this.mapData.areaZoomProminence;
+        this.subregionLayerZoom = this.mapData.subregionZoomProminence;
+        this.regionLayerZoom = this.mapData.regionZoomProminence;
+        this.subcontinentLayerZoom = this.mapData.subcontinentZoomProminence;
+        this.continentLayerZoom = this.mapData.continentZoomProminence;
+        this.routeLocation.replaceState('/map/' + id + "/" + this.defaultZoom + "/" + this.defaultCenter.lat + "/" + this.defaultCenter.lng);
         this.loadMapIcon();
         this.mapLayerService.getMapLayers({mapId: id, isBaseLayer: true, isIconLayer: false}).subscribe(data => {
           if (data.length > 0) {
@@ -964,8 +976,20 @@ export class MapComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params['zoom'] != undefined && params['lat'] != undefined && params['lng'] != undefined) {
-
+        try {
+          this.defaultCenter = new L.LatLng(params['lat'], params['lng']);
+          this.defaultZoom = params['zoom'];
+        }
+        catch {
+          this.defaultCenter = new L.LatLng(0, 0);
+          this.defaultZoom = 2;
+        }
       }
+      else {
+        this.defaultCenter = new L.LatLng(0, 0);
+        this.defaultZoom = 2;
+      }
+      
       if (params['mapId']) {
         this.loadMap(params['mapId']);
       }
