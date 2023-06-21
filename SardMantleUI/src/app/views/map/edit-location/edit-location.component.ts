@@ -91,27 +91,6 @@ export class EditLocationComponent implements OnInit {
       case 0:
         this.locationTypeControl.setValue(this.selectedMapObject.locationTypeId);
         this.areaControl.setValue(this.selectedMapObject.areaName);
-        this.selectedArea = this.selectedMapObject.areaId;
-        break;
-      case 1:
-        this.subregionControl.setValue(this.selectedMapObject.subregionName);
-        this.selectedSubregion = this.selectedMapObject.subregionId;
-        break;
-      case 2:
-        this.regionControl.setValue(this.selectedMapObject.regionName);
-        this.selectedRegion = this.selectedMapObject.regionId;
-        break;
-      case 3:
-        this.subcontinentControl.setValue(this.selectedMapObject.subcontinentName);
-        this.selectedSubcontinent = this.selectedMapObject.subcontinentId;
-        break;
-      case 4:
-        this.continentControl.setValue(this.selectedMapObject.continentName);
-        this.selectedContinent = this.selectedMapObject.continentId;
-        break;
-      case 5:
-        this.celestialObjectControl.setValue(this.selectedMapObject.celestialObjectName);
-        this.selectedCelestialObject = this.selectedMapObject.celestialObjectId;
         break;
     }
   }
@@ -129,95 +108,11 @@ export class EditLocationComponent implements OnInit {
       console.error(error);
     })
   }
-
-  public queryAreas() {
-    this.mapService.getAreas([]).subscribe(data => {
-      this.areas = data;
-      this.filteredAreas = this.areas;
-    },
-    error => {
-      console.error(error);
-    })
-  }
-
-  public querySubregions() {
-    this.mapService.getSubregions([]).subscribe(data => {
-      this.subregions = data;
-      this.filteredSubregions = this.subregions;
-    },
-    error => {
-      console.error(error);
-    })
-  }
-
-  public queryRegions() {
-    this.mapService.getRegions([]).subscribe(data => {
-      this.regions = data;
-      this.filteredRegions = this.regions;
-    },
-    error => {
-      console.error(error);
-    })
-  }
-
-  public querySubcontinents() {
-    this.mapService.getSubcontinents([]).subscribe(data => {
-      this.subcontinents = data;
-      this.filteredSubcontinents = this.subcontinents;
-    },
-    error => {
-      console.error(error);
-    })
-  }
-
-  public queryContinents() {
-    this.mapService.getContinents([]).subscribe(data => {
-      this.continents = data;
-      this.filteredContinents = this.continents;
-    },
-    error => {
-      console.error(error);
-    })
-  }
-
-  public queryCelestialObjects() {
-    this.mapService.getCelestialObjects([]).subscribe(data => {
-      this.celestialObjects = data;
-      this.filteredCelestialObjects = this.celestialObjects;
-    },
-    error => {
-      console.error(error);
-    })
-  }
   // #endregion
 
   // #region Specific Queries
   public queryLocation(id: number): any {
     return this.mapService.getLocation(id);
-  }
-
-  public queryArea(id: number): any {
-    return this.mapService.getArea(id);
-  }
-
-  public querySubregion(id: number): any {
-    return this.mapService.getSubregion(id);
-  }
-
-  public queryRegion(id: number): any {
-    return this.mapService.getRegion(id);
-  }
-
-  public querySubcontinent(id: number): any {
-    return this.mapService.getSubcontinent(id);
-  }
-
-  public queryContinent(id: number): any {
-    return this.mapService.getContinent(id);
-  }
-
-  public queryCelestialObject(id: number): any {
-    return this.mapService.getCelestialObject(id);
   }
   // #endregion
 
@@ -504,105 +399,24 @@ export class EditLocationComponent implements OnInit {
 
     this.dataType = this.mapDataTypeControl.value != null ? +this.mapDataTypeControl.value : -1;
 
-    var model;
-    switch (this.dataType) {
-      case 0:
-        model = {
-          locationName: this.nameControl.value,
-          areaId: this.selectedArea != -1 ? this.selectedArea: null,
-          locationTypeId: (this.locationTypeSelect && this.locationTypeSelect.value) ? this.locationTypeSelect.value : null,
-          latitude: this.markerLat,
-          longitude: this.markerLng
-        };
-        this.mapService.postLocation(model).subscribe((data: any) => {
-          this.submitOperation();
-        },
-        (error: any) => {
-          this.errorHandler.handle(error);
-        })
-        break;
-      case 1:
-        model = {
-          name: this.nameControl.value,
-          subregionId: this.selectedSubregion != -1 ? this.selectedSubregion : null,
-          latitude: this.markerLat,
-          longitude: this.markerLng
-        };
-        this.mapService.postArea(model).subscribe((data: any) => {
-          this.submitOperation();
-        },
-        (error: any) => {
-          this.errorHandler.handle(error);
-        })
-        break;
-      case 2:
-        model = {
-          name: this.nameControl.value,
-          regionId: this.selectedRegion != -1 ? this.selectedRegion : null,
-          latitude: this.markerLat,
-          longitude: this.markerLng
-        };
-        this.mapService.postSubregion(model).subscribe((data: any) => {
-          this.submitOperation();
-        },
-        (error: any) => {
-          this.errorHandler.handle(error);
-        })
-        break;
-      case 3:
-        model = {
-          name: this.nameControl.value,
-          subcontinentId: this.selectedSubcontinent != -1 ? this.selectedSubcontinent : null,
-          latitude: this.markerLat,
-          longitude: this.markerLng
-        };
-        this.mapService.postRegion(model).subscribe((data: any) => {
-          this.submitOperation();
-        },
-        (error: any) => {
-          this.errorHandler.handle(error);
-        })
-        break;
-      case 4:
-        model = {
-          name: this.nameControl.value,
-          continentId: this.selectedContinent != -1 ? this.selectedContinent : null,
-          latitude: this.markerLat,
-          longitude: this.markerLng
-        };
-        this.mapService.postSubcontinent(model).subscribe((data: any) => {
-          this.submitOperation();
-        },
-        (error: any) => {
-          this.errorHandler.handle(error);
-        })
-        break;
-      case 5:
-        model = {
-          name: this.nameControl.value,
-          celestialObjectId: this.selectedCelestialObject != -1 ? this.selectedCelestialObject : null,
-          latitude: this.markerLat,
-          longitude: this.markerLng
-        };
-        this.mapService.postContinent(model).subscribe((data: any) => {
-          this.submitOperation();
-        },
-        (error: any) => {
-          this.errorHandler.handle(error);
-        })
-        break;
-      default:
-        break;
-    }
+    var model = {
+      locationName: this.nameControl.value,
+      locationTypeId: (this.locationTypeSelect && this.locationTypeSelect.value) ? this.locationTypeSelect.value : null,
+      latitude: this.markerLat,
+      longitude: this.markerLng
+    };
+    this.mapService.postLocation(model).subscribe((data: any) => {
+      this.submitOperation();
+    },
+    (error: any) => {
+      this.errorHandler.handle(error);
+    })
   }
 
   public putLocation() {
     if (!this.validateAdd()) return;
 
-    var model;
-    switch (this.dataType) {
-      case 0:
-        model = {
+    var model = {
           id: this.selectedMapObject.id,
           locationName: this.nameControl.value,
           areaId: this.selectedArea != -1 ? this.selectedArea: null,
@@ -616,85 +430,6 @@ export class EditLocationComponent implements OnInit {
         (error: any) => {
           this.errorHandler.handle(error);
         })
-        break;
-      case 1:
-        model = {
-          id: this.selectedMapObject.id,
-          name: this.nameControl.value,
-          subregionId: this.selectedSubregion != -1 ? this.selectedSubregion : null,
-          latitude: this.markerLat,
-          longitude: this.markerLng
-        };
-        this.mapService.putArea(model).subscribe((data: any) => {
-          this.submitOperation();
-        },
-        (error: any) => {
-          this.errorHandler.handle(error);
-        })
-        break;
-      case 2:
-        model = {
-          id: this.selectedMapObject.id,
-          name: this.nameControl.value,
-          regionId: this.selectedRegion != -1 ? this.selectedRegion : null,
-          latitude: this.markerLat,
-          longitude: this.markerLng
-        };
-        this.mapService.putSubregion(model).subscribe((data: any) => {
-          this.submitOperation();
-        },
-        (error: any) => {
-          this.errorHandler.handle(error);
-        })
-        break;
-      case 3:
-        model = {
-          id: this.selectedMapObject.id,
-          name: this.nameControl.value,
-          subcontinentId: this.selectedSubcontinent != -1 ? this.selectedSubcontinent : null,
-          latitude: this.markerLat,
-          longitude: this.markerLng
-        };
-        this.mapService.putRegion(model).subscribe((data: any) => {
-          this.submitOperation();
-        },
-        (error: any) => {
-          this.errorHandler.handle(error);
-        })
-        break;
-      case 4:
-        model = {
-          id: this.selectedMapObject.id,
-          name: this.nameControl.value,
-          continentId: this.selectedContinent != -1 ? this.selectedContinent : null,
-          latitude: this.markerLat,
-          longitude: this.markerLng
-        };
-        this.mapService.putSubcontinent(model).subscribe((data: any) => {
-          this.submitOperation();
-        },
-        (error: any) => {
-          this.errorHandler.handle(error);
-        })
-        break;
-      case 5:
-        model = {
-          id: this.selectedMapObject.id,
-          name: this.nameControl.value,
-          celestialObjectId: this.selectedCelestialObject != -1 ? this.selectedCelestialObject : null,
-          latitude: this.markerLat,
-          longitude: this.markerLng
-        };
-        this.mapService.putContinent(model).subscribe((data: any) => {
-          this.submitOperation();
-        },
-        (error: any) => {
-          this.errorHandler.handle(error);
-        })
-        break;
-      default:
-        break;
-    }
   }
 
   public setMarkerLocations(lat: number, lng: number) {
@@ -721,12 +456,6 @@ export class EditLocationComponent implements OnInit {
     this.selectedMapObject = { id: -1, name: "NONE" };
 
     this.queryLocationTypes();
-    this.queryAreas();
-    this.querySubregions();
-    this.queryRegions();
-    this.querySubcontinents();
-    this.queryContinents();
-    this.queryCelestialObjects();
 
     this.areaControl.valueChanges.subscribe( data => {
       this.filterAreas(data);

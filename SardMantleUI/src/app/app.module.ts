@@ -85,6 +85,7 @@ import { UploadFileComponent } from './views/shared/document-components/file/upl
 import { EditMapLayerComponent } from './views/map/map-layers/edit-map-layer/edit-map-layer.component';
 import { MapTilesComponent } from './views/map-tiles/map-tiles.component';
 import { UploadMapTilesComponent } from './views/map-tiles/upload-map-tiles/upload-map-tiles.component';
+import { LocationTypeComponent } from './views/map/location-type/location-type.component';
 
 @NgModule({
   declarations: [
@@ -138,7 +139,8 @@ import { UploadMapTilesComponent } from './views/map-tiles/upload-map-tiles/uplo
     UploadFileComponent,
     EditMapLayerComponent,
     MapTilesComponent,
-    UploadMapTilesComponent
+    UploadMapTilesComponent,
+    LocationTypeComponent
   ],
   imports: [
     BrowserModule,

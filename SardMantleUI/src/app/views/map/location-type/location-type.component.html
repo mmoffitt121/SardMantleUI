@@ -1,0 +1,16 @@
+<h3>Location Types</h3>
+<mat-card style="margin-top: 10px; background-color: var(--secondary-background-color)">
+    <mat-card-content>
+        <mat-card *ngFor="let locationType of locationTypes" style="margin-bottom: 5px;">
+            <h5>{{locationType.name}}</h5>
+            <p>{{locationType.summary}}</p>
+        </mat-card>
+    </mat-card-content>
+    <mat-paginator 
+        style="background-color: var(--secondary-background-color)"
+        [length]="length"
+        [pageIndex]="locationTypeQuery.pageNumber"
+        [pageSize]="locationTypeQuery.pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onPageChange($event)"></mat-paginator>
+</mat-card>

@@ -44,61 +44,12 @@ export class ViewLocationComponent implements OnInit {
   }
 
   public deleteMapObject() {
-    switch (this.dataType) {
-      case 0:
-        this.mapService.deleteLocation(this.selectedMapObject.id).subscribe(data => {
-          this.deleted.emit();
-        },
-        error => {
-          this.errorHandler.handle(error)
-        })
-        break;
-
-      case 1:
-        this.mapService.deleteArea(this.selectedMapObject.id).subscribe(data => {
-          this.deleted.emit();
-        },
-        error => {
-          this.errorHandler.handle(error)
-        })
-        break;
-
-      case 2:
-        this.mapService.deleteSubregion(this.selectedMapObject.id).subscribe(data => {
-          this.deleted.emit();
-        },
-        error => {
-          this.errorHandler.handle(error)
-        })
-        break;
-
-      case 3:
-        this.mapService.deleteRegion(this.selectedMapObject.id).subscribe(data => {
-          this.deleted.emit();
-        },
-        error => {
-          this.errorHandler.handle(error)
-        })
-        break;
-
-      case 4:
-        this.mapService.deleteSubcontinent(this.selectedMapObject.id).subscribe(data => {
-          this.deleted.emit();
-        },
-        error => {
-          this.errorHandler.handle(error)
-        })
-        break;
-        
-      case 5:
-        this.mapService.deleteContinent(this.selectedMapObject.id).subscribe(data => {
-          this.deleted.emit();
-        },
-        error => {
-          this.errorHandler.handle(error)
-        })
-        break;
-    }
+    this.mapService.deleteLocation(this.selectedMapObject.id).subscribe(data => {
+      this.deleted.emit();
+    },
+    error => {
+      this.errorHandler.handle(error)
+    })
   }
 
   public setSelectedMapObject(model: any, dataType: number) {

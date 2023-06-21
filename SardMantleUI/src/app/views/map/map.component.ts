@@ -62,6 +62,10 @@ export class MapComponent implements OnInit {
 
   private defaultCenter: L.LatLng;
   private defaultZoom: number;
+  private routedCenter: L.LatLng | undefined;
+  private routedZoom: number | undefined;
+
+
   private baseLayer: MapLayer | undefined;
   private coverLayer: MapLayer | undefined;
   private iconLayers: MapLayer[] = [];
@@ -137,9 +141,12 @@ export class MapComponent implements OnInit {
   // Initializes the map
   private initMap(): void {
     this.map = L.map('map', {
-      center: this.defaultCenter,
-      zoom: this.defaultZoom
+      center: this.routedCenter,
+      zoom: this.routedZoom
     });
+
+    this.routedCenter = undefined;
+    this.routedZoom = undefined;
 
     if (this.baseLayer) {
       const tilesOuter = L.tileLayer('https://localhost:7094/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.baseLayer.id, {
@@ -149,24 +156,9 @@ export class MapComponent implements OnInit {
         noWrap: !this.mapData.loops
       });
       tilesOuter.addTo(this.map);
-
-      /*const tilesInner = L.tileLayer('https://localhost:7094/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.baseLayer.id, {
-        maxZoom: 15,
-        minZoom: 5,
-        maxNativeZoom: 10,
-        noWrap: !this.mapData.loops
-      });
-      tilesInner.addTo(this.map);*/
     }
 
-    this.queryLocations();
-    this.queryAreas();
-    this.querySubregions();
-    this.queryRegions();
-    this.querySubcontinents();
-    this.queryContinents();
-    this.queryLocationTypes();
-    this.queryCelestialObjects();
+    this.queryAll();
 
     this.map.on('click', (e: any) => {
       const coord = e.latlng;
@@ -227,9 +219,22 @@ export class MapComponent implements OnInit {
 
   // #region Group Queries
   public queryLocations() {
-    this.mapService.getLocations({}).subscribe(data => {
+    var zoom = this.map.getZoom();
+
+    this.mapService.getLocations({
+      mapLayerId: this.baseLayer?.id,
+      mapId: this.mapData.id,
+      minLatitude: this.map.getBounds().getSouth(),
+      maxLatitude: this.map.getBounds().getNorth(),
+      minLongitude: this.map.getBounds().getEast(),
+      maxLongitude: this.map.getBounds().getWest(),
+      minZoom: this.map.getZoom(),
+      maxZoom: this.map.getZoom()
+    }).subscribe(data => {
+      /*this.map.removeLayer(this.primaryMarkerLayer);*/
       this.locations = data;
       this.addMarkers(this.locations, 0);
+      /*this.map.addLayer(this.primaryMarkerLayer);*/
     },
     error => {
       console.error(error);
@@ -244,100 +249,16 @@ export class MapComponent implements OnInit {
       console.error(error);
     })
   }
-
-  public queryAreas() {
-    this.mapService.getAreas({}).subscribe(data => {
-      this.areas = data;
-      this.filteredAreas = this.areas;
-      this.addLabels(this.areas, 1);
-    },
-    error => {
-      console.error(error);
-    })
-  }
-
-  public querySubregions() {
-    this.mapService.getSubregions([]).subscribe(data => {
-      this.subregions = data;
-      this.filteredSubregions = this.subregions;
-      this.addLabels(this.subregions, 2);
-    },
-    error => {
-      console.error(error);
-    })
-  }
-
-  public queryRegions() {
-    this.mapService.getRegions([]).subscribe(data => {
-      this.regions = data;
-      this.filteredRegions = this.regions;
-      this.addLabels(this.regions, 3);
-    },
-    error => {
-      console.error(error);
-    })
-  }
-
-  public querySubcontinents() {
-    this.mapService.getSubcontinents([]).subscribe(data => {
-      this.subcontinents = data;
-      this.filteredSubcontinents = this.subcontinents;
-      this.addLabels(this.subcontinents, 4);
-    },
-    error => {
-      console.error(error);
-    })
-  }
-
-  public queryContinents() {
-    this.mapService.getContinents([]).subscribe(data => {
-      this.continents = data;
-      this.filteredContinents = this.continents;
-      this.addLabels(this.continents, 5);
-    },
-    error => {
-      console.error(error);
-    })
-  }
-
-  public queryCelestialObjects() {
-    this.mapService.getCelestialObjects([]).subscribe(data => {
-      this.celestialObjects = data;
-      this.filteredCelestialObjects = this.celestialObjects;
-    },
-    error => {
-      console.error(error);
-    })
-  }
   // #endregion
+
+  public queryAll() {
+    this.queryLocations();
+    this.showMarkers();
+  }
 
   // #region Specific Queries
   public queryLocation(id: number): any {
     return this.mapService.getLocation(id);
-  }
-
-  public queryArea(id: number): any {
-    return this.mapService.getArea(id);
-  }
-
-  public querySubregion(id: number): any {
-    return this.mapService.getSubregion(id);
-  }
-
-  public queryRegion(id: number): any {
-    return this.mapService.getRegion(id);
-  }
-
-  public querySubcontinent(id: number): any {
-    return this.mapService.getSubcontinent(id);
-  }
-
-  public queryContinent(id: number): any {
-    return this.mapService.getContinent(id);
-  }
-
-  public queryCelestialObject(id: number): any {
-    return this.mapService.getCelestialObject(id);
   }
   // #endregion
 
@@ -360,12 +281,6 @@ export class MapComponent implements OnInit {
     this.addContinentControl.setValue('');
     this.addContinentControl.markAsUntouched();
     this.queryLocationTypes();
-    this.queryAreas();
-    this.querySubregions();
-    this.queryRegions();
-    this.querySubcontinents();
-    this.queryContinents();
-    this.queryCelestialObjects();
     this.selectedArea = -1;
     this.selectedSubregion = -1;
     this.selectedRegion = -1;
@@ -432,34 +347,9 @@ export class MapComponent implements OnInit {
   }
 
   public addLabels(markers: any, dataType: number): void {
-    var layer;
-    var className;
-    switch (dataType) {
-      case 0:
-        layer = this.primaryMarkerLayer;
-        className = "location-label-icon";
-        break;
-      case 1:
-        layer = this.areaLayer;
-        className = "area-label-icon";
-        break;
-      case 2:
-        layer = this.subregionLayer;
-        className = "subregion-label-icon";
-        break;
-      case 3:
-        layer = this.regionLayer;
-        className = "region-label-icon";
-        break;
-      case 4:
-        layer = this.subcontinentLayer;
-        className = "subcontinent-label-icon";
-        break;
-      case 5:
-        layer = this.continentLayer;
-        className = "continent-label-icon";
-        break;
-    }
+    var layer = this.primaryMarkerLayer;
+    var className = "location-label-icon";
+
     var newMarker;
     var divIcon;
     for (var i = 0; i < markers.length; i++) {
@@ -479,73 +369,14 @@ export class MapComponent implements OnInit {
   public openViewLocation(e: any) {
     if (this.editingObject || this.addingObject) { return; }
 
-    switch (e.target.dataType) {
-      case 0:
-        var locationData: Location | undefined;
-        this.queryLocation(e.target.id).subscribe((d: Location) => {
-          locationData = d;
-          this.viewingObject = true;
-          this.changeDetector.detectChanges();
-          this.viewLocationComponent.setSelectedMapObject(locationData, 0);
-          this.drawer.open();
-        })
-        break;
-      
-      case 1:
-        var areaData: Area | undefined;
-        this.queryArea(e.target.id).subscribe((d: Area) => {
-          areaData = d;
-          this.viewingObject = true;
-          this.changeDetector.detectChanges();
-          this.viewLocationComponent.setSelectedMapObject(areaData, 1);
-          this.drawer.open();
-        })
-        break;
-
-      case 2:
-        var subregionData: Subregion | undefined;
-        this.querySubregion(e.target.id).subscribe((d: Subregion) => {
-          subregionData = d;
-          this.viewingObject = true;
-          this.changeDetector.detectChanges();
-          this.viewLocationComponent.setSelectedMapObject(subregionData, 2);
-          this.drawer.open();
-        })
-        break;
-
-      case 3:
-        var regionData: Region | undefined;
-        this.queryRegion(e.target.id).subscribe((d: Area) => {
-          regionData = d;
-          this.viewingObject = true;
-          this.changeDetector.detectChanges();
-          this.viewLocationComponent.setSelectedMapObject(regionData, 3);
-          this.drawer.open();
-        })
-        break;
-
-      case 4:
-        var subcontinentData: Subcontinent | undefined;
-        this.querySubcontinent(e.target.id).subscribe((d: Area) => {
-          subcontinentData = d;
-          this.viewingObject = true;
-          this.changeDetector.detectChanges();
-          this.viewLocationComponent.setSelectedMapObject(subcontinentData, 4);
-          this.drawer.open();
-        })
-        break;e
-
-      case 5:
-        var continentData: Continent | undefined;
-        this.queryContinent(e.target.id).subscribe((d: Area) => {
-          continentData = d;
-          this.viewingObject = true;
-          this.changeDetector.detectChanges();
-          this.viewLocationComponent.setSelectedMapObject(continentData, 5);
-          this.drawer.open();
-        })
-        break;
-    }
+    var locationData: Location | undefined;
+    this.queryLocation(e.target.id).subscribe((d: Location) => {
+      locationData = d;
+      this.viewingObject = true;
+      this.changeDetector.detectChanges();
+      this.viewLocationComponent.setSelectedMapObject(locationData, 0);
+      this.drawer.open();
+    })
   }
 
   public openEditLocation() {
@@ -612,54 +443,24 @@ export class MapComponent implements OnInit {
     this.drawer.open();
   }
 
-  public queryAll() {
-    this.showMarkers();
+  public goToDefaultView() {
+    this.map.setView([this.mapData.defaultY, this.mapData.defaultX], this.mapData.defaultZ);
+  }
+
+  public setDefaultView() {
+    this.mapData.defaultZ = this.map.getZoom();
+    this.mapData.defaultX = this.map.getCenter().lng;
+    this.mapData.defaultY = this.map.getCenter().lat;
+    this.mapService.putMap(this.mapData).subscribe(result => {
+      this.errorService.showSnackBar("Default map view saved successfully.")
+    },
+    error => {
+      this.errorService.handle(error);
+    });
   }
 
   public showMarkers() {
     var zoom = this.map.getZoom();
-    // Locations
-    if (zoom < this.primaryMarkerLayerZoom) {
-      this.map.removeLayer(this.primaryMarkerLayer);
-    }
-    else if (!this.map.hasLayer(this.primaryMarkerLayer)) {
-      this.map.addLayer(this.primaryMarkerLayer);
-    }
-    // Areas
-    if (zoom < this.areaLayerZoom) {
-      this.map.removeLayer(this.areaLayer);
-    }
-    else if (!this.map.hasLayer(this.areaLayer)) {
-      this.map.addLayer(this.areaLayer);
-    }
-    // Subregions
-    if (zoom < this.subregionLayerZoom) {
-      this.map.removeLayer(this.subregionLayer);
-    }
-    else if (!this.map.hasLayer(this.subregionLayer)) {
-      this.map.addLayer(this.subregionLayer);
-    }
-    // Regions
-    if (zoom < this.regionLayerZoom) {
-      this.map.removeLayer(this.regionLayer);
-    }
-    else if (!this.map.hasLayer(this.regionLayer)) {
-      this.map.addLayer(this.regionLayer);
-    }
-    // Subcontinents
-    if (zoom < this.subcontinentLayerZoom) {
-      this.map.removeLayer(this.subcontinentLayer);
-    }
-    else if (!this.map.hasLayer(this.subcontinentLayer)) {
-      this.map.addLayer(this.subcontinentLayer);
-    }
-    // Continents
-    if (zoom < this.continentLayerZoom) {
-      this.map.removeLayer(this.continentLayer);
-    }
-    else if (!this.map.hasLayer(this.continentLayer)) {
-      this.map.addLayer(this.continentLayer);
-    }
   }
 
   // #region Map Data
@@ -672,12 +473,19 @@ export class MapComponent implements OnInit {
     this.mapService.getMaps({id: id}).subscribe(data => {
       if (data.length > 0) {
         this.mapData = data[0];
+        this.defaultCenter = new L.LatLng(this.mapData.defaultY, this.mapData.defaultX);
+        this.defaultZoom = this.mapData.defaultZ;
         this.areaLayerZoom = this.mapData.areaZoomProminence;
         this.subregionLayerZoom = this.mapData.subregionZoomProminence;
         this.regionLayerZoom = this.mapData.regionZoomProminence;
         this.subcontinentLayerZoom = this.mapData.subcontinentZoomProminence;
         this.continentLayerZoom = this.mapData.continentZoomProminence;
-        this.routeLocation.replaceState('/map/' + id + "/" + this.defaultZoom + "/" + this.defaultCenter.lat + "/" + this.defaultCenter.lng);
+        if (this.routedZoom === undefined || this.routedCenter === undefined) {
+          this.routedCenter = this.defaultCenter;
+          this.routedZoom = this.defaultZoom;
+        }
+        this.routeLocation.replaceState('/map/' + id + "/" + this.routedZoom + "/" + this.routedCenter.lat + "/" + this.routedCenter.lng);
+        
         this.loadMapIcon();
         this.mapLayerService.getMapLayers({mapId: id, isBaseLayer: true, isIconLayer: false}).subscribe(data => {
           if (data.length > 0) {
@@ -977,17 +785,10 @@ export class MapComponent implements OnInit {
     this.route.params.subscribe(params => {
       if (params['zoom'] != undefined && params['lat'] != undefined && params['lng'] != undefined) {
         try {
-          this.defaultCenter = new L.LatLng(params['lat'], params['lng']);
-          this.defaultZoom = params['zoom'];
+          this.routedCenter = new L.LatLng(params['lat'], params['lng']);
+          this.routedZoom = params['zoom'];
         }
-        catch {
-          this.defaultCenter = new L.LatLng(0, 0);
-          this.defaultZoom = 2;
-        }
-      }
-      else {
-        this.defaultCenter = new L.LatLng(0, 0);
-        this.defaultZoom = 2;
+        catch {}
       }
       
       if (params['mapId']) {

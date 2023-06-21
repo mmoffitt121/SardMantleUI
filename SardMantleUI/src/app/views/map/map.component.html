@@ -55,18 +55,12 @@
                                 <mat-card-content style="width: 100%; font-size: 15px;">
                                     <p>Loops: {{ mapData.loops ? "Yes" : "No" }}</p>
                                     <mat-divider></mat-divider>
-                                    <p>Area Zoom Prominence: {{ mapData.areaZoomProminence }}</p>
-                                    <p>Subregion Zoom Prominence: {{ mapData.subregionZoomProminence }}</p>
-                                    <p>Region Zoom Prominence: {{ mapData.regionZoomProminence }}</p>
-                                    <p>Subcontinent Zoom Prominence: {{ mapData.subcontinentZoomProminence }}</p>
-                                    <p>Continent Zoom Prominence: {{ mapData.continentZoomProminence }}</p>
-                                    <mat-divider></mat-divider>
                                     <p>Default Latitude: {{ mapData.defaultY }}</p>
                                     <p>Default Longitude: {{ mapData.defaultX }}</p>
                                     <p>Default Zoom Level: {{ mapData.defaultZ }}</p>
                                     <div class="button-holder">
-                                        <button mat-button>Go</button>
-                                        <button mat-button>Set</button>
+                                        <button mat-button (click)="goToDefaultView()">Go</button>
+                                        <button mat-button (click)="setDefaultView()">Set</button>
                                     </div>
                                     <mat-divider></mat-divider>
                                     <p>Minimum Zoom: {{ mapData.minZoom }}</p>
@@ -87,6 +81,16 @@
                     <ng-template matExpansionPanelContent>
                         <app-map-layers [mapId]="mapData.id"></app-map-layers>
                     </ng-template>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
+                        <mat-panel-title>
+                            Locations
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div matExpansionPanelContent>
+                        <app-location-type></app-location-type>
+                    </div>
                 </mat-expansion-panel>
             </mat-accordion>
         </div>

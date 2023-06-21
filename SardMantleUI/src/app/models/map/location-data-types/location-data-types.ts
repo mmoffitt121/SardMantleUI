@@ -21,7 +21,12 @@ export interface Location {
     areaId: number;
     area: string;
 }
+
 export interface LocationType {
     id: number;
     name: string;
+    summary: string;
+    parentTypeId: number;
+    anyTypeParent: boolean;
+    zoomProminence: number;
 }
