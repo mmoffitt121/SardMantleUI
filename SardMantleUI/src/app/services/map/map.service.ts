@@ -81,12 +81,12 @@ export class MapService {
   }
 
   public putLocationType(data: any) {
-    return this.http.post('https://localhost:7094/Library/LocationType/PutLocationType', data);
+    return this.http.put('https://localhost:7094/Library/LocationType/PutLocationType', data);
   }
 
   public deleteLocationType(id: number) {
     let params = new HttpParams().set("Id", id);
-    return this.http.post('https://localhost:7094/Library/LocationType/DeleteLocationType', params);
+    return this.http.delete('https://localhost:7094/Library/LocationType/DeleteLocationType', { params: params });
   }
 
   constructor(private http: HttpClient) { }

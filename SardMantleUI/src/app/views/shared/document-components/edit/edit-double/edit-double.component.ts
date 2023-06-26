@@ -8,7 +8,7 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class EditDoubleComponent implements OnInit {
   @Input() parameterName: string = 'Parameter Name';
-  @Input() parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?';
+  @Input() parameterSummary: string = '';
   @Input() control = new FormControl();
   @Input() required: boolean = false;
 

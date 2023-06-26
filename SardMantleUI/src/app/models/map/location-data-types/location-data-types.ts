@@ -1,3 +1,5 @@
+import { Selectable } from "../../selectable/selectable";
+
 export class LocationDataTypes {
     public static dataTypeMap = new Map<number | null, string>([
         [null, ""],
@@ -15,18 +17,26 @@ export class LocationDataTypes {
 
 export interface Location {
     id: number;
-    locationName: string;
+    name: string;
+    locationTypeId: number;
+    zoomProminenceMin: number;
+    zoomProminenceMax: number;
     latitude: number;
     longitude: number;
-    areaId: number;
-    area: string;
+    parentId: number;
+    layerId: number;
+    iconUrl: string | undefined;
 }
 
-export interface LocationType {
+export interface LocationType extends Selectable {
     id: number;
     name: string;
     summary: string;
-    parentTypeId: number;
+    parentTypeId: number | undefined;
     anyTypeParent: boolean;
-    zoomProminence: number;
+    zoomProminenceMin: number;
+    zoomProminenceMax: number;
+    iconUrl: string | undefined;
+    usesIcon: boolean;
+    usesLabel: boolean;
 }

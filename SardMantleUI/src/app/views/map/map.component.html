@@ -1,6 +1,6 @@
 <mat-drawer-container class="map-container" [hasBackdrop]="false">
     <mat-drawer #sideDrawer mode="over" position="end" class="map-sidebar" [disableClose]="true">
-        <div *ngIf="!viewingObject">
+        <div [ngStyle]="{display: !viewingObject ? 'block' : 'none'}">
             <mat-accordion [multi]="true" class="map-sidebar-accordion">
                 <h3>
                     Map Settings
@@ -79,7 +79,7 @@
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <ng-template matExpansionPanelContent>
-                        <app-map-layers [mapId]="mapData.id"></app-map-layers>
+                        <app-map-layers [mapId]="mapData.id" #mapLayersComponent (layerSelectionChanged)="queryLocations()"></app-map-layers>
                     </ng-template>
                 </mat-expansion-panel>
                 <mat-expansion-panel>
@@ -89,7 +89,10 @@
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <div matExpansionPanelContent>
-                        <app-location-type></app-location-type>
+                        <app-filter-location (add)="openAddLocation()"></app-filter-location>
+                        <div style="margin-top: 10px;">
+                            <app-location-type #locationTypeComponent></app-location-type>
+                        </div>
                     </div>
                 </mat-expansion-panel>
             </mat-accordion>
@@ -97,7 +100,7 @@
         <div *ngIf="viewingObject">
             <app-view-location *ngIf="!editingObject && !addingObject" (deleted)="deleteComplete()" (editBegin)="editBegin()" #locationViewer>
             </app-view-location>
-            <app-edit-location *ngIf="editingObject || addingObject" (complete)="addEditComplete()" (cancel)="addEditCancel()" #locationEditor>
+            <app-edit-location *ngIf="editingObject || addingObject" (complete)="addEditComplete()" (cancel)="addEditCancel()" [mapId]="mapData.id" #locationEditor>
             </app-edit-location>
         </div>
         <mat-card class="centered-button-card" *ngIf="!editingObject && !addingObject">

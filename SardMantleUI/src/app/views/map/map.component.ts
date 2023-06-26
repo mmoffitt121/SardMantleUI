@@ -30,6 +30,8 @@ import { MapLayersComponent } from './map-layers/map-layers.component';
 import { MapLayer } from 'src/app/models/map/map-layer';
 import { MapLayerService } from 'src/app/services/map/map-layer.service';
 import { MapTileService } from 'src/app/services/map/map-tile-service';
+import { LocationTypeComponent } from './location-type/location-type.component';
+import { ImageService } from 'src/app/services/image/image.service';
 
 @Component({
   selector: 'app-map',
@@ -39,20 +41,9 @@ import { MapTileService } from 'src/app/services/map/map-tile-service';
 })
 export class MapComponent implements OnInit {
   private map: L.Map;
-  private locations: [];
+  private locations: Location[];
   private primaryMarkerLayer: any = L.layerGroup();
-  private primaryMarkerLayerZoom: number = 8;
   private addMarkerLayer: any = L.layerGroup();
-  private areaLayer: any = L.layerGroup();
-  private areaLayerZoom: number = 7;
-  private subregionLayer: any = L.layerGroup();
-  private subregionLayerZoom: number = 6;
-  private regionLayer: any = L.layerGroup();
-  private regionLayerZoom: number = 5;
-  private subcontinentLayer: any = L.layerGroup();
-  private subcontinentLayerZoom: number = 4;
-  private continentLayer: any = L.layerGroup();
-  private continentLayerZoom: number = 2;
   public placing = false;
   public addLocationMarkerIcon = 'add';
   public locationTypes: LocationType[] = [];
@@ -65,18 +56,19 @@ export class MapComponent implements OnInit {
   private routedCenter: L.LatLng | undefined;
   private routedZoom: number | undefined;
 
-
   private baseLayer: MapLayer | undefined;
   private coverLayer: MapLayer | undefined;
-  private iconLayers: MapLayer[] = [];
-
+  private defaultIconLayer: MapLayer | undefined;
   public mapData: MapData;
-
   public mapIconHovered = false;
+
+  public iconUrls = new Map();
 
   @ViewChild('sideDrawer', {static: false}) drawer: MatDrawer;
   @ViewChild('locationViewer') viewLocationComponent: ViewLocationComponent;
   @ViewChild('locationEditor') editLocationComponent: EditLocationComponent;
+  @ViewChild('locationTypeComponent') locationTypeComponent: LocationTypeComponent;
+  @ViewChild('mapLayersComponent') mapLayersComponent: MapLayersComponent;
 
 
   // #region Add Marker Fields
@@ -89,34 +81,6 @@ export class MapComponent implements OnInit {
   addMapDataTypeControl = new FormControl('', []);
   addNameControl = new FormControl('', [Validators.required, Validators.maxLength(1000)]);
   addLocationTypeControl = new FormControl('', []);
-
-  public areas: Area[];
-  public subregions: Subregion[];
-  public regions: Region[];
-  public subcontinents: Subcontinent[];
-  public continents: Continent[];
-  public celestialObjects: CelestialObject[];
-
-  public selectedArea: number = -1;
-  public selectedSubregion: number = -1;
-  public selectedRegion: number = -1;
-  public selectedSubcontinent: number = -1;
-  public selectedContinent: number = -1;
-  public selectedCelestialObject: number = -1;
-
-  public filteredAreas: Area[];
-  public filteredSubregions: Subregion[];
-  public filteredRegions: Region[];
-  public filteredSubcontinents: Subcontinent[];
-  public filteredContinents: Continent[];
-  public filteredCelestialObjects: CelestialObject[];
-
-  addAreaControl = new FormControl('', []);
-  addSubregionControl = new FormControl('', []);
-  addRegionControl = new FormControl('', []);
-  addSubcontinentControl = new FormControl('', []);
-  addContinentControl = new FormControl('', []);
-  addCelestialObjectControl = new FormControl('', []);
 
   private addLocationDraggableIcon = L.icon({
     iconUrl: 'marker-icon.png',
@@ -210,35 +174,67 @@ export class MapComponent implements OnInit {
 
   public clearAllMarkerLayers() {
     this.primaryMarkerLayer.clearLayers();
-    this.areaLayer.clearLayers();
-    this.subregionLayer.clearLayers();
-    this.regionLayer.clearLayers();
-    this.subcontinentLayer.clearLayers();
-    this.continentLayer.clearLayers();
   }
 
   // #region Group Queries
   public queryLocations() {
     var zoom = this.map.getZoom();
 
+    this.locations = [] as any[];
+    let mapLayerIds = [];
+    if (this.mapLayersComponent) {
+      for (let l of this.mapLayersComponent?.iconLayers) {
+        if (l.selected) {
+          mapLayerIds.push(l.id);
+        }
+      }
+    }
+    else if (this.defaultIconLayer) {
+      mapLayerIds.push(this.defaultIconLayer.id);
+    }
+    
     this.mapService.getLocations({
-      mapLayerId: this.baseLayer?.id,
+      mapLayerIds: mapLayerIds.length > 0 ? mapLayerIds : [-1],
       mapId: this.mapData.id,
       minLatitude: this.map.getBounds().getSouth(),
       maxLatitude: this.map.getBounds().getNorth(),
-      minLongitude: this.map.getBounds().getEast(),
-      maxLongitude: this.map.getBounds().getWest(),
+      minLongitude: this.map.getBounds().getWest(),
+      maxLongitude: this.map.getBounds().getEast(),
       minZoom: this.map.getZoom(),
       maxZoom: this.map.getZoom()
     }).subscribe(data => {
-      /*this.map.removeLayer(this.primaryMarkerLayer);*/
       this.locations = data;
-      this.addMarkers(this.locations, 0);
-      /*this.map.addLayer(this.primaryMarkerLayer);*/
+      this.locations.forEach(l => {
+        if (!this.iconUrls.has(l.id)) {
+          this.imageService.getImage(l.id, 2).subscribe(icon => {
+            if (icon.body != null) {
+              l.iconUrl = this.imageService.getUrl(l.id, 2);
+              this.iconUrls.set(l.id, l.iconUrl);
+            }
+            else if (l.locationTypeId) {
+              this.imageService.getImage(l.locationTypeId, 1).subscribe(icon => {
+                if (icon.body != null) {
+                  l.iconUrl = this.imageService.getUrl(l.locationTypeId, 1);
+                  this.iconUrls.set(l.id, l.iconUrl);
+                }
+                else {
+                  l.iconUrl = undefined;
+                }
+              })
+            }
+          })
+        }
+        else {
+          l.iconUrl = this.iconUrls.get(l.id);
+        }
+      })
+      this.primaryMarkerLayer.clearLayers();
+      this.addMarkers(this.locations);
     },
     error => {
       console.error(error);
     })
+    
   }
 
   public queryLocationTypes() {
@@ -270,48 +266,12 @@ export class MapComponent implements OnInit {
     this.addMarkerLayer.clearLayers();
     this.addNameControl.setValue('');
     this.addNameControl.markAsUntouched();
-    this.addAreaControl.setValue('');
-    this.addAreaControl.markAsUntouched();
-    this.addSubregionControl.setValue('');
-    this.addSubregionControl.markAsUntouched();
-    this.addRegionControl.setValue('');
-    this.addRegionControl.markAsUntouched();
-    this.addSubcontinentControl.setValue('');
-    this.addSubcontinentControl.markAsUntouched();
-    this.addContinentControl.setValue('');
-    this.addContinentControl.markAsUntouched();
     this.queryLocationTypes();
-    this.selectedArea = -1;
-    this.selectedSubregion = -1;
-    this.selectedRegion = -1;
-    this.selectedSubcontinent = -1;
-    this.selectedContinent = -1;
-    this.selectedCelestialObject = -1;
     this.showMarkers();
   }
 
-  public addMarkers(markers: any, dataType: number): void {
-    var markerLayer;
-    switch (dataType) {
-      case 0:
-        markerLayer = this.primaryMarkerLayer;
-        break;
-      case 1:
-        markerLayer = this.areaLayer;
-        break;
-      case 2:
-        markerLayer = this.subregionLayer;
-        break;
-      case 3:
-        markerLayer = this.regionLayer;
-        break;
-      case 4:
-        markerLayer = this.subcontinentLayer;
-        break;
-      case 5:
-        markerLayer = this.continentLayer;
-        break;
-    }
+  public addMarkers(markers: any): void {
+    /*var markerLayer = this.primaryMarkerLayer;
     var newMarker;
     for (var i = 0; i < markers.length; i++) {
       var marker = markers[i];
@@ -321,12 +281,8 @@ export class MapComponent implements OnInit {
       icon.options.shadowSize = [0, 0];
       icon.options.shadowUrl = "";
 
-      if (dataType == 0) {
-        newMarker = dataMarker([marker.latitude, marker.longitude], { icon }, marker.id, dataType).addTo(markerLayer);
-      }
-      else {
-        newMarker = dataMarker([marker.latitude, marker.longitude], { icon }, marker.id, dataType).addTo(markerLayer);
-      }
+      newMarker = dataMarker([marker.latitude, marker.longitude], { icon }, marker.id).addTo(markerLayer);
+
 
       const popupContent = marker.name != null && marker.name != '' ? marker.name : marker.locationName;
       const popupOptions = { closeButton: false };
@@ -343,10 +299,8 @@ export class MapComponent implements OnInit {
       })
 
       markerLayer.addTo(this.map);
-    }
-  }
+    }*/
 
-  public addLabels(markers: any, dataType: number): void {
     var layer = this.primaryMarkerLayer;
     var className = "location-label-icon";
 
@@ -356,8 +310,8 @@ export class MapComponent implements OnInit {
       var marker = markers[i];
       if (!(marker.latitude && marker.longitude)) continue;
       
-      divIcon = L.divIcon({className: "label-icon-container", html: "<p class='" + className + "'>" + marker.name + "<p>"})
-      newMarker = dataMarker([marker.latitude, marker.longitude], {icon: divIcon}, marker.id, dataType).addTo(layer);
+      divIcon = L.divIcon({className: "label-icon-container", html: "<p class='" + className + "'>" + marker.name + "<mat-card style='background-color: black'><img src='" + marker.iconUrl + "'></mat-card><p>"})
+      newMarker = dataMarker([marker.latitude, marker.longitude], {icon: divIcon}, marker.id).addTo(layer);
       newMarker.on('click', (e: any) => { this.openViewLocation(e) });
 
       layer.addTo(this.map);
@@ -387,7 +341,7 @@ export class MapComponent implements OnInit {
     this.addingObject = false;
     this.changeDetector.detectChanges();
     this.addPlaceIcon({lat: data.latitude, lng: data.longitude});
-    this.editLocationComponent.setSelectedMapObject(data, dataType, true);
+    this.editLocationComponent.setSelectedMapObject(data);
     this.drawer.open();
   }
 
@@ -475,11 +429,6 @@ export class MapComponent implements OnInit {
         this.mapData = data[0];
         this.defaultCenter = new L.LatLng(this.mapData.defaultY, this.mapData.defaultX);
         this.defaultZoom = this.mapData.defaultZ;
-        this.areaLayerZoom = this.mapData.areaZoomProminence;
-        this.subregionLayerZoom = this.mapData.subregionZoomProminence;
-        this.regionLayerZoom = this.mapData.regionZoomProminence;
-        this.subcontinentLayerZoom = this.mapData.subcontinentZoomProminence;
-        this.continentLayerZoom = this.mapData.continentZoomProminence;
         if (this.routedZoom === undefined || this.routedCenter === undefined) {
           this.routedCenter = this.defaultCenter;
           this.routedZoom = this.defaultZoom;
@@ -494,7 +443,18 @@ export class MapComponent implements OnInit {
           else {
             this.baseLayer = undefined;
           }
-          this.initMap();
+          this.mapLayerService.getMapLayers({mapId: id, isBaseLayer: true, isIconLayer: true}).subscribe(data => {
+            if (data.length > 0) {
+              this.defaultIconLayer = data[0];
+            }
+            else {
+              this.defaultIconLayer = undefined;
+            }
+            this.initMap();
+          },
+          error => {
+            this.errorService.showSnackBar("There was an error finding the default icon layer.");
+          })
         },
         error => {
           this.errorService.showSnackBar("There was an error finding the map base layer.");
@@ -617,162 +577,11 @@ export class MapComponent implements OnInit {
   }
   // #endregion
 
-  //#region Field Resetting
-  public resetAreaField() {
-    var filter = this.addAreaControl.value ? this.addAreaControl.value : '';
-    // If filter value not empty
-    if (filter != '') {
-      var areasFiltered = this.areas.filter(area => {
-        return area.name.toLowerCase() === filter.toString().toLowerCase();
-      });
-      if (areasFiltered.length > 0) {
-        this.selectedArea = areasFiltered[0].id;
-        this.addAreaControl.setValue(areasFiltered[0].name);
-      }
-      else {
-        areasFiltered = this.areas.filter( area => {
-          return area.id == this.selectedArea;
-        });
-        this.addAreaControl.setValue(areasFiltered[0] != null ? areasFiltered[0].name : '');
-      }
-    }
-    // Else, set to what it was before
-    else {
-      this.selectedArea = -1;
-      this.addAreaControl.setValue(null);
-    }
-  }
-
-  public resetSubregionField() {
-    var filter = this.addSubregionControl.value ? this.addSubregionControl.value : '';
-    // If filter value not empty
-    if (filter != '') {
-      var filtered = this.subregions.filter(item => {
-        return item.name.toLowerCase() === filter.toString().toLowerCase();
-      });
-      if (filtered.length > 0) {
-        this.selectedSubregion = filtered[0].id;
-        this.addSubregionControl.setValue(filtered[0].name);
-      }
-      else {
-        filtered = this.subregions.filter( item => {
-          return item.id == this.selectedSubregion;
-        });
-        this.addSubregionControl.setValue(filtered[0] != null ? filtered[0].name : '');
-      }
-    }
-    // Else, set to what it was before
-    else {
-      this.selectedSubregion = -1;
-      this.addSubregionControl.setValue(null);
-    }
-  }
-
-  public resetRegionField() {
-    var filter = this.addRegionControl.value ? this.addRegionControl.value : '';
-    // If filter value not empty
-    if (filter != '') {
-      var filtered = this.regions.filter(item => {
-        return item.name.toLowerCase() === filter.toString().toLowerCase();
-      });
-      if (filtered.length > 0) {
-        this.selectedRegion = filtered[0].id;
-        this.addRegionControl.setValue(filtered[0].name);
-      }
-      else {
-        filtered = this.regions.filter( item => {
-          return item.id == this.selectedRegion;
-        });
-        this.addRegionControl.setValue(filtered[0] != null ? filtered[0].name : '');
-      }
-    }
-    // Else, set to what it was before
-    else {
-      this.selectedRegion = -1;
-      this.addRegionControl.setValue(null);
-    }
-  }
-
-  public resetSubcontinentField() {
-    var filter = this.addSubcontinentControl.value ? this.addSubcontinentControl.value : '';
-    // If filter value not empty
-    if (filter != '') {
-      var filtered = this.subcontinents.filter(item => {
-        return item.name.toLowerCase() === filter.toString().toLowerCase();
-      });
-      if (filtered.length > 0) {
-        this.selectedSubcontinent = filtered[0].id;
-        this.addSubcontinentControl.setValue(filtered[0].name);
-      }
-      else {
-        filtered = this.subcontinents.filter( item => {
-          return item.id == this.selectedSubcontinent;
-        });
-        this.addSubcontinentControl.setValue(filtered[0] != null ? filtered[0].name : '');
-      }
-    }
-    // Else, set to what it was before
-    else {
-      this.selectedSubcontinent = -1;
-      this.addSubcontinentControl.setValue(null);
-    }
-  }
-
-  public resetContinentField() {
-    var filter = this.addContinentControl.value ? this.addContinentControl.value : '';
-    // If filter value not empty
-    if (filter != '') {
-      var filtered = this.continents.filter(item => {
-        return item.name.toLowerCase() === filter.toString().toLowerCase();
-      });
-      if (filtered.length > 0) {
-        this.selectedContinent = filtered[0].id;
-        this.addContinentControl.setValue(filtered[0].name);
-      }
-      else {
-        filtered = this.continents.filter( item => {
-          return item.id == this.selectedContinent;
-        });
-        this.addContinentControl.setValue(filtered[0] != null ? filtered[0].name : '');
-      }
-    }
-    // Else, set to what it was before
-    else {
-      this.selectedContinent = -1;
-      this.addContinentControl.setValue(null);
-    }
-  }
-
-  public resetCelestialObjectField() {
-    var filter = this.addCelestialObjectControl.value ? this.addCelestialObjectControl.value : '';
-    // If filter value not empty
-    if (filter != '') {
-      var filtered = this.celestialObjects.filter(item => {
-        return item.name.toLowerCase() === filter.toString().toLowerCase();
-      });
-      if (filtered.length > 0) {
-        this.selectedCelestialObject = filtered[0].id;
-        this.addCelestialObjectControl.setValue(filtered[0].name);
-      }
-      else {
-        filtered = this.celestialObjects.filter( item => {
-          return item.id == this.selectedCelestialObject;
-        });
-        this.addCelestialObjectControl.setValue(filtered[0] != null ? filtered[0].name : '');
-      }
-    }
-    // Else, set to what it was before
-    else {
-      this.selectedCelestialObject = -1;
-      this.addCelestialObjectControl.setValue(null);
-    }
-  }
-  // #endregion
-
   constructor(
     private mapService: MapService, 
     private mapLayerService: MapLayerService,
     private mapTileService: MapTileService,
+    private imageService: ImageService,
     private errorService: ErrorService,
     private changeDetector: ChangeDetectorRef,
     public dialog: MatDialog,

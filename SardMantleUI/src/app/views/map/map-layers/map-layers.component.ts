@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MapLayer } from 'src/app/models/map/map-layer';
 import { ErrorService } from 'src/app/services/error.service';
@@ -12,12 +12,14 @@ import { MapTileService } from 'src/app/services/map/map-tile-service';
   templateUrl: './map-layers.component.html',
   styleUrls: ['./map-layers.component.scss']
 })
-export class MapLayersComponent implements OnChanges{
+export class MapLayersComponent implements OnChanges {
   public selectedLayers: MapLayer[];
   public allLayers: MapLayer[];
   public baseLayer: MapLayer;
   public iconLayers: MapLayer[];
   public mapLayers: MapLayer[];
+
+  @Output() layerSelectionChanged = new EventEmitter();
   
   @Input() mapId: number;
   public length: number = 0;
@@ -97,6 +99,8 @@ export class MapLayersComponent implements OnChanges{
       })
       event.selected = !selected;
     }
+
+    this.layerSelectionChanged.emit();
   }
 
   public generateBaseLayer() {

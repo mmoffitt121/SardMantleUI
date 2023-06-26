@@ -1,0 +1,37 @@
+.location-type-item {
+    margin-bottom: 5px; 
+    display: grid; 
+    grid-template-columns: 40px auto;
+    .location-type-item-checkbox {
+        margin: auto;
+        margin-right: 20px;
+    }
+    .location-type-item-card {
+        padding: 0px;
+        display: grid;
+        grid-template-columns: 50px auto 50px;
+        img {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+        }
+        .image-placeholder {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            mat-icon {
+                margin-top: 12px;
+                margin-left: 12px;
+            }
+        }
+        h5 {
+            margin: 3px;
+        }
+        p {
+            margin: 3px;
+        }
+        button {
+            margin: auto;
+        }
+    }
+}

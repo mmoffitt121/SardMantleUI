@@ -8,11 +8,10 @@ export class DataMarker<P = any> extends L.Marker {
     public dataType: number | undefined;
 }
 
-export function dataMarker(latlng: L.LatLngExpression, options?: L.MarkerOptions, id?: number, dataType?: number): DataMarker
+export function dataMarker(latlng: L.LatLngExpression, options?: L.MarkerOptions, id?: number): DataMarker
 {
     var marker = L.marker(latlng, options);
     var dataMarker = marker as DataMarker;
     dataMarker.id = id;
-    dataMarker.dataType = dataType;
     return dataMarker;
 }

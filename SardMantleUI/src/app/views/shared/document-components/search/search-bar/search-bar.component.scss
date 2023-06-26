@@ -1,5 +1,17 @@
 .search-bar-form {
     width: 100%;
-    display: grid;
-    grid-template-columns: auto 50px;
+    display: inline-flex;
+    mat-form-field {
+        width: 100%
+    }
+    ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+    }
+    ::ng-deep .mat-mdc-form-field-infix {
+        padding: 10px;
+    }
+
+    ::ng-deep .mat-mdc-text-field-wrapper {
+        height: 41px;
+    }
 }

@@ -1,0 +1,72 @@
+<div class="corner-button-container">
+    <button mat-icon-button class="corner-button" (click)="onCancel()" matTooltip="Close">
+        <mat-icon>
+            close
+        </mat-icon>
+    </button>
+</div>
+<mat-card-title style="margin-left: 20px">
+    <h2>
+        {{title}}
+    </h2>
+</mat-card-title>
+<mat-card-content class="edit-location-type-container">
+    <app-edit-string [parameterName]="'Location Type Name'" [required]="true" [control]="name"></app-edit-string>
+    <app-edit-summary [parameterName]="'Location Type Summary'" [control]="summary"></app-edit-summary>
+    <mat-divider></mat-divider>
+    <div style="display: grid; grid-template-columns: 0.5fr 0.5fr;">
+        <div style="padding-right: 10px;">
+            <app-edit-data-point 
+                [parameterName]="'Parent Location Type'" 
+                [parameterSummary]="'The type of location that this location type references. Ex: A city is in a province.'" 
+                [items]="locationTypes"
+                [selectedItem]="parentType"
+                (selected)="setParentLocationType($event)"
+                [disabled]="locationType.anyTypeParent">
+            </app-edit-data-point>
+        </div>
+        <app-edit-bool 
+            [parameterName]="'Parent Location of Any Type'" 
+            [parameterSummary]="'Check this if you want locations of this type to be able to reference any location type as their parent.'" 
+            [control]="anyTypeParent">
+        </app-edit-bool>
+    </div>
+    <div style="display: grid; grid-template-columns: 0.5fr 0.5fr;">
+        <div style="padding-right: 10px;">
+            <app-edit-int 
+                [parameterName]="'Outermost Zoom Prominence'" 
+                [parameterSummary]="'At what zoom level locations of this type will start to appear.'" 
+                [control]="zoomProminenceMin">
+            </app-edit-int>
+        </div>
+        <app-edit-int 
+            [parameterName]="'Innermost Zoom Prominence'" 
+            [parameterSummary]="'At what zoom level locations of this type will stop appearing.'" 
+            [control]="zoomProminenceMax">
+        </app-edit-int>
+    </div>
+    <div style="display: grid; grid-template-columns: 0.5fr 0.5fr;">
+        <div style="padding-right: 10px;">
+            <app-edit-bool [parameterName]="'Uses Icon'" [control]="usesIcon"></app-edit-bool>
+        </div>
+        <app-edit-bool [parameterName]="'Uses Label'" [control]="usesLabel"></app-edit-bool>
+    </div>
+    <mat-divider *ngIf="!data.adding"></mat-divider>
+    <div style="margin-top: 10px;" *ngIf="!data.adding">
+        <button mat-button (click)="onChangeIcon()">
+            Change Icon
+        </button>
+        <button style="margin-left: 10px;" class="destructive-button" (click)="confirmDelete()" mat-button>
+            Delete Location Type
+        </button>
+    </div>
+    <p *ngIf="iconChanged">File Selected.</p>
+</mat-card-content>
+<mat-card-actions style="float: right">
+    <button mat-button style="margin-left: 10px;" (click)="onCancel()">
+        Cancel
+    </button>
+    <button mat-button style="margin-left: 10px;" (click)="onSave()" color="primary">
+        Save
+    </button>
+</mat-card-actions>

@@ -27,7 +27,6 @@ export class EditBoolComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.setValue(this.default);
     this.control.valueChanges.subscribe(value => this.valueChanged.emit(value));
   }
 }

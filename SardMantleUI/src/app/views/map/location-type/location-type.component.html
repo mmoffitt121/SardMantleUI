@@ -1,10 +1,29 @@
-<h3>Location Types</h3>
+<div style="display: grid; grid-template-columns: auto 55px;">
+    <h3>Location Types</h3>
+    <button mat-icon-button matTooltip="Add Location Type" (click)="addLocationType()">
+        <mat-icon> add </mat-icon>
+    </button>
+</div>
+<app-search-bar (valueChanged)="onSearch($event)" [onTyping]="true"></app-search-bar>
 <mat-card style="margin-top: 10px; background-color: var(--secondary-background-color)">
     <mat-card-content>
-        <mat-card *ngFor="let locationType of locationTypes" style="margin-bottom: 5px;">
-            <h5>{{locationType.name}}</h5>
-            <p>{{locationType.summary}}</p>
-        </mat-card>
+        <div style="display: grid; grid-template-columns: 40px auto;">
+            <mat-checkbox  [indeterminate]="someSelected" [checked]="allSelected" (change)="setAllSelected(!allSelected)"></mat-checkbox>
+            <p style="margin-left: 5px; margin-top: auto; margin-bottom: auto;">Selected: {{locationTypesSelectedCount}}</p>
+        </div>
+        <div *ngFor="let locationType of locationTypesFiltered" class="location-type-item">
+            <mat-checkbox class="location-type-item-checkbox" [checked]="locationType.selected" (change)="select(locationType)"></mat-checkbox>
+            <mat-card class="location-type-item-card">
+                <img [src]="locationType.iconUrl" *ngIf="locationType.iconUrl" /> 
+                <div *ngIf="!locationType.iconUrl" class="image-placeholder"> 
+                    <mat-icon> location_on </mat-icon>
+                </div>
+                <h5>{{locationType.name}}</h5>
+                <button mat-icon-button (click)="editLocationType(locationType)">
+                    <mat-icon> edit </mat-icon>
+                </button>
+            </mat-card>
+        </div>
     </mat-card-content>
     <mat-paginator 
         style="background-color: var(--secondary-background-color)"

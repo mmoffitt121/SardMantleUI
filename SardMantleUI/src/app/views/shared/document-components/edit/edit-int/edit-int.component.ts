@@ -7,8 +7,8 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./edit-int.component.scss']
 })
 export class EditIntComponent implements OnInit {
-  @Input() parameterName: string = 'Parameter Name';
-  @Input() parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?';
+  @Input() parameterName: string = '';
+  @Input() parameterSummary: string = '';
   @Input() control = new FormControl();
   @Input() required: boolean = false;
 

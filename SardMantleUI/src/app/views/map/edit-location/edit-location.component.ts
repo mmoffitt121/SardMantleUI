@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, Input } from '@angular/core';
 import { Area, Subregion, Region, Subcontinent, Continent, CelestialObject } from "../../../models/map/location-data-types/area-data-types";
 import { LocationType, Location } from '../../../models/map/location-data-types/location-data-types';
 import { FormControl, Validators } from '@angular/forms';
@@ -7,6 +7,8 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { MapService } from '../../../services/map/map.service';
 import { ErrorService } from '../../../services/error.service';
 import { LocationDataTypes } from '../../../models/map/location-data-types/location-data-types';
+import { MapLayerService } from 'src/app/services/map/map-layer.service';
+import { MapLayer } from 'src/app/models/map/map-layer';
 
 @Component({
   selector: 'app-edit-location',
@@ -15,54 +17,26 @@ import { LocationDataTypes } from '../../../models/map/location-data-types/locat
   providers: [ MapService ]
 })
 export class EditLocationComponent implements OnInit {
-  public selectedMapObject: any;
+  @Input() mapId: number;
+
+  public selectedMapObject = {} as Location;
   public dataType?: number;
   public dataTypeName: string | undefined;
   public editing: boolean = false;
 
-  mapDataTypeControl = new FormControl();
-  nameControl = new FormControl('', [Validators.required, Validators.maxLength(1000)]);
-  locationTypeControl = new FormControl();
+  public name = new FormControl();
+  public zoomProminenceMin = new FormControl();
+  public zoomProminenceMax = new FormControl();
+  public locationType: LocationType;
+  public parentLocation: Location;
+  public layer: MapLayer;
 
   public markerLat: number;
   public markerLng: number;
 
-  public selectedArea: number = -1;
-  public selectedSubregion: number = -1;
-  public selectedRegion: number = -1;
-  public selectedSubcontinent: number = -1;
-  public selectedContinent: number = -1;
-  public selectedCelestialObject: number = -1;
-
   public locationTypes: LocationType[] = [];
-  public areas: Area[];
-  public subregions: Subregion[];
-  public regions: Region[];
-  public subcontinents: Subcontinent[];
-  public continents: Continent[];
-  public celestialObjects: CelestialObject[];
-
-  public filteredAreas: Area[];
-  public filteredSubregions: Subregion[];
-  public filteredRegions: Region[];
-  public filteredSubcontinents: Subcontinent[];
-  public filteredContinents: Continent[];
-  public filteredCelestialObjects: CelestialObject[];
-
-  areaControl = new FormControl();
-  subregionControl = new FormControl();
-  regionControl = new FormControl();
-  subcontinentControl = new FormControl();
-  continentControl = new FormControl();
-  celestialObjectControl = new FormControl();
-
-  @ViewChild('locationTypeSelect') locationTypeSelect: MatSelect;
-  @ViewChild('areaSelect') areaSelect: MatSelect;
-  @ViewChild('subregionSelect') subregionSelect: MatSelect;
-  @ViewChild('regionSelect') regionSelect: MatSelect;
-  @ViewChild('subcontinentSelect') subcontinentSelect: MatSelect;
-  @ViewChild('continentSelect') continentSelect: MatSelect;
-  @ViewChild('celestialObjectSelect') celestialObjectSelect: MatSelect;
+  public parentLocations: LocationType[] = [];
+  public layers: MapLayer[];
 
   @Output() complete = new EventEmitter();
   @Output() cancel = new EventEmitter();
@@ -75,361 +49,28 @@ export class EditLocationComponent implements OnInit {
     this.cancel.emit();
   }
 
-  public setSelectedMapObject(model: any, dataType: number, editing?: boolean) {
-    if (editing != null) {
-      this.editing = editing;
-    }
-    this.selectedMapObject = model;
-    this.dataType = dataType;
-    this.dataTypeName = LocationDataTypes.dataTypeMap.get(dataType);
+  public setLocationType(event: any) {
+    this.locationType = event;
+  }
 
-    this.markerLat = this.selectedMapObject.latitude;
-    this.markerLng = this.selectedMapObject.longitude;
+  public setParent(event: any) {
+    this.parentLocation = event;
+  }
 
-    this.nameControl.setValue(this.dataType == 0 ? this.selectedMapObject.locationName : this.selectedMapObject.name);
-    switch (this.dataType) {
-      case 0:
-        this.locationTypeControl.setValue(this.selectedMapObject.locationTypeId);
-        this.areaControl.setValue(this.selectedMapObject.areaName);
-        break;
-    }
+  public setLayer(event: any) {
+    this.layer = event;
+  }
+
+  public setSelectedMapObject(obj: any) {
+    this.selectedMapObject = obj;
   }
 
   public changeDataType(d: number) {
     this.dataType = d;
   }
 
-  // #region Group Queries
-  public queryLocationTypes() {
-    this.mapService.getLocationTypes([]).subscribe(data => {
-      this.locationTypes = data;
-    },
-    error => {
-      console.error(error);
-    })
-  }
-  // #endregion
-
-  // #region Specific Queries
   public queryLocation(id: number): any {
     return this.mapService.getLocation(id);
-  }
-  // #endregion
-
-  //#region Field Resetting
-  public resetAreaField() {
-    var filter = this.areaControl.value ? this.areaControl.value : '';
-    // If filter value not empty
-    if (filter != '') {
-      var areasFiltered = this.areas.filter(area => {
-        return area.name.toLowerCase() === filter.toString().toLowerCase();
-      });
-      if (areasFiltered.length > 0) {
-        this.selectedArea = areasFiltered[0].id;
-        this.areaControl.setValue(areasFiltered[0].name);
-      }
-      else {
-        areasFiltered = this.areas.filter( area => {
-          return area.id == this.selectedArea;
-        });
-        this.areaControl.setValue(areasFiltered[0] != null ? areasFiltered[0].name : '');
-      }
-    }
-    // Else, set to what it was before
-    else {
-      this.selectedArea = -1;
-      this.areaControl.setValue(null);
-    }
-  }
-
-  public resetSubregionField() {
-    var filter = this.subregionControl.value ? this.subregionControl.value : '';
-    // If filter value not empty
-    if (filter != '') {
-      var filtered = this.subregions.filter(item => {
-        return item.name.toLowerCase() === filter.toString().toLowerCase();
-      });
-      if (filtered.length > 0) {
-        this.selectedSubregion = filtered[0].id;
-        this.subregionControl.setValue(filtered[0].name);
-      }
-      else {
-        filtered = this.subregions.filter( item => {
-          return item.id == this.selectedSubregion;
-        });
-        this.subregionControl.setValue(filtered[0] != null ? filtered[0].name : '');
-      }
-    }
-    // Else, set to what it was before
-    else {
-      this.selectedSubregion = -1;
-      this.subregionControl.setValue(null);
-    }
-  }
-
-  public resetRegionField() {
-    var filter = this.regionControl.value ? this.regionControl.value : '';
-    // If filter value not empty
-    if (filter != '') {
-      var filtered = this.regions.filter(item => {
-        return item.name.toLowerCase() === filter.toString().toLowerCase();
-      });
-      if (filtered.length > 0) {
-        this.selectedRegion = filtered[0].id;
-        this.regionControl.setValue(filtered[0].name);
-      }
-      else {
-        filtered = this.regions.filter( item => {
-          return item.id == this.selectedRegion;
-        });
-        this.regionControl.setValue(filtered[0] != null ? filtered[0].name : '');
-      }
-    }
-    // Else, set to what it was before
-    else {
-      this.selectedRegion = -1;
-      this.regionControl.setValue(null);
-    }
-  }
-
-  public resetSubcontinentField() {
-    var filter = this.subcontinentControl.value ? this.subcontinentControl.value : '';
-    // If filter value not empty
-    if (filter != '') {
-      var filtered = this.subcontinents.filter(item => {
-        return item.name.toLowerCase() === filter.toString().toLowerCase();
-      });
-      if (filtered.length > 0) {
-        this.selectedSubcontinent = filtered[0].id;
-        this.subcontinentControl.setValue(filtered[0].name);
-      }
-      else {
-        filtered = this.subcontinents.filter( item => {
-          return item.id == this.selectedSubcontinent;
-        });
-        this.subcontinentControl.setValue(filtered[0] != null ? filtered[0].name : '');
-      }
-    }
-    // Else, set to what it was before
-    else {
-      this.selectedSubcontinent = -1;
-      this.subcontinentControl.setValue(null);
-    }
-  }
-
-  public resetContinentField() {
-    var filter = this.continentControl.value ? this.continentControl.value : '';
-    // If filter value not empty
-    if (filter != '') {
-      var filtered = this.continents.filter(item => {
-        return item.name.toLowerCase() === filter.toString().toLowerCase();
-      });
-      if (filtered.length > 0) {
-        this.selectedContinent = filtered[0].id;
-        this.continentControl.setValue(filtered[0].name);
-      }
-      else {
-        filtered = this.continents.filter( item => {
-          return item.id == this.selectedContinent;
-        });
-        this.continentControl.setValue(filtered[0] != null ? filtered[0].name : '');
-      }
-    }
-    // Else, set to what it was before
-    else {
-      this.selectedContinent = -1;
-      this.continentControl.setValue(null);
-    }
-  }
-
-  public resetCelestialObjectField() {
-    var filter = this.celestialObjectControl.value ? this.celestialObjectControl.value : '';
-    // If filter value not empty
-    if (filter != '') {
-      var filtered = this.celestialObjects.filter(item => {
-        return item.name.toLowerCase() === filter.toString().toLowerCase();
-      });
-      if (filtered.length > 0) {
-        this.selectedCelestialObject = filtered[0].id;
-        this.celestialObjectControl.setValue(filtered[0].name);
-      }
-      else {
-        filtered = this.celestialObjects.filter( item => {
-          return item.id == this.selectedCelestialObject;
-        });
-        this.celestialObjectControl.setValue(filtered[0] != null ? filtered[0].name : '');
-      }
-    }
-    // Else, set to what it was before
-    else {
-      this.selectedCelestialObject = -1;
-      this.celestialObjectControl.setValue(null);
-    }
-  }
-  // #endregion
-
-  // #region Field Select Events
-  public selectAreaEvent(event: MatOptionSelectionChange) {
-    if (!event.isUserInput) { return; } 
-    var filtered = this.areas.filter(item => {return item.id == event.source.value})[0];
-    this.selectedArea = filtered.id;
-    this.areaControl.setValue(filtered.name);
-  }
-
-  public selectSubregionEvent(event: MatOptionSelectionChange) {
-    if (!event.isUserInput) { return; } 
-    var filtered = this.subregions.filter(item => {return item.id == event.source.value})[0];
-    this.selectedSubregion = filtered.id;
-    this.subregionControl.setValue(filtered.name);
-  }
-
-  public selectRegionEvent(event: MatOptionSelectionChange) {
-    if (!event.isUserInput) { return; } 
-    var filtered = this.regions.filter(item => {return item.id == event.source.value})[0];
-    this.selectedRegion = filtered.id;
-    this.regionControl.setValue(filtered.name);
-  }
-
-  public selectSubcontinentEvent(event: MatOptionSelectionChange) {
-    if (!event.isUserInput) { return; } 
-    var filtered = this.subcontinents.filter(item => {return item.id == event.source.value})[0];
-    this.selectedSubcontinent = filtered.id;
-    this.subcontinentControl.setValue(filtered.name);
-  }
-
-  public selectContinentEvent(event: MatOptionSelectionChange) {
-    if (!event.isUserInput) { return; } 
-    var filtered = this.continents.filter(item => {return item.id == event.source.value})[0];
-    this.selectedContinent = filtered.id;
-    this.continentControl.setValue(filtered.name);
-  }
-
-  public selectCelestialObjectEvent(event: MatOptionSelectionChange) {
-    if (!event.isUserInput) { return; } 
-    var filtered = this.celestialObjects.filter(item => {return item.id == event.source.value})[0];
-    this.selectedCelestialObject = filtered.id;
-    this.celestialObjectControl.setValue(filtered.name);
-  }
-  // #endregion
-
-  // #region Field Filtering
-  public filterAreas(filter: string | null) {
-    if (this.areas == null) { return; }
-    if (filter == null)
-    {
-      this.filteredAreas = this.areas; 
-      return;
-    }
-    this.filteredAreas = this.areas.filter(area => {
-      return area.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
-    })
-  }
-
-  public filterSubregions(filter: string | null) {
-    if (this.subregions == null) { return; }
-    if (filter == null)
-    {
-      this.filteredSubregions = this.subregions; 
-      return;
-    }
-    this.filteredSubregions = this.subregions.filter(item => {
-      return item.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
-    })
-  }
-
-  public filterRegions(filter: string | null) {
-    if (this.regions == null) { return; }
-    if (filter == null)
-    {
-      this.filteredRegions = this.regions; 
-      return;
-    }
-    this.filteredRegions = this.regions.filter(item => {
-      return item.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
-    })
-  }
-
-  public filterSubcontinents(filter: string | null) {
-    if (this.subcontinents == null) { return; }
-    if (filter == null)
-    {
-      this.filteredSubcontinents = this.subcontinents; 
-      return;
-    }
-    this.filteredSubcontinents = this.subcontinents.filter(item => {
-      return item.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
-    })
-  }
-
-  public filterContinents(filter: string | null) {
-    if (this.continents == null) { return; }
-    if (filter == null)
-    {
-      this.filteredContinents = this.continents; 
-      return;
-    }
-    this.filteredContinents = this.continents.filter(item => {
-      return item.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
-    })
-  }
-
-  public filterCelestialObjects(filter: string | null) {
-    if (this.celestialObjects == null) { return; }
-    if (filter == null)
-    {
-      this.filteredCelestialObjects = this.celestialObjects; 
-      return;
-    }
-    this.filteredCelestialObjects = this.celestialObjects.filter(item => {
-      return item.name.toLowerCase().indexOf(filter.toString().toLowerCase()) > -1;
-    })
-  }
-  // #endregion
-
-  public validateAdd() {
-    if (this.nameControl.invalid) {
-      this.nameControl.markAllAsTouched(); // mark all input fields as touched to trigger error messages
-      return false;
-    }
-    return true;
-  }
-
-  public createLocation() {
-    if (!this.validateAdd()) return;
-
-    this.dataType = this.mapDataTypeControl.value != null ? +this.mapDataTypeControl.value : -1;
-
-    var model = {
-      locationName: this.nameControl.value,
-      locationTypeId: (this.locationTypeSelect && this.locationTypeSelect.value) ? this.locationTypeSelect.value : null,
-      latitude: this.markerLat,
-      longitude: this.markerLng
-    };
-    this.mapService.postLocation(model).subscribe((data: any) => {
-      this.submitOperation();
-    },
-    (error: any) => {
-      this.errorHandler.handle(error);
-    })
-  }
-
-  public putLocation() {
-    if (!this.validateAdd()) return;
-
-    var model = {
-          id: this.selectedMapObject.id,
-          locationName: this.nameControl.value,
-          areaId: this.selectedArea != -1 ? this.selectedArea: null,
-          locationTypeId: (this.locationTypeControl && this.locationTypeControl.value) ? this.locationTypeControl.value : null,
-          latitude: this.markerLat,
-          longitude: this.markerLng
-        };
-        this.mapService.putLocation(model).subscribe((data: any) => {
-          this.submitOperation();
-        },
-        (error: any) => {
-          this.errorHandler.handle(error);
-        })
   }
 
   public setMarkerLocations(lat: number, lng: number) {
@@ -439,41 +80,64 @@ export class EditLocationComponent implements OnInit {
 
   public submit() {
     if (this.editing) {
-      this.putLocation();
+      console.log("editing")
     }
     else {
-      this.createLocation();
+      var location = {
+        name: this.name.value,
+        locationTypeId: this.locationType?.id,
+        zoomProminenceMin: this.zoomProminenceMin.value,
+        zoomProminenceMax: this.zoomProminenceMax.value,
+        latitude: this.markerLat,
+        longitude: this.markerLng,
+        parentId: this.parentLocation?.id,
+        layerId: this.layer?.id
+      } as Location
+
+      this.mapService.postLocation(location).subscribe(result => {
+        this.errorHandler.showSnackBar("Location Saved Successfully.");
+      },
+      error => {
+        this.errorHandler.handle(error);
+      })
     }
+  }
+
+  public queryPotentialParents() {
+    this.mapService.getLocations({}).subscribe(data => {
+      this.parentLocations = data;
+    },
+    error => {
+      console.error(error);
+    })
   }
 
   public cancelAddEdit() {
     this.cancel.emit();
   }
 
-  constructor(public mapService: MapService, private errorHandler: ErrorService) { }
+  constructor(
+    public mapService: MapService, 
+    private errorHandler: ErrorService,
+    private mapLayerService: MapLayerService) { }
 
   ngOnInit(): void {
-    this.selectedMapObject = { id: -1, name: "NONE" };
+    this.selectedMapObject = { name: "" } as Location;
+    this.mapService.getLocationTypes({}).subscribe(data => {
+      this.locationTypes = data;
+      this.mapLayerService.getMapLayers({mapId: this.mapId, isIconLayer: true}).subscribe(data => {
+        this.layers = data;
+        this.layer = data.find((l: MapLayer) => l.isBaseLayer);
+        this.queryPotentialParents();
+      },
+      error => {
+        console.error(error);
+      })
+    },
+    error => {
+      console.error(error);
+    })
 
-    this.queryLocationTypes();
-
-    this.areaControl.valueChanges.subscribe( data => {
-      this.filterAreas(data);
-    });
-    this.subregionControl.valueChanges.subscribe( data => {
-      this.filterSubregions(data);
-    });
-    this.regionControl.valueChanges.subscribe( data => {
-      this.filterRegions(data);
-    });
-    this.subcontinentControl.valueChanges.subscribe( data => {
-      this.filterSubcontinents(data);
-    });
-    this.continentControl.valueChanges.subscribe( data => {
-      this.filterContinents(data);
-    });
-    this.celestialObjectControl.valueChanges.subscribe( data => {
-      this.filterCelestialObjects(data);
-    });
+    
   }
 }

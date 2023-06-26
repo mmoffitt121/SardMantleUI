@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -6,10 +6,11 @@ import { FormControl } from '@angular/forms';
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.scss']
 })
-export class SearchBarComponent {
+export class SearchBarComponent implements OnInit {
   @Input() placeholder: string = 'Search...';
   @Input() maxLength: number | null = null;
   @Input() disabled: boolean = false;
+  @Input() onTyping: boolean = false;
 
   @Output() valueChanged = new EventEmitter(); 
   @Output() search = new EventEmitter();

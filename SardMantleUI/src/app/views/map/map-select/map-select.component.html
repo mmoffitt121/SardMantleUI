@@ -16,7 +16,9 @@
     </mat-card-title>
 </mat-card-header>
 <mat-card-content>
-    <app-search-bar (search)="onSearch($event)" [disabled]="loading"></app-search-bar>
+    <div style="margin-bottom: 10px;">
+        <app-search-bar (search)="onSearch($event)" [disabled]="loading"></app-search-bar>
+    </div>
     <div class="map-card-container" *ngIf="!loading">
         <mat-card class="map-card" *ngFor="let map of maps" (mouseover)="map.selected=true" (mouseout)="map.selected=false" (click)="onSelect(map)">
             <mat-icon *ngIf="map.url === null" class="icon-over"> map </mat-icon>

@@ -4,22 +4,28 @@
     <mat-divider></mat-divider>
     <app-edit-bool [parameterName]="'Loop'" [parameterSummary]="'Whether or not this is a map that loops left-to-right. Good for maps of entire planets.'" [control]="loops" [required]="true"></app-edit-bool>
     <mat-divider></mat-divider>
-    <app-edit-int [parameterName]="'Area Zoom Prominence'" [parameterSummary]="'At which zoom level areas start appearing on the map.'" [control]="areaZoomProminence" [required]="true"></app-edit-int>
-    <app-edit-int [parameterName]="'Subregion Zoom Prominence'" [parameterSummary]="'At which zoom level subregions start appearing on the map.'" [control]="subregionZoomProminence" [required]="true"></app-edit-int>
-    <app-edit-int [parameterName]="'Region Zoom Prominence'" [parameterSummary]="'At which zoom level regions start appearing on the map.'" [control]="regionZoomProminence " [required]="true"></app-edit-int>
-    <app-edit-int [parameterName]="'Subcontinent Zoom Prominence'" [parameterSummary]="'At which zoom level subcontinents start appearing on the map.'" [control]="subcontinentZoomProminence " [required]="true"></app-edit-int>
-    <app-edit-int [parameterName]="'Continent Zoom Prominence'" [parameterSummary]="'At which zoom level continents start appearing on the map.'" [control]="continentZoomProminence " [required]="true"></app-edit-int>
+    <div style="display: grid; grid-template-columns: 0.5fr 0.5fr;">
+        <div style="padding-right: 10px;">
+            <app-edit-double [parameterName]="'Default Latitude'" [control]="defaultY" [required]="true"></app-edit-double>
+        </div>
+        <div>
+            <app-edit-double [parameterName]="'Default Longitude'" [control]="defaultX" [required]="true"></app-edit-double>
+        </div>
+    </div>
+    <app-edit-int [parameterName]="'Default Zoom'" [control]="defaultZ " [required]="true"></app-edit-int>
     <mat-divider></mat-divider>
-    <app-edit-double [parameterName]="'Default Latitude'" [parameterSummary]="'The default latitude upon first loading the map.'" [control]="defaultY" [required]="true"></app-edit-double>
-    <app-edit-double [parameterName]="'Default Longitude'" [parameterSummary]="'The default longitude upon first loading the map.'" [control]="defaultX" [required]="true"></app-edit-double>
-    <app-edit-int [parameterName]="'Default Zoom'" [parameterSummary]="'The default zoom level upon first loading the map.'" [control]="defaultZ " [required]="true"></app-edit-int>
-    <mat-divider></mat-divider>
-    <app-edit-int [parameterName]="'Minimum Zoom Level'" [parameterSummary]="'The farthest out a viewer can zoom out on this map.'" [control]="minZoom" [required]="true"></app-edit-int>
-    <app-edit-int [parameterName]="'Maximum Zoom Level'" [parameterSummary]="'The closest in a viewer can zoom in on this map.'" [control]="maxZoom" [required]="true"></app-edit-int>
+    <div style="display: grid; grid-template-columns: 0.5fr 0.5fr;">
+        <div style="padding-right: 10px;">
+            <app-edit-int [parameterName]="'Minimum Zoom Level'" [parameterSummary]="'The farthest out a viewer can zoom out on this map.'" [control]="minZoom" [required]="true"></app-edit-int>
+        </div>
+        <div>
+            <app-edit-int [parameterName]="'Maximum Zoom Level'" [parameterSummary]="'The closest in a viewer can zoom in on this map.'" [control]="maxZoom" [required]="true"></app-edit-int>
+        </div>
+    </div>
 </div>
 <mat-divider></mat-divider>
 <app-edit-bool [parameterName]="'Default Map'" [parameterSummary]="'Whether or not this is the default map users will see upon entering the map screen.'" [control]="isDefault" [required]="true"></app-edit-bool>
-<div style="float: right;">
+<div style="float: right; margin-top: 70px;">
     <button mat-button style="margin-left: 10px;" (click)="cancel.emit();">
         Cancel
     </button>

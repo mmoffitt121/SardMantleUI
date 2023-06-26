@@ -86,6 +86,8 @@ import { EditMapLayerComponent } from './views/map/map-layers/edit-map-layer/edi
 import { MapTilesComponent } from './views/map-tiles/map-tiles.component';
 import { UploadMapTilesComponent } from './views/map-tiles/upload-map-tiles/upload-map-tiles.component';
 import { LocationTypeComponent } from './views/map/location-type/location-type.component';
+import { EditLocationTypeComponent } from './views/map/location-type/edit-location-type/edit-location-type.component';
+import { FilterLocationComponent } from './views/map/filter-location/filter-location.component';
 
 @NgModule({
   declarations: [
@@ -140,7 +142,9 @@ import { LocationTypeComponent } from './views/map/location-type/location-type.c
     EditMapLayerComponent,
     MapTilesComponent,
     UploadMapTilesComponent,
-    LocationTypeComponent
+    LocationTypeComponent,
+    EditLocationTypeComponent,
+    FilterLocationComponent
   ],
   imports: [
     BrowserModule,
