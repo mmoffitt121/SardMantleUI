@@ -20,6 +20,7 @@ export class ImageService {
     formData.append('id', id.toString());
     formData.append('type', imageType.toString());
     formData.append('data', new Blob([icon], { type: icon.type }), "name");
+    formData.append('url', this.getUrl(id, imageType));
     return this.http.post('https://localhost:7094/Library/Image/PostImage', formData);
   }
 

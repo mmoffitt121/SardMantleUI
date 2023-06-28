@@ -1,4 +1,4 @@
-import { Component, Output, Input, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, Input, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LocationType } from 'src/app/models/map/location-data-types/location-data-types';
 import { PagedQuery } from 'src/app/models/shared/paged-query';
@@ -55,20 +55,11 @@ export class LocationTypeComponent implements OnInit  {
     )
     this.length = this.locationTypesFiltered.length;
 
+    this.cdref.detectChanges();
+
     this.locationTypesFiltered = this.locationTypesFiltered.slice(
       this.locationTypeQuery.pageNumber * this.locationTypeQuery.pageSize, 
       (this.locationTypeQuery.pageNumber +1 ) * this.locationTypeQuery.pageSize);
-
-    this.locationTypesFiltered.forEach(lt => {
-      this.imageService.getImage(lt.id, 1).subscribe(icon => {
-        if (icon.body != null) {
-          lt.iconUrl = this.imageService.getUrl(lt.id, 1);
-        }
-        else {
-          lt.iconUrl = undefined;
-        }
-      })
-    })
     
     this.calculateSelectionCount();
   }
@@ -98,6 +89,7 @@ export class LocationTypeComponent implements OnInit  {
   }
 
   public editLocationType(locationType: LocationType) {
+    console.log(locationType)
     const dialogRef = this.dialog.open(EditLocationTypeComponent, {
       width: '525px',
       data: { adding: false, locationType: locationType }
@@ -110,7 +102,7 @@ export class LocationTypeComponent implements OnInit  {
     });
   }
 
-  constructor(public mapService: MapService, private imageService: ImageService, private dialog: MatDialog) {
+  constructor(public mapService: MapService, private imageService: ImageService, private dialog: MatDialog, private cdref: ChangeDetectorRef) {
 
   }
 

@@ -202,10 +202,6 @@ mat-card-content {
     width: 100%;
 }
 
-.location-label-icon {
-    font-size: 20px;
-}
-
 ::ng-deep.label-icon-container {
     display: flex;
     flex-direction: width;
@@ -214,34 +210,16 @@ mat-card-content {
     white-space: nowrap;
     text-align: center;
     p {
-        margin: 0px;
+        margin-left: 0px;
     }
 }
 
-::ng-deep.area-label-icon {
+::ng-deep.location-label-icon {
     text-align: center;
     position: relative;
     justify-self: center;
-    font-size: 16px;
-    color: var(--tertiary-text-color);
-}
-
-::ng-deep.subregion-label-icon {
-    font-size: 18px;
-    color: var(--secondary-text-color);
-}
-
-::ng-deep.region-label-icon {
-    font-size: 20px;
-    color: var(--secondary-text-color);
-}
-
-::ng-deep.subcontinent-label-icon {
-    font-size: 22px;
-    color: var(--secondary-text-color);
-}
-
-::ng-deep.continent-label-icon {
-    font-size: 24px;
-    color: var(--secondary-text-color);
+    margin-top: -13px;
+    padding-top: 0px;
+    font-size: 12px;
+    color: var(--text-color);
 }

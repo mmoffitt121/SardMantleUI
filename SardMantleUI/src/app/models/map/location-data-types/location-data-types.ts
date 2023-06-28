@@ -25,7 +25,7 @@ export interface Location {
     longitude: number;
     parentId: number;
     layerId: number;
-    iconUrl: string | undefined;
+    iconURL: string | undefined;
 }
 
 export interface LocationType extends Selectable {
@@ -36,7 +36,7 @@ export interface LocationType extends Selectable {
     anyTypeParent: boolean;
     zoomProminenceMin: number;
     zoomProminenceMax: number;
-    iconUrl: string | undefined;
+    iconURL: string | undefined;
     usesIcon: boolean;
     usesLabel: boolean;
 }

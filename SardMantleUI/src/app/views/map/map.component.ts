@@ -62,8 +62,6 @@ export class MapComponent implements OnInit {
   public mapData: MapData;
   public mapIconHovered = false;
 
-  public iconUrls = new Map();
-
   @ViewChild('sideDrawer', {static: false}) drawer: MatDrawer;
   @ViewChild('locationViewer') viewLocationComponent: ViewLocationComponent;
   @ViewChild('locationEditor') editLocationComponent: EditLocationComponent;
@@ -204,30 +202,6 @@ export class MapComponent implements OnInit {
       maxZoom: this.map.getZoom()
     }).subscribe(data => {
       this.locations = data;
-      this.locations.forEach(l => {
-        if (!this.iconUrls.has(l.id)) {
-          this.imageService.getImage(l.id, 2).subscribe(icon => {
-            if (icon.body != null) {
-              l.iconUrl = this.imageService.getUrl(l.id, 2);
-              this.iconUrls.set(l.id, l.iconUrl);
-            }
-            else if (l.locationTypeId) {
-              this.imageService.getImage(l.locationTypeId, 1).subscribe(icon => {
-                if (icon.body != null) {
-                  l.iconUrl = this.imageService.getUrl(l.locationTypeId, 1);
-                  this.iconUrls.set(l.id, l.iconUrl);
-                }
-                else {
-                  l.iconUrl = undefined;
-                }
-              })
-            }
-          })
-        }
-        else {
-          l.iconUrl = this.iconUrls.get(l.id);
-        }
-      })
       this.primaryMarkerLayer.clearLayers();
       this.addMarkers(this.locations);
     },
@@ -301,16 +275,55 @@ export class MapComponent implements OnInit {
       markerLayer.addTo(this.map);
     }*/
 
-    var layer = this.primaryMarkerLayer;
-    var className = "location-label-icon";
+    console.log(markers);
 
+    let dotHTML = `<div style='
+      height: 7px; width: 7px; 
+      background-color: white; 
+      border-radius: 50%; 
+      outline: black solid 3px; 
+      position: absolute; 
+      top: 0px; right: 0px; left: 0px; bottom: 0px;'
+    >
+    </div>`;
+
+    var layer = this.primaryMarkerLayer;
+    var className;
     var newMarker;
     var divIcon;
+    let iconHTML;
+    let markerHTML;
     for (var i = 0; i < markers.length; i++) {
       var marker = markers[i];
       if (!(marker.latitude && marker.longitude)) continue;
+
+      // Set Icon
+      if (marker.usesIcon) {
+        if (marker.iconURL) {
+          iconHTML = `<img style='width: 32px; margin-bottom: 0px;' src='` + marker.iconURL + `'>`;
+        } 
+        else {
+          iconHTML = dotHTML;
+        }
+      }
+      else {
+        iconHTML = "";
+      }
+
+      // Set Label
+      if (marker.usesLabel) {
+        markerHTML = "<div style='display: inline; position: absolute; top: -32px;'><p>" + iconHTML + "</p>" + "<p class='location-label-icon'>" +  marker.name + "</p></div>";
+      }
+      else {
+        markerHTML = iconHTML;
+      }
       
-      divIcon = L.divIcon({className: "label-icon-container", html: "<p class='" + className + "'>" + marker.name + "<mat-card style='background-color: black'><img src='" + marker.iconUrl + "'></mat-card><p>"})
+      if (!marker.usesLabel && !marker.usesIcon) {
+        markerHTML = dotHTML;
+      }
+
+
+      divIcon = L.divIcon({className: 'label-icon-container', html: markerHTML})
       newMarker = dataMarker([marker.latitude, marker.longitude], {icon: divIcon}, marker.id).addTo(layer);
       newMarker.on('click', (e: any) => { this.openViewLocation(e) });
 
