@@ -91,7 +91,7 @@
                     <div matExpansionPanelContent>
                         <app-filter-location (add)="openAddLocation()"></app-filter-location>
                         <div style="margin-top: 10px;">
-                            <app-location-type #locationTypeComponent></app-location-type>
+                            <app-location-type #locationTypeComponent (filter)="applyFilter()"></app-location-type>
                         </div>
                     </div>
                 </mat-expansion-panel>

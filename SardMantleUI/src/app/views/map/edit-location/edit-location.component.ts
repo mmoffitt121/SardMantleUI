@@ -30,6 +30,8 @@ export class EditLocationComponent implements OnInit {
   public locationType: LocationType;
   public parentLocation: Location;
   public layer: MapLayer;
+  public labelFontSize = new FormControl();
+  public labelFontColor = new FormControl();
 
   public markerLat: number;
   public markerLng: number;

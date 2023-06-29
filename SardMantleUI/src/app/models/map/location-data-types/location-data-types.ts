@@ -26,6 +26,8 @@ export interface Location {
     parentId: number;
     layerId: number;
     iconURL: string | undefined;
+    labelFontSize: number;
+    labelFontColor: string;
 }
 
 export interface LocationType extends Selectable {
@@ -39,4 +41,6 @@ export interface LocationType extends Selectable {
     iconURL: string | undefined;
     usesIcon: boolean;
     usesLabel: boolean;
+    labelFontSize: number;
+    labelFontColor: string;
 }

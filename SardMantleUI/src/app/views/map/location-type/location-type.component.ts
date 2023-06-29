@@ -35,6 +35,7 @@ export class LocationTypeComponent implements OnInit  {
 
   public select(selected: any) {
     selected.selected = !selected.selected;
+    this.filter.emit();
     this.calculateSelectionCount();
   }
 
@@ -45,6 +46,7 @@ export class LocationTypeComponent implements OnInit  {
         t.selected = true;
       })
       this.length = this.locationTypes.length;
+      this.filter.emit();
       this.load();
     });
   }

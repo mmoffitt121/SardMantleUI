@@ -203,6 +203,7 @@ mat-card-content {
 }
 
 ::ng-deep.label-icon-container {
+    font-family: var(--primary-font);
     display: flex;
     flex-direction: width;
     justify-content: center;
@@ -212,14 +213,4 @@ mat-card-content {
     p {
         margin-left: 0px;
     }
-}
-
-::ng-deep.location-label-icon {
-    text-align: center;
-    position: relative;
-    justify-self: center;
-    margin-top: -13px;
-    padding-top: 0px;
-    font-size: 12px;
-    color: var(--text-color);
 }

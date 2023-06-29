@@ -27,6 +27,8 @@ export class EditLocationTypeComponent implements OnInit {
   public zoomProminenceMax = new FormControl();
   public usesIcon = new FormControl();
   public usesLabel = new FormControl();
+  public labelFontSize = new FormControl();
+  public labelFontColor = new FormControl();
 
   public parentType: LocationType | undefined;
 
@@ -46,6 +48,8 @@ export class EditLocationTypeComponent implements OnInit {
     this.locationType.zoomProminenceMax = this.zoomProminenceMax.value;
     this.locationType.usesIcon = this.usesIcon.value;
     this.locationType.usesLabel = this.usesLabel.value;
+    this.locationType.labelFontSize = this.labelFontSize.value;
+    this.locationType.labelFontColor = this.labelFontColor.value;
 
     if (this.data.adding) {
       this.mapService.postLocationType(this.locationType).subscribe(result => {
@@ -157,5 +161,7 @@ export class EditLocationTypeComponent implements OnInit {
     this.zoomProminenceMax.setValue(this.locationType.zoomProminenceMax);
     this.usesIcon.setValue(this.locationType.usesIcon);
     this.usesLabel.setValue(this.locationType.usesLabel);
+    this.labelFontSize.setValue(this.locationType.labelFontSize);
+    this.labelFontColor.setValue(this.locationType.labelFontColor);
   }
 }

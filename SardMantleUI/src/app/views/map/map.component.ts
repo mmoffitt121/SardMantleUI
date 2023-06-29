@@ -158,6 +158,9 @@ export class MapComponent implements OnInit {
   }
 
   public applyFilter(): void {
+    if (this.map === undefined) {
+      return;
+    }
     this.clearAllMarkerLayers();
     this.queryLocations();
   }
@@ -190,9 +193,13 @@ export class MapComponent implements OnInit {
     else if (this.defaultIconLayer) {
       mapLayerIds.push(this.defaultIconLayer.id);
     }
+
+    let locationTypes = this.locationTypeComponent?.locationTypes?.filter(lt => lt.selected);
+    let locationTypeIds = locationTypes.map(lt => lt.id);
     
     this.mapService.getLocations({
       mapLayerIds: mapLayerIds.length > 0 ? mapLayerIds : [-1],
+      locationTypeIds: locationTypeIds,
       mapId: this.mapData.id,
       minLatitude: this.map.getBounds().getSouth(),
       maxLatitude: this.map.getBounds().getNorth(),
@@ -245,38 +252,6 @@ export class MapComponent implements OnInit {
   }
 
   public addMarkers(markers: any): void {
-    /*var markerLayer = this.primaryMarkerLayer;
-    var newMarker;
-    for (var i = 0; i < markers.length; i++) {
-      var marker = markers[i];
-      if (!(marker.latitude && marker.longitude)) continue;
-
-      var icon = new L.Icon.Default();
-      icon.options.shadowSize = [0, 0];
-      icon.options.shadowUrl = "";
-
-      newMarker = dataMarker([marker.latitude, marker.longitude], { icon }, marker.id).addTo(markerLayer);
-
-
-      const popupContent = marker.name != null && marker.name != '' ? marker.name : marker.locationName;
-      const popupOptions = { closeButton: false };
-      const popup = L.popup().setContent(popupContent);
-      
-      newMarker.on('click', (e: any) => { this.openViewLocation(e) });
-      newMarker.bindPopup(popup, popupOptions).on({
-        mouseover: (e) => {
-          e.target.openPopup();
-        },
-        mouseout: (e) => {
-          e.target.closePopup();
-        }
-      })
-
-      markerLayer.addTo(this.map);
-    }*/
-
-    console.log(markers);
-
     let dotHTML = `<div style='
       height: 7px; width: 7px; 
       background-color: white; 
@@ -288,7 +263,6 @@ export class MapComponent implements OnInit {
     </div>`;
 
     var layer = this.primaryMarkerLayer;
-    var className;
     var newMarker;
     var divIcon;
     let iconHTML;
@@ -300,7 +274,7 @@ export class MapComponent implements OnInit {
       // Set Icon
       if (marker.usesIcon) {
         if (marker.iconURL) {
-          iconHTML = `<img style='width: 32px; margin-bottom: 0px;' src='` + marker.iconURL + `'>`;
+          iconHTML = `<div><img style='width: 32px; margin-top: -50%;' src='` + marker.iconURL + `'</div>`;
         } 
         else {
           iconHTML = dotHTML;
@@ -312,10 +286,13 @@ export class MapComponent implements OnInit {
 
       // Set Label
       if (marker.usesLabel) {
-        markerHTML = "<div style='display: inline; position: absolute; top: -32px;'><p>" + iconHTML + "</p>" + "<p class='location-label-icon'>" +  marker.name + "</p></div>";
+        let labelColor = marker.labelFontColor ? "#" + marker.labelFontColor : '#FFFFFF';
+        let labelSize = marker.labelFontSize ? marker.labelFontSize : "12px";
+        let labelStyle = "style='color: " + labelColor + "; font-size: " + labelSize + "px;'";
+        markerHTML = "<div " + labelStyle + ">" + marker.name + "</div>";
       }
       else {
-        markerHTML = iconHTML;
+        markerHTML = "";
       }
       
       if (!marker.usesLabel && !marker.usesIcon) {
@@ -323,7 +300,7 @@ export class MapComponent implements OnInit {
       }
 
 
-      divIcon = L.divIcon({className: 'label-icon-container', html: markerHTML})
+      divIcon = L.divIcon({className: 'label-icon-container', html: iconHTML + markerHTML})
       newMarker = dataMarker([marker.latitude, marker.longitude], {icon: divIcon}, marker.id).addTo(layer);
       newMarker.on('click', (e: any) => { this.openViewLocation(e) });
 

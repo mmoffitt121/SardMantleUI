@@ -51,6 +51,19 @@
         </div>
         <app-edit-bool [parameterName]="'Uses Label'" [control]="usesLabel"></app-edit-bool>
     </div>
+    <div style="display: grid; grid-template-columns: 0.5fr 0.5fr; margin-top: 20px;">
+        <div style="padding-right: 10px;">
+            <app-edit-int 
+                [parameterName]="'Label Font Size'" 
+                [control]="labelFontSize">
+            </app-edit-int>
+        </div>
+        <app-edit-int 
+            [parameterName]="'Label Font Color'" 
+            [placeholder]="'#000000'"
+            [control]="labelFontColor">
+        </app-edit-int>
+    </div>
     <mat-divider *ngIf="!data.adding"></mat-divider>
     <div style="margin-top: 10px;" *ngIf="!data.adding">
         <button mat-button (click)="onChangeIcon()">

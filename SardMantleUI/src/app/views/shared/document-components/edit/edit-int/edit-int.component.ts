@@ -11,6 +11,7 @@ export class EditIntComponent implements OnInit {
   @Input() parameterSummary: string = '';
   @Input() control = new FormControl();
   @Input() required: boolean = false;
+  @Input() placeholder: string = "Number"
 
   public validate(e: any) {
     this.control.markAsTouched();
