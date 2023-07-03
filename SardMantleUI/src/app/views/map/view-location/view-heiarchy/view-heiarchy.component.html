@@ -1,27 +1,8 @@
 <div>
-    <p>{{selectedMapObject.manifoldName}}</p>
-    <p class="p2" *ngIf="selectedMapObject.manifoldName != null">Manifold</p>
-    <mat-divider [vertical]="true" class="divider-upright" *ngIf="selectedMapObject.manifoldName != null"></mat-divider>
-    <p>{{selectedMapObject.celestialSystemName}}</p>
-    <p class="p2" *ngIf="selectedMapObject.celestialSystemName != null">Celestial System</p>
-    <mat-divider [vertical]="true" class="divider-upright" *ngIf="selectedMapObject.celestialSystemName != null"></mat-divider>
-    <p>{{selectedMapObject.celestialObjectName}}</p>
-    <p class="p2" *ngIf="selectedMapObject.celestialObjectName != null">Celestial Object</p>
-    <mat-divider [vertical]="true" class="divider-upright" *ngIf="selectedMapObject.celestialObjectName != null"></mat-divider>
-    <p>{{selectedMapObject.continentName}}</p>
-    <p class="p2" *ngIf="selectedMapObject.continentName != null">Continent</p>
-    <mat-divider [vertical]="true" class="divider-upright" *ngIf="selectedMapObject.continentName != null"></mat-divider>
-    <p>{{selectedMapObject.subcontinentName}}</p>
-    <p class="p2" *ngIf="selectedMapObject.subcontinentName != null">Subcontinent</p>
-    <mat-divider [vertical]="true" class="divider-upright" *ngIf="selectedMapObject.subcontinentName != null"></mat-divider>
-    <p>{{selectedMapObject.regionName}}</p>
-    <p class="p2" *ngIf="selectedMapObject.regionName != null">Region</p>
-    <mat-divider [vertical]="true" class="divider-upright" *ngIf="selectedMapObject.regionName != null"></mat-divider>
-    <p>{{selectedMapObject.subregionName}}</p>
-    <p class="p2" *ngIf="selectedMapObject.subregionName != null">Subregion</p>
-    <mat-divider [vertical]="true" class="divider-upright" *ngIf="selectedMapObject.subregionName != null"></mat-divider>
-    <p>{{selectedMapObject.areaName}}</p>
-    <p class="p2" *ngIf="selectedMapObject.areaName != null">Area</p>
-    <mat-divider [vertical]="true" class="divider-upright" *ngIf="selectedMapObject.areaName != null"></mat-divider>
-    <p>{{dataType == 0 ? selectedMapObject.locationName : selectedMapObject.name}}</p>
+    <div *ngFor="let item of items">
+        <p (click)="handleNavigate(item.id)">{{item?.name}}</p>
+        <p class="p2" *ngIf="item?.locationTypeName">{{item?.locationTypeName}}</p>
+        <mat-divider [vertical]="true" class="divider-upright" *ngIf="item?.name != null"></mat-divider>
+    </div>
+    <p>{{currentItem?.name}}</p>
 </div>

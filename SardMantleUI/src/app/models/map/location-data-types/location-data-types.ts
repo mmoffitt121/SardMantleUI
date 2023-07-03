@@ -19,6 +19,7 @@ export interface Location {
     id: number;
     name: string;
     locationTypeId: number;
+    locationTypeName: string;
     zoomProminenceMin: number;
     zoomProminenceMax: number;
     latitude: number;

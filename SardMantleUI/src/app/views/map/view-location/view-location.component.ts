@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewHeiarchyComponent } from './view-heiarchy/view-heiarchy.component';
-import { LocationDataTypes } from '../../../models/map/location-data-types/location-data-types';
+import { Location, LocationDataTypes, LocationType } from '../../../models/map/location-data-types/location-data-types';
 import { MapService } from '../../../services/map/map.service';
 import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
 import { ErrorService } from '../../../services/error.service';
@@ -12,7 +12,8 @@ import { ErrorService } from '../../../services/error.service';
   styleUrls: ['./view-location.component.scss']
 })
 export class ViewLocationComponent implements OnInit {
-  public selectedMapObject: any;
+  public selectedMapObject: Location;
+  public locationType: LocationType | undefined;
   public dataType: number;
   public dataTypeName: string | undefined;
 
@@ -20,6 +21,7 @@ export class ViewLocationComponent implements OnInit {
 
   @Output() editBegin = new EventEmitter();
   @Output() deleted = new EventEmitter();
+  @Output() navigate = new EventEmitter();
 
   public editMapObject() {
     this.editBegin.emit();
@@ -32,7 +34,7 @@ export class ViewLocationComponent implements OnInit {
         title: "Confirm Deletion", 
         content: "Are you sure you want to delete " +
         (LocationDataTypes.dataTypeMap.get(this.dataType))?.toLowerCase() + " " + 
-        (this.dataType == 0 ? this.selectedMapObject.locationName : this.selectedMapObject.name) + "?"
+        (this.dataType == 0 ? this.selectedMapObject.name : this.selectedMapObject.name) + "?"
       }
     });
 
@@ -52,16 +54,43 @@ export class ViewLocationComponent implements OnInit {
     })
   }
 
+  public handleNavigate(id: number) {
+    this.navigate.emit(id);
+  }
+
   public setSelectedMapObject(model: any, dataType: number) {
-    this.selectedMapObject = model;
-    this.dataType = dataType;
-    this.dataTypeName = LocationDataTypes.dataTypeMap.get(dataType);
-    this.viewHeiarchy.setSelectedMapObject(model, dataType);
+    this.mapService.getLocations({id: model.id}).subscribe(data => {
+      if (data.length > 0) {
+        this.selectedMapObject = data[0];
+        if (this.selectedMapObject.locationTypeId) {
+          this.mapService.getLocationTypes({id: this.selectedMapObject.locationTypeId}).subscribe(locTypeData => {
+            if (locTypeData.length > 0) {
+              this.locationType = locTypeData[0];
+            }
+            else {
+              this.locationType = undefined;
+            }
+          },
+          error => {
+            this.errorHandler.handle(error);
+          })
+        }
+        
+      }
+      else {
+        this.errorHandler.showSnackBar("Location not found.");
+      }
+    },
+    error => {
+      this.errorHandler.handle(error);
+    })
+
+    this.viewHeiarchy.setSelectedMapObject(model.id);
   }
 
   constructor(private mapService: MapService, public dialog: MatDialog, private errorHandler: ErrorService) { }
 
   ngOnInit(): void {
-    this.selectedMapObject = { id: -1, name: "NONE" };
+    this.selectedMapObject = { id: -1, name: "NONE" } as Location;
   }
 }

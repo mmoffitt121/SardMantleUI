@@ -30,6 +30,14 @@
         </div>
         <mat-divider></mat-divider>
         <app-edit-data-point [parameterName]="'Layer'" (selected)="setLayer($event)" [items]="layers" [selectedItem]="layer"></app-edit-data-point>
+        <div style="margin-top: 10px;" *ngIf="editing">
+            <button mat-button (click)="onChangeIcon()">
+                Change Icon
+            </button>
+            <p *ngIf="iconChanged">
+                File Selected
+            </p>
+        </div>
     </mat-card-content>
 </mat-card>
 <p class="coord-display">Latitude:  {{ markerLat | number: '.4-4' }}</p>
@@ -37,6 +45,6 @@
 <button mat-button class="secondary-button" style="width: 31%; margin-right: 3%;" (click)="cancelAddEdit()">
     Cancel
 </button>
-<button mat-button color="primary" style="width: 66%;" (click)="submit()" [disabled]="!name.value || layer === undefined">
+<button mat-button color="primary" style="width: 66%;" (click)="submit()" [disabled]="!name.value || layer === undefined || !locationType">
     {{editing ? "Save" : "Create"}}
 </button>

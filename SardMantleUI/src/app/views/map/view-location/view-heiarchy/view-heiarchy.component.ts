@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Location } from 'src/app/models/map/location-data-types/location-data-types';
+import { ErrorService } from 'src/app/services/error.service';
+import { MapService } from 'src/app/services/map/map.service';
 
 @Component({
   selector: 'app-view-heiarchy',
@@ -6,16 +9,35 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./view-heiarchy.component.scss']
 })
 export class ViewHeiarchyComponent implements OnInit {
-  public selectedMapObject: any;
-  public dataType: number;
+  public currentItem: Location | undefined;
+  public items: Location[];
 
-  public setSelectedMapObject(model: any, dataType: number) {
-    this.selectedMapObject = model;
-    this.dataType = dataType;
+  @Output() navigate = new EventEmitter();
+
+  public setSelectedMapObject(locationId: any) {
+    this.mapService.getLocationHeiarchy(locationId, 10).subscribe(data => {
+      if (data && data.length > 0) {
+        this.currentItem = data[0];
+      }
+      if (data && data.length > 1) {
+        this.items = data.slice(1).reverse();
+      }
+      else {
+        this.items = [];
+      }
+    },
+    error => {
+      this.errorService.handle(error);
+    })
   }
-  constructor() { }
+
+  public handleNavigate(id: number) {
+    this.navigate.emit(id);
+  }
+
+  constructor(private mapService: MapService, private errorService: ErrorService) { }
 
   ngOnInit(): void {
-    this.selectedMapObject = { id: -1, name: "NONE" };
+    this.items = [];
   }
 }

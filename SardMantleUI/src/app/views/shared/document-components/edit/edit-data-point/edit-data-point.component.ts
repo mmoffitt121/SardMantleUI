@@ -15,8 +15,10 @@ export class EditDataPointComponent implements OnChanges {
   @Input() parameterSummary: string = '';
   @Input() selectedItem: any;
   @Input() disabled = false;
+  @Input() externalFilter = false;
   public filter: string | undefined;
   @Output() selected = new EventEmitter();
+  @Output() filterChanged = new EventEmitter();
 
   public setValue(value: any) {
     if (value == null) {
@@ -26,7 +28,6 @@ export class EditDataPointComponent implements OnChanges {
   }
 
   public onInput(event: any) {
-    console.log(event);
     if (this.filter == undefined) {
       this.formControl.setValue((event.data ? event.data : ''));
     }
@@ -42,13 +43,23 @@ export class EditDataPointComponent implements OnChanges {
     this.handleFilterChange();
   }
 
+  public clearSelection() {
+    this.selectedItem = undefined;
+    this.formControl.setValue("");
+  }
+
   public handleFilterChange() {
-    if (this.filter === undefined) {
-      this.filteredItems = this.items?.slice(0, this.maxItemLength);
+    if (this.externalFilter) {
+      this.filterChanged.emit();
     }
     else {
-      this.filteredItems = this.items?.filter(i => i.name.toLocaleLowerCase().includes(this.filter?.toLocaleLowerCase()))
-        ?.slice(0, this.maxItemLength);
+      if (this.filter === undefined) {
+        this.filteredItems = this.items?.slice(0, this.maxItemLength);
+      }
+      else {
+        this.filteredItems = this.items?.filter(i => i.name.toLocaleLowerCase().includes(this.filter?.toLocaleLowerCase()))
+          ?.slice(0, this.maxItemLength);
+      }
     }
   }
 
@@ -59,6 +70,9 @@ export class EditDataPointComponent implements OnChanges {
     }
     if (changes['selectedItem'] && changes['selectedItem'].currentValue) {
       this.handleSelectionChange({option: {value: changes['selectedItem'].currentValue?.id}});
+    }
+    if (changes['selectedItem'] && !changes['selectedItem'].currentValue) {
+      this.clearSelection();
     }
   }
 }

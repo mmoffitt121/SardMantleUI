@@ -51,6 +51,9 @@ export class MapComponent implements OnInit {
   public addingObject: boolean = false;
   public editingObject: boolean = false;
 
+  public selectedLocationId: number;
+  public startViewing: boolean = false;
+
   private defaultCenter: L.LatLng;
   private defaultZoom: number;
   private routedCenter: L.LatLng | undefined;
@@ -130,8 +133,38 @@ export class MapComponent implements OnInit {
 
     this.map.on("moveend", (e: any) => {
       this.queryAll();
-      this.routeLocation.replaceState('/map/' + this.mapData.id + "/" + this.map.getZoom() + "/" + this.map.getCenter().lat + "/" + this.map.getCenter().lng);
+      this.updateRoute();
     })
+    
+    if (this.startViewing) {
+      this.navigateToLocation(this.selectedLocationId);
+    }
+  }
+
+  public navigateToLocation(id: number) {
+    this.mapService.getLocations({id}).subscribe(data => {
+      if (data && data.length > 0) {
+        let l = data[0];
+        let zoom = l.zoomProminenceMin;
+        if (zoom === undefined || zoom < this.mapData.minZoom) {
+          zoom = this.mapData.minZoom;
+        }
+        if (l.latitude && l.longitude) {
+          this.map.setView([l.latitude, l.longitude], zoom);
+        }
+        this.openViewLocation(id);
+      }
+    }, error => {
+      this.errorService.handle(error);
+    });
+  }
+
+  public updateRoute() {
+    var route = '/map/' + this.mapData.id + "/" + this.map.getZoom() + "/" + this.map.getCenter().lat + "/" + this.map.getCenter().lng;
+    if (this.viewingObject && this.selectedLocationId) {
+      route += "/" + this.selectedLocationId;
+    }
+    this.routeLocation.replaceState(route);
   }
 
   // Called when the Add icon is clicked. Creates a movable icon for location creation.
@@ -302,7 +335,7 @@ export class MapComponent implements OnInit {
 
       divIcon = L.divIcon({className: 'label-icon-container', html: iconHTML + markerHTML})
       newMarker = dataMarker([marker.latitude, marker.longitude], {icon: divIcon}, marker.id).addTo(layer);
-      newMarker.on('click', (e: any) => { this.openViewLocation(e) });
+      newMarker.on('click', (e: any) => { this.openViewLocation(e.target.id) });
 
       layer.addTo(this.map);
     }
@@ -314,18 +347,19 @@ export class MapComponent implements OnInit {
     if (this.editingObject || this.addingObject) { return; }
 
     var locationData: Location | undefined;
-    this.queryLocation(e.target.id).subscribe((d: Location) => {
+    this.queryLocation(e).subscribe((d: Location) => {
       locationData = d;
+      this.selectedLocationId = d.id
       this.viewingObject = true;
       this.changeDetector.detectChanges();
       this.viewLocationComponent.setSelectedMapObject(locationData, 0);
       this.drawer.open();
+      this.updateRoute();
     })
   }
 
   public openEditLocation() {
     var data = this.viewLocationComponent.selectedMapObject;
-    var dataType = this.viewLocationComponent.dataType;
     this.viewingObject = true;
     this.editingObject = true;
     this.addingObject = false;
@@ -378,6 +412,8 @@ export class MapComponent implements OnInit {
   public viewCancel() {
     this.drawer.close();
     this.editingObject = false;
+    this.viewingObject = false;
+    this.updateRoute();
   }
 
   // #endregion
@@ -423,7 +459,6 @@ export class MapComponent implements OnInit {
           this.routedCenter = this.defaultCenter;
           this.routedZoom = this.defaultZoom;
         }
-        this.routeLocation.replaceState('/map/' + id + "/" + this.routedZoom + "/" + this.routedCenter.lat + "/" + this.routedCenter.lng);
         
         this.loadMapIcon();
         this.mapLayerService.getMapLayers({mapId: id, isBaseLayer: true, isIconLayer: false}).subscribe(data => {
@@ -582,6 +617,11 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
+      if (params['locationId'] != undefined) {
+        this.selectedLocationId = params['locationId'];
+        this.startViewing = true;
+      }
+
       if (params['zoom'] != undefined && params['lat'] != undefined && params['lng'] != undefined) {
         try {
           this.routedCenter = new L.LatLng(params['lat'], params['lng']);

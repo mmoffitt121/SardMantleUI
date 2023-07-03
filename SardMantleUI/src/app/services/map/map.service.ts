@@ -53,6 +53,11 @@ export class MapService {
     return this.http.get<any>('https://localhost:7094/Library/Location/GetLocation', { params: params });
   }
 
+  public getLocationHeiarchy(id: number, depth: number) {
+    let params = new HttpParams().set('Id', id).set('Depth', depth);
+    return this.http.get<any>('https://localhost:7094/Library/Location/GetLocationHeiarchy', { params: params });
+  }
+
   public postLocation(location: any) {
     return this.http.post('https://localhost:7094/Library/Location/PostLocation', location);
   }
