@@ -79,7 +79,7 @@
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <ng-template matExpansionPanelContent>
-                        <app-map-layers [mapId]="mapData.id" #mapLayersComponent (layerSelectionChanged)="queryLocations()"></app-map-layers>
+                        <app-map-layers [mapId]="mapData.id" #mapLayersComponent (layerSelectionChanged)="layerSelectionChanged($event)"></app-map-layers>
                     </ng-template>
                 </mat-expansion-panel>
                 <mat-expansion-panel>

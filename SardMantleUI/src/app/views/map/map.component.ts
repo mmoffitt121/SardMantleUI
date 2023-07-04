@@ -94,12 +94,6 @@ export class MapComponent implements OnInit {
   });
 
   @ViewChild('locationTypeSelect') locationTypeSelect: MatSelect;
-  @ViewChild('areaSelect') areaSelect: MatSelect;
-  @ViewChild('subregionSelect') subregionSelect: MatSelect;
-  @ViewChild('regionSelect') regionSelect: MatSelect;
-  @ViewChild('subcontinentSelect') subcontinentSelect: MatSelect;
-  @ViewChild('continentSelect') continentSelect: MatSelect;
-  @ViewChild('celestialObjectSelect') celestialObjectSelect: MatSelect;
   private selectedLocationType: LocationType;
   // #endregion
 
@@ -115,6 +109,16 @@ export class MapComponent implements OnInit {
 
     if (this.baseLayer) {
       const tilesOuter = L.tileLayer('https://localhost:7094/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.baseLayer.id, {
+        maxZoom: this.mapData.maxZoom + 5,
+        minZoom: this.mapData.minZoom,
+        maxNativeZoom: this.mapData.maxZoom,
+        noWrap: !this.mapData.loops
+      });
+      tilesOuter.addTo(this.map);
+    }
+
+    if (this.coverLayer) {
+      const tilesOuter = L.tileLayer('https://localhost:7094/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.coverLayer.id, {
         maxZoom: this.mapData.maxZoom + 5,
         minZoom: this.mapData.minZoom,
         maxNativeZoom: this.mapData.maxZoom,
@@ -208,6 +212,21 @@ export class MapComponent implements OnInit {
 
   public clearAllMarkerLayers() {
     this.primaryMarkerLayer.clearLayers();
+  }
+
+  public layerSelectionChanged(layer: any) {
+    if (layer.isIconLayer) {
+      this.queryLocations();
+      
+    }
+    else if (layer.selected) {
+      this.coverLayer = layer;
+      this.loadMap(this.mapData.id);
+    }
+    else {
+      this.coverLayer = undefined;
+      this.loadMap(this.mapData.id);
+    }
   }
 
   // #region Group Queries
@@ -446,6 +465,11 @@ export class MapComponent implements OnInit {
   // #region Map Data
   public loadMap(id: number) {
     if (this.map) {
+      if (this.mapData.id == id) {
+        this.defaultCenter = this.map.getCenter();
+        this.defaultZoom = this.map.getZoom();
+      }
+
       this.map.off();
       this.map.remove();
     }
@@ -453,8 +477,11 @@ export class MapComponent implements OnInit {
     this.mapService.getMaps({id: id}).subscribe(data => {
       if (data.length > 0) {
         this.mapData = data[0];
-        this.defaultCenter = new L.LatLng(this.mapData.defaultY, this.mapData.defaultX);
-        this.defaultZoom = this.mapData.defaultZ;
+        if (!this.defaultCenter || !this.defaultZoom) {
+          this.defaultCenter = new L.LatLng(this.mapData.defaultY, this.mapData.defaultX);
+          this.defaultZoom = this.mapData.defaultZ;
+        }
+        
         if (this.routedZoom === undefined || this.routedCenter === undefined) {
           this.routedCenter = this.defaultCenter;
           this.routedZoom = this.defaultZoom;

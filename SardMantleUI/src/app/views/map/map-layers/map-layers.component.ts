@@ -100,7 +100,7 @@ export class MapLayersComponent implements OnChanges {
       event.selected = !selected;
     }
 
-    this.layerSelectionChanged.emit();
+    this.layerSelectionChanged.emit(event);
   }
 
   public generateBaseLayer() {
