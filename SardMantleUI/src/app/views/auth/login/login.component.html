@@ -1,0 +1,15 @@
+<app-top-bar></app-top-bar>
+<div class="centered-div">
+    <mat-card >
+        <mat-card-header>
+            <mat-card-title> Log In </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <app-edit-string [parameterName]="'Username'"></app-edit-string>
+            <app-edit-string [parameterName]="'Password'"></app-edit-string>
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-button color="primary">Log In</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

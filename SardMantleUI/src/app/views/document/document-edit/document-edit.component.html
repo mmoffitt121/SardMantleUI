@@ -1,14 +1,18 @@
-<h2 class="subtitled-title"> {{ addEditTitle }} </h2>
-<h4 class="subtitle"> {{ documentType?.summary }} </h4>
-<div class="common-attributes-container">
-    <h4 class="subtitled-title"> Name </h4>
-    <mat-form-field style="width: 100%; max-width: 500px;" appearance="outline">
-        <input matInput [formControl]="nameControl">
-    </mat-form-field>
-</div>
-
-<ng-template #parameterContainer></ng-template>
-<div class="button-holder">
-    <button mat-button (click)="cancel.emit()"> Cancel </button>
-    <button mat-button (click)="save.emit()" color="primary"> Save </button> 
-</div>
+<mat-card-header style="margin-bottom: 30px">
+    <mat-card-title>
+        <h2 class="subtitled-title"> {{ addEditTitle }} </h2>
+    </mat-card-title>
+    <mat-card-subtitle>
+        <h4 class="subtitle"> {{ documentType?.summary }} </h4>
+    </mat-card-subtitle>
+</mat-card-header>
+<mat-card-content>
+    <div class="common-attributes-container">
+        <app-edit-string [parameterName]="'Name'" [control]="nameControl"></app-edit-string>
+    </div>
+    <ng-template #parameterContainer></ng-template>
+    <div class="button-holder">
+        <button mat-button (click)="cancel.emit()"> Cancel </button>
+        <button mat-button (click)="save.emit()" color="primary"> Save </button> 
+    </div>
+</mat-card-content>

@@ -8,9 +8,15 @@ import { DocumentComponent } from './views/document/document.component';
 import { EditDocumentTypeComponent } from './views/document/document-type/edit-document-type/edit-document-type.component';
 import { NewMapComponent } from './views/map/new-map/new-map.component';
 import { MapTilesComponent } from './views/map-tiles/map-tiles.component';
+import { LoginComponent } from './views/auth/login/login.component';
+import { NewAccountComponent } from './views/auth/new-account/new-account.component';
+import { UserSettingsComponent } from './views/auth/user-settings/user-settings.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path:'login', component:LoginComponent },
+  { path:'register', component:NewAccountComponent },
+  { path:'user-settings', component:UserSettingsComponent },
   { path:'home', component:HomeComponent },
   { path:'map', component:MapComponent },
   { path:'map/:mapId', component:MapComponent},

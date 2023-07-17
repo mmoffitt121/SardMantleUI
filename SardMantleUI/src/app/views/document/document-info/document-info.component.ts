@@ -24,11 +24,11 @@ import { ViewBoolComponent } from '../../shared/document-components/view/view-bo
   styleUrls: ['./document-info.component.scss']
 })
 export class DocumentInfoComponent implements OnInit, AfterViewInit {
-  public document: Document;
-  private documentType: DocumentType;
+  public document: Document | undefined;
+  public documentType: DocumentType | undefined;
 
-  public title: string;
-  public subtitle: string;
+  public title: string | undefined;
+  public subtitle: string | undefined;
 
   private parameterComponents: any[] = [];
 
@@ -39,39 +39,39 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
   @ViewChild('parameterContainer', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
 
   private loadDocument() {
-    this.title = this.document.name;
-    this.subtitle = this.documentType.name;
+    this.title = this.document?.name;
+    this.subtitle = this.documentType?.name;
     this.container.clear();
     this.parameterComponents = [];
-    this.documentType.typeParameters.forEach(p => {
+    this.documentType?.typeParameters.forEach(p => {
       switch (p.typeValue) {
         case 'int':
           this.parameterComponents.push(this.container.createComponent(ViewIntComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.intValue;
+          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.intValue;
           break;
         case 'dub':
           this.parameterComponents.push(this.container.createComponent(ViewDoubleComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.doubleValue;
+          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.doubleValue;
           break;
         case 'str':
           this.parameterComponents.push(this.container.createComponent(ViewStringComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.stringValue;
+          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.stringValue;
           break;
         case 'sum':
           this.parameterComponents.push(this.container.createComponent(ViewSummaryComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.summaryValue;
+          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.summaryValue;
           break;
         case 'doc':
           this.parameterComponents.push(this.container.createComponent(ViewArticleComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.documentValue;
+          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.documentValue;
           break;
         case 'dat':
           this.parameterComponents.push(this.container.createComponent(ViewDataPointComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.dataPointValue;
+          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.dataPointValue;
           break;
         case 'bit':
           this.parameterComponents.push(this.container.createComponent(ViewBoolComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.boolValue;
+          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.boolValue;
           break;
       }
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterName = p.name;
@@ -81,14 +81,32 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
     this.cdref.detectChanges();
   }
 
-  public setDocument(id: number) {
+  public setDocument(id: any) {
+    if (id === undefined || id === "undefined" || id == -1) {
+      this.document = undefined;
+      return;
+    }
+    console.log(id);
     this.documentService.getDocument(id).subscribe(data => {
       this.document = data;
-      this.documentTypeService.getDocumentType(this.document.typeId).subscribe(data => {
-        this.documentType = data;
-        this.loadDocument();
-      })
+      if (this.document != undefined) {
+        this.documentTypeService.getDocumentType(this.document.typeId).subscribe(data => {
+          this.documentType = data;
+          this.loadDocument();
+        })
+      }
     })
+  }
+
+  public setDocumentType(id: number) {
+    if (this.document == undefined && id > 0) {
+      this.documentTypeService.getDocumentType(id).subscribe(data => {
+        this.documentType = data;
+      })
+    }
+    else if (this.document == undefined && id == -1) {
+      this.documentType = undefined;
+    }
   }
 
   constructor(private cdref: ChangeDetectorRef, 

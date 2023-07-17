@@ -287,3 +287,10 @@ ngx-editor {
     color: var(--text-color);
     background-color: var(--primary-color);
 }
+
+.centered-div {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh;
+}

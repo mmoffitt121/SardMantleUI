@@ -42,43 +42,43 @@ export class DocumentEditComponent implements AfterViewInit {
         case 'int':
           this.parameterComponents.push(this.container.createComponent(EditIntComponent));
           this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
-            this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.intValue
+            this.document.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.intValue
           );
           break;
         case 'dub':
           this.parameterComponents.push(this.container.createComponent(EditDoubleComponent));
           this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
-            this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.doubleValue
+            this.document.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.doubleValue
           );
           break;
         case 'str':
           this.parameterComponents.push(this.container.createComponent(EditStringComponent));
           this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
-            this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.stringValue
+            this.document.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.stringValue
           );
           break;
         case 'sum':
           this.parameterComponents.push(this.container.createComponent(EditSummaryComponent));
           this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
-            this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.summaryValue
+            this.document.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.summaryValue
           );
           break;
         case 'doc':
           this.parameterComponents.push(this.container.createComponent(EditArticleComponent));
           this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
-            this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.documentValue
+            this.document.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.documentValue
           );
           break;
         case 'dat':
           this.parameterComponents.push(this.container.createComponent(EditDataPointComponent));
           this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
-            this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.dataPointValue
+            this.document.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.dataPointValue
           );
           break;
         case 'bit':
           this.parameterComponents.push(this.container.createComponent(EditBoolComponent));
           this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
-            this.document.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.boolValue
+            this.document.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.boolValue
           );
           break;
       }
@@ -94,7 +94,7 @@ export class DocumentEditComponent implements AfterViewInit {
       this.documentTypeService.getDocumentType(this.document.typeId).subscribe(data => {
         this.documentType = data;
         this.loadDocument();
-        this.addEditTitle = "Editing " + this.documentType?.name;
+        this.addEditTitle = "Editing: " + this.documentType?.name;
       })
     })
   }
@@ -104,7 +104,7 @@ export class DocumentEditComponent implements AfterViewInit {
     this.documentTypeService.getDocumentType(id).subscribe(data => {
       this.documentType = data;
       this.loadDocument();
-      this.addEditTitle = "Adding " + this.documentType?.name;
+      this.addEditTitle = "Adding: " + this.documentType?.name;
     })
   }
 

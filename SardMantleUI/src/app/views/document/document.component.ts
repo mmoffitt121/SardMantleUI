@@ -29,14 +29,15 @@ export class DocumentComponent implements AfterViewInit {
 
   public handleAddDocument(event: any) {
     this.editing = true;
-    const typeId = this.documentInfoComponent.document.typeId;
+    const typeId = this.documentInfoComponent.documentType?.id;
     this.cdref.detectChanges();
+    if (!typeId) return;
     this.documentEditComponent.setDocumentType(typeId);
   }
 
   public handleEditDocument(event: any) {
     this.editing = true;
-    const id = this.documentInfoComponent.document.id;
+    const id = this.documentInfoComponent.document? this.documentInfoComponent.document.id : -1;
     this.cdref.detectChanges();
     this.documentEditComponent.setDocument(id);
   }
@@ -44,6 +45,9 @@ export class DocumentComponent implements AfterViewInit {
   public cancelAddEdit(event: any) {
     this.editing = false;
     this.loadDocument({ id: this.currentDocumentId });
+    if (this.currentDocumentTypeId != undefined) {
+      this.documentInfoComponent.setDocumentType(this.currentDocumentTypeId);
+    }
   }
 
   public handleDeleteDocument(event: any) {
@@ -55,6 +59,7 @@ export class DocumentComponent implements AfterViewInit {
     this.currentDocumentTypeId = data.id;
     this.documentListComponent.setDocumentType(data.id);
     this.location.replaceState("/document/" + data.id);
+    this.documentInfoComponent.setDocumentType(data.id);
   }
 
   public loadDocument(data: any) {

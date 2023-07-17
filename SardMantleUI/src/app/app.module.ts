@@ -88,6 +88,10 @@ import { UploadMapTilesComponent } from './views/map-tiles/upload-map-tiles/uplo
 import { LocationTypeComponent } from './views/map/location-type/location-type.component';
 import { EditLocationTypeComponent } from './views/map/location-type/edit-location-type/edit-location-type.component';
 import { FilterLocationComponent } from './views/map/filter-location/filter-location.component';
+import { LoginComponent } from './views/auth/login/login.component';
+import { NewAccountComponent } from './views/auth/new-account/new-account.component';
+import { TopBarComponent } from './views/home/top-bar/top-bar.component';
+import { UserSettingsComponent } from './views/auth/user-settings/user-settings.component';
 
 @NgModule({
   declarations: [
@@ -144,7 +148,11 @@ import { FilterLocationComponent } from './views/map/filter-location/filter-loca
     UploadMapTilesComponent,
     LocationTypeComponent,
     EditLocationTypeComponent,
-    FilterLocationComponent
+    FilterLocationComponent,
+    LoginComponent,
+    NewAccountComponent,
+    TopBarComponent,
+    UserSettingsComponent
   ],
   imports: [
     BrowserModule,
