@@ -25,11 +25,19 @@ export class NewAccountComponent {
 
   public register() {
     if (this.canLogIn()) {
-      this.loginService.postUser({userName: this.userName.value, email: this.email.value}).subscribe(result => {
-        this.loginService.postPassword({userName: this.userName.value, password: this.password.value}).subscribe(result => {
-          this.errorService.showSnackBar("Account successfully created.");
-          this.router.navigate(['user-settings']);
-        })
+      this.loginService.postUser({userName: this.userName.value, email: this.email.value, password: this.password.value, confirmPassword: this.confirmPassword.value}).subscribe(result => {
+        this.loginService.login({userName: this.userName.value, password: this.password.value}).subscribe(data => {
+          if (data.isAuthSuccessful) {
+            this.loginService.setLoginTokens(data.token, this.userName.value);
+            this.router.navigate(['user-settings']);
+          }
+          else {
+            this.errorService.showSnackBar("Login unsuccessful.");
+          }
+        },
+        error => {
+          this.errorService.handle(error);
+        });
       }, error => {
         this.errorService.handle(error);
       });

@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './views/home/home.component';
 import { MapComponent } from './views/map/map.component';
 import { SharedService } from './shared.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import * as mt from '@angular/material';
@@ -33,6 +33,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { NgxEditorModule } from 'ngx-editor';
@@ -92,6 +93,15 @@ import { LoginComponent } from './views/auth/login/login.component';
 import { NewAccountComponent } from './views/auth/new-account/new-account.component';
 import { TopBarComponent } from './views/home/top-bar/top-bar.component';
 import { UserSettingsComponent } from './views/auth/user-settings/user-settings.component';
+import { GlobalHomeComponent } from './views/common/global-home/global-home.component';
+import { WorldBrowserComponent } from './views/common/world-browser/world-browser.component';
+import { AdministrationComponent } from './views/administration/administration.component';
+import { JwtModule } from '@auth0/angular-jwt';
+import { AddHeaderInterceptor } from './http-interceptors/add-header-interceptor';
+
+export function tokenGetter() {
+  return localStorage.getItem("token");
+}
 
 @NgModule({
   declarations: [
@@ -152,7 +162,10 @@ import { UserSettingsComponent } from './views/auth/user-settings/user-settings.
     LoginComponent,
     NewAccountComponent,
     TopBarComponent,
-    UserSettingsComponent
+    UserSettingsComponent,
+    GlobalHomeComponent,
+    WorldBrowserComponent,
+    AdministrationComponent
   ],
   imports: [
     BrowserModule,
@@ -182,11 +195,26 @@ import { UserSettingsComponent } from './views/auth/user-settings/user-settings.
     MatTooltipModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
+    MatToolbarModule,
     DragDropModule,
     BrowserAnimationsModule,
-    NgxEditorModule
+    NgxEditorModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["localhost:7094"],
+        disallowedRoutes: []
+      }
+    })
   ],
-  providers: [SharedService],
+  providers: [
+    SharedService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AddHeaderInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

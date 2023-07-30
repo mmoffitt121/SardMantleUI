@@ -14,6 +14,13 @@ export class ErrorService {
         if (typeof error.error === 'string') {
             this.showSnackBar(error.error, duration);
         }
+        else if (error?.error?.errors) {
+            let errs = "Errors:\n";
+            error.error.errors.forEach((err: string) => {
+                errs = errs + " \n" + err
+            });
+            this.showSnackBar(errs);
+        }
         else {
             this.showSnackBar(error.message, duration);
         }

@@ -1,12 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
   selector: 'app-top-bar',
   templateUrl: './top-bar.component.html',
   styleUrls: ['./top-bar.component.scss']
 })
-export class TopBarComponent {
+export class TopBarComponent implements OnInit {
+  public userLoggedIn: boolean = false;
+  public username: string | undefined;
+
   public navigateLogIn() {
     this.router.navigate(['login']);
   }
@@ -20,5 +24,10 @@ export class TopBarComponent {
     this.router.navigate(['user-settings']);
   }
 
-  constructor(public router: Router) { }
+  constructor(public router: Router, private loginService: LoginService) { }
+
+  ngOnInit() {
+    this.userLoggedIn = this.loginService.isLoggedIn();
+    this.username = localStorage['username'];
+  }
 }

@@ -13,6 +13,8 @@
     background-color: var(--primary-color); 
     display: grid; 
     grid-template-columns: min-content auto min-content;
-    position: absolute;
-    top: 0px;
+    position: sticky;
+    position: -webkit-sticky; /* For macOS/iOS Safari */
+    top: 0; /* Sets the sticky toolbar to be on top */
+    z-index: 1000;
 }

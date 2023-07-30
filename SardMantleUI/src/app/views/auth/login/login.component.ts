@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ErrorService } from 'src/app/services/error.service';
 import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
@@ -7,5 +10,27 @@ import { LoginService } from 'src/app/services/login/login.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  constructor(loginService: LoginService) {}
+  public userName = new FormControl();
+  public password = new FormControl();
+
+  public canSubmit() {
+    return this.userName.value && this.password.value;
+  }
+
+  public logIn() {
+    this.loginService.login({userName: this.userName.value, password: this.password.value}).subscribe(data => {
+      if (data.isAuthSuccessful) {
+        this.loginService.setLoginTokens(data.token, this.userName.value);
+        this.router.navigate(["home"]);
+      }
+      else {
+        this.errorService.showSnackBar("Login unsuccessful.");
+      }
+    },
+    error => {
+      this.errorService.handle(error);
+    });
+  }
+
+  constructor(private loginService: LoginService, private errorService: ErrorService, private router: Router) {}
 }

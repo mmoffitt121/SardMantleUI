@@ -5,11 +5,11 @@
             <mat-card-title> Log In </mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <app-edit-string [parameterName]="'Username'"></app-edit-string>
-            <app-edit-string [parameterName]="'Password'"></app-edit-string>
+            <app-edit-string [parameterName]="'Username'" [control]="userName"></app-edit-string>
+            <app-edit-string [parameterName]="'Password'" [control]="password"></app-edit-string>
         </mat-card-content>
         <mat-card-actions align="end">
-            <button mat-button color="primary">Log In</button>
+            <button mat-button color="primary" (click)="logIn()" [disabled]="!canSubmit()">Log In</button>
         </mat-card-actions>
     </mat-card>
 </div>
