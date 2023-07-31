@@ -12,6 +12,7 @@ import { MapLayerService } from 'src/app/services/map/map-layer.service';
 import { MapService } from 'src/app/services/map/map.service';
 import { MapLayer } from 'src/app/models/map/map-layer';
 import { Map } from 'src/app/models/map/map';
+import { UrlService } from 'src/app/services/url/url.service';
 
 @Component({
   selector: 'app-map-tiles',
@@ -48,7 +49,7 @@ export class MapTilesComponent implements OnInit {
   }
 
   public loadTiles() {
-    this.routeLocation.replaceState('map-tiles/' 
+    this.routeLocation.replaceState(this.urlService.getWorld() + 'map-tiles/' 
     + this.currentTile.layerId + '/' 
     + this.currentTile.z + '/' 
     + this.currentTile.y + '/' 
@@ -225,7 +226,7 @@ export class MapTilesComponent implements OnInit {
   }
 
   public navigateToMap() {
-    this.router.navigate(['map/' + this.map.id]);
+    this.router.navigate([this.urlService.getWorld(), 'map', this.map.id]);
   }
 
   constructor(
@@ -236,7 +237,8 @@ export class MapTilesComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private routeLocation: Location,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private urlService: UrlService
   ) {}
 
   ngOnInit(): void {
@@ -246,7 +248,7 @@ export class MapTilesComponent implements OnInit {
       let y = +p['y'] | 0;
       let layerId = +p['layerId'];
       this.currentTile = {z, x, y, layerId} as MapTile;
-      this.routeLocation.replaceState('map-tiles/' + layerId + '/' + z + '/' + y + '/' + x);
+      this.routeLocation.replaceState(this.urlService.getWorld() + '/map-tiles/' + layerId + '/' + z + '/' + y + '/' + x);
       this.loadTiles();
 
       this.mapLayerService.getMapLayers({id: layerId}).subscribe(data => {

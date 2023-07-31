@@ -98,6 +98,9 @@ import { WorldBrowserComponent } from './views/common/world-browser/world-browse
 import { AdministrationComponent } from './views/administration/administration.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AddHeaderInterceptor } from './http-interceptors/add-header-interceptor';
+import { WorldListComponent } from './views/common/global-home/world-list/world-list.component';
+import { WorldManagerComponent } from './views/common/world-manager/world-manager.component';
+import { WorldCreatorComponent } from './views/common/world-manager/world-creator/world-creator.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -165,7 +168,10 @@ export function tokenGetter() {
     UserSettingsComponent,
     GlobalHomeComponent,
     WorldBrowserComponent,
-    AdministrationComponent
+    AdministrationComponent,
+    WorldListComponent,
+    WorldManagerComponent,
+    WorldCreatorComponent
   ],
   imports: [
     BrowserModule,

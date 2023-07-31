@@ -20,8 +20,12 @@ export class LoginComponent {
   public logIn() {
     this.loginService.login({userName: this.userName.value, password: this.password.value}).subscribe(data => {
       if (data.isAuthSuccessful) {
-        this.loginService.setLoginTokens(data.token, this.userName.value);
-        this.router.navigate(["home"]);
+        localStorage.setItem("token", data.token);
+        this.loginService.getUser(this.userName.value).subscribe(data => {
+          localStorage.setItem("username", data.userName);
+          localStorage.setItem("userId", data.id);
+          this.router.navigate(["home"]);
+        })
       }
       else {
         this.errorService.showSnackBar("Login unsuccessful.");

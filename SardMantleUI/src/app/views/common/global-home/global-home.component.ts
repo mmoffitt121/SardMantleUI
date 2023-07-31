@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { World } from 'src/app/models/world/world';
 
 @Component({
   selector: 'app-global-home',
@@ -7,7 +8,15 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./global-home.component.scss']
 })
 export class GlobalHomeComponent {
-  constructor(public router: Router, public activatedRoute: ActivatedRoute) { }
+  public userId: string;
+
+  public navigateToWorld(world: World) {
+    this.router.navigate([world.location]);
+  }
+
+  constructor(public router: Router, public activatedRoute: ActivatedRoute) { 
+    this.userId = localStorage["userId"];
+  }
 
   ngOnInit(): void {
   }

@@ -15,12 +15,14 @@ import { WorldBrowserComponent } from './views/common/world-browser/world-browse
 import { AdministrationComponent } from './views/administration/administration.component';
 import { GlobalHomeComponent } from './views/common/global-home/global-home.component';
 import { AuthGuard } from './guards/auth-guard.guard';
+import { WorldManagerComponent } from './views/common/world-manager/world-manager.component';
 
 const routes: Routes = [
   { path:'', redirectTo: 'home', pathMatch: 'full' },
   { path:'login', component:LoginComponent },
   { path:'register', component:NewAccountComponent },
   { path:'user-settings', component:UserSettingsComponent, canActivate: [AuthGuard] },
+  { path:'world-manager', component:WorldManagerComponent, canActivate: [AuthGuard] },
   { path:'home', component:GlobalHomeComponent },
   { path:'worlds', component:WorldBrowserComponent },
   { path:'administration', component:AdministrationComponent },

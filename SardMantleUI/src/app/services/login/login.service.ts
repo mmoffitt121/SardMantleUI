@@ -16,15 +16,14 @@ export class LoginService {
   public login(data: any) {
     return this.http.post<any>('https://localhost:7094/Library/Login/Login/Login', data)
   }
-
-  public setLoginTokens(token: string, username: string) {
-    localStorage.setItem("token", token);
-    localStorage.setItem("username", username);
+  public getUser(username: string) {
+    return this.http.get<any>('https://localhost:7094/Library/Login/GetUser/GetUser', {params: {username}})
   }
 
   public logOut() {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
+    localStorage.removeItem("userId");
   }
 
   public isLoggedIn() {

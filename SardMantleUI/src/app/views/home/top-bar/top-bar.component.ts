@@ -23,6 +23,9 @@ export class TopBarComponent implements OnInit {
   public navigateUserSettings() {
     this.router.navigate(['user-settings']);
   }
+  public navigateWorldManager() {
+    this.router.navigate(['world-manager']);
+  }
 
   constructor(public router: Router, private loginService: LoginService) { }
 

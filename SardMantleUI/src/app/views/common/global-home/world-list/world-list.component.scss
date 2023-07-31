@@ -1,0 +1,58 @@
+.world-list-container {
+    display: inline-block;
+}
+
+.world-list-item {
+    display: inline-flex;
+    flex-wrap: wrap;
+    width: 150px;
+    height: 150px;
+    border-radius: 5px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.image {
+    width: 150px; 
+    height: 150px; 
+    border-radius: 5px;
+}
+
+img {
+    pointer-events: none;
+    width: 150px; 
+    height: 150px; 
+    border-radius: 5px;
+}
+
+.icon-over {
+    pointer-events: none;
+    position: absolute;
+    top: calc(50% - 20px);
+    left: calc(50% - 10px);
+}
+
+.label-over {
+    pointer-events: none;
+    background-color: var(--secondary-accent-color); 
+    border-radius: 5px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+.label-over p {
+    margin: 5px;
+}
+
+.select-overlay {
+    pointer-events: none;
+    position: absolute;
+    background-color: var(--secondary-accent-color);
+    top: 0px;
+    left: 0px;
+    width: 150px;
+    height: 150px;
+    z-index: 1000;
+}

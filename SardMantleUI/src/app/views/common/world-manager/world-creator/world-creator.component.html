@@ -1,0 +1,25 @@
+<div class="corner-button-container">
+    <button mat-icon-button class="corner-button" (click)="onCancel()" matTooltip="Close">
+        <mat-icon>
+            close
+        </mat-icon>
+    </button>
+</div>
+<mat-card-title style="margin-left: 20px">
+    <h2>
+        World Creator
+    </h2>
+</mat-card-title>
+<mat-card-content>
+    <app-edit-string [parameterName]="'World Name'" [required]="true" [control]="name"></app-edit-string>
+    <app-edit-string [parameterName]="'World Path'" [required]="true" [control]="location"></app-edit-string>
+    <app-edit-string [parameterName]="'World Summary'" [required]="true" [control]="summary"></app-edit-string>
+</mat-card-content>
+<mat-card-actions style="float: right">
+    <button mat-button style="margin-left: 10px;" (click)="onCancel()">
+        Cancel
+    </button>
+    <button mat-button style="margin-left: 10px;" (click)="onSave()" color="primary">
+        Save
+    </button>
+</mat-card-actions>

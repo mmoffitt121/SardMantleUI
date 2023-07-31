@@ -4,6 +4,7 @@ import { Map } from 'src/app/models/map/map';
 import { MapLayer } from 'src/app/models/map/map-layer';
 import { MapTile } from 'src/app/models/map/map-tile';
 import { SignalRService } from '../signal-r/signal-r.service';
+import { UrlService } from '../url/url.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class MapTileService {
   }
 
   public getMapTile(z: number, x: number, y: number, layerId: number) {
-    let params = new HttpParams().set('z', z).set('x', x).set('y', y).set('layerId', layerId);
+    let params = new HttpParams().set('z', z).set('x', x).set('y', y).set('layerId', layerId).set('worldLocation', this.urlService.getWorld());
     return this.http.get<any>('https://localhost:7094/Map/TileProvider/GetTile', { params: params, observe: 'response', responseType: 'blob' as 'json' });
   }
 
@@ -53,5 +54,5 @@ export class MapTileService {
     return this.http.delete<any>('https://localhost:7094/Map/TileProvider/DeleteTilesOfMap', { params: params });
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private urlService: UrlService) { }
 }

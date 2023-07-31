@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MapLayer } from 'src/app/models/map/map-layer';
 import { ErrorService } from 'src/app/services/error.service';
 import { MapLayerService } from 'src/app/services/map/map-layer.service';
+import { UrlService } from 'src/app/services/url/url.service';
 import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
 import { UploadFileComponent } from 'src/app/views/shared/document-components/file/upload-file/upload-file.component';
 
@@ -110,7 +111,7 @@ export class EditMapLayerComponent implements OnInit {
 
   public onEditTiles() {
     this.dialogRef.close();
-    this.router.navigate(['/map-tiles/' + this.mapLayer.id]);
+    this.router.navigate([this.urlService.getWorld(), 'map-tiles', this.mapLayer.id]);
   }
 
   constructor(
@@ -119,7 +120,8 @@ export class EditMapLayerComponent implements OnInit {
     private mapLayerService: MapLayerService,
     private errorService: ErrorService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private urlService: UrlService
   ) {
     this.mapLayer = data.layer;
     this.adding = data.adding;

@@ -1,0 +1,12 @@
+<app-top-bar></app-top-bar>
+<div style="margin: 20px">
+    <div>
+        <h2>My Worlds</h2>
+        <div>
+            <app-world-list [worldCriteria]="{ownerId: userId}" [editing]="true" (selected)="selectWorld($event)"/>
+        </div>
+    </div>
+    <div style="margin-top: 20px">
+        <button mat-button (click)="openCreateMenu()">Create New</button>
+    </div>
+</div>

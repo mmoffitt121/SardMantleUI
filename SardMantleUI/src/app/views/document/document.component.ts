@@ -9,6 +9,7 @@ import { DocumentEditComponent } from './document-edit/document-edit.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AddDocumentTypeComponent } from './document-type/add-document-type/add-document-type.component';
 import { Location } from '@angular/common';
+import { UrlService } from 'src/app/services/url/url.service';
 
 @Component({
   selector: 'app-document',
@@ -58,7 +59,7 @@ export class DocumentComponent implements AfterViewInit {
     this.cdref.detectChanges();
     this.currentDocumentTypeId = data.id;
     this.documentListComponent.setDocumentType(data.id);
-    this.location.replaceState("/document/" + data.id);
+    this.location.replaceState(this.urlService.getWorld() + "/document/" + data.id);
     this.documentInfoComponent.setDocumentType(data.id);
   }
 
@@ -67,7 +68,7 @@ export class DocumentComponent implements AfterViewInit {
     this.cdref.detectChanges();
     this.currentDocumentId = data.id;
     this.documentInfoComponent.setDocument(data.id);
-    this.location.replaceState("/document/" + this.currentDocumentTypeId + "/" + data.id);
+    this.location.replaceState(this.urlService.getWorld() + "/document/" + this.currentDocumentTypeId + "/" + data.id);
   }
 
   public addDocumentType() {
@@ -78,14 +79,13 @@ export class DocumentComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result > 0) {
-        this.router.navigate(['/document/type/edit/' + result]);
+        this.router.navigate([this.urlService.getWorld(), 'document', 'type', 'edit', result]);
       }
     });
   }
 
   public editDocumentType() {
-    this.router.
-    navigate(['/document/type/edit/' + this.currentDocumentTypeId]);
+    this.router.navigate([this.urlService.getWorld(), 'document', 'type', 'edit', this.currentDocumentTypeId]);
   }
 
   constructor (
@@ -93,7 +93,8 @@ export class DocumentComponent implements AfterViewInit {
     private cdref: ChangeDetectorRef, 
     public dialog: MatDialog, 
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public urlService: UrlService
   ) { 
     this.route.params.subscribe(params => {
       this.currentDocumentTypeId = params['typeId'];

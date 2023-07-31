@@ -10,6 +10,7 @@ import { ErrorService } from 'src/app/services/error.service';
 import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
 import { ErrorToastComponent } from 'src/app/views/shared/error-toast/error-toast.component';
 import { MatDialog } from '@angular/material/dialog';
+import { UrlService } from 'src/app/services/url/url.service';
 
 @Component({
   selector: 'app-edit-document-type',
@@ -32,7 +33,7 @@ export class EditDocumentTypeComponent {
   @ViewChild('editParameterComponent') editParameterComponent: EditTypeParameterComponent;
 
   public returnToDocument() {
-    this.router.navigate(['/document']);
+    this.router.navigate([this.urlService.getWorld(), 'document']);
   }
 
   select(parameter: any) {
@@ -150,7 +151,8 @@ export class EditDocumentTypeComponent {
     private typeService: DocumentTypeService,
     private dialog: MatDialog,
     private cdref: ChangeDetectorRef,
-    private errorHandler: ErrorService
+    private errorHandler: ErrorService,
+    private urlService: UrlService
   ) {
     this.route.params.subscribe(params => this.id = params['id'])
     this.typeService.getDocumentType(this.id).subscribe(data => {

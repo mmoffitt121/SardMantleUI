@@ -32,6 +32,7 @@ import { MapLayerService } from 'src/app/services/map/map-layer.service';
 import { MapTileService } from 'src/app/services/map/map-tile-service';
 import { LocationTypeComponent } from './location-type/location-type.component';
 import { ImageService } from 'src/app/services/image/image.service';
+import { UrlService } from 'src/app/services/url/url.service';
 
 @Component({
   selector: 'app-map',
@@ -108,7 +109,7 @@ export class MapComponent implements OnInit {
     this.routedZoom = undefined;
 
     if (this.baseLayer) {
-      const tilesOuter = L.tileLayer('https://localhost:7094/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.baseLayer.id, {
+      const tilesOuter = L.tileLayer('https://localhost:7094/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.baseLayer.id + "&worldLocation=" + this.urlService.getWorld(), {
         maxZoom: this.mapData.maxZoom + 5,
         minZoom: this.mapData.minZoom,
         maxNativeZoom: this.mapData.maxZoom,
@@ -118,7 +119,7 @@ export class MapComponent implements OnInit {
     }
 
     if (this.coverLayer) {
-      const tilesOuter = L.tileLayer('https://localhost:7094/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.coverLayer.id, {
+      const tilesOuter = L.tileLayer('https://localhost:7094/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.coverLayer.id + "&worldLocation=" + this.urlService.getWorld(), {
         maxZoom: this.mapData.maxZoom + 5,
         minZoom: this.mapData.minZoom,
         maxNativeZoom: this.mapData.maxZoom,
@@ -164,7 +165,7 @@ export class MapComponent implements OnInit {
   }
 
   public updateRoute() {
-    var route = '/map/' + this.mapData.id + "/" + this.map.getZoom() + "/" + this.map.getCenter().lat + "/" + this.map.getCenter().lng;
+    var route = this.urlService.getWorld() + '/map/' + this.mapData.id + "/" + this.map.getZoom() + "/" + this.map.getCenter().lat + "/" + this.map.getCenter().lng;
     if (this.viewingObject && this.selectedLocationId) {
       route += "/" + this.selectedLocationId;
     }
@@ -528,7 +529,7 @@ export class MapComponent implements OnInit {
           if (nonDefaultData.length > 0) {
             this.loadMap(nonDefaultData[0].id);
           } else {
-            this.router.navigate(['new-map']);
+            this.router.navigate([this.urlService.getWorld(), 'new-map']);
           }
         })
       }
@@ -640,7 +641,8 @@ export class MapComponent implements OnInit {
     public router: Router, 
     private routeLocation: RouteLocation,
     private route: ActivatedRoute,
-    private domSanitizer: DomSanitizer) { }
+    private domSanitizer: DomSanitizer,
+    public urlService: UrlService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -669,16 +671,16 @@ export class MapComponent implements OnInit {
               if (nonDefaultData.length > 0) {
                 this.loadMap(nonDefaultData[0].id);
               } else {
-                this.router.navigate(['new-map']);
+                this.router.navigate([this.urlService.getWorld(), 'new-map']);
               }
             }, 
             error => {
-              this.router.navigate(['home']);
+              this.router.navigate([this.urlService.getWorld(), 'home']);
             })
           }
         }, 
         error => {
-          this.router.navigate(['home']);
+          this.router.navigate([this.urlService.getWorld(), 'home']);
         })
       }
     })

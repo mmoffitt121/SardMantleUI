@@ -15,11 +15,7 @@ export class ErrorService {
             this.showSnackBar(error.error, duration);
         }
         else if (error?.error?.errors) {
-            let errs = "Errors:\n";
-            error.error.errors.forEach((err: string) => {
-                errs = errs + " \n" + err
-            });
-            this.showSnackBar(errs);
+            this.showSnackBar("One or more validation errors occured.");
         }
         else {
             this.showSnackBar(error.message, duration);

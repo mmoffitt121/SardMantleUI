@@ -1,7 +1,7 @@
 <div class="document-screen-container">
     <div class="document-type-grid">
         <div class="button-holder">
-            <button mat-icon-button class="button" (click)="router.navigate(['/home'])"  matTooltip="Return to Home">
+            <button mat-icon-button class="button" (click)="router.navigate([urlService.getWorld(), 'home'])"  matTooltip="Return to Home">
                 <mat-icon> home </mat-icon>
             </button>
             <button mat-icon-button class="button" matTooltip="Search/Filter">

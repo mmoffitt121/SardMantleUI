@@ -2,43 +2,23 @@
 <div>
     <div class="container">
         <h1>
-            Global Home
+            The Libraries
         </h1>
-        <div class="horizontal-card-container">
-            <mat-card class="horizontal-card"> 
-                <mat-card-header>
-                    <mat-card-title>Map</mat-card-title>
-                    <mat-card-subtitle>View the world for yourself.</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                </mat-card-content>
-                <mat-card-actions align="end">
-                    <button mat-button (click)="router.navigate(['../map'], {relativeTo: this.activatedRoute})">Go</button>
-                </mat-card-actions>
-            </mat-card>
-            <mat-card class="horizontal-card"> 
-                <mat-card-header>
-                    <mat-card-title>Find</mat-card-title>
-                    <mat-card-subtitle>Find a document, person, or anything else.</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                </mat-card-content>
-                <mat-card-actions align="end">
-                    <button mat-button (click)="router.navigate(['../document'], {relativeTo: this.activatedRoute})">Go</button>
-                </mat-card-actions>
-            </mat-card>
-            <mat-card class="horizontal-card"> 
-                <mat-card-header>
-                    <mat-card-title>Timeline</mat-card-title>
-                    <mat-card-subtitle>Check out events in chronological order.</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                    Timeline content
-                </mat-card-content>
-                <mat-card-actions align="end">
-                    <button mat-button (click)="router.navigate(['../timeline'], {relativeTo: this.activatedRoute})">Go</button>
-                </mat-card-actions>
-            </mat-card>
+        <mat-card style="height: 500px; margin: 20px;">
+
+        </mat-card>
+        
+        <h2 style="margin: 20px;">My Worlds</h2>
+        <div style="margin: 20px;">
+            <app-world-list [worldCriteria]="{ownerId: userId}" (selected)="navigateToWorld($event)" />
+        </div>
+        <h2 style="margin: 20px;">Saved Worlds</h2>
+        <div style="margin: 20px;">
+            <app-world-list  (selected)="navigateToWorld($event)" />
+        </div>
+        <h2 style="margin: 20px;">Featured Worlds</h2>
+        <div style="margin: 20px;">
+            <app-world-list  (selected)="navigateToWorld($event)" />
         </div>
     </div>
 </div>
