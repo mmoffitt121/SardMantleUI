@@ -1,17 +1,18 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Map } from 'src/app/models/map/map';
+import { UrlService } from '../url/url.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageService {
   public getUrl(id: number, imageType: number) {
-    return 'https://localhost:7094/Library/Image/GetImage?Id=' + id + '&Type=' + imageType;
+    return 'https://localhost:7094/Library/Image/GetImage?Id=' + id + '&Type=' + imageType + "&worldPath=" + this.urlService.getWorld();
   }
 
   public getImage(id: number, imageType: number) {
-    let params = new HttpParams().set('Id', id).set('Type', imageType);
+    let params = new HttpParams().set('Id', id).set('Type', imageType).set('worldPath', this.urlService.getWorld());
     return this.http.get<any>('https://localhost:7094/Library/Image/GetImage', { params: params, observe: 'response', responseType: 'blob' as 'json' });
   }
 
@@ -21,8 +22,9 @@ export class ImageService {
     formData.append('type', imageType.toString());
     formData.append('data', new Blob([icon], { type: icon.type }), "name");
     formData.append('url', this.getUrl(id, imageType));
+    formData.append('worldPath', this.urlService.getWorld());
     return this.http.post('https://localhost:7094/Library/Image/PostImage', formData);
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private urlService: UrlService) { }
 }

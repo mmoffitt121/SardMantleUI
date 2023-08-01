@@ -101,6 +101,7 @@ import { AddHeaderInterceptor } from './http-interceptors/add-header-interceptor
 import { WorldListComponent } from './views/common/global-home/world-list/world-list.component';
 import { WorldManagerComponent } from './views/common/world-manager/world-manager.component';
 import { WorldCreatorComponent } from './views/common/world-manager/world-creator/world-creator.component';
+import { BaseComponent } from './views/base/base/base.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -171,7 +172,8 @@ export function tokenGetter() {
     AdministrationComponent,
     WorldListComponent,
     WorldManagerComponent,
-    WorldCreatorComponent
+    WorldCreatorComponent,
+    BaseComponent
   ],
   imports: [
     BrowserModule,
