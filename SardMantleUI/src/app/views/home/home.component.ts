@@ -4,7 +4,6 @@ import { World } from 'src/app/models/world/world';
 import { ErrorService } from 'src/app/services/error.service';
 import { UrlService } from 'src/app/services/url/url.service';
 import { WorldService } from 'src/app/services/world/world.service';
-import { BaseComponent } from '../base/base/base.component';
 import { ThemeService } from 'src/app/services/theme/theme.service';
 
 @Component({
@@ -12,7 +11,7 @@ import { ThemeService } from 'src/app/services/theme/theme.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent extends BaseComponent implements OnInit {
+export class HomeComponent implements OnInit {
   public world: World | undefined;
   constructor(
     public router: Router, 
@@ -20,7 +19,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
     public urlService: UrlService, 
     private worldService: WorldService, 
     private errorService: ErrorService,
-    themeService: ThemeService) { super(themeService); }
+    private themeService: ThemeService) { }
 
   ngOnInit(): void {
     this.worldService.getWorlds({location: this.urlService.getWorld()}).subscribe(data => {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ThemeService } from 'src/app/services/theme/theme.service';
 import { UrlService } from 'src/app/services/url/url.service';
 
 @Component({
@@ -16,5 +17,5 @@ export class NewMapComponent {
     this.router.navigate([this.urlService.getWorld(), 'map', data]);
   }
 
-  constructor(private router: Router, public urlService: UrlService) { }
+  constructor(private router: Router, public urlService: UrlService, private themeService: ThemeService) { }
 }

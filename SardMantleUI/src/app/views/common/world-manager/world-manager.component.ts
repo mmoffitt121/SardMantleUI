@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { World } from 'src/app/models/world/world';
 import { WorldCreatorComponent } from './world-creator/world-creator.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ThemeService } from 'src/app/services/theme/theme.service';
 
 @Component({
   selector: 'app-world-manager',
@@ -29,7 +30,7 @@ export class WorldManagerComponent {
     });
   }
 
-  constructor(public router: Router, public activatedRoute: ActivatedRoute, private dialog: MatDialog) { 
+  constructor(public router: Router, public activatedRoute: ActivatedRoute, private dialog: MatDialog, private themeService: ThemeService) { 
     this.userId = localStorage["userId"];
   }
 

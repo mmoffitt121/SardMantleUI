@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddDocumentTypeComponent } from './document-type/add-document-type/add-document-type.component';
 import { Location } from '@angular/common';
 import { UrlService } from 'src/app/services/url/url.service';
+import { ThemeService } from 'src/app/services/theme/theme.service';
 
 @Component({
   selector: 'app-document',
@@ -94,7 +95,8 @@ export class DocumentComponent implements AfterViewInit {
     public dialog: MatDialog, 
     private location: Location,
     private route: ActivatedRoute,
-    public urlService: UrlService
+    public urlService: UrlService,
+    private themeService: ThemeService
   ) { 
     this.route.params.subscribe(params => {
       this.currentDocumentTypeId = params['typeId'];

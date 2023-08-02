@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login/login.service';
+import { ViewThemesComponent } from './view-themes/view-themes.component';
+import { Theme } from 'src/app/models/theme/theme';
+import { ThemeService } from 'src/app/services/theme/theme.service';
+import { UrlService } from 'src/app/services/url/url.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -10,6 +15,12 @@ import { LoginService } from 'src/app/services/login/login.service';
 export class TopBarComponent implements OnInit {
   public userLoggedIn: boolean = false;
   public username: string | undefined;
+  public themes = [] as Theme[];
+  public loadingThemes = false;
+
+  public canGetThemes() {
+    return this.urlService.getWorld() !== "";
+  }
 
   public navigateLogIn() {
     this.router.navigate(['login']);
@@ -26,8 +37,24 @@ export class TopBarComponent implements OnInit {
   public navigateWorldManager() {
     this.router.navigate(['world-manager']);
   }
+  public openThemes() {
+    this.themeService.getThemes({}).subscribe(data => {
+      this.themes = data;
+    })
+  }
+  public openThemeManager() {
+    const dialogRef = this.dialog.open(ViewThemesComponent, {
+      width: '500px'
+    });
+  }
 
-  constructor(public router: Router, private loginService: LoginService) { }
+  constructor (
+    public router: Router, 
+    private loginService: LoginService, 
+    private dialog: MatDialog, 
+    private themeService: ThemeService, 
+    private urlService: UrlService
+  ) { }
 
   ngOnInit() {
     this.userLoggedIn = this.loginService.isLoggedIn();

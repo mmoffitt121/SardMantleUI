@@ -101,7 +101,8 @@ import { AddHeaderInterceptor } from './http-interceptors/add-header-interceptor
 import { WorldListComponent } from './views/common/global-home/world-list/world-list.component';
 import { WorldManagerComponent } from './views/common/world-manager/world-manager.component';
 import { WorldCreatorComponent } from './views/common/world-manager/world-creator/world-creator.component';
-import { BaseComponent } from './views/base/base/base.component';
+import { ManageThemesComponent } from './views/home/top-bar/manage-themes/manage-themes.component';
+import { ViewThemesComponent } from './views/home/top-bar/view-themes/view-themes.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -173,7 +174,8 @@ export function tokenGetter() {
     WorldListComponent,
     WorldManagerComponent,
     WorldCreatorComponent,
-    BaseComponent
+    ManageThemesComponent,
+    ViewThemesComponent
   ],
   imports: [
     BrowserModule,

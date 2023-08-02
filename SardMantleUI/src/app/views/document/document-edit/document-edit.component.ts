@@ -12,6 +12,7 @@ import { EditDataPointComponent } from '../../shared/document-components/edit/ed
 import { EditBoolComponent } from '../../shared/document-components/edit/edit-bool/edit-bool.component';
 import { DocumentService } from 'src/app/services/document/document.service';
 import { DocumentTypeService } from 'src/app/services/document/document-type.service';
+import { ThemeService } from 'src/app/services/theme/theme.service';
 
 @Component({
   selector: 'app-document-edit',
@@ -110,7 +111,8 @@ export class DocumentEditComponent implements AfterViewInit {
 
   constructor(private cdref: ChangeDetectorRef, 
     private documentService: DocumentService, 
-    private documentTypeService: DocumentTypeService) { }
+    private documentTypeService: DocumentTypeService,
+    private themeService: ThemeService) { }
 
   ngAfterViewInit(): void {
   }

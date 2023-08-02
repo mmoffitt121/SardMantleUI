@@ -13,6 +13,7 @@ import { MapService } from 'src/app/services/map/map.service';
 import { MapLayer } from 'src/app/models/map/map-layer';
 import { Map } from 'src/app/models/map/map';
 import { UrlService } from 'src/app/services/url/url.service';
+import { ThemeService } from 'src/app/services/theme/theme.service';
 
 @Component({
   selector: 'app-map-tiles',
@@ -238,7 +239,8 @@ export class MapTilesComponent implements OnInit {
     private router: Router,
     private routeLocation: Location,
     private dialog: MatDialog,
-    private urlService: UrlService
+    private urlService: UrlService,
+    private themeService: ThemeService
   ) {}
 
   ngOnInit(): void {

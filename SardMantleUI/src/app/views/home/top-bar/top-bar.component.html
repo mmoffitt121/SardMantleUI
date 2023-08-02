@@ -4,6 +4,24 @@
     </div>
     <div></div>
     <div style="display: flex;">
+        <button mat-icon-button class="topbar-icon-button" (click)="openThemes()" matTooltip="Themes" [matMenuTriggerFor]="menu" *ngIf="canGetThemes()">
+            <mat-icon> brush </mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <div style="padding: 10px; display: flex">
+                <h3 style="margin: 0px; margin-top: 10px">Themes</h3>
+                <button mat-icon-button style="margin-left: 50px;" (click)="openThemeManager()">
+                    <mat-icon> settings </mat-icon> 
+                </button>
+            </div>
+            <div *ngFor="let theme of themes" [style]="'display: flex; background-color:' + theme.primaryColor">
+                <div class="theme-circle" [style]="'background-color: ' + theme.backgroundColor">
+                    <div class="theme-circle" [style]="'background-color: ' + theme.primaryAccentColor"> </div>
+                </div>
+                <button mat-menu-item>{{theme.name}}</button>
+            </div>
+            
+        </mat-menu>
         <button mat-button class="topbar-button" color="primary" (click)="navigateRegister()" *ngIf="!userLoggedIn">Register</button>
         <button mat-button class="topbar-button" (click)="navigateLogIn()" *ngIf="!userLoggedIn">Log In</button>
         <button mat-icon-button class="topbar-icon-button" (click)="navigateWorldManager()" *ngIf="userLoggedIn" matTooltip="World Manager"><mat-icon> public </mat-icon></button>

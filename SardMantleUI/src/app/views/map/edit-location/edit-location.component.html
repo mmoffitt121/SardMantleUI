@@ -1,50 +1,52 @@
-<h3> {{editing ? "Editing " + (dataType == 0 ? selectedMapObject.name : selectedMapObject.name) : "Add Location"}} </h3>
-<mat-card class="card">
-    <mat-card-content>
-        <app-edit-string [parameterName]="'Name'" [placeholder]="'Name...'" [required]="true" [control]="name"></app-edit-string>
-        <mat-divider></mat-divider>
-        <app-edit-data-point [parameterName]="'Location Type'" (selected)="setLocationType($event)" [items]="locationTypes" [selectedItem]="locationType"></app-edit-data-point>
-        <app-edit-data-point [parameterName]="'Parent Location'" (selected)="setParent($event)" [items]="parentLocations" [selectedItem]="parentLocation" *ngIf="locationType?.parentTypeId || locationType?.anyTypeParent"></app-edit-data-point>
-        <div style="display: grid; grid-template-columns: auto auto;" >
-            <div style="margin-right: 5px;">
-                <app-edit-int [parameterName]="'Outermost Zoom Prominence'" [control]="zoomProminenceMin"></app-edit-int>
+<div>
+    <h3> {{editing ? "Editing " + (dataType == 0 ? selectedMapObject.name : selectedMapObject.name) : "Add Location"}} </h3>
+    <mat-card class="card">
+        <mat-card-content>
+            <app-edit-string [parameterName]="'Name'" [placeholder]="'Name...'" [required]="true" [control]="name"></app-edit-string>
+            <mat-divider></mat-divider>
+            <app-edit-data-point [parameterName]="'Location Type'" (selected)="setLocationType($event)" [items]="locationTypes" [selectedItem]="locationType"></app-edit-data-point>
+            <app-edit-data-point [parameterName]="'Parent Location'" (selected)="setParent($event)" [items]="parentLocations" [selectedItem]="parentLocation" *ngIf="locationType?.parentTypeId || locationType?.anyTypeParent"></app-edit-data-point>
+            <div style="display: grid; grid-template-columns: auto auto;" >
+                <div style="margin-right: 5px;">
+                    <app-edit-int [parameterName]="'Outermost Zoom Prominence'" [control]="zoomProminenceMin"></app-edit-int>
+                </div>
+                <div style="margin-left: 5px;">
+                    <app-edit-int [parameterName]="'Innermost Zoom Prominence'" [control]="zoomProminenceMax"></app-edit-int>
+                </div>
             </div>
-            <div style="margin-left: 5px;">
-                <app-edit-int [parameterName]="'Innermost Zoom Prominence'" [control]="zoomProminenceMax"></app-edit-int>
+            <div style="display: grid; grid-template-columns: 0.5fr 0.5fr;">
+                <div style="margin-right: 5px;">
+                    <app-edit-int 
+                        [parameterName]="'Label Font Size'" 
+                        [control]="labelFontSize">
+                    </app-edit-int>
+                </div>
+                <div  style="margin-left: 5px;">
+                    <app-edit-int 
+                        [parameterName]="'Label Font Color'" 
+                        [placeholder]="'#000000'"
+                        [control]="labelFontColor">
+                    </app-edit-int>
+                </div>
             </div>
-        </div>
-        <div style="display: grid; grid-template-columns: 0.5fr 0.5fr;">
-            <div style="margin-right: 5px;">
-                <app-edit-int 
-                    [parameterName]="'Label Font Size'" 
-                    [control]="labelFontSize">
-                </app-edit-int>
+            <mat-divider></mat-divider>
+            <app-edit-data-point [parameterName]="'Layer'" (selected)="setLayer($event)" [items]="layers" [selectedItem]="layer"></app-edit-data-point>
+            <div style="margin-top: 10px;" *ngIf="editing">
+                <button mat-button (click)="onChangeIcon()">
+                    Change Icon
+                </button>
+                <p *ngIf="iconChanged">
+                    File Selected
+                </p>
             </div>
-            <div  style="margin-left: 5px;">
-                <app-edit-int 
-                    [parameterName]="'Label Font Color'" 
-                    [placeholder]="'#000000'"
-                    [control]="labelFontColor">
-                </app-edit-int>
-            </div>
-        </div>
-        <mat-divider></mat-divider>
-        <app-edit-data-point [parameterName]="'Layer'" (selected)="setLayer($event)" [items]="layers" [selectedItem]="layer"></app-edit-data-point>
-        <div style="margin-top: 10px;" *ngIf="editing">
-            <button mat-button (click)="onChangeIcon()">
-                Change Icon
-            </button>
-            <p *ngIf="iconChanged">
-                File Selected
-            </p>
-        </div>
-    </mat-card-content>
-</mat-card>
-<p class="coord-display">Latitude:  {{ markerLat | number: '.4-4' }}</p>
-<p class="coord-display">Longitude: {{ markerLng | number: '.4-4' }}</p>
-<button mat-button class="secondary-button" style="width: 31%; margin-right: 3%;" (click)="cancelAddEdit()">
-    Cancel
-</button>
-<button mat-button color="primary" style="width: 66%;" (click)="submit()" [disabled]="!name.value || layer === undefined || !locationType">
-    {{editing ? "Save" : "Create"}}
-</button>
+        </mat-card-content>
+    </mat-card>
+    <p class="coord-display">Latitude:  {{ markerLat | number: '.4-4' }}</p>
+    <p class="coord-display">Longitude: {{ markerLng | number: '.4-4' }}</p>
+    <button mat-button class="secondary-button" style="width: 31%; margin-right: 3%;" (click)="cancelAddEdit()">
+        Cancel
+    </button>
+    <button mat-button color="primary" style="width: 66%;" (click)="submit()" [disabled]="!name.value || layer === undefined || !locationType">
+        {{editing ? "Save" : "Create"}}
+    </button>
+</div>

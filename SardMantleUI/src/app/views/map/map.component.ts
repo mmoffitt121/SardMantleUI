@@ -33,6 +33,7 @@ import { MapTileService } from 'src/app/services/map/map-tile-service';
 import { LocationTypeComponent } from './location-type/location-type.component';
 import { ImageService } from 'src/app/services/image/image.service';
 import { UrlService } from 'src/app/services/url/url.service';
+import { ThemeService } from 'src/app/services/theme/theme.service';
 
 @Component({
   selector: 'app-map',
@@ -642,7 +643,8 @@ export class MapComponent implements OnInit {
     private routeLocation: RouteLocation,
     private route: ActivatedRoute,
     private domSanitizer: DomSanitizer,
-    public urlService: UrlService) { }
+    public urlService: UrlService,
+    private themeService: ThemeService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
