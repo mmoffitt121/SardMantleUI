@@ -15,6 +15,8 @@ export class EditSummaryComponent implements OnInit {
 
   @Input() control = new FormControl();
 
+  public typeParameterId: number;
+
   public setValue(value: any) {
     if (value == null) {
       return;

@@ -22,11 +22,16 @@ export class EditArticleComponent implements OnInit {
 
   @Input() parameterName: string = 'Parameter Name';
   @Input() parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?'
+  public typeParameterId: number;
 
   public setValue(value: any) {
     if (value == null) {
       return;
     }
+  }
+
+  public getValue() {
+    return "Empty";
   }
 
   form = new FormGroup({

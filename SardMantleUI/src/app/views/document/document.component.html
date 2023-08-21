@@ -24,7 +24,16 @@
             </mat-card-content>
         </mat-card>
         <mat-card class="paginator-container">
-            <mat-paginator [hidePageSize]="true" class="paginator"></mat-paginator>
+            <mat-paginator 
+                [hidePageSize]="true" 
+                class="paginator"
+                [length]="typePageLength"
+                [pageIndex]="typePageIndex"
+                [pageSize]="typePageSize"
+                [pageSizeOptions]="typePageSizeOptions"
+                (page)="onTypePageChange($event)"
+            >
+            </mat-paginator>
         </mat-card>
     </div>
     <div class="document-list-grid">
@@ -51,6 +60,7 @@
                 #documentEditComponent 
                 *ngIf="editing"
                 (cancel)="cancelAddEdit($event)"
+                (save)="addEditComplete($event)"
             > 
             </app-document-edit>
         </mat-card>

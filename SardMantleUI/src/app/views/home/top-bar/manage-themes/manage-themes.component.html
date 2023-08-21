@@ -1,1 +1,143 @@
-<p>manage-themes works!</p>
+<app-top-bar></app-top-bar>
+<div>
+    <div class="container">
+        <mat-card style="margin-top: 20px; margin-bottom: 20px; background-color: var(--primary-color);">
+            <mat-card-header>
+                <mat-card-title>Themes</mat-card-title>
+            </mat-card-header>
+            <mat-card-content style="display: grid; grid-template-columns: 300px auto 400px">
+                <div>
+                    <mat-card 
+                        style="margin: 10px;" 
+                        *ngFor="let theme of themes" 
+                        [style.font-size]="theme.selected ? '19px' : '16px'"
+                        [style.background-color]="theme.selected ? 'var(--secondary-accent-color-selected)' : 'var(--secondary-accent-color)'"
+                        (click)="selectTheme(theme)"
+                    >
+                        <mat-card-content>
+                            {{theme.name}}
+                        </mat-card-content>
+                    </mat-card>
+                    <button mat-button style="margin: 10px;" (click)="newTheme()">Add Theme</button>
+                </div>
+                <div>
+                    <div style="margin: 10px;">
+                        <mat-card-content *ngIf="selectedTheme">
+                            <app-edit-string [parameterName]="'Name'" [control]="name"></app-edit-string>
+                            <app-edit-bool [parameterName]="'Default Theme'" [control]="isDefault"></app-edit-bool>
+                            <app-edit-color [parameterName]="'Primary Color'" [control]="primaryColor" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-color [parameterName]="'Primary Color'" [parameterSummary]="'Selected'" [control]="primaryColorSelected" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-color [parameterName]="'Inverted Text Color'" [control]="invertedTextColor" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-color [parameterName]="'Inverted Text Color'" [parameterSummary]="'Disabled'" [control]="invertedTextColorDisabled" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-color [parameterName]="'Text Color'" [control]="textColor" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-color [parameterName]="'Text Color'" [parameterSummary]="'Disabled'" [control]="textColorDisabled" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-color [parameterName]="'Secondary Text Color'" [control]="secondaryTextColor" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-color [parameterName]="'Tertiary Text Color'" [control]="tertiaryTextColor" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-color [parameterName]="'Primary Accent Color'" [control]="primaryAccentColor" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-color [parameterName]="'Primary Accent Color'" [parameterSummary]="'Disabled'" [control]="primaryAccentColorDisabled" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-color [parameterName]="'Secondary Accent Color'" [control]="secondaryAccentColor" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-color [parameterName]="'Secondary Accent Color'" [parameterSummary]="'Disabled'" [control]="secondaryAccentColorDisabled" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-color [parameterName]="'Secondary Accent Color'" [parameterSummary]="'Selected'" [control]="secondaryAccentColorSelected" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-color [parameterName]="'Background Color'" [control]="backgroundColor" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-color [parameterName]="'Secondary Background Color'" [control]="secondaryBackgroundColor" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-color [parameterName]="'Field Overlay Color'" [control]="fieldOverlayColor" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-color [parameterName]="'Field Overlay Color'" [parameterSummary]="'Dark'" [control]="fieldOverlayColorDark" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-color [parameterName]="'Destructive Action Color'" [control]="destructiveActionColor" (valueChanged)="themeChanged()"></app-edit-color>
+                            <app-edit-data-point [parameterName]="'Primary Font'" [items]="fonts" [selectedItem]="selectedFont" (selected)="fontChanged($event); themeChanged()"></app-edit-data-point>
+                            <div style="float: right">
+                                <button mat-button (click)="saveTheme()" color="primary">Save</button>
+                                <button mat-button (click)="saveTheme()" style="background-color: var(--destructive-action-color); margin-left: 10px">Delete</button>
+                            </div>
+                            
+                        </mat-card-content>
+                    </div>
+                </div>
+                <div>
+                    <mat-card style="background-color: var(--background-color); margin: 5px;">
+                        <mat-card-content>
+                            <h1 style="color: var(--inverted-text-color)"> Background Color</h1>
+                            <h2 style="color: var(--inverted-text-color-disabled)"> Inverted Text Color Disabled</h2>
+                            <mat-card style="background-color: var(--primary-color); margin: 5px;">
+                                <mat-card-content>
+                                    Primary Color
+                                </mat-card-content>
+                            </mat-card>
+                            <mat-card style="background-color: var(--primary-color-selected); margin: 5px;">
+                                <mat-card-content>
+                                    Selected
+                                </mat-card-content>
+                            </mat-card>
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card style="background-color: var(--secondary-background-color); margin: 5px;">
+                        <mat-card-content>
+                            <h1 style="color: var(--text-color)"> Background Color</h1>
+                            <h2 style="color: var(--text-color-disabled)"> Text Color Disabled</h2>
+                            <mat-card style="background-color: var(--primary-color); margin: 5px;">
+                                <mat-card-content>
+                                    Primary Color
+                                </mat-card-content>
+                            </mat-card>
+                            <mat-card style="background-color: var(--primary-color-selected); margin: 5px;">
+                                <mat-card-content>
+                                    Selected
+                                </mat-card-content>
+                            </mat-card>
+                            <h3 style="color: var(--secondary-text-color)">Secondary Text Color</h3>
+                            <mat-card style="background-color: var(--primary-accent-color); margin: 5px;">
+                                <mat-card-content style="color: var(--inverted-text-color)">
+                                    Primary Accent Color
+                                </mat-card-content>
+                            </mat-card>
+                            <mat-card style="background-color: var(--primary-accent-color-disabled); margin: 5px;">
+                                <mat-card-content style="color: var(--inverted-text-color)">
+                                    Primary Accent Color Disabled
+                                </mat-card-content>
+                            </mat-card>
+                            <h4 style="color: var(--tertiary-text-color)">Tertiary Text Color</h4>
+                            <mat-card style="background-color: var(--secondary-accent-color); margin: 5px;">
+                                <mat-card-content>
+                                    Secondary Accent Color
+                                </mat-card-content>
+                            </mat-card>
+                            <mat-card style="background-color: var(--secondary-accent-color-selected); margin: 5px;">
+                                <mat-card-content>
+                                    Secondary Accent Color Selected
+                                </mat-card-content>
+                            </mat-card>
+                            <mat-card style="background-color: var(--secondary-accent-color-disabled); margin: 5px;">
+                                <mat-card-content>
+                                    Secondary Accent Color Disabled
+                                </mat-card-content>
+                            </mat-card>
+                            <h3 style="color: var(--tertiary-text-color)">Field Overlays</h3>
+                            <div style="display: flex">
+                                <div style="margin: 5px">
+                                    <mat-card class="map-card">
+                                        <mat-icon>map</mat-icon>
+                                    </mat-card>
+                                </div>
+                                <div style="margin: 5px">
+                                    <mat-card class="map-card-over" style="z-index: 1000; position: absolute; background-color: var(--field-overlay-color);">
+                                    </mat-card>
+
+                                    <mat-card class="map-card">
+                                        <mat-icon>map</mat-icon>
+                                    </mat-card>
+                                </div>
+                                <div style="margin: 5px">
+                                    <mat-card class="map-card-over" style="z-index: 1000; position: absolute; ">
+                                    </mat-card>
+
+                                    <mat-card class="map-card">
+                                        <mat-icon>map</mat-icon>
+                                    </mat-card>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

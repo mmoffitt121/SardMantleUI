@@ -16,6 +16,7 @@ import { AdministrationComponent } from './views/administration/administration.c
 import { GlobalHomeComponent } from './views/common/global-home/global-home.component';
 import { AuthGuard } from './guards/auth-guard.guard';
 import { WorldManagerComponent } from './views/common/world-manager/world-manager.component';
+import { ManageThemesComponent } from './views/home/top-bar/manage-themes/manage-themes.component';
 
 const routes: Routes = [
   { path:'', redirectTo: 'home', pathMatch: 'full' },
@@ -41,7 +42,9 @@ const routes: Routes = [
     { path:'document', component:DocumentComponent },
     { path:'document/:typeId', component:DocumentComponent },
     { path:'document/:typeId/:documentId', component:DocumentComponent },
-    { path:'document/type/edit/:id', component:EditDocumentTypeComponent, canActivate: [AuthGuard] }
+    { path:'document/type/edit/:id', component:EditDocumentTypeComponent, canActivate: [AuthGuard] },
+    { path:'settings/theme', component:ManageThemesComponent },
+    { path:'settings/theme/:id', component:ManageThemesComponent },
   ]}
 ];
 

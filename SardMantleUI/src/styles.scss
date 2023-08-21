@@ -47,6 +47,8 @@
     --mdc-typography-body2-font-family: var(--primary-font !important);
     --mdc-typography-font-family: var(--primary-font) !important;
     --mdc-typography-subtitle2-font-family: var(--primary-font) !important;
+    --mat-card-subtitle-text-color: var(--text-color) !important;
+    --mdc-icon-button-icon-color:  var(--text-color) !important;
 }
 
 /* --------------- */
@@ -165,6 +167,22 @@ h1 {
     text-align: center;
 }
 
+h2 {
+    color: var(--text-color);
+}
+
+h3 {
+    color: var(--text-color);
+}
+
+h4 {
+    color: var(--text-color);
+}
+
+h5 {
+    color: var(--text-color);
+}
+
 .horizontal-card-container {
     display: flex;
 }
@@ -192,6 +210,48 @@ p {
     font-family: var(--primary-font);
     margin: 10px;
     color: var(--text-color);
+}
+
+mat-card {
+    color: var(--text-color);
+}
+
+mat-card-content {
+    color: var(--text-color);
+}
+
+mat-card-title {
+    color: var(--text-color);
+}
+
+.mat-mdc-card-subtitle {
+    color: var(--text-color) !important;
+}
+
+.mat-expansion-panel-header-title {
+    color: var(--text-color) !important;
+}
+
+.mat-expansion-indicator {
+    color: var(--text-color) !important;
+}
+
+.mat-expansion-panel-header-description, .mat-expansion-indicator::after {
+    color: var(--text-color) !important;
+}
+
+.mat-mdc-icon-button[disabled][disabled] {
+    --mdc-icon-button-icon-color: var(--text-color);
+    --mdc-icon-button-disabled-icon-color: var(--text-color);
+}
+
+.mat-mdc-icon-button {
+    --mdc-icon-button-icon-color: rgbavar(--text-color);
+    --mdc-icon-button-disabled-icon-color: var(--text-color);
+}
+
+mat-icon {
+    color: var(--text-color) !important;
 }
 
 .mat-mdc-select-panel {
@@ -258,6 +318,10 @@ p {
     background-color: var(--primary-color) !important;
 }
 
+.NgxEditor__Placeholder {
+    color: var(--secondary-text-color);
+}
+
 .NgxEditor__MenuItem {
     color: var(--primary-accent-color);
     background-color: var(--secondary-accent-color);
@@ -265,6 +329,10 @@ p {
 
 .NgxEditor__Seperator {
     border-left: 3px solid var(--secondary-accent-color) !important;
+}
+
+.NgxEditor {
+    background: var(--secondary-background-color) !important;
 }
 
 /*

@@ -12,6 +12,8 @@ export class EditDoubleComponent implements OnInit {
   @Input() control = new FormControl();
   @Input() required: boolean = false;
 
+  public typeParameterId: number;
+
   public validate(e: any) {
     this.control.markAsTouched();
   }
@@ -21,6 +23,10 @@ export class EditDoubleComponent implements OnInit {
       return;
     }
     this.control.setValue(value);
+  }
+
+  public getValue() {
+    return this.control.value;
   }
 
   ngOnInit() {

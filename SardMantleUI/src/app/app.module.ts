@@ -34,6 +34,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTableModule } from '@angular/material/table';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { NgxEditorModule } from 'ngx-editor';
@@ -103,6 +104,12 @@ import { WorldManagerComponent } from './views/common/world-manager/world-manage
 import { WorldCreatorComponent } from './views/common/world-manager/world-creator/world-creator.component';
 import { ManageThemesComponent } from './views/home/top-bar/manage-themes/manage-themes.component';
 import { ViewThemesComponent } from './views/home/top-bar/view-themes/view-themes.component';
+import { EditColorComponent } from './views/shared/document-components/edit/edit-color/edit-color.component';
+import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
+import { RouterModule } from '@angular/router';
+import { UserAdministrationComponent } from './views/administration/user-administration/user-administration.component';
+import { DatabaseAdministrationComponent } from './views/administration/database-administration/database-administration.component';
+import { DeploymentAdministrationComponent } from './views/administration/deployment-administration/deployment-administration.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -175,7 +182,11 @@ export function tokenGetter() {
     WorldManagerComponent,
     WorldCreatorComponent,
     ManageThemesComponent,
-    ViewThemesComponent
+    ViewThemesComponent,
+    EditColorComponent,
+    UserAdministrationComponent,
+    DatabaseAdministrationComponent,
+    DeploymentAdministrationComponent
   ],
   imports: [
     BrowserModule,
@@ -206,9 +217,11 @@ export function tokenGetter() {
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatToolbarModule,
+    MatTableModule,
     DragDropModule,
     BrowserAnimationsModule,
     NgxEditorModule,
+    NgxMatColorPickerModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
@@ -223,6 +236,10 @@ export function tokenGetter() {
       provide: HTTP_INTERCEPTORS,
       useClass: AddHeaderInterceptor,
       multi: true
+    },
+    { 
+      provide: MAT_COLOR_FORMATS, 
+      useValue: NGX_MAT_COLOR_FORMATS 
     }
   ],
   bootstrap: [AppComponent]

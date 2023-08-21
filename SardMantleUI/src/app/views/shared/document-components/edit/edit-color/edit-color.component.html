@@ -1,0 +1,9 @@
+<div>
+    <h4 class="subtitled-title"> {{ parameterName }} </h4>
+    <h5 class="subtitle"> {{ parameterSummary }} </h5>
+    <mat-form-field appearance="outline">
+        <input matInput [ngxMatColorPicker]="picker" [formControl]="control">
+        <ngx-mat-color-toggle matSuffix [for]="picker"></ngx-mat-color-toggle>
+        <ngx-mat-color-picker #picker [color]="color"></ngx-mat-color-picker>
+    </mat-form-field>
+</div>

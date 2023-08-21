@@ -11,7 +11,7 @@ import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 export class ThemeService {
   public baseTheme = {
     id: -1,
-    name: "no-theme",
+    name: "Unnamed Theme",
     primaryColor: "rgba(79, 59, 59, 1)",
     primaryColorSelected: "rgba(90, 76, 75, 1)",
     invertedTextColor: "rgb(44, 39, 39, 1)",
@@ -62,6 +62,7 @@ export class ThemeService {
 
   public selectTheme(theme: Theme) {
     localStorage.setItem(this.urlService.getWorld() + "-SelectedTheme", theme.id.toString());
+    this.loadSelectedTheme();
   }
 
   public getSelectedThemeId() {
@@ -74,7 +75,6 @@ export class ThemeService {
       this.getThemes({isDefault: true}).subscribe(data => {
         if (data === undefined || data.length < 1) { return; }
         this.theme = data[0]
-        console.log(data)
         this.applyTheme();
       })
     }
@@ -85,6 +85,11 @@ export class ThemeService {
         this.applyTheme();
       })
     }
+  }
+
+  public previewTheme(theme: Theme) {
+    this.theme = theme;
+    this.applyTheme();
   }
 
   public applyTheme() {
@@ -113,10 +118,8 @@ export class ThemeService {
   
   constructor(private http: HttpClient, private urlService: UrlService, @Inject(DOCUMENT) private document: Document, private router: Router) { 
     this.theme = { ...this.baseTheme };
-    this.loadSelectedTheme();
     this.router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
-        console.log("them")
         if (this.urlService.getWorld() === "") {
           this.theme = {} as Theme;
           this.applyTheme();

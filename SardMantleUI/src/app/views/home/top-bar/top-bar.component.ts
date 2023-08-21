@@ -21,6 +21,9 @@ export class TopBarComponent implements OnInit {
   public canGetThemes() {
     return this.urlService.getWorld() !== "";
   }
+  public selectTheme(theme: Theme) {
+    this.themeService.selectTheme(theme)
+  }
 
   public navigateLogIn() {
     this.router.navigate(['login']);
@@ -37,15 +40,18 @@ export class TopBarComponent implements OnInit {
   public navigateWorldManager() {
     this.router.navigate(['world-manager']);
   }
+  public navigateAdministration() {
+    this.router.navigate(['administration']);
+  }
   public openThemes() {
-    this.themeService.getThemes({}).subscribe(data => {
-      this.themes = data;
-    })
+    if (this.canGetThemes()) {
+      this.themeService.getThemes({}).subscribe(data => {
+        this.themes = data;
+      })
+    }
   }
   public openThemeManager() {
-    const dialogRef = this.dialog.open(ViewThemesComponent, {
-      width: '500px'
-    });
+    this.router.navigate([this.urlService.getWorld(), 'settings', 'theme']);
   }
 
   constructor (

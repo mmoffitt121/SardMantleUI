@@ -91,7 +91,6 @@ export class LocationTypeComponent implements OnInit  {
   }
 
   public editLocationType(locationType: LocationType) {
-    console.log(locationType)
     const dialogRef = this.dialog.open(EditLocationTypeComponent, {
       width: '525px',
       data: { adding: false, locationType: locationType }

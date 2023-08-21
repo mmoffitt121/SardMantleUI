@@ -13,6 +13,8 @@ export class EditIntComponent implements OnInit {
   @Input() required: boolean = false;
   @Input() placeholder: string = "Number"
 
+  public typeParameterId: number;
+
   public validate(e: any) {
     this.control.markAsTouched();
   }

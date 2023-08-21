@@ -11,6 +11,9 @@ import { AddDocumentTypeComponent } from './document-type/add-document-type/add-
 import { Location } from '@angular/common';
 import { UrlService } from 'src/app/services/url/url.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
+import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
+import { DocumentService } from 'src/app/services/document/document.service';
+import { ErrorService } from 'src/app/services/error.service';
 
 @Component({
   selector: 'app-document',
@@ -23,15 +26,24 @@ export class DocumentComponent implements AfterViewInit {
   @ViewChild('documentInfoComponent') documentInfoComponent: DocumentInfoComponent;
   @ViewChild('documentEditComponent') documentEditComponent: DocumentEditComponent;
 
+  public typePageLength = 0;
+  public typePageIndex = 0;
+  public typePageSize = 5;
+  public typePageSizeOptions: any;
+
   public editing = false;
   public adding = false;
 
   public currentDocumentTypeId: number | undefined;
   private currentDocumentId: number | undefined;
 
+  public onTypePageChange(event: any) {
+    this.documentTypeComponent.page();
+  }
+
   public handleAddDocument(event: any) {
     this.editing = true;
-    const typeId = this.documentInfoComponent.documentType?.id;
+    const typeId = this.currentDocumentTypeId;
     this.cdref.detectChanges();
     if (!typeId) return;
     this.documentEditComponent.setDocumentType(typeId);
@@ -41,7 +53,7 @@ export class DocumentComponent implements AfterViewInit {
     this.editing = true;
     const id = this.documentInfoComponent.document? this.documentInfoComponent.document.id : -1;
     this.cdref.detectChanges();
-    this.documentEditComponent.setDocument(id);
+    this.documentEditComponent.setDocument(id ?? -1);
   }
 
   public cancelAddEdit(event: any) {
@@ -52,7 +64,38 @@ export class DocumentComponent implements AfterViewInit {
     }
   }
 
-  public handleDeleteDocument(event: any) {
+  public addEditComplete(event: any) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.navigate([this.urlService.getWorld(), 'document', event.documentTypeId, event.documentId]);
+  }
+
+  public handleDeleteDocument(document: any) {
+    var deleteMessage = `Are you sure you want to delete ${document.name}?`;
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '500px',
+      data: { 
+        title: "Confirm Deletion", 
+        content: deleteMessage
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteDocument();
+      }
+    });
+  }
+
+  public deleteDocument() {
+    this.documentService.deleteDocument(this.currentDocumentId ?? -1).subscribe(result => {
+      this.errorService.showSnackBar(`Delete successful.`);
+      this.documentTypeComponent.selectDocumentType({currentTarget: {value: this.currentDocumentTypeId}});
+      this.loadDocumentList({id: this.currentDocumentTypeId});
+    },
+    error => {
+      this.errorService.handle(error);
+    })
   }
 
   public loadDocumentList(data: any) {
@@ -96,7 +139,9 @@ export class DocumentComponent implements AfterViewInit {
     private location: Location,
     private route: ActivatedRoute,
     public urlService: UrlService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private documentService: DocumentService,
+    private errorService: ErrorService
   ) { 
     this.route.params.subscribe(params => {
       this.currentDocumentTypeId = params['typeId'];
@@ -105,12 +150,15 @@ export class DocumentComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.currentDocumentTypeId != undefined) {
+    if (this.currentDocumentId != undefined) {
+      this.documentInfoComponent.setDocument(this.currentDocumentId);
       this.documentTypeComponent.selectDocumentType({currentTarget: {value: this.currentDocumentTypeId}});
       this.loadDocumentList({id: this.currentDocumentTypeId});
-      if (this.currentDocumentId != undefined) {
-        this.documentInfoComponent.setDocument(this.currentDocumentId);
-      }
+      this.location.replaceState(this.urlService.getWorld() + "/document/" + this.currentDocumentTypeId + "/" + this.currentDocumentId);
+    }
+    else if (this.currentDocumentTypeId != undefined) {
+      this.documentTypeComponent.selectDocumentType({currentTarget: {value: this.currentDocumentTypeId}});
+      this.loadDocumentList({id: this.currentDocumentTypeId});
     }
   }
 }

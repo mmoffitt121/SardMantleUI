@@ -13,6 +13,10 @@ export class DocumentTypeComponent implements OnInit {
 
   @Output() select = new EventEmitter();
 
+  public page() {
+    
+  }
+
   public selectDocumentType(e: any) {
     this.select.emit({id: e.currentTarget.value});
     this.allSelected = e.currentTarget.value == -1;

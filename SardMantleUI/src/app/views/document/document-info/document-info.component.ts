@@ -81,12 +81,19 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
     this.cdref.detectChanges();
   }
 
+  private unloadDocument() {
+    this.document = undefined;
+    this.title = undefined;
+    this.subtitle = undefined;
+    this.container.clear();
+    this.cdref.detectChanges();
+  }
+
   public setDocument(id: any) {
     if (id === undefined || id === "undefined" || id == -1) {
       this.document = undefined;
       return;
     }
-    console.log(id);
     this.documentService.getDocument(id).subscribe(data => {
       this.document = data;
       if (this.document != undefined) {
@@ -99,14 +106,15 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
   }
 
   public setDocumentType(id: number) {
-    if (this.document == undefined && id > 0) {
+    if (id > 0) {
       this.documentTypeService.getDocumentType(id).subscribe(data => {
         this.documentType = data;
       })
     }
-    else if (this.document == undefined && id == -1) {
+    else if (id == -1) {
       this.documentType = undefined;
     }
+    this.unloadDocument();
   }
 
   constructor(private cdref: ChangeDetectorRef, 

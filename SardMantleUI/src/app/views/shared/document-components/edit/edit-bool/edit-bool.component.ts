@@ -14,6 +14,8 @@ export class EditBoolComponent implements OnInit {
   @Input() required: boolean = false;
 
   @Output() valueChanged = new EventEmitter(); 
+  
+  public typeParameterId: number;
 
   public validate(e: any) {
     this.control.markAsTouched();
@@ -24,6 +26,10 @@ export class EditBoolComponent implements OnInit {
       return;
     }
     this.control.setValue(value);
+  }
+
+  public getValue() {
+    return this.control.value ?? false;
   }
 
   public ngOnInit(): void {

@@ -24,6 +24,7 @@ export class LoginComponent {
         this.loginService.getUser(this.userName.value).subscribe(data => {
           localStorage.setItem("username", data.userName);
           localStorage.setItem("userId", data.id);
+          localStorage.setItem("roles", data.roles);
           this.router.navigate(["home"]);
         })
       }

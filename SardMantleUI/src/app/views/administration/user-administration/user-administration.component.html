@@ -1,0 +1,48 @@
+<table mat-table [dataSource]="dat" class="mat-elevation-z8">
+  <ng-container matColumnDef="userName">
+    <th mat-header-cell *matHeaderCellDef> Username </th>
+    <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+  </ng-container>
+  <ng-container matColumnDef="viewer">
+    <th mat-header-cell *matHeaderCellDef> Viewer </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button (click)="toggle(element, 'Viewer')">
+        <mat-icon *ngIf="element.roles?.includes('Viewer') && !saving">check_circle</mat-icon>
+        <mat-icon *ngIf="!element.roles?.includes('Viewer') && !saving">radio_button_unchecked</mat-icon>
+        <mat-progress-spinner class="button-loading" mode="indeterminate" *ngIf="saving"></mat-progress-spinner>
+      </button>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="editor">
+    <th mat-header-cell *matHeaderCellDef> Editor </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button (click)="toggle(element, 'Editor')">
+        <mat-icon *ngIf="element.roles?.includes('Editor') && !saving">check_circle</mat-icon>
+        <mat-icon *ngIf="!element.roles?.includes('Editor') && !saving">radio_button_unchecked</mat-icon>
+        <mat-progress-spinner class="button-loading" mode="indeterminate" *ngIf="saving"></mat-progress-spinner>
+      </button>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="admin">
+    <th mat-header-cell *matHeaderCellDef> Administrator </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button (click)="toggle(element, 'Administrator')">
+        <mat-icon *ngIf="element.roles?.includes('Administrator') && !saving">check_circle</mat-icon>
+        <mat-icon *ngIf="!element.roles?.includes('Administrator') && !saving">radio_button_unchecked</mat-icon>
+        <mat-progress-spinner class="button-loading" mode="indeterminate" *ngIf="saving"></mat-progress-spinner>
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button (click)="deleteUser(element)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

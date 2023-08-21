@@ -17,6 +17,8 @@ export class EditStringComponent implements OnInit {
 
   @Input() control = new FormControl();
 
+  public typeParameterId: number;
+
   public validate(e: any) {
     this.control.markAsTouched();
   }

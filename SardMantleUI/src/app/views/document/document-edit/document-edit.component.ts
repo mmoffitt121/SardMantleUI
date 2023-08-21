@@ -13,6 +13,11 @@ import { EditBoolComponent } from '../../shared/document-components/edit/edit-bo
 import { DocumentService } from 'src/app/services/document/document.service';
 import { DocumentTypeService } from 'src/app/services/document/document-type.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
+import { ErrorService } from 'src/app/services/error.service';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { UrlService } from 'src/app/services/url/url.service';
 
 @Component({
   selector: 'app-document-edit',
@@ -85,8 +90,83 @@ export class DocumentEditComponent implements AfterViewInit {
       }
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterName = p.name;
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterSummary = p.summary;
+      this.parameterComponents[this.parameterComponents.length - 1].instance.typeParameterId = p.id;
     });
     this.cdref.detectChanges();
+  }
+
+  public saveDocument() {
+    this.documentService.putDocument(this.buildDocument()).subscribe(result => {
+      this.errorService.showSnackBar(`${this.document.name} successfully saved.`);
+      this.save.emit({documentTypeId: this.documentType?.id, documentId: result});
+    }, error => {
+      this.errorService.handle(error);
+    })
+  }
+
+  public buildDocument() {
+    let params = [] as any[];
+    this.parameterComponents.forEach(p => {
+      var param = {};
+      switch (this.documentType?.typeParameters.find(tp => tp.id == p.instance.typeParameterId )?.typeValue) {
+        case 'int':
+          param = {
+            dataPointId: this.document.id,
+            dataPointTypeParameterId: p.instance.typeParameterId,
+            intValue: p.instance.getValue()
+          }
+          break;
+        case 'dub':
+          param = {
+            dataPointId: this.document.id,
+            dataPointTypeParameterId: p.instance.typeParameterId,
+            doubleValue: p.instance.getValue()
+          }
+          break;
+        case 'str':
+          param = {
+            dataPointId: this.document.id,
+            dataPointTypeParameterId: p.instance.typeParameterId,
+            stringValue: p.instance.getValue()
+          }
+          break;
+        case 'sum':
+          param = {
+            dataPointId: this.document.id,
+            dataPointTypeParameterId: p.instance.typeParameterId,
+            summaryValue: p.instance.getValue()
+          }
+          break;
+        case 'doc':
+          param = {
+            dataPointId: this.document.id,
+            dataPointTypeParameterId: p.instance.typeParameterId,
+            documentValue: p.instance.getValue()
+          }
+          break;
+        case 'dat':
+          param = {
+            dataPointId: this.document.id,
+            dataPointTypeParameterId: p.instance.typeParameterId,
+            dataPointValueId: p.instance.getValue()
+          }
+          break;
+        case 'bit':
+          param = {
+            dataPointId: this.document.id,
+            dataPointTypeParameterId: p.instance.typeParameterId,
+            boolValue: p.instance.getValue()
+          }
+          break;
+      }
+      if (p.instance.getValue() !== null) {
+        params.push(param);
+      }
+    });
+    this.document.parameters = params;
+    this.document.name = this.nameControl.value;
+    console.log(this.document);
+    return(this.document);
   }
 
   public setDocument(id: number) {
@@ -95,25 +175,34 @@ export class DocumentEditComponent implements AfterViewInit {
       this.documentTypeService.getDocumentType(this.document.typeId).subscribe(data => {
         this.documentType = data;
         this.loadDocument();
-        this.addEditTitle = "Editing: " + this.documentType?.name;
+        this.addEditTitle = "Editing " + this.documentType?.name;
       })
     })
   }
 
   public setDocumentType(id: number) {
-    this.document = {} as Document;
+    this.document = {
+      name: "New",
+      summary: "",
+      parameters: [] as any[],
+      typeId: id} as Document;
     this.documentTypeService.getDocumentType(id).subscribe(data => {
       this.documentType = data;
       this.loadDocument();
-      this.addEditTitle = "Adding: " + this.documentType?.name;
+      this.addEditTitle = "Adding " + this.documentType?.name;
     })
   }
 
   constructor(private cdref: ChangeDetectorRef, 
     private documentService: DocumentService, 
     private documentTypeService: DocumentTypeService,
-    private themeService: ThemeService) { }
+    private themeService: ThemeService,
+    private errorService: ErrorService,
+    private dialog: MatDialog,
+    private router: Router,
+    private urlService: UrlService) { }
 
   ngAfterViewInit(): void {
+
   }
 }

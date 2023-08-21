@@ -602,18 +602,18 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 }
 
 .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
-    color: rgba(255, 255, 255, 0.87)
+    color: var(--text-color)
 }
 
 @media all {
     .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input::placeholder {
-        color: rgba(255, 255, 255, 0.6)
+        color: var(--text-color-disabled)
     }
 }
 
 @media all {
     .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input:-ms-input-placeholder {
-        color: rgba(255, 255, 255, 0.6)
+        color: var(--text-color-disabled)
     }
 }
 
@@ -680,7 +680,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
 .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
 .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
-    border-color: rgba(255, 255, 255, 0.38)
+    border-color: var(--text-color);
 }
 
 .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__leading,
@@ -1197,15 +1197,15 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mdc-list-item__primary-text {
-    color: var(--mdc-theme-text-primary-on-background, white)
+    color: var(--text-color)
 }
 
 .mdc-list-item__secondary-text {
-    color: var(--mdc-theme-text-secondary-on-background, rgba(255, 255, 255, 0.7))
+    color: var(var(--secondary-text-color), rgba(255, 255, 255, 0.7))
 }
 
 .mdc-list-item__overline-text {
-    color: var(--mdc-theme-text-hint-on-background, rgba(255, 255, 255, 0.5))
+    color: var(var(--secondary-text-color), rgba(255, 255, 255, 0.5))
 }
 
 .mdc-list-item--with-leading-icon .mdc-list-item__start,
@@ -1229,11 +1229,11 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mdc-list-item--disabled .mdc-list-item__primary-text {
-    color: var(--mdc-theme-on-surface, #fff)
+    color: var(--text-color)
 }
 
 .mdc-list-item--disabled .mdc-list-item__secondary-text {
-    color: var(--mdc-theme-on-surface, #fff)
+    color: var(--secondary-text-color)
 }
 
 .mdc-list-item--disabled .mdc-list-item__overline-text {
@@ -1275,7 +1275,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mat-mdc-select-value {
-    color: rgba(255, 255, 255, .87)
+    color: var(--text-color)
 }
 
 .mat-mdc-select-placeholder {
@@ -1283,11 +1283,11 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mat-mdc-select-disabled .mat-mdc-select-value {
-    color: rgba(255, 255, 255, .38)
+    color: var(--text-color-disabled)
 }
 
 .mat-mdc-select-arrow {
-    color: rgba(255, 255, 255, .54)
+    color: var(--text-color)
 }
 
 .mat-mdc-form-field.mat-focused.mat-primary .mat-mdc-select-arrow {
@@ -1746,7 +1746,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mdc-list-item__primary-text {
-    color: var(--mdc-theme-text-primary-on-background, white)
+    color: var(--text-color)
 }
 
 .mdc-list-item__secondary-text {
@@ -1868,22 +1868,22 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mat-mdc-list-base {
-    --mdc-list-list-item-label-text-color: white;
+    --mdc-list-list-item-label-text-color: var(--text-color);
     --mdc-list-list-item-supporting-text-color: rgba(255, 255, 255, 0.7);
     --mdc-list-list-item-leading-icon-color: rgba(255, 255, 255, 0.5);
     --mdc-list-list-item-trailing-supporting-text-color: rgba(255, 255, 255, 0.5);
     --mdc-list-list-item-trailing-icon-color: rgba(255, 255, 255, 0.5);
     --mdc-list-list-item-selected-trailing-icon-color: rgba(255, 255, 255, 0.5);
-    --mdc-list-list-item-disabled-label-text-color: white;
-    --mdc-list-list-item-disabled-leading-icon-color: white;
-    --mdc-list-list-item-disabled-trailing-icon-color: white;
-    --mdc-list-list-item-hover-label-text-color: white;
+    --mdc-list-list-item-disabled-label-text-color: var(--text-color);
+    --mdc-list-list-item-disabled-leading-icon-color: var(--text-color);
+    --mdc-list-list-item-disabled-trailing-icon-color: var(--text-color);
+    --mdc-list-list-item-hover-label-text-color: var(--text-color);
     --mdc-list-list-item-hover-leading-icon-color: rgba(255, 255, 255, 0.5);
     --mdc-list-list-item-hover-trailing-icon-color: rgba(255, 255, 255, 0.5);
-    --mdc-list-list-item-focus-label-text-color: white;
-    --mdc-list-list-item-hover-state-layer-color: white;
+    --mdc-list-list-item-focus-label-text-color: var(--text-color);
+    --mdc-list-list-item-hover-state-layer-color: var(--text-color);
     --mdc-list-list-item-hover-state-layer-opacity: 0.08;
-    --mdc-list-list-item-focus-state-layer-color: white;
+    --mdc-list-list-item-focus-state-layer-color: var(--text-color);
     --mdc-list-list-item-focus-state-layer-opacity: 0.24
 }
 
@@ -1927,9 +1927,9 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mat-mdc-list-option {
-    --mdc-checkbox-disabled-selected-icon-color: rgba(255, 255, 255, 0.38);
-    --mdc-checkbox-disabled-unselected-icon-color: rgba(255, 255, 255, 0.38);
-    --mdc-checkbox-selected-checkmark-color: #fff;
+    --mdc-checkbox-disabled-selected-icon-color: var(--primary-accent-color);
+    --mdc-checkbox-disabled-unselected-icon-color: var(--primary-accent-color);
+    --mdc-checkbox-selected-checkmark-color: var(--text-color);
     --mdc-checkbox-selected-focus-icon-color: var(--primary-accent-color);
     --mdc-checkbox-selected-hover-icon-color: var(--primary-accent-color);
     --mdc-checkbox-selected-icon-color: var(--primary-accent-color);
@@ -1947,20 +1947,20 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mat-mdc-list-option.mat-accent {
-    --mdc-checkbox-disabled-selected-icon-color: rgba(255, 255, 255, 0.38);
-    --mdc-checkbox-disabled-unselected-icon-color: rgba(255, 255, 255, 0.38);
-    --mdc-checkbox-selected-checkmark-color: #000;
-    --mdc-checkbox-selected-focus-icon-color: #b0bec5;
-    --mdc-checkbox-selected-hover-icon-color: #b0bec5;
-    --mdc-checkbox-selected-icon-color: #b0bec5;
-    --mdc-checkbox-selected-pressed-icon-color: #b0bec5;
+    --mdc-checkbox-disabled-selected-icon-color: var(--primary-accent-color);
+    --mdc-checkbox-disabled-unselected-icon-color: var(--primary-accent-color);
+    --mdc-checkbox-selected-checkmark-color: var(--text-color);
+    --mdc-checkbox-selected-focus-icon-color: var(--primary-accent-color);
+    --mdc-checkbox-selected-hover-icon-color: var(--primary-accent-color);
+    --mdc-checkbox-selected-icon-color: var(--primary-accent-color);
+    --mdc-checkbox-selected-pressed-icon-color: var(--primary-accent-color);
     --mdc-checkbox-unselected-focus-icon-color: #eeeeee;
     --mdc-checkbox-unselected-hover-icon-color: #eeeeee;
     --mdc-checkbox-unselected-icon-color: rgba(255, 255, 255, 0.54);
     --mdc-checkbox-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
-    --mdc-checkbox-selected-focus-state-layer-color: #b0bec5;
-    --mdc-checkbox-selected-hover-state-layer-color: #b0bec5;
-    --mdc-checkbox-selected-pressed-state-layer-color: #b0bec5;
+    --mdc-checkbox-selected-focus-state-layer-color: var(--primary-accent-color);
+    --mdc-checkbox-selected-hover-state-layer-color: var(--primary-accent-color);
+    --mdc-checkbox-selected-pressed-state-layer-color: var(--primary-accent-color);
     --mdc-checkbox-unselected-focus-state-layer-color: white;
     --mdc-checkbox-unselected-hover-state-layer-color: white;
     --mdc-checkbox-unselected-pressed-state-layer-color: white
@@ -2052,7 +2052,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mat-mdc-paginator-icon {
-    fill: rgba(255, 255, 255, .54)
+    fill: var(--text-color)
 }
 
 .mat-mdc-paginator-decrement,
@@ -2074,7 +2074,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mat-mdc-icon-button[disabled] .mat-mdc-paginator-icon {
-    fill: rgba(255, 255, 255, .12)
+    fill: var(--text-color-disabled)
 }
 
 .mat-mdc-paginator .mat-mdc-form-field-infix {
@@ -2211,23 +2211,23 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 html {
-    --mdc-checkbox-disabled-selected-icon-color: rgba(255, 255, 255, 0.38);
-    --mdc-checkbox-disabled-unselected-icon-color: rgba(255, 255, 255, 0.38);
-    --mdc-checkbox-selected-checkmark-color: #000;
-    --mdc-checkbox-selected-focus-icon-color: #b0bec5;
-    --mdc-checkbox-selected-hover-icon-color: #b0bec5;
-    --mdc-checkbox-selected-icon-color: #b0bec5;
-    --mdc-checkbox-selected-pressed-icon-color: #b0bec5;
-    --mdc-checkbox-unselected-focus-icon-color: #eeeeee;
-    --mdc-checkbox-unselected-hover-icon-color: #eeeeee;
-    --mdc-checkbox-unselected-icon-color: rgba(255, 255, 255, 0.54);
-    --mdc-checkbox-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
-    --mdc-checkbox-selected-focus-state-layer-color: #b0bec5;
-    --mdc-checkbox-selected-hover-state-layer-color: #b0bec5;
-    --mdc-checkbox-selected-pressed-state-layer-color: #b0bec5;
-    --mdc-checkbox-unselected-focus-state-layer-color: white;
-    --mdc-checkbox-unselected-hover-state-layer-color: white;
-    --mdc-checkbox-unselected-pressed-state-layer-color: white
+    --mdc-checkbox-disabled-selected-icon-color: var(--primary-accent-color);
+    --mdc-checkbox-disabled-unselected-icon-color: var(--primary-accent-color);
+    --mdc-checkbox-selected-checkmark-color: var(--inverted-text-color);
+    --mdc-checkbox-selected-focus-icon-color: var(--primary-accent-color);
+    --mdc-checkbox-selected-hover-icon-color: var(--primary-accent-color);
+    --mdc-checkbox-selected-icon-color: var(--primary-accent-color);
+    --mdc-checkbox-selected-pressed-icon-color: var(--primary-accent-color);
+    --mdc-checkbox-unselected-focus-icon-color: var(--text-color);
+    --mdc-checkbox-unselected-hover-icon-color: var(--text-color);
+    --mdc-checkbox-unselected-icon-color: var(--text-color);
+    --mdc-checkbox-unselected-pressed-icon-color: var(--text-color);
+    --mdc-checkbox-selected-focus-state-layer-color: var(--primary-accent-color);
+    --mdc-checkbox-selected-hover-state-layer-color: var(--primary-accent-color);
+    --mdc-checkbox-selected-pressed-state-layer-color: var(--primary-accent-color);
+    --mdc-checkbox-unselected-focus-state-layer-color: var(--text-color);
+    --mdc-checkbox-unselected-hover-state-layer-color: var(--text-color);
+    --mdc-checkbox-unselected-pressed-state-layer-color: var(--text-color);
 }
 
 .mat-mdc-checkbox.mat-primary {
@@ -2386,11 +2386,11 @@ html {
 }
 
 .mat-mdc-outlined-button {
-    --mdc-outlined-button-outline-color: rgba(255, 255, 255, 0.12)
+    --mdc-outlined-button-outline-color: var(--text-color)
 }
 
 .mat-mdc-outlined-button.mat-unthemed {
-    --mdc-outlined-button-label-text-color: #fff
+    --mdc-outlined-button-label-text-color: color: var(--text-color)
 }
 
 .mat-mdc-outlined-button.mat-primary {
@@ -2406,10 +2406,10 @@ html {
 }
 
 .mat-mdc-outlined-button[disabled][disabled] {
-    --mdc-outlined-button-label-text-color: rgba(255, 255, 255, 0.5);
-    --mdc-outlined-button-disabled-label-text-color: rgba(255, 255, 255, 0.5);
-    --mdc-outlined-button-outline-color: rgba(255, 255, 255, 0.12);
-    --mdc-outlined-button-disabled-outline-color: rgba(255, 255, 255, 0.12)
+    --mdc-outlined-button-label-text-color: color: var(--text-color);
+    --mdc-outlined-button-disabled-label-text-color: color: var(--text-color-disabled);
+    --mdc-outlined-button-outline-color: color: var(--text-color);
+    --mdc-outlined-button-disabled-outline-color: color: var(--text-color-disabled);
 }
 
 .mat-mdc-button,
@@ -2727,7 +2727,7 @@ html {
 }
 
 .mat-mdc-table {
-    background: #424242
+    background: var(--secondary-accent-color)
 }
 
 .mat-mdc-table .mdc-data-table__row {

@@ -14,8 +14,8 @@
     display: grid; 
     grid-template-columns: min-content auto min-content;
     position: sticky;
-    position: -webkit-sticky; /* For macOS/iOS Safari */
-    top: 0; /* Sets the sticky toolbar to be on top */
+    position: -webkit-sticky;
+    top: 0;
     z-index: 1000;
 }
 

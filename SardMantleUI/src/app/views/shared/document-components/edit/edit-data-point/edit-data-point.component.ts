@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 })
 export class EditDataPointComponent implements OnChanges {
   formControl = new FormControl();
+  @Input() control = new FormControl();
   public filteredItems: any[];
   @Input() items: any[];
   @Input() maxItemLength = 25;
@@ -20,11 +21,18 @@ export class EditDataPointComponent implements OnChanges {
   @Output() selected = new EventEmitter();
   @Output() filterChanged = new EventEmitter();
 
+  public typeParameterId: number;
+
   public setValue(value: any) {
     if (value == null) {
       return;
     }
     this.formControl.setValue(value);
+    this.control.setValue(value);
+  }
+
+  public getValue() {
+    return 12;
   }
 
   public onInput(event: any) {

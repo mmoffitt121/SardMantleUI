@@ -1,13 +1,13 @@
 <h2 class="subtitled-title"> {{ title }} </h2>
 <h4 class="subtitle"> {{ subtitle }} </h4>
 <div class="button-holder" > 
-    <button mat-icon-button (click)="add.emit(document)" matTooltip="Add" [disabled]="documentType === undefined">
+    <button mat-icon-button (click)="add.emit(document)" matTooltip="Add" *ngIf="documentType !== undefined">
         <mat-icon> library_add </mat-icon>
     </button>
-    <button mat-icon-button (click)="edit.emit(document)" [disabled]="document === undefined"  matTooltip="Edit">
+    <button mat-icon-button (click)="edit.emit(document)" *ngIf="document !== undefined"  matTooltip="Edit">
         <mat-icon> edit </mat-icon>
     </button>
-    <button mat-icon-button (click)="delete.emit(document)" [disabled]="document === undefined"  matTooltip="Delete">
+    <button mat-icon-button (click)="delete.emit(document)" *ngIf="document !== undefined"  matTooltip="Delete">
         <mat-icon> delete </mat-icon>
     </button>
 </div>

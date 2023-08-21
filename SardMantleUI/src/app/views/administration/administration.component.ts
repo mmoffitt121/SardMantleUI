@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./administration.component.scss']
 })
 export class AdministrationComponent {
+  public settingPage: number = 0;
 
+  public setSettingPage(settingPage: number) {
+    this.settingPage = settingPage;
+  }
 }
