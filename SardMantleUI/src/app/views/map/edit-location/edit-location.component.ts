@@ -96,7 +96,14 @@ export class EditLocationComponent implements OnInit {
             console.error(error);
           });
           if (this.locationType.parentTypeId) {
-            this.mapService.getLocations({locationTypeIds: [this.locationType.parentTypeId]}).subscribe(data => {
+            let criteria = {};
+            if (this.locationType.anyTypeParent) {
+              criteria = {}
+            }
+            else {
+              criteria = {locationTypeIds: [this.locationType.parentTypeId]}
+            }
+            this.mapService.getLocations(criteria).subscribe(data => {
               this.parentLocations = data;
               this.parentLocation = this.parentLocations.find(l => l.id == this.selectedMapObject.parentId);
             },
@@ -193,7 +200,14 @@ export class EditLocationComponent implements OnInit {
 
   public queryPotentialParents() {
     if (this.locationType.parentTypeId) {
-      this.mapService.getLocations({locationTypeIds: [this.locationType.parentTypeId]}).subscribe(data => {
+      let criteria = {};
+      if (this.locationType.anyTypeParent) {
+        criteria = {}
+      }
+      else {
+        criteria = {locationTypeIds: [this.locationType.parentTypeId]}
+      }
+      this.mapService.getLocations(criteria).subscribe(data => {
         this.parentLocations = data;
       },
       error => {

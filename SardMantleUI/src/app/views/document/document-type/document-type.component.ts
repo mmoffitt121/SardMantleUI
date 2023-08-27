@@ -31,15 +31,13 @@ export class DocumentTypeComponent implements OnInit {
     })
   }
 
-  public loadDocumentTypes() {
-    this.documentTypeService.getDocumentTypes(null).subscribe(data => {
+  public loadDocumentTypes(criteria: any) {
+    this.documentTypeService.getDocumentTypes(criteria).subscribe(data => {
       this.documentTypes = data
     })
   }
 
   constructor(public documentTypeService: DocumentTypeService) { }
 
-  ngOnInit(): void {
-    this.loadDocumentTypes();
-  }
+  ngOnInit(): void {}
 }

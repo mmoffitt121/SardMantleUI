@@ -14,14 +14,26 @@ export class DocumentListComponent implements OnInit {
 
   @Output() select = new EventEmitter();
 
-  public setDocumentType(id: number) {
+  public pageLength = 0;
+  public pageIndex = 0;
+  public pageSize = 2;
+  public pageSizeOptions: any;
+
+  private getPageCriteria() {
+    return {
+      pageSize: this.pageSize,
+      pageNumber: this.pageIndex + 1
+    }
+  }
+
+  public setDocumentType(id: number, pageCriteria: any) {
     if (id == -1) {
-      this.documentService.getDocuments({ }).subscribe(data => {
+      this.documentService.getDocuments(pageCriteria).subscribe(data => {
         this.documents = data;
       })
     }
     else {
-      this.documentService.getDocuments({ typeId: id }).subscribe(data => {
+      this.documentService.getDocuments({ typeId: id, ...pageCriteria }).subscribe(data => {
         this.documents = data;
       })
     }

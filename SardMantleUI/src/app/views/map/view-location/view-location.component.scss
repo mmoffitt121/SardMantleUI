@@ -1,5 +1,5 @@
 .view-location-container {
-    max-width: 500px;
+    max-width: 600px;
     min-width: 400px;
     height: 100%;
     display: flex;
@@ -16,9 +16,8 @@
 }
 
 .button-holder {
-    position: absolute; 
-    right: 5px; 
-    top: 17px;
+    float: right;
+    margin-right: 5px;
 }
 
 .subtitle {
@@ -29,7 +28,7 @@
 .column-content {
     max-width: 600px;
     display: grid;
-    grid-template-columns: 33% 33% 34%;
+    grid-template-columns: 150px auto;
     grid-template-rows: max-content;
     grid-row: auto;
 }
@@ -47,4 +46,8 @@
 mat-card-header {
     font-weight: bold;
     font-size: 16px;
+}
+
+.mat-expansion-panel-body {
+    padding: 0 0px 0px;
 }

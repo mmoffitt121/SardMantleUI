@@ -5,6 +5,8 @@ import { Location, LocationDataTypes, LocationType } from '../../../models/map/l
 import { MapService } from '../../../services/map/map.service';
 import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
 import { ErrorService } from '../../../services/error.service';
+import { EditDocumentLocationsComponent } from '../edit-location/edit-document-locations/edit-document-locations.component';
+import { DocumentLocationService } from 'src/app/services/document/document-location.service';
 
 @Component({
   selector: 'app-view-location',
@@ -17,6 +19,8 @@ export class ViewLocationComponent implements OnInit {
   public dataType: number;
   public dataTypeName: string | undefined;
 
+  public dataPoints: any[];
+
   @ViewChild('viewHeiarchy', {static: false}) viewHeiarchy: ViewHeiarchyComponent;
 
   @Output() editBegin = new EventEmitter();
@@ -25,6 +29,17 @@ export class ViewLocationComponent implements OnInit {
 
   public editMapObject() {
     this.editBegin.emit();
+  }
+
+  public editMapObjectDocuments() {
+    const dialogRef = this.dialog.open(EditDocumentLocationsComponent, {
+      width: '500px',
+      data: {location: this.selectedMapObject}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.setSelectedMapObject({id: this.selectedMapObject.id}, -1);
+    });
   }
 
   public confirmDeleteObject() {
@@ -76,6 +91,9 @@ export class ViewLocationComponent implements OnInit {
           })
         }
         
+        this.documentLocationService.getDataPointsFromLocationId({id: model.id}).subscribe(data => {
+          this.dataPoints = data;
+        }, error => this.errorHandler.handle(error));
       }
       else {
         this.errorHandler.showSnackBar("Location not found.");
@@ -88,7 +106,12 @@ export class ViewLocationComponent implements OnInit {
     this.viewHeiarchy.setSelectedMapObject(model.id);
   }
 
-  constructor(private mapService: MapService, public dialog: MatDialog, private errorHandler: ErrorService) { }
+  constructor(
+    private mapService: MapService, 
+    public dialog: MatDialog, 
+    private errorHandler: ErrorService,
+    private documentLocationService: DocumentLocationService
+  ) { }
 
   ngOnInit(): void {
     this.selectedMapObject = { id: -1, name: "NONE" } as Location;

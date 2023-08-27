@@ -15,10 +15,10 @@ export class EditArticleComponent implements OnInit {
     ['code', 'blockquote'],
     ['ordered_list', 'bullet_list'],
     [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
-    ['link', 'image'],
-    ['text_color', 'background_color'],
-    ['align_left', 'align_center', 'align_right', 'align_justify'],
+    ['link', 'image']
   ];
+
+  public htmlContent: any;
 
   @Input() parameterName: string = 'Parameter Name';
   @Input() parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?'
@@ -26,12 +26,14 @@ export class EditArticleComponent implements OnInit {
 
   public setValue(value: any) {
     if (value == null) {
+      this.htmlContent = "";
       return;
     }
+    this.htmlContent = value;
   }
 
   public getValue() {
-    return "Empty";
+    return this.htmlContent;
   }
 
   form = new FormGroup({

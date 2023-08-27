@@ -112,16 +112,18 @@
         </mat-card>
     </div>
     <mat-card>
-        <app-edit-document-type-properties
-            #editPropertiesComponent
-            *ngIf="!parameterSelected"
-            (delete)="confirmDelete()"
-        >
-        </app-edit-document-type-properties>
-        <app-edit-type-parameter 
-            #editParameterComponent 
-            *ngIf="parameterSelected"
-            (delete)="deleteParameter($event)">
-        </app-edit-type-parameter>
+        <mat-card-content>
+            <app-edit-document-type-properties
+                #editPropertiesComponent
+                *ngIf="!parameterSelected"
+                (delete)="confirmDelete()"
+            >
+            </app-edit-document-type-properties>
+            <app-edit-type-parameter 
+                #editParameterComponent 
+                *ngIf="parameterSelected"
+                (delete)="deleteParameter($event)">
+            </app-edit-type-parameter>
+        </mat-card-content>
     </mat-card>
 </div>

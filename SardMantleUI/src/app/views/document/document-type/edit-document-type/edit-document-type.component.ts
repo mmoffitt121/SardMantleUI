@@ -48,7 +48,8 @@ export class EditDocumentTypeComponent {
       sequence: this.documentType.typeParameters.length,
       summary: "",
       typeValue: typeValue,
-      selected: false
+      selected: false,
+      dataPointTypeReferenceId: -1
     };
 
     this.documentType.typeParameters = this.documentType.typeParameters.concat(param);

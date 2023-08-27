@@ -17,6 +17,11 @@ export class EditIntComponent implements OnInit {
 
   public validate(e: any) {
     this.control.markAsTouched();
+    let newValue = this.control.value.replace(/[^\-0-9]/g, "");
+    newValue = newValue.replace(/(?<!^)[\-]/g, "");
+    this.control.setValue(newValue);
+    if (this.control.value > 9223372036854775807n) { this.control.setValue(9223372036854775807n) }
+    if (this.control.value < -9223372036854775808n) { this.control.setValue(-9223372036854775808n) }
   }
 
   public setValue(value: any) {
@@ -27,7 +32,7 @@ export class EditIntComponent implements OnInit {
   }
 
   public getValue() {
-    return this.control.value;
+    return this.control.value !== undefined ? this.control.value + "" : undefined;
   }
 
   ngOnInit() {

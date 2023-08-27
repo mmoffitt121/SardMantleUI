@@ -4,7 +4,7 @@
     <form [formGroup]="form">
         <div class="NgxEditor__Wrapper">
             <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
-            <ngx-editor [editor]="editor" formControlName="editorContent"> </ngx-editor>
+            <ngx-editor [editor]="editor" [(ngModel)]="htmlContent" [ngModelOptions]="{standalone: true}"> </ngx-editor>
         </div>
     </form>
 </div>

@@ -1,24 +1,46 @@
 <div class="view-location-container">
     <div style="margin-top: 15px; margin-bottom: 15px">
-        <h3 class="subtitled-title">{{selectedMapObject.name}}</h3>
-        <h5 class="subtitle">{{locationType?.name}}</h5>
         <div class="button-holder">
-            <button mat-icon-button (click)="editMapObject()">
+            <button mat-icon-button (click)="editMapObjectDocuments()" matTooltip="Edit Location Documents">
+                <mat-icon>description</mat-icon>
+            </button>
+            <button mat-icon-button (click)="editMapObject()" matTooltip="Edit Location">
                 <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button (click)="confirmDeleteObject()">
+            <button mat-icon-button (click)="confirmDeleteObject()" matTooltip="Delete Location">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>
+        <h3 class="subtitled-title">{{selectedMapObject.name}}</h3>
+        <h5 class="subtitle">{{locationType?.name}}</h5>
     </div>
     <div class="column-content">
-        <mat-card>
-            <mat-card-header>Heiarchy</mat-card-header>
-            <mat-card-content class="tree-view">
-                <app-view-heiarchy #viewHeiarchy (navigate)="handleNavigate($event)"></app-view-heiarchy>
-            </mat-card-content>
-        </mat-card>
+        <div>
+            <mat-card>
+                <mat-card-header>Heiarchy</mat-card-header>
+                <mat-card-content class="tree-view">
+                    <app-view-heiarchy #viewHeiarchy (navigate)="handleNavigate($event)"></app-view-heiarchy>
+                </mat-card-content>
+            </mat-card>
+        </div>
     </div>
+    <mat-accordion [multi]="true" style="margin-top: 10px">
+        <mat-expansion-panel *ngFor="let dp of dataPoints">
+            <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
+                <mat-panel-title>
+                    {{dp.name}}
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ng-template matExpansionPanelContent>
+                <app-document-info 
+                    [autoLoadId]="dp.id" 
+                    [showEditControls]="false"
+                    [showLinkToSelf]="true" 
+                    style="margin-left: 0px;" 
+                />
+            </ng-template>
+        </mat-expansion-panel>
+    </mat-accordion>
     <div class="column-content">
         <p class="coord-display">Latitude:  {{ selectedMapObject.latitude | number: '.4-4' }}</p>
         <p class="coord-display">Longitude: {{ selectedMapObject.longitude | number: '.4-4' }}</p>

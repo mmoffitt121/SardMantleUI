@@ -26,6 +26,6 @@
         <button mat-icon-button class="topbar-icon-button" (click)="navigateWorldManager()" *ngIf="userLoggedIn" matTooltip="World Manager"><mat-icon> public </mat-icon></button>
         <p *ngIf="userLoggedIn" style="font-size: 18px;"> {{username}} </p>
         <button mat-icon-button class="topbar-icon-button" (click)="navigateUserSettings()" *ngIf="userLoggedIn" matTooltip="User Settings"><mat-icon> person </mat-icon></button>
-        <button mat-icon-button class="topbar-icon-button" (click)="navigateAdministration()" *ngIf="userLoggedIn" matTooltip="Administration"><mat-icon> shield_person </mat-icon></button>
+        <button mat-icon-button class="topbar-icon-button" (click)="navigateAdministration()" *ngIf="userIsAdmin()" matTooltip="Administration"><mat-icon> shield_person </mat-icon></button>
     </div>
 </mat-toolbar>

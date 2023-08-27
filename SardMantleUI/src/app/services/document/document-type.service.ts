@@ -9,6 +9,10 @@ export class DocumentTypeService {
     return this.http.get<any>('https://localhost:7094/Library/DataPointType/GetDataPointTypes', { params: criteria })
   }
 
+  public getDocumentTypesCount(criteria: any) {
+    return this.http.get<any>('https://localhost:7094/Library/DataPointType/GetDataPointTypesCount', { params: criteria })
+  }
+
   public getDocumentType(id: number) {
     let params = new HttpParams().set('Id', id);
     return this.http.get<any>('https://localhost:7094/Library/DataPointType/GetDataPointType', { params: params });

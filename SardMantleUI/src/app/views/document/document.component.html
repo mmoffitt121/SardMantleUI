@@ -43,7 +43,16 @@
             </mat-card-content>
         </mat-card>
         <mat-card class="paginator-container">
-            <mat-paginator [hidePageSize]="true" class="paginator"></mat-paginator>
+            <mat-paginator 
+                [hidePageSize]="true" 
+                class="paginator"
+                [length]="pageLength"
+                [pageIndex]="pageIndex"
+                [pageSize]="pageSize"
+                [pageSizeOptions]="pageSizeOptions"
+                (page)="onPageChange($event)"
+            >
+            </mat-paginator>
         </mat-card>
     </div>
     <div class="document-view-grid">
@@ -54,15 +63,13 @@
                 (add)="handleAddDocument($event)"
                 (edit)="handleEditDocument($event)"
                 (delete)="handleDeleteDocument($event)"
-            >
-            </app-document-info>
+            />
             <app-document-edit 
                 #documentEditComponent 
                 *ngIf="editing"
                 (cancel)="cancelAddEdit($event)"
                 (save)="addEditComplete($event)"
-            > 
-            </app-document-edit>
+            /> 
         </mat-card>
     </div>
 </div>

@@ -43,6 +43,9 @@ export class TopBarComponent implements OnInit {
   public navigateAdministration() {
     this.router.navigate(['administration']);
   }
+  public userIsAdmin() {
+    return localStorage.getItem('roles')?.split(',').includes("Administrator");
+  }
   public openThemes() {
     if (this.canGetThemes()) {
       this.themeService.getThemes({}).subscribe(data => {

@@ -9,6 +9,10 @@ export class DocumentService {
     return this.http.get<any>('https://localhost:7094/Library/DataPoint/GetDataPoints', { params: criteria })
   }
 
+  public getDocumentsCount(criteria: any) {
+    return this.http.get<any>('https://localhost:7094/Library/DataPoint/GetDataPointsCount', { params: criteria })
+  }
+
   public getDocument(id: number) {
     return this.http.get<any>('https://localhost:7094/Library/DataPoint/GetDataPoint', { params: { id } })
   }

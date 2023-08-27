@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, Directive, EventEmitter, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild, ViewContainerRef, Input } from '@angular/core';
 import { EditBoolComponent } from '../../shared/document-components/edit/edit-bool/edit-bool.component';
 import { Document } from 'src/app/models/document/document-types/document';
 import { DocumentType, DocumentTypeParameter } from 'src/app/models/document/document-types/document-type';
@@ -17,6 +17,8 @@ import { ViewSummaryComponent } from '../../shared/document-components/view/view
 import { ViewArticleComponent } from '../../shared/document-components/view/view-article/view-article.component';
 import { ViewDataPointComponent } from '../../shared/document-components/view/view-data-point/view-data-point.component';
 import { ViewBoolComponent } from '../../shared/document-components/view/view-bool/view-bool.component';
+import { UrlService } from 'src/app/services/url/url.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-document-info',
@@ -32,11 +34,17 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
 
   private parameterComponents: any[] = [];
 
+  @Input() autoLoadId: number = -1;
+  @Input() showEditControls = true;
+  @Input() showLinkToSelf = false;
+
   @Output() add = new EventEmitter();
   @Output() edit = new EventEmitter();
   @Output() delete = new EventEmitter();
 
   @ViewChild('parameterContainer', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
+
+  public canAdd = false;
 
   private loadDocument() {
     this.title = this.document?.name;
@@ -47,7 +55,7 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
       switch (p.typeValue) {
         case 'int':
           this.parameterComponents.push(this.container.createComponent(ViewIntComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.intValue;
+          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.intValueString;
           break;
         case 'dub':
           this.parameterComponents.push(this.container.createComponent(ViewDoubleComponent));
@@ -67,7 +75,7 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
           break;
         case 'dat':
           this.parameterComponents.push(this.container.createComponent(ViewDataPointComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.dataPointValue;
+          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.dataPointId);
           break;
         case 'bit':
           this.parameterComponents.push(this.container.createComponent(ViewBoolComponent));
@@ -117,11 +125,20 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
     this.unloadDocument();
   }
 
+  public navigateToSelf() {
+    this.router.navigate([this.urlService.getWorld(), 'document', this.document?.typeId, this.document?.id])
+  }
+
   constructor(private cdref: ChangeDetectorRef, 
     private documentService: DocumentService, 
-    private documentTypeService: DocumentTypeService) { }
+    private documentTypeService: DocumentTypeService,
+    private router: Router,
+    private urlService: UrlService) { }
 
   ngOnInit(): void {
+    if (this.autoLoadId > -1) {
+      this.setDocument(this.autoLoadId);
+    }
   }
 
   ngAfterViewInit(): void {

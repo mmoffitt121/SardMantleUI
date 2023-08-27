@@ -1,1 +1,14 @@
-<p>edit-type-parameter-data-point works!</p>
+<div *ngIf="documentTypeParameter?.typeValue === 'dat'">
+    <app-edit-data-point 
+        [parameterName]="'Data Type'"
+        [parameterSummary]="'What data type this parameter references.'" 
+        [items]="documentTypes"
+        [selectedItem]="selectedDocumentType"
+        (selected)="select($event)"
+    />
+    <app-edit-bool 
+        [parameterName]="'Any Data Type'"
+        [control]="anyDataType"
+        (valueChanged)="anyDataTypeValueChanged($event)"
+    />
+</div>

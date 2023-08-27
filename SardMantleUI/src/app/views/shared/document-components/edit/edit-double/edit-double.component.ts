@@ -13,9 +13,20 @@ export class EditDoubleComponent implements OnInit {
   @Input() required: boolean = false;
 
   public typeParameterId: number;
+  private previousValue: any;
 
   public validate(e: any) {
     this.control.markAsTouched();
+    if (this.control.value.match(/[\-]?([0-9]*)[\.]?([0-9]*)/g).length > 2) {
+      this.control.setValue(this.previousValue);
+    }
+    else {
+      this.previousValue = this.control.value;
+    }
+    let newValue = this.control.value.replace(/[^\-0-9.]/g, "");
+    newValue = newValue.replace(/(?<!^)[\-]/g, "");
+    let split = newValue.split(".");
+    this.control.setValue(newValue);
   }
 
   public setValue(value: any) {
@@ -26,6 +37,9 @@ export class EditDoubleComponent implements OnInit {
   }
 
   public getValue() {
+    if (this.control.value === "-") {
+      this.control.setValue("");
+    }
     return this.control.value;
   }
 

@@ -14,6 +14,7 @@ import { ThemeService } from 'src/app/services/theme/theme.service';
 import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
 import { DocumentService } from 'src/app/services/document/document.service';
 import { ErrorService } from 'src/app/services/error.service';
+import { DocumentTypeService } from 'src/app/services/document/document-type.service';
 
 @Component({
   selector: 'app-document',
@@ -28,8 +29,27 @@ export class DocumentComponent implements AfterViewInit {
 
   public typePageLength = 0;
   public typePageIndex = 0;
-  public typePageSize = 5;
+  public typePageSize = 35;
   public typePageSizeOptions: any;
+
+  private getTypePageCriteria() {
+    return {
+      pageSize: this.typePageSize,
+      pageNumber: this.typePageIndex + 1
+    }
+  }
+
+  public pageLength = 0;
+  public pageIndex = 0;
+  public pageSize = 35;
+  public pageSizeOptions: any;
+
+  private getPageCriteria() {
+    return {
+      pageSize: this.pageSize,
+      pageNumber: this.pageIndex + 1
+    }
+  }
 
   public editing = false;
   public adding = false;
@@ -38,7 +58,18 @@ export class DocumentComponent implements AfterViewInit {
   private currentDocumentId: number | undefined;
 
   public onTypePageChange(event: any) {
-    this.documentTypeComponent.page();
+    this.typePageSize = event.pageSize;
+    this.typePageIndex = event.pageIndex;
+    this.documentTypeService.getDocumentTypesCount(this.getTypePageCriteria()).subscribe(data => {
+      this.typePageLength = data;
+    })
+    this.documentTypeComponent.loadDocumentTypes(this.getTypePageCriteria());
+  }
+
+  public onPageChange(event: any) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.loadDocumentList({id: this.currentDocumentTypeId});
   }
 
   public handleAddDocument(event: any) {
@@ -65,8 +96,7 @@ export class DocumentComponent implements AfterViewInit {
   }
 
   public addEditComplete(event: any) {
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    this.router.navigate([this.urlService.getWorld(), 'document', event.documentTypeId, event.documentId]);
+    this.loadDocument({id: event.documentId});
   }
 
   public handleDeleteDocument(document: any) {
@@ -102,9 +132,13 @@ export class DocumentComponent implements AfterViewInit {
     this.editing = false;
     this.cdref.detectChanges();
     this.currentDocumentTypeId = data.id;
-    this.documentListComponent.setDocumentType(data.id);
+    this.documentListComponent.setDocumentType(data.id, this.getPageCriteria());
+    this.documentService.getDocumentsCount({typeId: data.id}).subscribe(data => {
+      this.pageLength = data;
+    })
     this.location.replaceState(this.urlService.getWorld() + "/document/" + data.id);
     this.documentInfoComponent.setDocumentType(data.id);
+    this.documentInfoComponent.canAdd = this.currentDocumentTypeId != -1;
   }
 
   public loadDocument(data: any) {
@@ -113,6 +147,7 @@ export class DocumentComponent implements AfterViewInit {
     this.currentDocumentId = data.id;
     this.documentInfoComponent.setDocument(data.id);
     this.location.replaceState(this.urlService.getWorld() + "/document/" + this.currentDocumentTypeId + "/" + data.id);
+    this.documentInfoComponent.canAdd = this.currentDocumentTypeId != -1;
   }
 
   public addDocumentType() {
@@ -141,6 +176,7 @@ export class DocumentComponent implements AfterViewInit {
     public urlService: UrlService,
     private themeService: ThemeService,
     private documentService: DocumentService,
+    private documentTypeService: DocumentTypeService,
     private errorService: ErrorService
   ) { 
     this.route.params.subscribe(params => {
@@ -150,6 +186,10 @@ export class DocumentComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.documentTypeService.getDocumentTypesCount(this.getTypePageCriteria()).subscribe(data => {
+      this.typePageLength = data;
+    })
+    this.documentTypeComponent.loadDocumentTypes(this.getTypePageCriteria());
     if (this.currentDocumentId != undefined) {
       this.documentInfoComponent.setDocument(this.currentDocumentId);
       this.documentTypeComponent.selectDocumentType({currentTarget: {value: this.currentDocumentTypeId}});

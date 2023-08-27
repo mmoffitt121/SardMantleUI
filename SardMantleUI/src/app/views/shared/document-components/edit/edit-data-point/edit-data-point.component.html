@@ -4,8 +4,10 @@
     <mat-form-field class="settings-field" style="width: 100%;" appearance="outline">
         <input matInput [matAutocomplete]="autocomplete" [formControl]="formControl" (input)="onInput($event)"/>
         <mat-autocomplete #autocomplete (optionSelected)="handleSelectionChange($event)">
-            <mat-option *ngFor="let item of filteredItems" [value]="item.id" >
-                {{item.name}}
+            <mat-option *ngFor="let item of filteredItems" [value]="item.id">
+                <div style="display: flex">
+                    {{item.name}}
+                </div>
             </mat-option>
         </mat-autocomplete>
     </mat-form-field>

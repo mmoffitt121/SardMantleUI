@@ -48,7 +48,7 @@ export class DocumentEditComponent implements AfterViewInit {
         case 'int':
           this.parameterComponents.push(this.container.createComponent(EditIntComponent));
           this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
-            this.document.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.intValue
+            this.document.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.intValueString
           );
           break;
         case 'dub':
@@ -77,9 +77,9 @@ export class DocumentEditComponent implements AfterViewInit {
           break;
         case 'dat':
           this.parameterComponents.push(this.container.createComponent(EditDataPointComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
-            this.document.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.dataPointValue
-          );
+          let param = this.document.parameters?.find(x => x?.dataPointTypeParameterId == p.id)
+          this.parameterComponents[this.parameterComponents.length - 1].instance.setTypeId(p.dataPointTypeReferenceId ?? -1);
+          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(param);
           break;
         case 'bit':
           this.parameterComponents.push(this.container.createComponent(EditBoolComponent));
@@ -113,7 +113,7 @@ export class DocumentEditComponent implements AfterViewInit {
           param = {
             dataPointId: this.document.id,
             dataPointTypeParameterId: p.instance.typeParameterId,
-            intValue: p.instance.getValue()
+            intValueString: p.instance.getValue()
           }
           break;
         case 'dub':
@@ -165,7 +165,6 @@ export class DocumentEditComponent implements AfterViewInit {
     });
     this.document.parameters = params;
     this.document.name = this.nameControl.value;
-    console.log(this.document);
     return(this.document);
   }
 

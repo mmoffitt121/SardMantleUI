@@ -201,12 +201,18 @@ h5 {
     height: 45px;
 }
 
+.view-param-container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    max-width: 700px;
+}
+
 .mat-expansion-panel {
     background-color: var(--primary-color);
     font-family: var(--primary-font);
 }
 
-p {
+p:not(app-view-article .view-article) {
     font-family: var(--primary-font);
     margin: 10px;
     color: var(--text-color);
@@ -251,7 +257,7 @@ mat-card-title {
 }
 
 mat-icon {
-    color: var(--text-color) !important;
+    color: var(--text-color);
 }
 
 .mat-mdc-select-panel {

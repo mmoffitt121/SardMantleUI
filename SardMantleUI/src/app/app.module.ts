@@ -110,6 +110,7 @@ import { RouterModule } from '@angular/router';
 import { UserAdministrationComponent } from './views/administration/user-administration/user-administration.component';
 import { DatabaseAdministrationComponent } from './views/administration/database-administration/database-administration.component';
 import { DeploymentAdministrationComponent } from './views/administration/deployment-administration/deployment-administration.component';
+import { EditDocumentLocationsComponent } from './views/map/edit-location/edit-document-locations/edit-document-locations.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -186,7 +187,8 @@ export function tokenGetter() {
     EditColorComponent,
     UserAdministrationComponent,
     DatabaseAdministrationComponent,
-    DeploymentAdministrationComponent
+    DeploymentAdministrationComponent,
+    EditDocumentLocationsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,7 @@
-<h4 class="subtitled-title"> {{ parameterName }} </h4>
-<h5 class="subtitle"> {{ parameterSummary }} <h5>
-<p> {{ value }} </p>
+<div #container class="view-param-container">
+    <h4 class="subtitled-title"> {{ parameterName }} </h4>
+    <h5 class="subtitle"> {{ parameterSummary }} </h5>
+    <mat-icon style="float: right; position: relative; top: -36px;" *ngIf="value == true">check</mat-icon>
+    <mat-icon style="float: right; position: relative; top: -36px;" *ngIf="value != true">close</mat-icon>
+    <mat-divider></mat-divider>
+</div>
