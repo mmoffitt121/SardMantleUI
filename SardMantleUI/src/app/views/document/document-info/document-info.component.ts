@@ -75,7 +75,7 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
           break;
         case 'dat':
           this.parameterComponents.push(this.container.createComponent(ViewDataPointComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.dataPointId);
+          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.dataPointValueId);
           break;
         case 'bit':
           this.parameterComponents.push(this.container.createComponent(ViewBoolComponent));

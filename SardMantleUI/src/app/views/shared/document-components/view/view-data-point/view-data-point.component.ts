@@ -16,6 +16,7 @@ export class ViewDataPointComponent {
   public documentType: DocumentType | undefined;
 
   public setValue(value: number) {
+    if (value === undefined) return;
     this.documentService.getDocument(value).subscribe(data => {
       this.document = data;
       this.typeService.getDocumentType(this.document?.typeId ?? -1).subscribe(data => this.documentType = data)
