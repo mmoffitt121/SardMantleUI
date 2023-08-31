@@ -105,8 +105,18 @@
             </mat-accordion>
         </div>
         <div *ngIf="viewingObject">
-            <app-view-location *ngIf="!editingObject && !addingObject" (deleted)="deleteComplete()" (editBegin)="editBegin()" #locationViewer (navigate)="navigateToLocation($event)">
-            </app-view-location>
+            <app-view-location 
+                *ngIf="!editingObject && !addingObject" 
+                (deleted)="deleteComplete()" 
+                (editBegin)="editBegin()" 
+                #locationViewer 
+                (navigate)="navigateToLocation($event)"
+                (hideRegions)="hideRegions()"
+                (showRegions)="showRegions($event)"
+                (showEdit)="showEdit()"
+                (hideEdit)="hideEdit()"
+                (saveRegion)="saveRegion()"
+            />
             <app-edit-location *ngIf="editingObject || addingObject" (complete)="addEditComplete()" (cancel)="addEditCancel()" [mapId]="mapData.id" #locationEditor [editing]="editingObject">
             </app-edit-location>
         </div>

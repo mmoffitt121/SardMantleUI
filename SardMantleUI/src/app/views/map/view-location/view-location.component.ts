@@ -7,6 +7,9 @@ import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/conf
 import { ErrorService } from '../../../services/error.service';
 import { EditDocumentLocationsComponent } from '../edit-location/edit-document-locations/edit-document-locations.component';
 import { DocumentLocationService } from 'src/app/services/document/document-location.service';
+import { RegionService } from 'src/app/services/map/region.service';
+import { Region } from 'src/app/models/map/region';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-view-location',
@@ -21,11 +24,23 @@ export class ViewLocationComponent implements OnInit {
 
   public dataPoints: any[];
 
+  public regions: Region[];
+  public selectedRegion: Region;
+  public editingRegion = false;
+  public regionName = new FormControl();
+  public showByDefault = new FormControl();
+
   @ViewChild('viewHeiarchy', {static: false}) viewHeiarchy: ViewHeiarchyComponent;
 
   @Output() editBegin = new EventEmitter();
   @Output() deleted = new EventEmitter();
   @Output() navigate = new EventEmitter();
+
+  @Output() showRegions = new EventEmitter();
+  @Output() hideRegions = new EventEmitter();
+  @Output() showEdit = new EventEmitter();
+  @Output() hideEdit = new EventEmitter();
+  @Output() saveRegion = new EventEmitter();
 
   public editMapObject() {
     this.editBegin.emit();
@@ -90,6 +105,8 @@ export class ViewLocationComponent implements OnInit {
             this.errorHandler.handle(error);
           })
         }
+
+        this.loadRegions();
         
         this.documentLocationService.getDataPointsFromLocationId({id: model.id}).subscribe(data => {
           this.dataPoints = data;
@@ -106,11 +123,102 @@ export class ViewLocationComponent implements OnInit {
     this.viewHeiarchy.setSelectedMapObject(model.id);
   }
 
+  public loadRegions() {
+    this.regionService.getRegions({locationId: this.selectedMapObject.id}).subscribe(data => {
+      this.regions = data;
+      this.regions.forEach(r => r.selected = r.showByDefault);
+      this.displayRegions();
+    }, error => this.errorHandler.handle(error));
+  }
+
+  public onCheckRegion(region: Region) {
+    region.selected = !region.selected;
+    this.displayRegions();
+  }
+
+  public onEditRegion(region: Region) {
+    this.editingRegion = true;
+    this.selectedRegion = region;
+    this.regionName.setValue(region.name);
+    this.showByDefault.setValue(region.showByDefault);
+    this.regions.forEach(r => {
+      r.selected = r.id == region.id;
+    })
+    this.displayRegions();
+    this.showEdit.emit();
+  }
+
+  public onAddRegion() {
+    let region: Region = {
+      id: undefined,
+      locationId: this.selectedMapObject.id,
+      name: "New Region",
+      shape: "",
+      showByDefault: false,
+      selected: true
+    }
+    this.regionService.postRegion(region).subscribe(result => {
+      this.regionService.getRegions({id: result}).subscribe(data => {
+        this.onEditRegion(data[0]);
+      }, error => this.errorHandler.handle(error))
+    }, error => this.errorHandler.handle(error))
+  }
+
+  public displayRegions() {
+    let regions = this.regions.filter(r => r.selected && r.shape !== "" && r.shape !== undefined);
+    let toDisplay = [] as any;
+    regions.forEach(r => {
+      toDisplay.push(r.shape);
+    })
+    this.showRegions.emit(toDisplay);
+  }
+
+  public setRegionData(shape: any) {
+    this.selectedRegion.shape = shape;
+    this.displayRegions();
+  }
+
+  public onSaveRegion() {
+    this.selectedRegion.name = this.regionName.value;
+    this.selectedRegion.showByDefault = this.showByDefault.value;
+    this.regionService.putRegion(this.selectedRegion).subscribe(result => {
+      this.loadRegions();
+      this.hideEdit.emit();
+      this.editingRegion = false;
+    },
+    error => {
+      this.errorHandler.handle(error);
+    })
+  }
+
+  public onDeleteRegion() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '500px',
+      data: { 
+        title: "Confirm Deletion", 
+        content: "Are you sure you want to delete " +
+        (LocationDataTypes.dataTypeMap.get(this.dataType))?.toLowerCase() + " " + 
+        (this.dataType == 0 ? this.selectedMapObject.name : this.selectedMapObject.name) + "?"
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.regionService.deleteRegion(this.selectedRegion?.id ?? -1).subscribe(result => {
+          this.loadRegions();
+          this.hideEdit.emit();
+          this.editingRegion = false;
+        }, error => this.errorHandler.handle(error));
+      }
+    });
+  }
+
   constructor(
     private mapService: MapService, 
     public dialog: MatDialog, 
     private errorHandler: ErrorService,
-    private documentLocationService: DocumentLocationService
+    private documentLocationService: DocumentLocationService,
+    private regionService: RegionService
   ) { }
 
   ngOnInit(): void {

@@ -41,6 +41,44 @@
             </ng-template>
         </mat-expansion-panel>
     </mat-accordion>
+    <mat-accordion [multi]="true" style="margin-top: 10px">
+        <mat-expansion-panel>
+            <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
+                <mat-panel-title>
+                    Regions
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ng-template matExpansionPanelContent>
+                <div *ngIf="!editingRegion">
+                    <mat-card style="background-color: var(--secondary-accent-color); margin-bottom: 10px;" *ngFor="let region of regions">
+                        <mat-card-content>
+                            {{region.name}}
+                            <div class="button-holder">
+                                <button mat-icon-button (click)="onEditRegion(region)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button (click)="onCheckRegion(region)" class="carded-button">
+                                    <mat-icon *ngIf="region.selected"> check_circle </mat-icon>
+                                    <mat-icon *ngIf="!region.selected"> radio_button_unchecked </mat-icon>
+                                </button>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <button mat-button style="background-color: var(--secondary-accent-color)" (click)="onAddRegion()" style="width: 100%; margin-bottom: 10px;" *ngIf="!editingRegion">
+                    <mat-icon style="margin-left: auto; margin-right: auto; margin-top: 3px; margin-bottom: 3px;">add</mat-icon>
+                </button>
+                <app-edit-string *ngIf="editingRegion" [parameterName]="'Region Name'" [control]="regionName"/>
+                <app-edit-bool *ngIf="editingRegion" [parameterName]="'Show by Default'" [control]="showByDefault" />
+                <button mat-button style="background-color: var(--secondary-accent-color)" (click)="onDeleteRegion()" style="width: 100%; margin-bottom: 10px;" *ngIf="editingRegion">
+                    Delete
+                </button>
+                <button mat-button style="background-color: var(--secondary-accent-color)" (click)="onSaveRegion()" style="width: 100%" *ngIf="editingRegion">
+                    Save
+                </button>
+            </ng-template>
+        </mat-expansion-panel>
+    </mat-accordion>
     <div class="column-content">
         <p class="coord-display">Latitude:  {{ selectedMapObject.latitude | number: '.4-4' }}</p>
         <p class="coord-display">Longitude: {{ selectedMapObject.longitude | number: '.4-4' }}</p>

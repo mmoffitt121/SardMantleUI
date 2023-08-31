@@ -8,6 +8,7 @@ import { Component, OnInit, ViewChild, EventEmitter, Output, ElementRef, AfterVi
 import { CommonModule } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
 import * as L from 'leaflet';
+import 'leaflet-draw';
 import { MatSidenavModule, MatDrawer, MatDrawerContainer, MatDrawerToggleResult } from '@angular/material/sidenav';
 import { MatSelect } from '@angular/material/select';
 import { MatOptionSelectionChange } from '@angular/material/core';
@@ -34,6 +35,7 @@ import { LocationTypeComponent } from './location-type/location-type.component';
 import { ImageService } from 'src/app/services/image/image.service';
 import { UrlService } from 'src/app/services/url/url.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
+import { RegionService } from 'src/app/services/map/region.service';
 
 @Component({
   selector: 'app-map',
@@ -46,6 +48,7 @@ export class MapComponent implements OnInit {
   private locations: Location[];
   private primaryMarkerLayer: any = L.layerGroup();
   private addMarkerLayer: any = L.layerGroup();
+  private drawLayer: any;
   public placing = false;
   public addLocationMarkerIcon = 'add';
   public locationTypes: LocationType[] = [];
@@ -67,12 +70,13 @@ export class MapComponent implements OnInit {
   public mapData: MapData;
   public mapIconHovered = false;
 
+  public drawControl: any;
+
   @ViewChild('sideDrawer', {static: false}) drawer: MatDrawer;
   @ViewChild('locationViewer') viewLocationComponent: ViewLocationComponent;
   @ViewChild('locationEditor') editLocationComponent: EditLocationComponent;
   @ViewChild('locationTypeComponent') locationTypeComponent: LocationTypeComponent;
   @ViewChild('mapLayersComponent') mapLayersComponent: MapLayersComponent;
-
 
   // #region Add Marker Fields
 
@@ -145,6 +149,36 @@ export class MapComponent implements OnInit {
     if (this.startViewing) {
       this.navigateToLocation(this.selectedLocationId);
     }
+
+    this.drawLayer = new L.FeatureGroup();
+    this.map.addLayer(this.drawLayer);
+
+    this.drawControl = new L.Control.Draw({
+      draw: {
+        circlemarker: false,
+        marker: false,
+        rectangle: false
+      },
+      edit: {
+        featureGroup: this.drawLayer
+      }
+    })
+    
+    this.map.on('draw:created', e => {
+      let layer = e.layer;
+      this.drawLayer.addLayer(layer);
+      this.saveRegion();
+    });
+    
+    this.map.on('draw:edited', e => {
+      //this.drawLayer.addLayer(e.layer);
+      this.saveRegion();
+    });
+    
+    this.map.on('draw:deleted', e => {
+      console.log("DEL")
+      this.saveRegion();
+    });
   }
 
   public navigateToLocation(id: number) {
@@ -163,6 +197,40 @@ export class MapComponent implements OnInit {
     }, error => {
       this.errorService.handle(error);
     });
+  }
+
+  public hideRegions() {
+    this.drawLayer.clearLayers();
+  }
+
+  public showRegions(shapes: any[]) {
+    this.hideRegions();
+    shapes.forEach(shape => {
+      let geoJSON = L.geoJSON(JSON.parse(shape));
+      MapComponent.addNonGroupLayers(geoJSON, this.drawLayer);
+    })
+  }
+
+  static addNonGroupLayers(sourceLayer: any, targetGroup: any) {
+    if (sourceLayer instanceof L.LayerGroup) {
+      sourceLayer.eachLayer(function(layer) {
+        MapComponent.addNonGroupLayers(layer, targetGroup);
+      });
+    } else {
+      targetGroup.addLayer(sourceLayer);
+    }
+  }
+
+  public showEdit() {
+    this.map.addControl(this.drawControl);
+  }
+
+  public hideEdit() {
+    this.map.removeControl(this.drawControl);
+  }
+
+  public saveRegion() {
+    this.viewLocationComponent.setRegionData(JSON.stringify(this.drawLayer.toGeoJSON()));
   }
 
   public updateRoute() {
@@ -435,6 +503,8 @@ export class MapComponent implements OnInit {
     this.editingObject = false;
     this.viewingObject = false;
     this.updateRoute();
+    this.hideRegions();
+    this.hideEdit();
   }
 
   // #endregion
@@ -644,7 +714,8 @@ export class MapComponent implements OnInit {
     private route: ActivatedRoute,
     private domSanitizer: DomSanitizer,
     public urlService: UrlService,
-    private themeService: ThemeService) { }
+    private themeService: ThemeService,
+    private regionService: RegionService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
