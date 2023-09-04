@@ -203,12 +203,13 @@ export class MapComponent implements OnInit {
     this.drawLayer.clearLayers();
   }
 
-  public showRegions(shapes: any[]) {
+  public showRegions(regions: any[]) {
     this.hideRegions();
-    shapes.forEach(shape => {
-      let geoJSON = L.geoJSON(JSON.parse(shape));
-      MapComponent.addNonGroupLayers(geoJSON, this.drawLayer);
-    })
+    regions.forEach(region => {
+        let geoJSON = L.geoJSON(JSON.parse(region.shape));
+        geoJSON.setStyle({fillColor: region.color, color: region.color});
+        MapComponent.addNonGroupLayers(geoJSON, this.drawLayer);
+    });
   }
 
   static addNonGroupLayers(sourceLayer: any, targetGroup: any) {

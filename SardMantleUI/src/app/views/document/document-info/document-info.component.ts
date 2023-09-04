@@ -19,6 +19,8 @@ import { ViewDataPointComponent } from '../../shared/document-components/view/vi
 import { ViewBoolComponent } from '../../shared/document-components/view/view-bool/view-bool.component';
 import { UrlService } from 'src/app/services/url/url.service';
 import { Router } from '@angular/router';
+import { DocumentLocationService } from 'src/app/services/document/document-location.service';
+import { ViewLocationParamComponent } from '../../shared/document-components/view/view-location-param/view-location-param.component';
 
 @Component({
   selector: 'app-document-info',
@@ -28,6 +30,7 @@ import { Router } from '@angular/router';
 export class DocumentInfoComponent implements OnInit, AfterViewInit {
   public document: Document | undefined;
   public documentType: DocumentType | undefined;
+  public locations: Location[] | undefined;
 
   public title: string | undefined;
   public subtitle: string | undefined;
@@ -43,6 +46,7 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
   @Output() delete = new EventEmitter();
 
   @ViewChild('parameterContainer', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
+  @ViewChild('locationContainer', { read: ViewContainerRef, static: false }) locationContainer: ViewContainerRef;
 
   public canAdd = false;
 
@@ -50,6 +54,7 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
     this.title = this.document?.name;
     this.subtitle = this.documentType?.name;
     this.container.clear();
+    this.locationContainer.clear();
     this.parameterComponents = [];
     this.documentType?.typeParameters.forEach(p => {
       switch (p.typeValue) {
@@ -86,6 +91,11 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterSummary = p.summary;
     });
 
+    this.locations?.forEach(l => {
+      this.parameterComponents.push(this.locationContainer.createComponent(ViewLocationParamComponent));
+      this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(l);
+    });
+
     this.cdref.detectChanges();
   }
 
@@ -94,6 +104,8 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
     this.title = undefined;
     this.subtitle = undefined;
     this.container.clear();
+    this.locations = undefined;
+    this.locationContainer.clear();
     this.cdref.detectChanges();
   }
 
@@ -107,7 +119,10 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
       if (this.document != undefined) {
         this.documentTypeService.getDocumentType(this.document.typeId).subscribe(data => {
           this.documentType = data;
-          this.loadDocument();
+          this.documentLocationService.getLocationsFromDataPointId({id: this.document?.id}).subscribe(locs => {
+            this.locations = locs;
+            this.loadDocument();
+          })
         })
       }
     })
@@ -133,7 +148,8 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
     private documentService: DocumentService, 
     private documentTypeService: DocumentTypeService,
     private router: Router,
-    private urlService: UrlService) { }
+    private urlService: UrlService,
+    private documentLocationService: DocumentLocationService) { }
 
   ngOnInit(): void {
     if (this.autoLoadId > -1) {

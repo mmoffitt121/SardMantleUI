@@ -111,6 +111,7 @@ import { UserAdministrationComponent } from './views/administration/user-adminis
 import { DatabaseAdministrationComponent } from './views/administration/database-administration/database-administration.component';
 import { DeploymentAdministrationComponent } from './views/administration/deployment-administration/deployment-administration.component';
 import { EditDocumentLocationsComponent } from './views/map/edit-location/edit-document-locations/edit-document-locations.component';
+import { ViewLocationParamComponent } from './views/shared/document-components/view/view-location-param/view-location-param.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -188,7 +189,8 @@ export function tokenGetter() {
     UserAdministrationComponent,
     DatabaseAdministrationComponent,
     DeploymentAdministrationComponent,
-    EditDocumentLocationsComponent
+    EditDocumentLocationsComponent,
+    ViewLocationParamComponent
   ],
   imports: [
     BrowserModule,

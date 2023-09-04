@@ -60,8 +60,7 @@ export class EditColorComponent {
     catch {
       return;
     }
-    
-}
+  }
 
   ngOnInit() {
     this.control.setValue(this.parseColor(this.control.value))

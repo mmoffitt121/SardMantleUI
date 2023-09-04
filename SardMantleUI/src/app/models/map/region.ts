@@ -6,4 +6,5 @@ export interface Region extends Selectable {
     name: string;
     shape: string;
     showByDefault: boolean;
+    color: string;
 }

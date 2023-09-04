@@ -1,0 +1,12 @@
+
+<mat-card style="width: 100%; background-color: var(--secondary-accent-color); margin-bottom: 10px;"> 
+    <mat-card-content>
+        <div class="button-holder" > 
+            <button mat-icon-button matTooltip="Open on Map" (click)="navigate()">
+                <mat-icon> arrow_forward </mat-icon>
+            </button>
+        </div>
+        <h3 style="margin: 0px;"> {{ location?.name }} </h3>
+        <h4 style="margin: 0px; color: var(--secondary-text-color)"> {{ locationType?.name }} </h4>
+    </mat-card-content>
+</mat-card>

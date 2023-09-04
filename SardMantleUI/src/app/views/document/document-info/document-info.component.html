@@ -16,4 +16,6 @@
 <h4 class="subtitle"> {{ subtitle }} </h4>
 <div style="margin: 10px">
     <ng-template #parameterContainer></ng-template>
+    <h4 *ngIf="locations?.length ?? -1 > 0">Locations</h4>
+    <ng-template #locationContainer></ng-template>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewHeiarchyComponent } from './view-heiarchy/view-heiarchy.component';
 import { Location, LocationDataTypes, LocationType } from '../../../models/map/location-data-types/location-data-types';
@@ -29,6 +29,7 @@ export class ViewLocationComponent implements OnInit {
   public editingRegion = false;
   public regionName = new FormControl();
   public showByDefault = new FormControl();
+  public color = new FormControl();
 
   @ViewChild('viewHeiarchy', {static: false}) viewHeiarchy: ViewHeiarchyComponent;
 
@@ -139,13 +140,16 @@ export class ViewLocationComponent implements OnInit {
   public onEditRegion(region: Region) {
     this.editingRegion = true;
     this.selectedRegion = region;
-    this.regionName.setValue(region.name);
-    this.showByDefault.setValue(region.showByDefault);
     this.regions.forEach(r => {
       r.selected = r.id == region.id;
     })
     this.displayRegions();
-    this.showEdit.emit();
+    this.showEdit.emit(region);
+    this.cdref.detectChanges();
+
+    this.regionName.setValue(region.name);
+    this.showByDefault.setValue(region.showByDefault);
+    this.color.setValue(region.color);
   }
 
   public onAddRegion() {
@@ -155,7 +159,8 @@ export class ViewLocationComponent implements OnInit {
       name: "New Region",
       shape: "",
       showByDefault: false,
-      selected: true
+      selected: true,
+      color: '#0000FF'
     }
     this.regionService.postRegion(region).subscribe(result => {
       this.regionService.getRegions({id: result}).subscribe(data => {
@@ -168,19 +173,24 @@ export class ViewLocationComponent implements OnInit {
     let regions = this.regions.filter(r => r.selected && r.shape !== "" && r.shape !== undefined);
     let toDisplay = [] as any;
     regions.forEach(r => {
-      toDisplay.push(r.shape);
+      toDisplay.push(r);
     })
     this.showRegions.emit(toDisplay);
   }
 
   public setRegionData(shape: any) {
+    if (!(this.regions.filter(r => r.id == this.selectedRegion.id)?.length > 0)) {
+      this.regions.push(this.selectedRegion);
+    }
     this.selectedRegion.shape = shape;
+    this.selectedRegion.selected = true;
     this.displayRegions();
   }
 
   public onSaveRegion() {
     this.selectedRegion.name = this.regionName.value;
     this.selectedRegion.showByDefault = this.showByDefault.value;
+    this.selectedRegion.color = this.color.value?.toHexString();
     this.regionService.putRegion(this.selectedRegion).subscribe(result => {
       this.loadRegions();
       this.hideEdit.emit();
@@ -218,7 +228,8 @@ export class ViewLocationComponent implements OnInit {
     public dialog: MatDialog, 
     private errorHandler: ErrorService,
     private documentLocationService: DocumentLocationService,
-    private regionService: RegionService
+    private regionService: RegionService,
+    private cdref: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {

@@ -70,6 +70,7 @@
                 </button>
                 <app-edit-string *ngIf="editingRegion" [parameterName]="'Region Name'" [control]="regionName"/>
                 <app-edit-bool *ngIf="editingRegion" [parameterName]="'Show by Default'" [control]="showByDefault" />
+                <app-edit-color *ngIf="editingRegion" [parameterName]="'Color'" [control]="color" />
                 <button mat-button style="background-color: var(--secondary-accent-color)" (click)="onDeleteRegion()" style="width: 100%; margin-bottom: 10px;" *ngIf="editingRegion">
                     Delete
                 </button>
