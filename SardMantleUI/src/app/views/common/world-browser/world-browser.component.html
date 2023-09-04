@@ -1,1 +1,16 @@
-<p>world-browser works!</p>
+<app-top-bar></app-top-bar>
+<div>
+    <div class="container">
+        <h1>
+            World Browser
+        </h1>
+        <h2 style="margin: 20px;">My Worlds</h2>
+        <div style="margin: 20px;">
+            <app-world-list [worldCriteria]="{ownerId: userId}" (selected)="navigateToWorld($event)" />
+        </div>
+        <h2 style="margin: 20px;">All Worlds</h2>
+        <div style="margin: 20px;">
+            <app-world-list (selected)="navigateToWorld($event)" />
+        </div>
+    </div>
+</div>

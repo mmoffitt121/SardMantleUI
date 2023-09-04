@@ -112,6 +112,7 @@ import { DatabaseAdministrationComponent } from './views/administration/database
 import { DeploymentAdministrationComponent } from './views/administration/deployment-administration/deployment-administration.component';
 import { EditDocumentLocationsComponent } from './views/map/edit-location/edit-document-locations/edit-document-locations.component';
 import { ViewLocationParamComponent } from './views/shared/document-components/view/view-location-param/view-location-param.component';
+import { NavMenuComponent } from './views/home/top-bar/nav-menu/nav-menu.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -190,7 +191,8 @@ export function tokenGetter() {
     DatabaseAdministrationComponent,
     DeploymentAdministrationComponent,
     EditDocumentLocationsComponent,
-    ViewLocationParamComponent
+    ViewLocationParamComponent,
+    NavMenuComponent
   ],
   imports: [
     BrowserModule,

@@ -22,6 +22,7 @@ export class EditDataPointComponent implements OnChanges, OnInit {
   @Input() disabled = false;
   @Input() externalFilter = false;
   @Input() automaticallyLoadAllDataPoints = false;
+  @Input() worldOverride: string | undefined = undefined;
   public filter: string | undefined;
   @Output() selected = new EventEmitter();
   @Output() filterChanged = new EventEmitter();
@@ -62,10 +63,19 @@ export class EditDataPointComponent implements OnChanges, OnInit {
         query: this.filter ?? "",
         typeId: this.typeId ?? -1
       };
-      this.documentService.getDocuments(criteria).subscribe(data => {
-        this.items = data;
-        this.handleFilterChange();
-      })
+      if (this.worldOverride === undefined) {
+        this.documentService.getDocuments(criteria).subscribe(data => {
+          this.items = data;
+          this.handleFilterChange();
+        })
+      }
+      else {
+        this.documentService.getDocumentsFromWorld(criteria, this.worldOverride).subscribe(data => {
+          this.items = data;
+          this.handleFilterChange();
+        })
+      }
+      
     }
   }
 

@@ -47,6 +47,9 @@ export class MapService {
   public getLocations(criteria: any) {
     return this.http.get<any>('https://localhost:7094/Library/Location/GetLocations', { params: criteria })
   }
+  public getLocationsCount(criteria: any) {
+    return this.http.get<any>('https://localhost:7094/Library/Location/GetLocationsCount', { params: criteria })
+  }
 
   public getLocation(id: number) {
     let params = new HttpParams().set('Id', id);

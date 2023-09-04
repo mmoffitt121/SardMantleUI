@@ -176,7 +176,6 @@ export class MapComponent implements OnInit {
     });
     
     this.map.on('draw:deleted', e => {
-      console.log("DEL")
       this.saveRegion();
     });
   }

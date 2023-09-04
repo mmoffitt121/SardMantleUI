@@ -5,3 +5,12 @@
     </button>
 </div>
 <app-search-bar (search)="onFilter($event)" [placeholder]="'Filter...'"></app-search-bar>
+<div style="margin-top: 10px"></div>
+<app-view-location-param *ngFor="let loc of locations" [location]="loc"></app-view-location-param>
+<mat-paginator 
+    [length]="length"
+    [pageIndex]="pageIndex"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="onPageChange($event)">
+</mat-paginator>

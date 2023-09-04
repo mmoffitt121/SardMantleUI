@@ -24,6 +24,7 @@ const routes: Routes = [
   { path:'register', component:NewAccountComponent },
   { path:'user-settings', component:UserSettingsComponent, canActivate: [AuthGuard] },
   { path:'world-manager', component:WorldManagerComponent, canActivate: [AuthGuard] },
+  { path:'world-browser', component:WorldBrowserComponent},
   { path:'home', component:GlobalHomeComponent },
   { path:'worlds', component:WorldBrowserComponent },
   { path:'administration', component:AdministrationComponent },

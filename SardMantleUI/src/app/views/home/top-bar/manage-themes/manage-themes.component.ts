@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Theme } from 'src/app/models/theme/theme';
 import { ErrorService } from 'src/app/services/error.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
+import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-manage-themes',
@@ -63,6 +65,30 @@ export class ManageThemesComponent {
     error => {
       this.errorService.handle(error);
     })
+  }
+
+  public deleteTheme() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '500px',
+      data: { 
+        title: "Confirm Deletion", 
+        content: `Are you sure you want to delete this theme?`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.themeService.deleteTheme(this.getTheme().id).subscribe(result => {
+          this.errorService.showSnackBar("Theme successfully deleted.");
+          this.loadThemes();
+        },
+        error => {
+          this.errorService.handle(error);
+        })
+      }
+    });
+
+    
   }
 
   public previewTheme() {
@@ -155,7 +181,7 @@ export class ManageThemesComponent {
     this.previewTheme();
   }
 
-  constructor(private themeService: ThemeService, private errorService: ErrorService) {
+  constructor(private themeService: ThemeService, private errorService: ErrorService, private dialog: MatDialog) {
     this.loadThemes();
   }
 }

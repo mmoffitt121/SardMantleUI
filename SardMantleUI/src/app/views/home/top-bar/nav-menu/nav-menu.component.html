@@ -1,0 +1,62 @@
+<button mat-icon-button class="topbar-icon-button" matTooltip="Menu" [matMenuTriggerFor]="navMenu">
+    <mat-icon> menu </mat-icon>
+</button>
+<mat-menu #navMenu="matMenu">
+    <div *ngIf="inWorld">
+        <div [style]="'display: flex;'" (click)="navigateHome()">
+            <button mat-menu-item>
+                <mat-icon> home </mat-icon>
+                Home
+            </button>
+        </div>
+        <div [style]="'display: flex;'" (click)="navigateMap()">
+            <button mat-menu-item>
+                <mat-icon> map </mat-icon>
+                Map
+            </button>
+        </div>
+        <div [style]="'display: flex;'" (click)="navigateDocuments()">
+            <button mat-menu-item>
+                <mat-icon> description </mat-icon>
+                Documents
+            </button>
+        </div>
+        <mat-divider style="color: var(--secondary-text-color)" />
+    </div>
+    <div [style]="'display: flex;'" (click)="navigateLibraryHome()">
+        <button mat-menu-item>
+            <mat-icon> apartment </mat-icon>
+            Library Home
+        </button>
+    </div>
+    <div [style]="'display: flex;'" (click)="navigateWorldBrowser()">
+        <button mat-menu-item>
+            <mat-icon> travel_explore </mat-icon>
+            World Browser
+        </button>
+    </div>
+    <div *ngIf="userLoggedIn">
+        <div [style]="'display: flex;'" (click)="navigateWorldManager()">
+            <button mat-menu-item>
+                <mat-icon> public </mat-icon>
+                World Manager
+            </button>
+        </div>
+        <div [style]="'display: flex;'" (click)="navigateUserSettings()">
+            <button mat-menu-item>
+                <mat-icon> person </mat-icon>
+                User Settings
+            </button>
+        </div>
+        <mat-divider style="color: var(--secondary-text-color)" />
+    </div>
+    <div *ngIf="userLoggedIn && userIsAdmin()">
+        <div [style]="'display: flex;'" (click)="navigateAdministration()">
+            <button mat-menu-item>
+                <mat-icon> shield_person </mat-icon>
+                Administration
+            </button>
+        </div>
+        <mat-divider style="color: var(--secondary-text-color)" />
+    </div>
+</mat-menu>

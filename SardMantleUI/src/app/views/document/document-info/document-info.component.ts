@@ -31,6 +31,7 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
   public document: Document | undefined;
   public documentType: DocumentType | undefined;
   public locations: Location[] | undefined;
+  public relatedDocuments: Document[] | undefined;
 
   public title: string | undefined;
   public subtitle: string | undefined;
@@ -47,6 +48,7 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
 
   @ViewChild('parameterContainer', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
   @ViewChild('locationContainer', { read: ViewContainerRef, static: false }) locationContainer: ViewContainerRef;
+  @ViewChild('relatedDocumentContainer', { read: ViewContainerRef, static: false }) relatedDocumentContainer: ViewContainerRef;
 
   public canAdd = false;
 
@@ -55,6 +57,7 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
     this.subtitle = this.documentType?.name;
     this.container.clear();
     this.locationContainer.clear();
+    this.relatedDocumentContainer.clear();
     this.parameterComponents = [];
     this.documentType?.typeParameters.forEach(p => {
       switch (p.typeValue) {
@@ -96,6 +99,14 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
       this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(l);
     });
 
+    this.relatedDocuments?.forEach(d => {
+      this.parameterComponents.push(this.relatedDocumentContainer.createComponent(ViewDataPointComponent));
+      this.parameterComponents[this.parameterComponents.length - 1].instance.setDocument(d);
+      this.parameterComponents[this.parameterComponents.length - 1].instance.parameterName = "";
+      this.parameterComponents[this.parameterComponents.length - 1].instance.parameterSummary = "";
+      this.parameterComponents[this.parameterComponents.length - 1].instance.viewDivider = false;
+    })
+
     this.cdref.detectChanges();
   }
 
@@ -106,22 +117,28 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
     this.container.clear();
     this.locations = undefined;
     this.locationContainer.clear();
+    this.relatedDocuments = undefined;
+    this.relatedDocumentContainer.clear();
     this.cdref.detectChanges();
   }
 
-  public setDocument(id: any) {
+  public async setDocument(id: any) {
     if (id === undefined || id === "undefined" || id == -1) {
       this.document = undefined;
       return;
     }
-    this.documentService.getDocument(id).subscribe(data => {
+    
+    this.documentService.getDocument(id).subscribe(async data => {
       this.document = data;
       if (this.document != undefined) {
         this.documentTypeService.getDocumentType(this.document.typeId).subscribe(data => {
           this.documentType = data;
           this.documentLocationService.getLocationsFromDataPointId({id: this.document?.id}).subscribe(locs => {
             this.locations = locs;
-            this.loadDocument();
+            this.documentService.getDocumentsReferencingDocument(this.document?.id ?? -1).subscribe(references => {
+              this.relatedDocuments = references;
+              this.loadDocument();
+            })
           })
         })
       }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location, LocationType } from 'src/app/models/map/location-data-types/location-data-types';
 import { MapLayer } from 'src/app/models/map/map-layer';
@@ -11,10 +11,11 @@ import { UrlService } from 'src/app/services/url/url.service';
   templateUrl: './view-location-param.component.html',
   styleUrls: ['./view-location-param.component.scss']
 })
-export class ViewLocationParamComponent {
-  public location: Location | undefined;
+export class ViewLocationParamComponent implements OnInit {
+  @Input() location: Location | undefined;
   public locationType: LocationType | undefined;
   public layer: MapLayer | undefined;
+
   public setValue(location: Location) {
     this.location = location;
     this.mapService.getLocationTypes({id: location.locationTypeId}).subscribe(locType => {
@@ -38,4 +39,10 @@ export class ViewLocationParamComponent {
   }
 
   constructor (private mapService: MapService, private router: Router, private urlService: UrlService, private mapLayerService: MapLayerService) {}
+
+  ngOnInit() {
+    if (this.location !== undefined) {
+      this.setValue(this.location);
+    }
+  }
 }

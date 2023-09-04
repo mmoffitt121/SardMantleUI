@@ -4,21 +4,21 @@
         <h1>
             The Libraries
         </h1>
-        <mat-card style="height: 500px; margin: 20px;">
-
+        <mat-card style="margin: 20px;">
+            <mat-card-content>
+                <p class="centered">Welcome to the Libraries!</p>
+                <p class="centered">To get started, click one of the buttons below.</p>
+                <div  class="centered">
+                    <button mat-button style="margin: 5px" (click)="router.navigate(['world-browser'])">World Browser</button>
+                    <button mat-button style="margin: 5px"  (click)="router.navigate(['login'])">Login</button>
+                    <button mat-button style="margin: 5px"  (click)="router.navigate(['register'])" color="primary">Sign Up</button>
+                </div>
+            </mat-card-content>
         </mat-card>
         
         <h2 style="margin: 20px;">My Worlds</h2>
         <div style="margin: 20px;">
             <app-world-list [worldCriteria]="{ownerId: userId}" (selected)="navigateToWorld($event)" />
-        </div>
-        <h2 style="margin: 20px;">Saved Worlds</h2>
-        <div style="margin: 20px;">
-            <app-world-list  (selected)="navigateToWorld($event)" />
-        </div>
-        <h2 style="margin: 20px;">Featured Worlds</h2>
-        <div style="margin: 20px;">
-            <app-world-list  (selected)="navigateToWorld($event)" />
         </div>
     </div>
 </div>

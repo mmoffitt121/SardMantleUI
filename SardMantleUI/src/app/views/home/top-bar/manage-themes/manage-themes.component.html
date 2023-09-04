@@ -46,7 +46,7 @@
                             <app-edit-data-point [parameterName]="'Primary Font'" [items]="fonts" [selectedItem]="selectedFont" (selected)="fontChanged($event); themeChanged()"></app-edit-data-point>
                             <div style="float: right">
                                 <button mat-button (click)="saveTheme()" color="primary">Save</button>
-                                <button mat-button (click)="saveTheme()" style="background-color: var(--destructive-action-color); margin-left: 10px">Delete</button>
+                                <button mat-button (click)="deleteTheme()" style="background-color: var(--destructive-action-color); margin-left: 10px">Delete</button>
                             </div>
                             
                         </mat-card-content>

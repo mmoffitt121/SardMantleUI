@@ -4,40 +4,25 @@
         <h1>
             {{world?.name}}
         </h1>
-        <div class="horizontal-card-container">
-            <mat-card class="horizontal-card"> 
-                <mat-card-header>
-                    <mat-card-title>Map</mat-card-title>
-                    <mat-card-subtitle>View the world for yourself.</mat-card-subtitle>
-                </mat-card-header>
+        <div>
+            <mat-card class="dp-card" *ngFor="let d of fullWidth">
                 <mat-card-content>
+                    <app-document-info [autoLoadId]="d.id ?? -1" [showEditControls]="false"/>
                 </mat-card-content>
-                <mat-card-actions align="end">
-                    <button mat-button (click)="router.navigate([urlService.getWorld(), 'map'])">Go</button>
-                </mat-card-actions>
             </mat-card>
-            <mat-card class="horizontal-card"> 
-                <mat-card-header>
-                    <mat-card-title>Find</mat-card-title>
-                    <mat-card-subtitle>Find a document, person, or anything else.</mat-card-subtitle>
-                </mat-card-header>
+        </div>
+        <div style="display: grid; grid-template-columns: 50% 50%;">
+            <mat-card class="dp-card" *ngFor="let d of halfWidth">
                 <mat-card-content>
+                    <app-document-info [autoLoadId]="d.id ?? -1" [showEditControls]="false"/>
                 </mat-card-content>
-                <mat-card-actions align="end">
-                    <button mat-button (click)="router.navigate([urlService.getWorld(), 'document'])">Go</button>
-                </mat-card-actions>
             </mat-card>
-            <mat-card class="horizontal-card"> 
-                <mat-card-header>
-                    <mat-card-title>Timeline</mat-card-title>
-                    <mat-card-subtitle>Check out events in chronological order.</mat-card-subtitle>
-                </mat-card-header>
+        </div>
+        <div style="display: grid; grid-template-columns: 33% 33% 33%;">
+            <mat-card class="dp-card" *ngFor="let d of thirdWidth">
                 <mat-card-content>
-                    Timeline content
+                    <app-document-info [autoLoadId]="d.id ?? -1" [showEditControls]="false"/>
                 </mat-card-content>
-                <mat-card-actions align="end">
-                    <button mat-button (click)="router.navigate([urlService.getWorld(), 'timeline'])">Go</button>
-                </mat-card-actions>
             </mat-card>
         </div>
     </div>
