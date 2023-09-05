@@ -4,6 +4,7 @@ import { Theme } from 'src/app/models/theme/theme';
 import { UrlService } from '../url/url.service';
 import { DOCUMENT } from '@angular/common';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -40,24 +41,24 @@ export class ThemeService {
   public theme: Theme;
 
   public getThemes(criteria: any) {
-    return this.http.get<any>('https://localhost:7094/Library/Theme/GetThemes', { params: criteria });
+    return this.http.get<any>(environment.baseUrl + '/Library/Theme/GetThemes', { params: criteria });
   }
 
   public getThemeCount(criteria: any) {
-    return this.http.get<any>('https://localhost:7094/Library/Theme/GetThemeCount', { params: criteria });
+    return this.http.get<any>(environment.baseUrl + '/Library/Theme/GetThemeCount', { params: criteria });
   }
 
   public postTheme(Theme: Theme) {
-    return this.http.post('https://localhost:7094/Library/Theme/PostTheme', Theme);
+    return this.http.post(environment.baseUrl + '/Library/Theme/PostTheme', Theme);
   }
 
   public putTheme(Theme: Theme) {
-    return this.http.put('https://localhost:7094/Library/Theme/PutTheme', Theme);
+    return this.http.put(environment.baseUrl + '/Library/Theme/PutTheme', Theme);
   }
 
   public deleteTheme(id: number) {
     let params = new HttpParams().set("Id", id);
-    return this.http.delete('https://localhost:7094/Library/Theme/DeleteTheme', { params: params });
+    return this.http.delete(environment.baseUrl + '/Library/Theme/DeleteTheme', { params: params });
   }
 
   public selectTheme(theme: Theme) {

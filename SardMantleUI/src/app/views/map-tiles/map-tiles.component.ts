@@ -50,7 +50,7 @@ export class MapTilesComponent implements OnInit {
   }
 
   public loadTiles() {
-    this.routeLocation.replaceState(this.urlService.getWorld() + 'map-tiles/' 
+    this.routeLocation.replaceState(this.urlService.getWorld() + '/map-tiles/' 
     + this.currentTile.layerId + '/' 
     + this.currentTile.z + '/' 
     + this.currentTile.y + '/' 

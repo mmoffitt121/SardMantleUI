@@ -206,9 +206,7 @@ export class ViewLocationComponent implements OnInit {
       width: '500px',
       data: { 
         title: "Confirm Deletion", 
-        content: "Are you sure you want to delete " +
-        (LocationDataTypes.dataTypeMap.get(this.dataType))?.toLowerCase() + " " + 
-        (this.dataType == 0 ? this.selectedMapObject.name : this.selectedMapObject.name) + "?"
+        content: "Are you sure you want to delete this region?"
       }
     });
 

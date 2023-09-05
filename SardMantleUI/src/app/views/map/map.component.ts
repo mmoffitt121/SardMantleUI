@@ -36,6 +36,7 @@ import { ImageService } from 'src/app/services/image/image.service';
 import { UrlService } from 'src/app/services/url/url.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
 import { RegionService } from 'src/app/services/map/region.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-map',
@@ -114,7 +115,7 @@ export class MapComponent implements OnInit {
     this.routedZoom = undefined;
 
     if (this.baseLayer) {
-      const tilesOuter = L.tileLayer('https://localhost:7094/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.baseLayer.id + "&worldLocation=" + this.urlService.getWorld(), {
+      const tilesOuter = L.tileLayer(environment.baseUrl + '/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.baseLayer.id + "&worldLocation=" + this.urlService.getWorld(), {
         maxZoom: this.mapData.maxZoom + 5,
         minZoom: this.mapData.minZoom,
         maxNativeZoom: this.mapData.maxZoom,
@@ -124,7 +125,7 @@ export class MapComponent implements OnInit {
     }
 
     if (this.coverLayer) {
-      const tilesOuter = L.tileLayer('https://localhost:7094/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.coverLayer.id + "&worldLocation=" + this.urlService.getWorld(), {
+      const tilesOuter = L.tileLayer(environment.baseUrl + '/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.coverLayer.id + "&worldLocation=" + this.urlService.getWorld(), {
         maxZoom: this.mapData.maxZoom + 5,
         minZoom: this.mapData.minZoom,
         maxNativeZoom: this.mapData.maxZoom,

@@ -33,7 +33,7 @@ export class UploadMapTilesComponent implements OnInit {
   public onUploadFile() {
     const dialogRef = this.dialog.open(UploadFileComponent, {
       width: '350px',
-      data: { title: "Upload Icon" }
+      data: { title: "Upload Map Tile" }
     });
 
     dialogRef.afterClosed().subscribe(result => {
