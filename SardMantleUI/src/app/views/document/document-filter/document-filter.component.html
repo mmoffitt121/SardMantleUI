@@ -1,0 +1,7 @@
+<h3>Search</h3>
+<mat-divider style="margin-top: 15px;"/>
+<h4 class="section-header">Document Types</h4>
+<app-search-bar [placeholder]="'Filter Types...'" [control]="documentTypeControl" (search)="filterDocumentTypes()" />
+<mat-divider style="margin-top: 15px;"/>
+<h4 class="section-header">Documents</h4>
+<app-search-bar [placeholder]="'Filter Documents...'" [control]="documentControl" (search)="filterDocuments()" />

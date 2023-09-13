@@ -1,6 +1,6 @@
 .document-screen-container {
     display: grid;
-    grid-template-columns: minmax(150px, 250px) minmax(200px, 300px) 1fr;
+    grid-template-columns: auto minmax(150px, 250px) minmax(200px, 300px) 1fr;
     overflow-y: auto;
     background-color: var(--secondary-background-color);
     position: absolute;
@@ -22,6 +22,10 @@
     display: grid;
     grid-template-rows: 50px auto 65px;
     bottom: 100px;
+    overflow-y: auto;
+}
+
+.search-grid {
     overflow-y: auto;
 }
 

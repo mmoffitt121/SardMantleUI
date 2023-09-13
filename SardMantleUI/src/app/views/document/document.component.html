@@ -1,9 +1,18 @@
+
 <div class="document-screen-container">
+    <div class="search-grid">
+        <mat-card *ngIf="searching"  class="document-list-container">
+            <mat-card-content>
+                <app-document-filter (search)="onSearch()" (searchTypes)="onSearchTypes()" #documentFilterComponent />
+            </mat-card-content>
+        </mat-card>
+    </div>
     <div class="document-type-grid">
         <div class="button-holder">
             <app-nav-menu></app-nav-menu>
-            <button mat-icon-button class="button" matTooltip="Search/Filter">
-                <mat-icon> search </mat-icon>
+            <button mat-icon-button class="button" matTooltip="Search/Filter" (click)="searching = !searching">
+                <mat-icon *ngIf="searching"> search_off </mat-icon>
+                <mat-icon *ngIf="!searching"> search </mat-icon>
             </button>
             <button mat-icon-button class="button" matTooltip="Add Data Type" (click)="addDocumentType()">
                 <mat-icon> library_add </mat-icon>
@@ -71,3 +80,6 @@
         </mat-card>
     </div>
 </div>
+    
+
+        

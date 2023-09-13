@@ -15,6 +15,8 @@ import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.
 import { DocumentService } from 'src/app/services/document/document.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { DocumentTypeService } from 'src/app/services/document/document-type.service';
+import { MatSidenavModule, MatDrawer, MatDrawerContainer, MatDrawerToggleResult } from '@angular/material/sidenav';
+import { DocumentFilterComponent } from './document-filter/document-filter.component';
 
 @Component({
   selector: 'app-document',
@@ -26,6 +28,9 @@ export class DocumentComponent implements AfterViewInit {
   @ViewChild('documentListComponent') documentListComponent: DocumentListComponent;
   @ViewChild('documentInfoComponent') documentInfoComponent: DocumentInfoComponent;
   @ViewChild('documentEditComponent') documentEditComponent: DocumentEditComponent;
+  @ViewChild('documentFilterComponent') doucmentFilterComponent: DocumentFilterComponent;
+
+  public searching = false;
 
   public typePageLength = 0;
   public typePageIndex = 0;
@@ -35,7 +40,8 @@ export class DocumentComponent implements AfterViewInit {
   private getTypePageCriteria() {
     return {
       pageSize: this.typePageSize,
-      pageNumber: this.typePageIndex + 1
+      pageNumber: this.typePageIndex + 1,
+      query: this.doucmentFilterComponent?.documentTypeFilter ?? ""
     }
   }
 
@@ -47,7 +53,8 @@ export class DocumentComponent implements AfterViewInit {
   private getPageCriteria() {
     return {
       pageSize: this.pageSize,
-      pageNumber: this.pageIndex + 1
+      pageNumber: this.pageIndex + 1,
+      query: this.doucmentFilterComponent?.documentFilter ?? ""
     }
   }
 
@@ -60,15 +67,24 @@ export class DocumentComponent implements AfterViewInit {
   public onTypePageChange(event: any) {
     this.typePageSize = event.pageSize;
     this.typePageIndex = event.pageIndex;
+    this.onSearchTypes();
+  }
+
+  public onPageChange(event: any) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.onSearch();
+  }
+
+  public onSearchTypes() {
+    console.log(this.doucmentFilterComponent)
     this.documentTypeService.getDocumentTypesCount(this.getTypePageCriteria()).subscribe(data => {
       this.typePageLength = data;
     })
     this.documentTypeComponent.loadDocumentTypes(this.getTypePageCriteria());
   }
 
-  public onPageChange(event: any) {
-    this.pageSize = event.pageSize;
-    this.pageIndex = event.pageIndex;
+  public onSearch() {
     this.loadDocumentList({id: this.currentDocumentTypeId});
   }
 
@@ -133,7 +149,7 @@ export class DocumentComponent implements AfterViewInit {
     this.cdref.detectChanges();
     this.currentDocumentTypeId = data.id;
     this.documentListComponent.setDocumentType(data.id, this.getPageCriteria());
-    this.documentService.getDocumentsCount({typeId: data.id}).subscribe(data => {
+    this.documentService.getDocumentsCount({typeId: data.id, ...this.getPageCriteria()}).subscribe(data => {
       this.pageLength = data;
     })
     this.location.replaceState(this.urlService.getWorld() + "/document/" + data.id);

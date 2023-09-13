@@ -16,11 +16,11 @@ export class WorldService {
   }
 
   public postWorld(world: World) {
-    return this.http.post(environment.baseUrl + 'Library/World/PostWorld', world);
+    return this.http.post(environment.baseUrl + '/Library/World/PostWorld', world);
   }
 
   public putWorld(world: World) {
-    return this.http.put(environment.baseUrl + 'Library/World/PutWorld', world);
+    return this.http.put(environment.baseUrl + '/Library/World/PutWorld', world);
   }
   constructor(private http: HttpClient) { }
 }

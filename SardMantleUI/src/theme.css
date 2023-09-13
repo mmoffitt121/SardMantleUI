@@ -1831,7 +1831,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 
 .mat-mdc-menu-item .mat-icon-no-color,
 .mat-mdc-menu-submenu-icon {
-    color: var(--mdc-theme-text-primary-on-background, white)
+    color: var(--text-color, white)
 }
 
 .mat-mdc-menu-item:hover:not([disabled]),
