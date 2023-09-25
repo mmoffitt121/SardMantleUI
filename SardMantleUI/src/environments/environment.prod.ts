@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://libratlas.net'
+  baseUrl: 'http://libratlas.net'
 };
