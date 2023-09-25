@@ -233,7 +233,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["localhost:7094"],
+        allowedDomains: ["localhost:7094", "libratlas.net", "*.libratlas.net"],
         disallowedRoutes: []
       }
     })
