@@ -17,6 +17,7 @@ import { GlobalHomeComponent } from './views/common/global-home/global-home.comp
 import { AuthGuard } from './guards/auth-guard.guard';
 import { WorldManagerComponent } from './views/common/world-manager/world-manager.component';
 import { ManageThemesComponent } from './views/home/top-bar/manage-themes/manage-themes.component';
+import { UnitsComponent } from './views/units/units.component';
 
 const routes: Routes = [
   { path:'', redirectTo: 'home', pathMatch: 'full' },
@@ -40,6 +41,7 @@ const routes: Routes = [
     { path:'map-tiles/:layerId', component:MapTilesComponent },
     { path:'map-tiles/:layerId/:z/:x/:y', component:MapTilesComponent },
     { path:'timeline', component:TimelineComponent },
+    { path:'units', component:UnitsComponent },
     { path:'document', component:DocumentComponent },
     { path:'document/:typeId', component:DocumentComponent },
     { path:'document/:typeId/:documentId', component:DocumentComponent },

@@ -114,6 +114,7 @@ import { EditDocumentLocationsComponent } from './views/map/edit-location/edit-d
 import { ViewLocationParamComponent } from './views/shared/document-components/view/view-location-param/view-location-param.component';
 import { NavMenuComponent } from './views/home/top-bar/nav-menu/nav-menu.component';
 import { DocumentFilterComponent } from './views/document/document-filter/document-filter.component';
+import { UnitsComponent } from './views/units/units.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -194,7 +195,8 @@ export function tokenGetter() {
     EditDocumentLocationsComponent,
     ViewLocationParamComponent,
     NavMenuComponent,
-    DocumentFilterComponent
+    DocumentFilterComponent,
+    UnitsComponent
   ],
   imports: [
     BrowserModule,

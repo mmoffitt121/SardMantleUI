@@ -21,6 +21,19 @@
                 Documents
             </button>
         </div>
+        <div [style]="'display: flex;'" (click)="navigateTimeline()">
+            <button mat-menu-item>
+                <mat-icon> timeline </mat-icon>
+                Timeline
+            </button>
+        </div>
+        <mat-divider style="color: var(--secondary-text-color)" />
+        <div [style]="'display: flex;'" (click)="navigateUnits()">
+            <button mat-menu-item>
+                <mat-icon> design_services </mat-icon>
+                Units
+            </button>
+        </div>
         <mat-divider style="color: var(--secondary-text-color)" />
     </div>
     <div [style]="'display: flex;'" (click)="navigateLibraryHome()">

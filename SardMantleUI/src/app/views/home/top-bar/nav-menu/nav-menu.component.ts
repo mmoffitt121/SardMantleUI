@@ -31,6 +31,12 @@ export class NavMenuComponent {
   public navigateDocuments() {
     this.router.navigate([this.urlService.getWorld(), 'document']);
   }
+  public navigateTimeline() {
+    this.router.navigate([this.urlService.getWorld(), 'timeline']);
+  }
+  public navigateUnits() {
+    this.router.navigate([this.urlService.getWorld(), 'units']);
+  }
   public navigateLibraryHome() {
     this.router.navigate(['home']);
   }
