@@ -14,6 +14,9 @@ export class LoginService {
   public putPassword(data: any) {
     return this.http.post<any>(environment.baseUrl + '/Library/Account/PutPassword', data)
   }
+  public changePassword(data: any) {
+    return this.http.post<any>(environment.baseUrl + '/Library/Account/ChangePassword', data)
+  }
   public login(data: any) {
     return this.http.post<any>(environment.baseUrl + '/Library/Login/Login/Login', data)
   }
