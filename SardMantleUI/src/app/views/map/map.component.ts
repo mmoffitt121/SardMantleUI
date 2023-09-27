@@ -38,6 +38,10 @@ import { ThemeService } from 'src/app/services/theme/theme.service';
 import { RegionService } from 'src/app/services/map/region.service';
 import { environment } from 'src/environments/environment';
 
+const iconRetinaUrl = 'assets/marker-icon-2x.png';
+const iconUrl = 'assets/marker-icon.png';
+const shadowUrl = 'assets/marker-shadow.png';
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -91,7 +95,7 @@ export class MapComponent implements OnInit {
   addLocationTypeControl = new FormControl('', []);
 
   private addLocationDraggableIcon = L.icon({
-    iconUrl: 'marker-icon.png',
+    iconUrl: iconUrl,
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
