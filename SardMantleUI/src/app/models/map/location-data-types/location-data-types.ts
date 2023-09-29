@@ -29,6 +29,7 @@ export interface Location {
     iconURL: string | undefined;
     labelFontSize: number;
     labelFontColor: string;
+    iconSize: number;
 }
 
 export interface LocationType extends Selectable {
@@ -44,4 +45,5 @@ export interface LocationType extends Selectable {
     usesLabel: boolean;
     labelFontSize: number;
     labelFontColor: string;
+    iconSize: number;
 }

@@ -35,6 +35,7 @@ export class EditLocationComponent implements OnInit {
   public layer: MapLayer;
   public labelFontSize = new FormControl();
   public labelFontColor = new FormControl();
+  public iconSize = new FormControl();
 
   public markerLat: number;
   public markerLng: number;
@@ -83,6 +84,7 @@ export class EditLocationComponent implements OnInit {
         this.zoomProminenceMax.setValue(this.selectedMapObject.zoomProminenceMax);
         this.labelFontSize.setValue(this.selectedMapObject.labelFontSize);
         this.labelFontColor.setValue(this.selectedMapObject.labelFontColor);
+        this.iconSize.setValue(this.selectedMapObject.iconSize);
         this.markerLat = this.selectedMapObject.latitude;
         this.markerLng = this.selectedMapObject.longitude;
         this.mapService.getLocationTypes({}).subscribe(data => {
@@ -151,7 +153,8 @@ export class EditLocationComponent implements OnInit {
         parentId: this.parentLocation?.id,
         layerId: this.layer?.id,
         labelFontColor: this.labelFontColor.value,
-        labelFontSize: this.labelFontSize.value
+        labelFontSize: this.labelFontSize.value,
+        iconSize: this.iconSize.value
       } as Location
 
       this.mapService.putLocation(location).subscribe(result => {
@@ -185,7 +188,8 @@ export class EditLocationComponent implements OnInit {
         parentId: this.parentLocation?.id,
         layerId: this.layer?.id,
         labelFontColor: this.labelFontColor.value,
-        labelFontSize: this.labelFontSize.value
+        labelFontSize: this.labelFontSize.value,
+        iconSize: this.iconSize.value
       } as Location
 
       this.mapService.postLocation(location).subscribe(result => {

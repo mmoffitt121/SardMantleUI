@@ -115,6 +115,7 @@ import { ViewLocationParamComponent } from './views/shared/document-components/v
 import { NavMenuComponent } from './views/home/top-bar/nav-menu/nav-menu.component';
 import { DocumentFilterComponent } from './views/document/document-filter/document-filter.component';
 import { UnitsComponent } from './views/units/units.component';
+import { ChangePasswordComponent } from './views/auth/user-settings/change-password/change-password.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -196,7 +197,8 @@ export function tokenGetter() {
     ViewLocationParamComponent,
     NavMenuComponent,
     DocumentFilterComponent,
-    UnitsComponent
+    UnitsComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -235,7 +237,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["localhost:7094"],
+        allowedDomains: ["localhost:7094", "libratlas.net", "*.libratlas.net"],
         disallowedRoutes: []
       }
     })

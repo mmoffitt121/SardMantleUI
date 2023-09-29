@@ -29,6 +29,7 @@ export class EditLocationTypeComponent implements OnInit {
   public usesLabel = new FormControl();
   public labelFontSize = new FormControl();
   public labelFontColor = new FormControl();
+  public iconSize = new FormControl();
 
   public parentType: LocationType | undefined;
 
@@ -50,6 +51,7 @@ export class EditLocationTypeComponent implements OnInit {
     this.locationType.usesLabel = this.usesLabel.value;
     this.locationType.labelFontSize = this.labelFontSize.value;
     this.locationType.labelFontColor = this.labelFontColor.value;
+    this.locationType.iconSize = this.iconSize.value;
 
     if (this.data.adding) {
       this.mapService.postLocationType(this.locationType).subscribe(result => {
@@ -163,5 +165,6 @@ export class EditLocationTypeComponent implements OnInit {
     this.usesLabel.setValue(this.locationType.usesLabel);
     this.labelFontSize.setValue(this.locationType.labelFontSize);
     this.labelFontColor.setValue(this.locationType.labelFontColor);
+    this.iconSize.setValue(this.locationType.iconSize);
   }
 }

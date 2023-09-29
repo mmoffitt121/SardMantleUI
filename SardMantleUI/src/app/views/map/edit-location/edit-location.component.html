@@ -28,6 +28,13 @@
                         [control]="labelFontColor">
                     </app-edit-int>
                 </div>
+                <div style="padding-right: 5px;">
+                    <app-edit-int 
+                        [parameterName]="'Icon Size'" 
+                        [parameterSummary]="'How wide the icon is in pixels (default 32)'"
+                        [control]="iconSize">
+                    </app-edit-int>
+                </div>
             </div>
             <mat-divider></mat-divider>
             <app-edit-data-point [parameterName]="'Layer'" (selected)="setLayer($event)" [items]="layers" [selectedItem]="layer"></app-edit-data-point>

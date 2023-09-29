@@ -17,6 +17,9 @@ export class ErrorService {
         else if (error?.error?.errors) {
             this.showSnackBar("One or more validation errors occured.");
         }
+        else if (error?.error) {
+            this.showSnackBar(error.error);
+        }
         else {
             this.showSnackBar(error.message, duration);
         }

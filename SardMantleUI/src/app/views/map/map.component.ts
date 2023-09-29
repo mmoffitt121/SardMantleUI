@@ -38,6 +38,10 @@ import { ThemeService } from 'src/app/services/theme/theme.service';
 import { RegionService } from 'src/app/services/map/region.service';
 import { environment } from 'src/environments/environment';
 
+const iconRetinaUrl = 'assets/marker-icon-2x.png';
+const iconUrl = 'assets/marker-icon.png';
+const shadowUrl = 'assets/marker-shadow.png';
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -91,7 +95,7 @@ export class MapComponent implements OnInit {
   addLocationTypeControl = new FormControl('', []);
 
   private addLocationDraggableIcon = L.icon({
-    iconUrl: 'marker-icon.png',
+    iconUrl: iconUrl,
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
@@ -394,10 +398,13 @@ export class MapComponent implements OnInit {
       var marker = markers[i];
       if (!(marker.latitude && marker.longitude)) continue;
 
+      console.log(marker)
+
       // Set Icon
       if (marker.usesIcon) {
         if (marker.iconURL) {
-          iconHTML = `<div><img style='width: 32px; margin-top: -50%;' src='` + marker.iconURL + `'</div>`;
+          iconHTML = `<div><img style='width: ` + (marker.iconSize ?? 32) + `px; margin-top: -50%;' src='` + marker.iconURL + `'</div>`;
+          console.log(iconHTML)
         } 
         else {
           iconHTML = dotHTML;
