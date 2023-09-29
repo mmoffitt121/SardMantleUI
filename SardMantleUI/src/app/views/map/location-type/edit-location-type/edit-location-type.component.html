@@ -63,6 +63,13 @@
             [placeholder]="'#000000'"
             [control]="labelFontColor">
         </app-edit-int>
+        <div style="padding-right: 10px;">
+            <app-edit-int 
+                [parameterName]="'Icon Size'" 
+                [parameterSummary]="'How wide the icon is in pixels (default 32)'"
+                [control]="iconSize">
+            </app-edit-int>
+        </div>
     </div>
     <mat-divider *ngIf="!data.adding"></mat-divider>
     <div style="margin-top: 10px;" *ngIf="!data.adding">

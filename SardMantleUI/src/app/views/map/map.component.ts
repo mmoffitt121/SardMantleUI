@@ -398,10 +398,13 @@ export class MapComponent implements OnInit {
       var marker = markers[i];
       if (!(marker.latitude && marker.longitude)) continue;
 
+      console.log(marker)
+
       // Set Icon
       if (marker.usesIcon) {
         if (marker.iconURL) {
-          iconHTML = `<div><img style='width: 32px; margin-top: -50%;' src='` + marker.iconURL + `'</div>`;
+          iconHTML = `<div><img style='width: ` + (marker.iconSize ?? 32) + `px; margin-top: -50%;' src='` + marker.iconURL + `'</div>`;
+          console.log(iconHTML)
         } 
         else {
           iconHTML = dotHTML;
