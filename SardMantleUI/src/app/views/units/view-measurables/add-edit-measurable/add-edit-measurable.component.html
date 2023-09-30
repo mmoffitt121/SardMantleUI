@@ -1,0 +1,29 @@
+
+<div class="corner-button-container">
+    <button mat-icon-button class="corner-button"  matTooltip="Close" (click)="onCancel()">
+        <mat-icon>
+            close
+        </mat-icon>
+    </button>
+</div>
+<div style="margin: 15px">
+    <h2>
+        Measurable
+    </h2>
+</div>
+<div style="margin: 15px">
+    <app-edit-string [parameterName]="'Name'" [placeholder]="'Name...'" [required]="true" [control]="name"></app-edit-string>
+    <app-edit-string [parameterName]="'Summary'" [placeholder]="'Summary...'" [required]="true" [control]="summary"></app-edit-string>
+    <app-edit-data-point [parameterName]="'Unit Type'" [items]="unitTypes" [selectedItem]="selectedUnitType" [control]="unitType"></app-edit-data-point>
+    <div style="display: grid; grid-template-columns: auto min-content min-content;">
+        <div></div>
+        <button mat-button style="margin-left: 10px;" (click)="onCancel()">
+            Cancel
+        </button>
+        <button mat-button style="margin-left: 10px;" (click)="onSave()" color="primary" [disabled]="!name.value">
+            Save
+        </button>
+    </div>
+    
+</div>
+

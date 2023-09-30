@@ -1,4 +1,34 @@
 <app-top-bar></app-top-bar>
 <div class="screen-container">
-    hello
+  <div class="top-actions-container">
+    <div>
+      <h2 style="margin-top: 0px">{{pageName}}</h2>
+    </div>
+    <div style="display: flex">
+      <div style="margin-right: 10px; display: flex;">
+        <button mat-icon-button class="icon-button" matTooltip="Add" *ngIf="pageMode === 'measurables' || pageMode === 'calendars'" (click)="doAdd()">
+          <mat-icon> add </mat-icon>
+        </button>
+      </div>
+      
+      <mat-button-toggle-group name="pageMode" value="units">
+        <mat-button-toggle value="units" matTooltip="Units" (click)="setPageMode('units', 'Units')">
+          <mat-icon> design_services </mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="measurables" matTooltip="Measurables" (click)="setPageMode('measurables', 'Measurables')">
+          <mat-icon> straighten </mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="convert" matTooltip="Convert" (click)="setPageMode('convert', 'Convert')">
+          <mat-icon> autorenew </mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="calendars" matTooltip="Calendars" (click)="setPageMode('calendars', 'Calendars')">
+          <mat-icon> date_range </mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </div>
+  <app-unit-tables *ngIf="pageMode === 'units'" />
+  <app-view-measurables *ngIf="pageMode === 'measurables'" />
+  <app-view-calendars *ngIf="pageMode === 'calendars'" />
+  <app-unit-converter *ngIf="pageMode === 'convert'" />
 </div>

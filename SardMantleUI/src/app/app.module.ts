@@ -116,6 +116,11 @@ import { NavMenuComponent } from './views/home/top-bar/nav-menu/nav-menu.compone
 import { DocumentFilterComponent } from './views/document/document-filter/document-filter.component';
 import { UnitsComponent } from './views/units/units.component';
 import { ChangePasswordComponent } from './views/auth/user-settings/change-password/change-password.component';
+import { UnitTablesComponent } from './views/units/unit-tables/unit-tables.component';
+import { ViewMeasurablesComponent } from './views/units/view-measurables/view-measurables.component';
+import { ViewCalendarsComponent } from './views/units/view-calendars/view-calendars.component';
+import { UnitConverterComponent } from './views/units/unit-converter/unit-converter.component';
+import { AddEditMeasurableComponent } from './views/units/view-measurables/add-edit-measurable/add-edit-measurable.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -198,7 +203,12 @@ export function tokenGetter() {
     NavMenuComponent,
     DocumentFilterComponent,
     UnitsComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    UnitTablesComponent,
+    ViewMeasurablesComponent,
+    ViewCalendarsComponent,
+    UnitConverterComponent,
+    AddEditMeasurableComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,38 @@
+<div>
+    <table mat-table [dataSource]="table.units" *ngFor="let table of unitTables" class="mat-elevation-z8">
+      <ng-container matColumnDef="userName">
+        <th mat-header-cell *matHeaderCellDef> Username </th>
+        <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="viewer">
+        <th mat-header-cell *matHeaderCellDef> Viewer </th>
+        <td mat-cell *matCellDef="let element">
+
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="editor">
+        <th mat-header-cell *matHeaderCellDef> Editor </th>
+        <td mat-cell *matCellDef="let element">
+
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="admin">
+        <th mat-header-cell *matHeaderCellDef> Administrator </th>
+        <td mat-cell *matCellDef="let element">
+
+        </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="deleteUnit(element)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>

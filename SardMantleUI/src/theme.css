@@ -1455,8 +1455,8 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mat-mdc-standard-chip {
-    --mdc-chip-elevated-container-color: #595959;
-    --mdc-chip-elevated-disabled-container-color: #595959;
+    --mdc-chip-elevated-container-color: var(--text-color-disabled);
+    --mdc-chip-elevated-disabled-container-color: var(--text-color-disabled);
     --mdc-chip-label-text-color: #fafafa;
     --mdc-chip-disabled-label-text-color: #fafafa;
     --mdc-chip-with-icon-icon-color: #fafafa;
@@ -3034,16 +3034,16 @@ html {
 }
 
 .mat-button-toggle {
-    color: rgba(255, 255, 255, .5)
+    color: var(--secondary-accent-color);
 }
 
 .mat-button-toggle .mat-button-toggle-focus-overlay {
-    background-color: rgba(255, 255, 255, .12)
+    background-color: var(--primary-color-selected);
 }
 
 .mat-button-toggle-appearance-standard {
-    color: #fff;
-    background: #424242
+    color: var(--text-color);
+    background: var(--secondary-accent-color)
 }
 
 .mat-button-toggle-appearance-standard .mat-button-toggle-focus-overlay {
@@ -3051,23 +3051,23 @@ html {
 }
 
 .mat-button-toggle-group-appearance-standard .mat-button-toggle+.mat-button-toggle {
-    border-left: solid 1px #595959
+    border-left: solid 1px var(--text-color-disabled)
 }
 
 [dir=rtl] .mat-button-toggle-group-appearance-standard .mat-button-toggle+.mat-button-toggle {
     border-left: none;
-    border-right: solid 1px #595959
+    border-right: solid 1px var(--text-color-disabled)
 }
 
 .mat-button-toggle-group-appearance-standard.mat-button-toggle-vertical .mat-button-toggle+.mat-button-toggle {
     border-left: none;
     border-right: none;
-    border-top: solid 1px #595959
+    border-top: solid 1px var(--text-color-disabled)
 }
 
 .mat-button-toggle-checked {
-    background-color: #212121;
-    color: rgba(255, 255, 255, .7)
+    background-color: var(--secondary-accent-color-selected);
+    color: var(--text-color)
 }
 
 .mat-button-toggle-checked.mat-button-toggle-appearance-standard {
@@ -3089,7 +3089,7 @@ html {
 
 .mat-button-toggle-standalone.mat-button-toggle-appearance-standard,
 .mat-button-toggle-group-appearance-standard {
-    border: solid 1px #595959
+    border: solid 1px var(--text-color-disabled)
 }
 
 .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {

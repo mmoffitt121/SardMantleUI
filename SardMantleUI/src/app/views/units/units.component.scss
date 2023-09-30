@@ -1,6 +1,4 @@
 .screen-container {
-    display: grid;
-    grid-template-columns: auto minmax(150px, 250px) minmax(200px, 300px) 1fr;
     overflow-y: auto;
     background-color: var(--secondary-background-color);
     position: absolute;
@@ -10,4 +8,14 @@
     bottom: 0;
     margin: 0px;
     margin-top: 50px;
+}
+
+.top-actions-container {
+    display: grid;
+    grid-template-columns: auto min-content;
+    margin: 20px;
+}
+
+.icon-button {
+    margin: 5px;
 }
