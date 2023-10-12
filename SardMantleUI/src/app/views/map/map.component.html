@@ -132,9 +132,11 @@
                 <div id="map"></div>
             </div>
         </div>
-        <div class="map-overlay-buttons-container">
-            <button mat-raised-button (click)="router.navigate([this.urlService.getWorld(), 'home']);" class="map-overlay-button"><mat-icon>home</mat-icon></button>
-            <button mat-raised-button (click)="openMapSettings()" class="map-overlay-button"><mat-icon>menu</mat-icon></button>
+        <div class="map-overlay-buttons-container-left">
+            <app-nav-menu [display]="'roundedSquare'" />
+        </div>
+        <div class="map-overlay-buttons-container-right">
+            <button mat-raised-button (click)="openMapSettings()" class="map-overlay-button"><mat-icon>map</mat-icon></button>
             <button mat-raised-button (click)="openAddLocation()" class="map-overlay-button"><mat-icon>add</mat-icon></button>
         </div>
     </mat-drawer-content>

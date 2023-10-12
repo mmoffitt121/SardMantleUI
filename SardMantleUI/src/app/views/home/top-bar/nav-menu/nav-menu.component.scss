@@ -1,0 +1,18 @@
+.map-overlay-button {
+    width: 32px;
+    height: 32px;
+    z-index: 1000;
+    padding: 0;
+    margin: 0px;
+    margin-bottom: 7px;
+    min-width: 0;
+    min-height: 0;
+    background-color: var(--primary-color) !important;
+}
+
+.map-overlay-button mat-icon {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 7px;
+    margin-bottom: auto;
+}

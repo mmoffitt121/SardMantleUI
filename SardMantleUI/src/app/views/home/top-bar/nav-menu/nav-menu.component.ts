@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login/login.service';
@@ -15,6 +15,8 @@ export class NavMenuComponent {
   public username: string | undefined;
   public loadingThemes = false;
   public inWorld = false;
+
+  @Input() display: string | undefined = undefined;
 
   public navigateLogIn() {
     this.router.navigate(['login']);

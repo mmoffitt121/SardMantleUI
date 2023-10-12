@@ -1,0 +1,35 @@
+
+<div class="corner-button-container">
+    <button mat-icon-button class="corner-button"  matTooltip="Close" (click)="onCancel()">
+        <mat-icon>
+            close
+        </mat-icon>
+    </button>
+</div>
+<div style="margin: 15px">
+    <h2>
+        Unit
+    </h2>
+</div>
+<div style="margin: 15px">
+    <app-edit-string [parameterName]="'Name'" [placeholder]="'Name...'" [required]="true" [control]="name" />
+    <app-edit-string [parameterName]="'Summary'" [placeholder]="'Summary...'" [required]="true" [control]="summary" />
+    <app-edit-string [parameterName]="'Symbol'" [placeholder]="'Symbol...'" [required]="true" [control]="symbol" />
+    <mat-divider style="margin-bottom: 20px" />
+    <app-edit-data-point [parameterName]="'Measurable'" [items]="measurables" [selectedItem]="selectedMeasurable" (selected)="selectMeasurable($event)" />
+    <app-edit-data-point [parameterName]="'Base Unit'" [items]="units" [selectedItem]="selectedBaseUnit" (selected)="selectBaseUnit($event)" />
+    <div style="display: flex">
+        <app-edit-double [parameterName]="'Amount per Base Unit'" [control]="amountPerBaseUnit"/>
+        <p style="margin-top: 44px; margin-left: 20px;">{{symbol.value}}</p>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: auto min-content min-content;">
+        <div></div>
+        <button mat-button style="margin-left: 10px;" (click)="onCancel()">
+            Cancel
+        </button>
+        <button mat-button style="margin-left: 10px;" (click)="onSave()" color="primary" [disabled]="!name.value || !symbol.value">
+            Save
+        </button>
+    </div>
+</div>

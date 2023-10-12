@@ -63,7 +63,15 @@
     font-family: var(--primary-font);
 }
 
-.map-overlay-buttons-container {
+.map-overlay-buttons-container-left {
+    position: absolute;
+    left: 11px;
+    top: 11px;
+    width: 30px;
+    z-index: 1000;
+}
+
+.map-overlay-buttons-container-right {
     position: absolute;
     right: 11px;
     top: 11px;

@@ -353,13 +353,20 @@ ngx-editor {
 }*/
 
 .leaflet-bar {
-    /*margin-top: 130px !important;*/
     border: 0px;
 }
 
 .leaflet-bar a {
     color: var(--text-color);
     background-color: var(--primary-color);
+}
+
+.leaflet-top {
+    margin-top: 43px;
+}
+
+.leaflet-left {
+
 }
 
 .centered-div {

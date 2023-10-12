@@ -28,6 +28,19 @@ export class ViewMeasurablesComponent {
     });
   }
 
+  public editMeasurable(measurable: Measurable) {
+    const dialogRef = this.dialog.open(AddEditMeasurableComponent, {
+      width: '500px',
+      data: measurable
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadMeasurables();
+      }
+    });
+  }
+
   private toDelete: number;
   public deleteMeasurable(data: Measurable) {
     this.toDelete = data.id;
@@ -67,6 +80,8 @@ export class ViewMeasurablesComponent {
         return "Default"
       case 1:
         return "Time"
+      case 2:
+        return "Distance"
       default:
         return "Unknown"
     }

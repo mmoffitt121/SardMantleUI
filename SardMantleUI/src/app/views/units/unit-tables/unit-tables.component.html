@@ -1,38 +1,53 @@
-<div>
-    <table mat-table [dataSource]="table.units" *ngFor="let table of unitTables" class="mat-elevation-z8">
-      <ng-container matColumnDef="userName">
-        <th mat-header-cell *matHeaderCellDef> Username </th>
-        <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
-      </ng-container>
-      <ng-container matColumnDef="viewer">
-        <th mat-header-cell *matHeaderCellDef> Viewer </th>
-        <td mat-cell *matCellDef="let element">
-
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="editor">
-        <th mat-header-cell *matHeaderCellDef> Editor </th>
-        <td mat-cell *matCellDef="let element">
-
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="admin">
-        <th mat-header-cell *matHeaderCellDef> Administrator </th>
-        <td mat-cell *matCellDef="let element">
-
-        </td>
-      </ng-container>
-    
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button (click)="deleteUnit(element)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-    
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </div>
+<div *ngFor="let table of unitTables" style="margin-left: auto; margin-right: auto; max-width: 1000px">
+  <h3>
+    {{table.measurable.name}}
+  </h3>
+  <table mat-table [dataSource]="table.units" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+    <ng-container matColumnDef="summary">
+      <th mat-header-cell *matHeaderCellDef> Summary </th>
+      <td mat-cell *matCellDef="let element">
+        {{element.summary}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="symbol">
+      <th mat-header-cell *matHeaderCellDef> Symbol </th>
+      <td mat-cell *matCellDef="let element">
+        {{element.symbol}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="baseUnit">
+      <th mat-header-cell *matHeaderCellDef> Base Unit </th>
+      <td mat-cell *matCellDef="let element">
+        {{element.baseUnit?.name}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="amountPerBaseUnit">
+      <th mat-header-cell *matHeaderCellDef> Amount Per Base Unit </th>
+      <td mat-cell *matCellDef="let element">
+        {{element.amountPerParent}} {{element.amountPerParent ? element.symbol : ""}}
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="editUnit(element)">
+          <mat-icon>autorenew</mat-icon>
+        </button>
+        <button mat-icon-button (click)="editUnit(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="deleteUnit(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

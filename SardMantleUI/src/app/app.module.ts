@@ -121,6 +121,7 @@ import { ViewMeasurablesComponent } from './views/units/view-measurables/view-me
 import { ViewCalendarsComponent } from './views/units/view-calendars/view-calendars.component';
 import { UnitConverterComponent } from './views/units/unit-converter/unit-converter.component';
 import { AddEditMeasurableComponent } from './views/units/view-measurables/add-edit-measurable/add-edit-measurable.component';
+import { AddEditUnitComponent } from './views/units/unit-tables/add-edit-unit/add-edit-unit.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -208,7 +209,8 @@ export function tokenGetter() {
     ViewMeasurablesComponent,
     ViewCalendarsComponent,
     UnitConverterComponent,
-    AddEditMeasurableComponent
+    AddEditMeasurableComponent,
+    AddEditUnitComponent
   ],
   imports: [
     BrowserModule,

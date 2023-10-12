@@ -1,9 +1,23 @@
 h3 {
     padding-top: 0px;
+    margin-bottom: 10px;
     margin-top: 0px;
 }
 
 ::ng-deep .mat-mdc-dialog-container {
     background-color: var(--primary-color);
     border-radius: 4px;
+}
+
+mat-card-header {
+    display: flex;
+    padding: 16px 16px 0;
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
 }

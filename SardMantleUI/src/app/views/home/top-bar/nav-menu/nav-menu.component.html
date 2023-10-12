@@ -1,4 +1,7 @@
-<button mat-icon-button class="topbar-icon-button" matTooltip="Menu" [matMenuTriggerFor]="navMenu">
+<button mat-icon-button class="topbar-icon-button" matTooltip="Menu" [matMenuTriggerFor]="navMenu" *ngIf="!display">
+    <mat-icon> menu </mat-icon>
+</button>
+<button mat-raised-button class="map-overlay-button" matTooltip="Menu" [matMenuTriggerFor]="navMenu" *ngIf="display === 'roundedSquare'">
     <mat-icon> menu </mat-icon>
 </button>
 <mat-menu #navMenu="matMenu">

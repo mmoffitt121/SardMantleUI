@@ -162,7 +162,8 @@ export class MapComponent implements OnInit {
       draw: {
         circlemarker: false,
         marker: false,
-        rectangle: false
+        rectangle: false,
+        circle: false
       },
       edit: {
         featureGroup: this.drawLayer
