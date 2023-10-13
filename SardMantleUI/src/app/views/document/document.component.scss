@@ -1,7 +1,6 @@
 .document-screen-container {
     display: grid;
-    grid-template-columns: auto minmax(150px, 250px) minmax(200px, 300px) 1fr;
-    overflow-y: auto;
+    grid-template-columns: 57px auto;
     background-color: var(--secondary-background-color);
     position: absolute;
     top: 0;
@@ -66,13 +65,19 @@
     background-color: var(--primary-color);
 }
 
+.button-holder-wrapper {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--primary-color);
+    overflow: hidden;
+}
+
 .button-holder {
-    display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
-    margin: 10px;
-    color: var(--text-color);
-    
+    margin-top: 5px;
+    margin-left: 3px;
     .button {
-        margin-left: 4px;
+        margin: 5px;
     }
 }

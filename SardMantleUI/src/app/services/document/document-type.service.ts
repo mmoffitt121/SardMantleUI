@@ -10,6 +10,10 @@ export class DocumentTypeService {
     return this.http.get<any>(environment.baseUrl + '/Library/DataPointType/GetDataPointTypes', { params: criteria })
   }
 
+  public getDocumentTypesFull(criteria: any) {
+    return this.http.get<any>(environment.baseUrl + '/Library/DataPointType/GetDataPointTypesFull', { params: criteria })
+  }
+
   public getDocumentTypesCount(criteria: any) {
     return this.http.get<any>(environment.baseUrl + '/Library/DataPointType/GetDataPointTypesCount', { params: criteria })
   }

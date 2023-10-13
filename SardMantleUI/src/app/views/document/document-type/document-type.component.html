@@ -1,22 +1,58 @@
-<mat-action-list>
-    <button 
-        mat-list-item class="list-item" 
-        (click)="selectDocumentType({currentTarget: {value: -1}})"
-        [style.background-color]="allSelected ? 'var(--secondary-accent-color-selected)' : 'var(--secondary-accent-color)'"
-        [style.--mdc-list-list-item-label-text-size]="allSelected ? '20px' : '16px'"
-    >
-        All
-    </button>
-</mat-action-list>
-<mat-action-list>
-    <button 
-        mat-list-item class="list-item" 
-        *ngFor="let documentType of documentTypes" 
-        [value]="documentType.id" 
-        (click)="selectDocumentType($event)"
-        [style.--mdc-list-list-item-label-text-size]="documentType.selected ? '19px' : '16px'"
-        [style.background-color]="documentType.selected ? 'var(--secondary-accent-color-selected)' : 'var(--secondary-accent-color)'"
-    >
-        {{documentType.name}}
-    </button>
-</mat-action-list>
+<mat-card>
+    <mat-card-header style="display: grid; grid-template-columns: auto 40px;">
+        <mat-card-title>
+            Document Types
+        </mat-card-title>
+        <button mat-icon-button (click)="addDocumentType()">
+            <mat-icon>
+                add
+            </mat-icon>
+        </button>
+    </mat-card-header>
+    <mat-card-content>
+        <div style="margin-top: 10px">
+            <app-search-bar  #searchBar (search)="loadDocumentTypes(getPageCriteria())"/>
+            <div style="margin-top: 10px" class="document-types-results">
+                <mat-card 
+                    mat-list-item class="list-item" 
+                    *ngFor="let documentType of documentTypes" 
+                    (click)="selectDocumentType($event)"
+                    style="display: grid; grid-template-columns: auto 50px; margin: 3px;"
+                >
+                    <div style="margin: 10px;">
+                        <div style="word-break: break-all; text-wrap:pretty">
+                            {{documentType.name}}
+                        </div>
+                        <div style="color: var(--secondary-text-color); word-break: break-all; text-wrap:pretty">
+                            {{documentType.summary}}
+                        </div>
+                    </div>
+                    <div>
+                        <button mat-icon-button style="margin: 5px; margin-bottom: 0px" (click)="editDocumentType(documentType.id)">
+                            <mat-icon>
+                                edit
+                            </mat-icon>
+                        </button>
+                        <button mat-icon-button style="margin: 5px;">
+                            <mat-icon>
+                                search
+                            </mat-icon>
+                        </button>
+                    </div>
+                </mat-card>
+            </div>
+            <mat-card class="paginator-container">
+                <mat-paginator 
+                    [hidePageSize]="true" 
+                    class="paginator"
+                    [length]="pageLength"
+                    [pageIndex]="pageIndex"
+                    [pageSize]="pageSize"
+                    [pageSizeOptions]="pageSizeOptions"
+                    (page)="onPageChange($event)"
+                >
+                </mat-paginator>
+            </mat-card>
+        </div>
+    </mat-card-content>
+</mat-card>

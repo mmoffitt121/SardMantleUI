@@ -58,11 +58,17 @@ export class DocumentComponent implements AfterViewInit {
     }
   }
 
+  public displayMode = "search";
+
   public editing = false;
   public adding = false;
 
   public currentDocumentTypeId: number | undefined;
   private currentDocumentId: number | undefined;
+
+  public setDisplayMode(val: string) {
+    this.displayMode = val;
+  }
 
   public onTypePageChange(event: any) {
     this.typePageSize = event.pageSize;
@@ -77,7 +83,6 @@ export class DocumentComponent implements AfterViewInit {
   }
 
   public onSearchTypes() {
-    console.log(this.doucmentFilterComponent)
     this.documentTypeService.getDocumentTypesCount(this.getTypePageCriteria()).subscribe(data => {
       this.typePageLength = data;
     })
@@ -179,10 +184,6 @@ export class DocumentComponent implements AfterViewInit {
     });
   }
 
-  public editDocumentType() {
-    this.router.navigate([this.urlService.getWorld(), 'document', 'type', 'edit', this.currentDocumentTypeId]);
-  }
-
   constructor (
     public router: Router, 
     private cdref: ChangeDetectorRef, 
@@ -202,7 +203,7 @@ export class DocumentComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.documentTypeService.getDocumentTypesCount(this.getTypePageCriteria()).subscribe(data => {
+    /*this.documentTypeService.getDocumentTypesCount(this.getTypePageCriteria()).subscribe(data => {
       this.typePageLength = data;
     })
     this.documentTypeComponent.loadDocumentTypes(this.getTypePageCriteria());
@@ -215,6 +216,6 @@ export class DocumentComponent implements AfterViewInit {
     else if (this.currentDocumentTypeId != undefined) {
       this.documentTypeComponent.selectDocumentType({currentTarget: {value: this.currentDocumentTypeId}});
       this.loadDocumentList({id: this.currentDocumentTypeId});
-    }
+    }*/
   }
 }

@@ -2,3 +2,31 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+@media (max-width: 800px) {
+    .document-types-results {
+        display: grid;
+        grid-template-columns: 100%;
+    }
+}
+
+@media (min-width: 800px) {
+    .document-types-results {
+        display: grid;
+        grid-template-columns: 50% 50%;
+    }
+}
+
+@media (min-width: 1000px) {
+    .document-types-results {
+        display: grid;
+        grid-template-columns: 33% 33% 33%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .document-types-results {
+        display: grid;
+        grid-template-columns: 25% 25% 25% 25%;
+    }
+}

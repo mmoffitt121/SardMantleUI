@@ -1,6 +1,45 @@
 
 <div class="document-screen-container">
-    <div class="search-grid">
+    <div class="button-holder-wrapper">
+        <div class="button-holder">
+            <app-nav-menu class="button"></app-nav-menu>
+            <button mat-icon-button class="button" (click)="setDisplayMode('type')">
+                <mat-icon> perm_media </mat-icon>
+            </button>
+            <button mat-icon-button class="button" (click)="setDisplayMode('search')">
+                <mat-icon> search </mat-icon>
+            </button>
+            <button mat-icon-button class="button" (click)="setDisplayMode('results')">
+                <mat-icon> file_copy </mat-icon>
+            </button>
+            <button mat-icon-button class="button" (click)="setDisplayMode('view')">
+                <mat-icon> description </mat-icon>
+            </button>
+            <button mat-icon-button class="button" (click)="setDisplayMode('edit')">
+                <mat-icon> add </mat-icon>
+            </button>
+        </div>
+    </div>
+    
+    <div style="overflow: auto; margin: 10px;">
+        <div *ngIf="displayMode == 'type'">
+            <app-document-type />
+        </div>
+        <div *ngIf="displayMode == 'search'">
+            <app-document-filter />
+        </div>
+        <div *ngIf="displayMode == 'results'">
+            <app-document-list />
+        </div>
+        <div *ngIf="displayMode == 'view'">
+            <app-document-info />
+        </div>
+        <div *ngIf="displayMode == 'edit'">
+            <app-document-edit />
+        </div>
+    </div>
+    
+    <!--<div class="search-grid">
         <mat-card *ngIf="searching"  class="document-list-container">
             <mat-card-content>
                 <app-document-filter (search)="onSearch()" (searchTypes)="onSearchTypes()" #documentFilterComponent />
@@ -78,7 +117,7 @@
                 (save)="addEditComplete($event)"
             /> 
         </mat-card>
-    </div>
+    </div>-->
 </div>
     
 
