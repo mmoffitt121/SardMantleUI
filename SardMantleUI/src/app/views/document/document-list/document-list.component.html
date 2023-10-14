@@ -1,12 +1,33 @@
-<mat-action-list>
-    <button 
-        mat-list-item class="list-item" 
-        *ngFor="let document of documents" 
-        [value]="document.id" 
-        (click)="selectDocument($event)"
-        [style.--mdc-list-list-item-label-text-size]="document.selected ? '19px' : '16px'"
-        [style.background-color]="document.selected ? 'var(--secondary-accent-color-selected)' : 'var(--secondary-accent-color)'"
-    >
-        {{document.name}}
-    </button>
-</mat-action-list>
+<mat-card style="height: calc(100vh - 20px);">
+    <mat-card-header>
+        <mat-card-title>
+            Results
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content style="overflow: auto">
+        <mat-action-list>
+            <button 
+                mat-list-item class="list-item" 
+                *ngFor="let document of documents" 
+                [value]="document.id" 
+                (click)="selectDocument(document)"
+                [style.--mdc-list-list-item-label-text-size]="document.selected ? '19px' : '16px'"
+                [style.background-color]="document.selected ? 'var(--secondary-accent-color-selected)' : 'var(--secondary-accent-color)'"
+            >
+                {{document.name}}
+            </button>
+        </mat-action-list>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <mat-paginator 
+            [hidePageSize]="true" 
+            class="paginator"
+            style="height: 50px;"
+            [length]="pageLength"
+            [pageIndex]="pageIndex"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="onPageChange($event)"
+        />
+    </mat-card-actions>
+</mat-card>

@@ -20,13 +20,6 @@
 @media (min-width: 1000px) {
     .document-types-results {
         display: grid;
-        grid-template-columns: 33% 33% 33%;
-    }
-}
-
-@media (min-width: 1200px) {
-    .document-types-results {
-        display: grid;
-        grid-template-columns: 25% 25% 25% 25%;
+        grid-template-columns: 100%;
     }
 }

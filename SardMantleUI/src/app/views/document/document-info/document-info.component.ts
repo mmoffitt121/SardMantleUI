@@ -161,6 +161,14 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
     this.router.navigate([this.urlService.getWorld(), 'document', this.document?.typeId, this.document?.id])
   }
 
+  public onEdit() {
+    this.router.navigate([this.urlService.getWorld(), 'document', 'edit', this.document?.id])
+  }
+
+  public onDelete() {
+
+  }
+
   constructor(private cdref: ChangeDetectorRef, 
     private documentService: DocumentService, 
     private documentTypeService: DocumentTypeService,

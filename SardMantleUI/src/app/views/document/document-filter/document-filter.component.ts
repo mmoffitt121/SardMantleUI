@@ -79,6 +79,10 @@ export class DocumentFilterComponent implements OnInit {
     })
   }
 
+  public onSearch() {
+    this.search.emit({});
+  }
+
   constructor(
     public documentTypeService: DocumentTypeService, 
     public dialog: MatDialog, 

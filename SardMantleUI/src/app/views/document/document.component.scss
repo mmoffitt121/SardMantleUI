@@ -81,3 +81,24 @@
         margin: 5px;
     }
 }
+
+@media (max-width: 1000px) {
+    .document-views {
+        margin: 10px;
+        display: grid;
+        grid-template-columns: auto;
+    }
+}
+
+@media (min-width: 1000px) {
+    .document-views {
+        margin: 10px;
+        gap: 10px;
+        display: grid;
+        grid-template-columns: 300px 300px auto;
+    }
+}
+
+.document-views-small {
+    margin: 10px;
+}

@@ -2,7 +2,7 @@
     <mat-form-field appearance="outline" (keyup.enter)="handleSearch()">
         <input matInput [formControl]="control" [placeholder]="placeholder"/>
     </mat-form-field>
-    <button mat-icon-button style="margin: 0px;" [disabled]="disabled" (click)="handleSearch()" *ngIf="!onTyping">
+    <button mat-icon-button style="margin: 0px;" [disabled]="disabled" (click)="handleSearch()" *ngIf="!onTyping && searchButton">
         <mat-icon> search </mat-icon>
     </button>
 </div>
