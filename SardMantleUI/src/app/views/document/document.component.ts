@@ -20,6 +20,7 @@ import { MatSidenavModule, MatDrawer, MatDrawerContainer, MatDrawerToggleResult 
 import { DocumentFilterComponent } from './document-filter/document-filter.component';
 import { Observable, fromEvent, throttleTime } from 'rxjs';
 import { DocumentViewComponent } from './document-info/document-view/document-view.component';
+import { Document } from 'src/app/models/document/document-types/document';
 
 @Component({
   selector: 'app-document',
@@ -176,7 +177,14 @@ export class DocumentComponent implements OnInit {
           }
           break;
         case 'view':
-          this.displayMode = mode;
+          if (params['docId']) {
+            this.displayMode = mode;
+            this.cdref.detectChanges();
+            this.documentViewComponent.selectDocument({id: params['docId']} as Document);
+          }
+          else {
+            this.displayMode = 'search';
+          }
           break;
         case 'search':
         case 'results':
@@ -203,9 +211,6 @@ export class DocumentComponent implements OnInit {
     private errorService: ErrorService,
     private routeLocation: RouteLocation
   ) { 
-    this.route.params.subscribe(params => {
-      console.log(params)
-    });
   }
 
   ngOnInit(): void {

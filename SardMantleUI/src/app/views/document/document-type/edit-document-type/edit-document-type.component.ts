@@ -33,7 +33,7 @@ export class EditDocumentTypeComponent {
   @ViewChild('editParameterComponent') editParameterComponent: EditTypeParameterComponent;
 
   public returnToDocument() {
-    this.router.navigate([this.urlService.getWorld(), 'document']);
+    this.router.navigate([this.urlService.getWorld(), 'document', 'type']);
   }
 
   select(parameter: any) {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { DocumentTypeService } from 'src/app/services/document/document-type.ser
 import { ErrorService } from 'src/app/services/error.service';
 import { UrlService } from 'src/app/services/url/url.service';
 import { SearchBarComponent } from '../../shared/document-components/search/search-bar/search-bar.component';
+import { EditParametersComponent } from '../../shared/document-components/edit/edit-parameters/edit-parameters.component';
 
 @Component({
   selector: 'app-document-filter',
@@ -21,6 +22,7 @@ export class DocumentFilterComponent implements OnInit {
   @Output() search = new EventEmitter();
 
   @ViewChild('typesSearchBar') typesSearchBar: SearchBarComponent;
+  @ViewChild('editParams') editParams: EditParametersComponent;
 
   public documentTypeFilter: string;
   public documentFilter: string;
@@ -32,7 +34,7 @@ export class DocumentFilterComponent implements OnInit {
 
   public toggleTypeSelected(type: DocumentType) {
     if (type.selected) {
-      const i = this.selectedTypes.indexOf(type);
+      const i = this.selectedTypes.findIndex(x => x.id == type.id);
       if (i > -1) {
         this.selectedTypes.splice(i, 1);
         type.selected = false;
@@ -48,7 +50,7 @@ export class DocumentFilterComponent implements OnInit {
 
   public filterDocumentTypes() {
     let criteria = {
-      pageSize: 12,
+      pageSize: 25,
       pageNumber: 1,
       query: this.typesSearchBar?.getValue() ?? ''
     };
@@ -70,17 +72,29 @@ export class DocumentFilterComponent implements OnInit {
     let criteria = { dataPointTypeIds: ids?.length > 0 ? ids : -1 }
     this.documentTypeService.getDocumentTypesFull(criteria).subscribe(data => {
       this.searchableParams = [];
-      data.forEach((type: DocumentType) => {
+      data?.forEach((type: DocumentType) => {
         type.typeParameters?.forEach((p: any) => {
-          this.searchableParams.push(p);
+          if (p.typeValue !== 'doc') {
+            this.searchableParams.push(p);
+          }
         });
       })
+      this.cdref.detectChanges();
       this.searchableParams.sort((a, b) => a.name.localeCompare(b.name));
+      this.editParams?.setTypeParameters(this.searchableParams);
     })
   }
 
   public onSearch() {
-    this.search.emit({});
+    let typeIds: any[] = [];
+    this.selectedTypes.forEach(type => {
+      typeIds.push(type.id);
+    })
+    this.search.emit({
+      query: this.documentControl.value ?? '',
+      parameters: this.editParams?.getParameterList(),
+      typeIds: typeIds
+    });
   }
 
   constructor(
@@ -88,7 +102,8 @@ export class DocumentFilterComponent implements OnInit {
     public dialog: MatDialog, 
     private router: Router, 
     private urlService: UrlService, 
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private cdref: ChangeDetectorRef
   ) { }
 
   public ngOnInit() {

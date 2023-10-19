@@ -22,7 +22,7 @@ export class DocumentTypeComponent implements OnInit {
 
   public pageLength = 0;
   public pageIndex = 0;
-  public pageSize = 35;
+  public pageSize = 50;
   public pageSizeOptions: [4, 7, 9];
 
   @Output() select = new EventEmitter();

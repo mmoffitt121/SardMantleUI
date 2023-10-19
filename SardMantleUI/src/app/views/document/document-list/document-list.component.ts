@@ -53,6 +53,7 @@ export class DocumentListComponent implements OnInit {
       pageNumber: this.pageIndex + 1,
       ...searchQuery
     }
+    console.log(query)
     this.documentService.getDocuments(query).pipe(take(1)).subscribe(data => {
       this.documents = data;
     });
@@ -64,6 +65,16 @@ export class DocumentListComponent implements OnInit {
   private clickTime = 0;
 
   public selectDocument(doc: any) {
+    this.select.emit(doc);
+    this.documents.forEach(d => {
+      if (d.id == doc.id) {
+        d.selected = true;
+      }
+      else {
+        d.selected = false;
+      }
+    })
+
     if (this.clickTime == 0) {
       this.clickTime = new Date().getTime();
     }
@@ -76,16 +87,6 @@ export class DocumentListComponent implements OnInit {
         this.clickTime = 0;
       }
     }
-    this.select.emit(doc);
-
-    this.documents.forEach(d => {
-      if (d.id == doc.id) {
-        d.selected = true;
-      }
-      else {
-        d.selected = false;
-      }
-    })
   }
 
   public doubleSelectDocument(doc: any) {

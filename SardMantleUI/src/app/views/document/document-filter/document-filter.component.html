@@ -9,14 +9,14 @@
         <div class="search-main-bars">
             <div>
                 <h4 class="section-header">Documents</h4>
-                <app-search-bar [placeholder]="'Filter Documents by Name...'" [control]="documentControl" [searchButton]="false" />
+                <app-search-bar [placeholder]="'Filter Documents by Name...'" [control]="documentControl" [searchButton]="false" (search)="onSearch()" />
             </div>
         </div>
         <div>
             <mat-divider style="margin-top: 15px;"/>
             <h4 class="section-header">Included Types {{selectedTypes.length > 0 ? "(" + selectedTypes.length + " selected)" : ""}}</h4>
             <app-search-bar [placeholder]="'Find Types...'" [control]="documentTypeControl" (search)="filterDocumentTypes()" #typesSearchBar/>
-            <div class="document-types-results" style="margin-top: 10px">
+            <div class="document-types-results" style="margin-top: 10px; max-height: 50vh; overflow: auto;">
                 <mat-card *ngFor="let type of documentTypes" style="display: grid; grid-template-columns: auto 50px; margin: 3px; margin: 3px; background-color: var(--secondary-accent-color);">
                     <mat-card-content style="word-break: break-all; text-wrap:pretty">
                         {{type.name}}
@@ -37,8 +37,7 @@
         <div *ngIf="searchableParams.length > 0">
             <mat-divider style="margin-top: 15px;"/>
             <h4 class="section-header">Parameters</h4>
-            <ng-template #parameterContainer></ng-template>
-            <app-edit-string *ngFor="let param of searchableParams" [parameterName]="param.name" [parameterSummary]="param.summary"/>
+            <app-edit-parameters #editParams />
         </div>
     </mat-card-content>
     <mat-card-actions>

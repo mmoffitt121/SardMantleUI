@@ -1,13 +1,13 @@
-<mat-card>
-    <mat-card-header style="margin-bottom: 30px">
-        <mat-card-title>
-            {{ addEditTitle }}
+<mat-card style="height: calc(100vh - 20px);">
+    <mat-card-header style="margin-bottom: 30px;">
+        <mat-card-title style="word-break: break-all; text-wrap: pretty">
+            {{ addEditTitle | valueShorten: 100:1 }}
         </mat-card-title>
-        <mat-card-subtitle>
+        <mat-card-subtitle style="word-break: break-all; text-wrap: pretty; max-height: 100px; overflow: auto;">
             {{ documentType?.summary }}
         </mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content>
+    <mat-card-content style="overflow: auto;">
         <div *ngIf="!editing">
             <app-edit-data-point [parameterName]="'Document Type'" [items]="documentTypes" (selected)="setDocumentType($event.id)" />
         </div>
@@ -16,8 +16,8 @@
         </div>
         <ng-template #parameterContainer></ng-template>
         <div class="button-holder">
-            <button mat-button (click)="cancel.emit()"> Cancel </button>
-            <button mat-button (click)="saveDocument()" color="primary"> Save </button> 
+            <button mat-button (click)="onCancel()"> Cancel </button>
+            <button mat-button (click)="saveDocument()" color="primary" [disabled]="canSave()"> Save </button> 
         </div>
     </mat-card-content>    
 </mat-card>

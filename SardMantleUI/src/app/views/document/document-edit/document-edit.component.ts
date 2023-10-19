@@ -101,7 +101,7 @@ export class DocumentEditComponent implements AfterViewInit {
   public saveDocument() {
     this.documentService.putDocument(this.buildDocument()).subscribe(result => {
       this.errorService.showSnackBar(`${this.document.name} successfully saved.`);
-      this.save.emit({documentTypeId: this.documentType?.id, documentId: result});
+      this.save.emit({id: result});
     }, error => {
       this.errorService.handle(error);
     })
@@ -197,6 +197,14 @@ export class DocumentEditComponent implements AfterViewInit {
 
   public loadDocumentTypes() {
     this.documentTypeService.getDocumentTypes({}).subscribe(data => this.documentTypes = data, error => this.errorService.handle(error));
+  }
+
+  public canSave() {
+    return !this.document;
+  }
+
+  public onCancel() {
+    this.cancel.emit();
   }
 
   constructor(private cdref: ChangeDetectorRef, 

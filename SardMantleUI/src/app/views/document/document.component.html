@@ -36,7 +36,7 @@
         </div>
     </div>
     <div *ngIf="displayMode === 'edit' || displayMode === 'add'" class="document-views-small">
-        <app-document-edit #documentEditComponent/>
+        <app-document-edit #documentEditComponent (cancel)="setDisplayMode('search')" (save)="setDisplayMode('search'); loadDocument($event)"/>
     </div>
 </div>
     

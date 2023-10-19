@@ -41,18 +41,19 @@
                     </div>
                 </mat-card>
             </div>
-            <mat-card class="paginator-container">
-                <mat-paginator 
-                    [hidePageSize]="true" 
-                    class="paginator"
-                    [length]="pageLength"
-                    [pageIndex]="pageIndex"
-                    [pageSize]="pageSize"
-                    [pageSizeOptions]="pageSizeOptions"
-                    (page)="onPageChange($event)"
-                >
-                </mat-paginator>
-            </mat-card>
         </div>
     </mat-card-content>
+    <mat-card-actions style="height: 60px; overflow: hidden; display: grid;">
+        <mat-paginator 
+            [hidePageSize]="true" 
+            class="paginator"
+            [length]="pageLength"
+            [pageIndex]="pageIndex"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="onPageChange($event)"
+            style="margin-top: -10px"
+        >
+        </mat-paginator>
+    </mat-card-actions>
 </mat-card>

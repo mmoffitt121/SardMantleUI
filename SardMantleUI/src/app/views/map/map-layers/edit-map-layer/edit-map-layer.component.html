@@ -13,6 +13,8 @@
 <mat-card-content>
     <app-edit-string [parameterName]="'Layer Name'" [required]="true" [control]="name"></app-edit-string>
     <app-edit-summary [parameterName]="'Layer Summary'" [control]="summary"></app-edit-summary>
+    <mat-divider />
+    <mat-divider />
     <div class="button-option-holder">
         <div *ngIf="!adding" class="button-option">
             <button mat-button (click)="onChangeIcon()">Change Icon</button>
