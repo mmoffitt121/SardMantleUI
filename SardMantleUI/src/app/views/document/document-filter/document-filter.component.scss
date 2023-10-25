@@ -3,6 +3,17 @@
     margin-bottom: 10px;
 }
 
+.document-type-item {
+    display: grid; 
+    grid-template-columns: auto 50px; 
+    margin: 3px; 
+    background-color: var(--secondary-accent-color);
+}
+
+::ng-deep.mat-mdc-paginator-range-label {
+    margin: 0 10px 0 10px !important;
+}
+
 @media (max-width: 800px) {
     .document-types-results {
         display: grid;

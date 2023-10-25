@@ -32,6 +32,12 @@ export class DocumentFilterComponent implements OnInit {
 
   public searchableParams: any[] = [];
 
+  public pageMode = "documentTypes";
+  public pageLength = 0;
+  public pageIndex = 0;
+  public pageSize = 10;
+  public pageSizeOptions: any;
+
   public toggleTypeSelected(type: DocumentType) {
     if (type.selected) {
       const i = this.selectedTypes.findIndex(x => x.id == type.id);
@@ -50,8 +56,8 @@ export class DocumentFilterComponent implements OnInit {
 
   public filterDocumentTypes() {
     let criteria = {
-      pageSize: 25,
-      pageNumber: 1,
+      pageSize: this.pageSize,
+      pageNumber: this.pageIndex + 1,
       query: this.typesSearchBar?.getValue() ?? ''
     };
 
@@ -62,6 +68,10 @@ export class DocumentFilterComponent implements OnInit {
           type.selected = true;
         }
       });
+    }, error => this.errorService.handle(error));
+
+    this.documentTypeService.getDocumentTypesCount(criteria).subscribe(data => {
+      this.pageLength = data;
     }, error => this.errorService.handle(error));
   }
 
@@ -97,6 +107,16 @@ export class DocumentFilterComponent implements OnInit {
     });
   }
 
+  public onPageChange(data: any) {
+    this.pageIndex = data.pageIndex;
+    this.pageSize = data.pageSize;
+    this.filterDocumentTypes();
+  }
+
+  public setPageMode(mode: string) {
+    this.pageMode = mode;
+  }
+
   constructor(
     public documentTypeService: DocumentTypeService, 
     public dialog: MatDialog, 
@@ -107,6 +127,6 @@ export class DocumentFilterComponent implements OnInit {
   ) { }
 
   public ngOnInit() {
-
+    this.filterDocumentTypes();
   }
 }

@@ -13,7 +13,8 @@
 <mat-card-content>
     <app-edit-string [parameterName]="'Layer Name'" [required]="true" [control]="name"></app-edit-string>
     <app-edit-summary [parameterName]="'Layer Summary'" [control]="summary"></app-edit-summary>
-    <mat-divider />
+    <mat-divider *ngIf="!adding && !mapLayer.isIconLayer" />
+    <app-edit-list [parameterName]="'Persistent Zoom Levels'" [(items)]="persistentZoomLevels" [dataType]="'int'" *ngIf="!adding && !mapLayer.isIconLayer" />
     <mat-divider />
     <div class="button-option-holder">
         <div *ngIf="!adding" class="button-option">
