@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -12,6 +12,12 @@ export class EditIntComponent implements OnInit {
   @Input() control = new FormControl();
   @Input() required: boolean = false;
   @Input() placeholder: string = "Number"
+  @Input() canDelete = false;
+  @Input() thin = false;
+  public index: number;
+
+  @Output() valueChanged = new EventEmitter();
+  @Output() delete = new EventEmitter();
 
   public typeParameterId: number;
 
@@ -36,6 +42,7 @@ export class EditIntComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.control.valueChanges.subscribe(value => this.valueChanged.emit({value, index: this.index}))
     if (this.required) {
       this.control.addValidators([Validators.required]);
     }

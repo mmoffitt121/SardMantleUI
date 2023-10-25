@@ -13,6 +13,8 @@ export class EditStringComponent implements OnInit {
   @Input() required: boolean = false;
   @Input() maxLength: number | null = null;
 
+  @Input() type: string = '';
+
   @Output() valueChanged = new EventEmitter(); 
 
   @Input() control = new FormControl();

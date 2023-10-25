@@ -1,4 +1,4 @@
-<div>
+<div class="edit-location-container">
     <h3> {{editing ? "Editing " + (dataType == 0 ? selectedMapObject.name : selectedMapObject.name) : "Add Location"}} </h3>
     <mat-card class="card">
         <mat-card-content>
@@ -6,29 +6,29 @@
             <mat-divider></mat-divider>
             <app-edit-data-point [parameterName]="'Location Type'" (selected)="setLocationType($event)" [items]="locationTypes" [selectedItem]="locationType"></app-edit-data-point>
             <app-edit-data-point [parameterName]="'Parent Location'" (selected)="setParent($event)" [items]="parentLocations" [selectedItem]="parentLocation" *ngIf="locationType?.parentTypeId || locationType?.anyTypeParent"></app-edit-data-point>
-            <div style="display: grid; grid-template-columns: auto auto;" >
-                <div style="margin-right: 5px;">
+            <div class="parameter-grid">
+                <div style="margin-right: 10px;">
                     <app-edit-int [parameterName]="'Outermost Zoom Prominence'" [control]="zoomProminenceMin"></app-edit-int>
                 </div>
-                <div style="margin-left: 5px;">
+                <div style="margin-right: 10px;">
                     <app-edit-int [parameterName]="'Innermost Zoom Prominence'" [control]="zoomProminenceMax"></app-edit-int>
                 </div>
             </div>
-            <div style="display: grid; grid-template-columns: 0.5fr 0.5fr;">
-                <div style="margin-right: 5px;">
+            <div class="parameter-grid">
+                <div style="margin-right: 10px;">
                     <app-edit-int 
                         [parameterName]="'Label Font Size'" 
                         [control]="labelFontSize">
                     </app-edit-int>
                 </div>
-                <div  style="margin-left: 5px;">
+                <div style="margin-right: 10px;">
                     <app-edit-int 
                         [parameterName]="'Label Font Color'" 
                         [placeholder]="'#000000'"
                         [control]="labelFontColor">
                     </app-edit-int>
                 </div>
-                <div style="padding-right: 5px;">
+                <div style="margin-right: 10px;">
                     <app-edit-int 
                         [parameterName]="'Icon Size'" 
                         [parameterSummary]="'How wide the icon is in pixels (default 32)'"
@@ -38,7 +38,7 @@
             </div>
             <mat-divider></mat-divider>
             <app-edit-data-point [parameterName]="'Layer'" (selected)="setLayer($event)" [items]="layers" [selectedItem]="layer"></app-edit-data-point>
-            <div style="margin-top: 10px;" *ngIf="editing">
+            <div style="margin-top: 10px; " *ngIf="editing">
                 <button mat-button (click)="onChangeIcon()">
                     Change Icon
                 </button>

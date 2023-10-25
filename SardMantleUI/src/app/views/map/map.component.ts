@@ -118,24 +118,59 @@ export class MapComponent implements OnInit {
     this.routedCenter = undefined;
     this.routedZoom = undefined;
 
+    /*const tilesOuter = L.tileLayer(environment.baseUrl + '/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.baseLayer?.id + "&worldLocation=" + this.urlService.getWorld(), {
+      maxZoom: 10,
+      minZoom: 0,
+      maxNativeZoom: 4,
+      minNativeZoom: 0,
+      noWrap: !this.mapData.loops
+    });
+    tilesOuter.addTo(this.map);
+
+    const tilesOuter2 = L.tileLayer(environment.baseUrl + '/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.baseLayer?.id + "&worldLocation=" + this.urlService.getWorld(), {
+      maxZoom: 10,
+      minZoom: 5,
+      maxNativeZoom: 7,
+      minNativeZoom: 5,
+      noWrap: !this.mapData.loops
+    });
+    tilesOuter2.addTo(this.map);
+
+    let levels = this.baseLayer?.persistentZoomLevels && this.baseLayer?.persistentZoomLevels.length ? [0, ...this.baseLayer.persistentZoomLevels] : [0];
+    let ranges = [];*/
+
     if (this.baseLayer) {
-      const tilesOuter = L.tileLayer(environment.baseUrl + '/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.baseLayer.id + "&worldLocation=" + this.urlService.getWorld(), {
-        maxZoom: this.mapData.maxZoom + 5,
-        minZoom: this.mapData.minZoom,
-        maxNativeZoom: this.mapData.maxZoom,
-        noWrap: !this.mapData.loops
-      });
-      tilesOuter.addTo(this.map);
+      let zoomLevels: any = [];
+      zoomLevels.push(this.mapData.minZoom);
+      this.baseLayer.persistentZoomLevels?.forEach(zl => zoomLevels.push(zl.zoom));
+      for (let i = 0; i < zoomLevels.length; i++) {
+        const tilesOuter = L.tileLayer(environment.baseUrl + '/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.baseLayer?.id + "&worldLocation=" + this.urlService.getWorld(), {
+          maxZoom: this.mapData.maxZoom + 5,
+          minZoom: zoomLevels[i],
+          maxNativeZoom: zoomLevels[i + 1] ?? this.mapData.maxZoom,
+          minNativeZoom: zoomLevels[i], 
+          noWrap: !this.mapData.loops
+        });
+        tilesOuter.addTo(this.map);
+        console.log(tilesOuter)
+      }
     }
 
     if (this.coverLayer) {
-      const tilesOuter = L.tileLayer(environment.baseUrl + '/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.coverLayer.id + "&worldLocation=" + this.urlService.getWorld(), {
-        maxZoom: this.mapData.maxZoom + 5,
-        minZoom: this.mapData.minZoom,
-        maxNativeZoom: this.mapData.maxZoom,
-        noWrap: !this.mapData.loops
-      });
-      tilesOuter.addTo(this.map);
+      let zoomLevels: any = [];
+      zoomLevels.push(this.mapData.minZoom);
+      this.coverLayer.persistentZoomLevels?.forEach(zl => zoomLevels.push(zl.zoom));
+      for (let i = 0; i < zoomLevels.length; i++) {
+        const tilesOuter = L.tileLayer(environment.baseUrl + '/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.coverLayer?.id + "&worldLocation=" + this.urlService.getWorld(), {
+          maxZoom: this.mapData.maxZoom + 5,
+          minZoom: zoomLevels[i],
+          maxNativeZoom: zoomLevels[i + 1] ?? this.mapData.maxZoom,
+          minNativeZoom: zoomLevels[i], 
+          noWrap: !this.mapData.loops
+        });
+        tilesOuter.addTo(this.map);
+        console.log(tilesOuter)
+      }
     }
 
     this.queryAll();
@@ -378,6 +413,10 @@ export class MapComponent implements OnInit {
     this.showMarkers();
   }
 
+  public reloadPage() {
+    window.location.reload();
+  }
+
   public addMarkers(markers: any): void {
     let dotHTML = `<div style='
       height: 7px; width: 7px; 
@@ -398,13 +437,10 @@ export class MapComponent implements OnInit {
       var marker = markers[i];
       if (!(marker.latitude && marker.longitude)) continue;
 
-      console.log(marker)
-
       // Set Icon
       if (marker.usesIcon) {
         if (marker.iconURL) {
           iconHTML = `<div><img style='width: ` + (marker.iconSize ?? 32) + `px; margin-top: -50%;' src='` + marker.iconURL + `'</div>`;
-          console.log(iconHTML)
         } 
         else {
           iconHTML = dotHTML;

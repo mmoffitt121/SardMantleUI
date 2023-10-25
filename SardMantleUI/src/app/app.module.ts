@@ -115,6 +115,9 @@ import { ViewLocationParamComponent } from './views/shared/document-components/v
 import { NavMenuComponent } from './views/home/top-bar/nav-menu/nav-menu.component';
 import { DocumentFilterComponent } from './views/document/document-filter/document-filter.component';
 import { ChangePasswordComponent } from './views/auth/user-settings/change-password/change-password.component';
+import { DocumentViewComponent } from './views/document/document-info/document-view/document-view.component';
+import { EditParametersComponent } from './views/shared/document-components/edit/edit-parameters/edit-parameters.component';
+import { EditListComponent } from './views/shared/document-components/edit/edit-list/edit-list.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -196,7 +199,10 @@ export function tokenGetter() {
     ViewLocationParamComponent,
     NavMenuComponent,
     DocumentFilterComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    DocumentViewComponent,
+    EditParametersComponent,
+    EditListComponent
   ],
   imports: [
     BrowserModule,

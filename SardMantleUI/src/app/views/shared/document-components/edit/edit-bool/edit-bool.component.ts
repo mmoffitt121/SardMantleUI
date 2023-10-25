@@ -29,7 +29,7 @@ export class EditBoolComponent implements OnInit {
   }
 
   public getValue() {
-    return this.control.value ?? false;
+    return this.control.value;
   }
 
   public ngOnInit(): void {

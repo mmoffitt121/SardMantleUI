@@ -9,3 +9,22 @@ mat-divider {
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
+
+
+@media (max-width: 1100px) {
+    .parameter-grid {
+        display: grid; 
+        grid-template-columns: auto;
+    }
+}
+
+@media (min-width: 1100px) {
+    .parameter-grid {
+        display: grid; 
+        grid-template-columns: 0.5fr 0.5fr;
+    }
+    .edit-location-container {
+        width: 500px;
+    }
+}
