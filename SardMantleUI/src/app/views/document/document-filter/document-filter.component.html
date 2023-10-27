@@ -1,7 +1,89 @@
-<h3>Search</h3>
-<mat-divider style="margin-top: 15px;"/>
-<h4 class="section-header">Document Types</h4>
-<app-search-bar [placeholder]="'Filter Types...'" [control]="documentTypeControl" (search)="filterDocumentTypes()" />
-<mat-divider style="margin-top: 15px;"/>
-<h4 class="section-header">Documents</h4>
-<app-search-bar [placeholder]="'Filter Documents...'" [control]="documentControl" (search)="filterDocuments()" />
+<mat-card style="height: calc(100vh - 20px);">
+    <mat-card-header style="display: inline">
+        <div style="display: grid; grid-template-columns: auto min-content; margin-bottom: 10px;">
+            <mat-card-title style="margin-top: 10px;" [style.display]="pageMode === 'documentTypes' ? 'block' : 'none'">
+                Document Types
+            </mat-card-title>
+            <mat-card-title style="margin-top: 10px;" [style.display]="pageMode === 'filter' ? 'block' : 'none'">
+                Search
+            </mat-card-title>
+            <mat-button-toggle-group name="pageMode" value="documentTypes">
+                <mat-button-toggle value="documentTypes" matTooltip="Document Types" (click)="setPageMode('documentTypes')">
+                  <mat-icon> perm_media </mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle value="filter" matTooltip="Filter" (click)="setPageMode('filter')">
+                  <mat-icon> search </mat-icon>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+        
+        <div [style.display]="pageMode === 'documentTypes' ? 'block' : 'none'"  style="margin-bottom: 10px;">
+            <app-search-bar [placeholder]="'Find Types...'" [control]="documentTypeControl" (search)="filterDocumentTypes()" #typesSearchBar/>
+        </div>
+    </mat-card-header>
+    <mat-card-content style="overflow: auto; height: 100%">
+        <div [style.display]="pageMode === 'documentTypes' ? 'block' : 'none'">
+            <mat-action-list>
+                <div *ngFor="let type of documentTypes" style="display: grid; grid-template-columns: auto min-content;">
+                    <button 
+                        mat-list-item class="list-item" 
+                        [value]="type.id" 
+                        [style.--mdc-list-list-item-label-text-size]="type.selected ? '19px' : '16px'"
+                        [style.background-color]="type.selected ? 'var(--secondary-accent-color-selected)' : 'var(--secondary-accent-color)'"
+                        (click)="toggleTypeSelected(type)"
+                    >
+                        {{type.name}}
+                    </button>
+                    <button mat-icon-button style="margin: 5px;" (click)="toggleTypeSelected(type)" *ngIf="typeMultiSelect">
+                        <mat-icon *ngIf="!type.selected">
+                            radio_button_unchecked
+                        </mat-icon>
+                        <mat-icon *ngIf="type.selected">
+                            check_circle
+                        </mat-icon>
+                    </button>
+                </div>
+            </mat-action-list>
+        </div>
+        <div [style.display]="pageMode === 'filter' ? 'block' : 'none'">
+            <div class="search-main-bars">
+                <div>
+                    <h4 class="section-header">Documents</h4>
+                    <app-search-bar [placeholder]="'Filter Documents by Name...'" [control]="documentControl" [searchButton]="false" (search)="onSearch()" />
+                </div>
+            </div>
+            <div *ngIf="searchableParams.length > 0">
+                <mat-divider style="margin-top: 15px;"/>
+                <h4 class="section-header">Parameters</h4>
+                <app-edit-parameters #editParams />
+            </div>
+        </div>
+    </mat-card-content>
+    <mat-card-actions [style.display]="pageMode === 'documentTypes' ? 'grid' : 'none'" style="grid-template-columns: auto auto;">
+        <button mat-button (click)="toggleMultiSelect()" [style.width]="typeMultiSelect ? 'auto' : '40px'" style="min-width: 40px">
+            <p *ngIf="typeMultiSelect">
+                {{selectedTypes.length}} Selected
+            </p>
+            <p *ngIf="!typeMultiSelect">
+                <mat-icon style="margin-top: 5px;">
+                    radio_button_unchecked
+                </mat-icon>
+            </p>
+        </button>
+        <mat-paginator 
+            [hidePageSize]="true" 
+            class="paginator"
+            style="height: 50px; width: 100%"
+            [length]="pageLength"
+            [pageIndex]="pageIndex"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="onPageChange($event)"
+        />
+    </mat-card-actions>
+    <mat-card-actions style="display: inline; padding-bottom: 10px">
+        <button mat-button style="width: 100%" color="primary" (click)="onSearch()">
+            Search
+        </button>
+    </mat-card-actions>
+</mat-card>

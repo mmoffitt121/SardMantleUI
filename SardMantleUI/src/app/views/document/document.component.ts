@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Location as RouteLocation } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DocumentInfoComponent } from './document-info/document-info.component';
@@ -17,16 +18,19 @@ import { ErrorService } from 'src/app/services/error.service';
 import { DocumentTypeService } from 'src/app/services/document/document-type.service';
 import { MatSidenavModule, MatDrawer, MatDrawerContainer, MatDrawerToggleResult } from '@angular/material/sidenav';
 import { DocumentFilterComponent } from './document-filter/document-filter.component';
+import { Observable, fromEvent, throttleTime } from 'rxjs';
+import { DocumentViewComponent } from './document-info/document-view/document-view.component';
+import { Document } from 'src/app/models/document/document-types/document';
 
 @Component({
   selector: 'app-document',
   templateUrl: './document.component.html',
   styleUrls: ['./document.component.scss']
 })
-export class DocumentComponent implements AfterViewInit {
+export class DocumentComponent implements OnInit {
   @ViewChild('documentTypeComponent') documentTypeComponent: DocumentTypeComponent;
   @ViewChild('documentListComponent') documentListComponent: DocumentListComponent;
-  @ViewChild('documentInfoComponent') documentInfoComponent: DocumentInfoComponent;
+  @ViewChild('documentViewComponent') documentViewComponent: DocumentViewComponent;
   @ViewChild('documentEditComponent') documentEditComponent: DocumentEditComponent;
   @ViewChild('documentFilterComponent') doucmentFilterComponent: DocumentFilterComponent;
 
@@ -58,34 +62,35 @@ export class DocumentComponent implements AfterViewInit {
     }
   }
 
+  public displayMode = "search";
+
   public editing = false;
   public adding = false;
 
   public currentDocumentTypeId: number | undefined;
   private currentDocumentId: number | undefined;
 
-  public onTypePageChange(event: any) {
-    this.typePageSize = event.pageSize;
-    this.typePageIndex = event.pageIndex;
-    this.onSearchTypes();
+  public wideScreen = this.isWideScreen();
+
+  public searchCriteria: any;
+
+  public isWideScreen() {
+    return document.body.offsetWidth > 1000;
   }
 
-  public onPageChange(event: any) {
-    this.pageSize = event.pageSize;
-    this.pageIndex = event.pageIndex;
-    this.onSearch();
+  public canSeeFullSearch() {
+    return this.wideScreen && (this.displayMode === 'search' || this.displayMode === 'results' || this.displayMode === 'view')
   }
 
-  public onSearchTypes() {
-    console.log(this.doucmentFilterComponent)
-    this.documentTypeService.getDocumentTypesCount(this.getTypePageCriteria()).subscribe(data => {
-      this.typePageLength = data;
-    })
-    this.documentTypeComponent.loadDocumentTypes(this.getTypePageCriteria());
+  public setDisplayMode(val: string) {
+    var route = this.urlService.getWorld() + '/document/' + val;
+    this.routeLocation.replaceState(route);
+    this.displayMode = val;
   }
 
-  public onSearch() {
-    this.loadDocumentList({id: this.currentDocumentTypeId});
+  public onSearch(event: any) {
+    this.displayMode = 'results';
+    this.documentListComponent.search(event, true);
   }
 
   public handleAddDocument(event: any) {
@@ -96,26 +101,11 @@ export class DocumentComponent implements AfterViewInit {
     this.documentEditComponent.setDocumentType(typeId);
   }
 
-  public handleEditDocument(event: any) {
-    this.editing = true;
-    const id = this.documentInfoComponent.document? this.documentInfoComponent.document.id : -1;
-    this.cdref.detectChanges();
-    this.documentEditComponent.setDocument(id ?? -1);
-  }
-
-  public cancelAddEdit(event: any) {
-    this.editing = false;
-    this.loadDocument({ id: this.currentDocumentId });
-    if (this.currentDocumentTypeId != undefined) {
-      this.documentInfoComponent.setDocumentType(this.currentDocumentTypeId);
-    }
-  }
-
   public addEditComplete(event: any) {
     this.loadDocument({id: event.documentId});
   }
 
-  public handleDeleteDocument(document: any) {
+  /*public handleDeleteDocument(document: any) {
     var deleteMessage = `Are you sure you want to delete ${document.name}?`;
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -142,28 +132,20 @@ export class DocumentComponent implements AfterViewInit {
     error => {
       this.errorService.handle(error);
     })
-  }
-
-  public loadDocumentList(data: any) {
-    this.editing = false;
-    this.cdref.detectChanges();
-    this.currentDocumentTypeId = data.id;
-    this.documentListComponent.setDocumentType(data.id, this.getPageCriteria());
-    this.documentService.getDocumentsCount({typeId: data.id, ...this.getPageCriteria()}).subscribe(data => {
-      this.pageLength = data;
-    })
-    this.location.replaceState(this.urlService.getWorld() + "/document/" + data.id);
-    this.documentInfoComponent.setDocumentType(data.id);
-    this.documentInfoComponent.canAdd = this.currentDocumentTypeId != -1;
-  }
+  }*/
 
   public loadDocument(data: any) {
+    this.displayMode = 'view';
     this.editing = false;
     this.cdref.detectChanges();
     this.currentDocumentId = data.id;
-    this.documentInfoComponent.setDocument(data.id);
-    this.location.replaceState(this.urlService.getWorld() + "/document/" + this.currentDocumentTypeId + "/" + data.id);
-    this.documentInfoComponent.canAdd = this.currentDocumentTypeId != -1;
+    this.documentViewComponent.selectDocument(data);
+    this.location.replaceState(this.urlService.getWorld() + "/document/view/" + data.id);
+  }
+
+  public pushDocument(data: any) {
+    this.loadDocument(data);
+    this.documentViewComponent.pushDocument(data);
   }
 
   public addDocumentType() {
@@ -179,8 +161,41 @@ export class DocumentComponent implements AfterViewInit {
     });
   }
 
-  public editDocumentType() {
-    this.router.navigate([this.urlService.getWorld(), 'document', 'type', 'edit', this.currentDocumentTypeId]);
+  public handleNavigate() {
+    this.route.params.subscribe(params => {
+      let mode = this.router.url.split('/')[3];
+      switch(mode) {
+        case 'edit':
+          if (params['docId']) {
+            this.displayMode = mode;
+            this.cdref.detectChanges();
+            this.documentEditComponent.setDocument(params['docId']);
+            this.documentEditComponent.editing = true;
+          }
+          else {
+            this.displayMode = 'search';
+          }
+          break;
+        case 'view':
+          if (params['docId']) {
+            this.displayMode = mode;
+            this.cdref.detectChanges();
+            this.documentViewComponent.selectDocument({id: params['docId']} as Document);
+          }
+          else {
+            this.displayMode = 'search';
+          }
+          break;
+        case 'search':
+        case 'results':
+        case 'add':
+        case 'type':
+          this.displayMode = mode;
+          break;
+        default: 
+          break;
+      }
+    });
   }
 
   constructor (
@@ -193,28 +208,13 @@ export class DocumentComponent implements AfterViewInit {
     private themeService: ThemeService,
     private documentService: DocumentService,
     private documentTypeService: DocumentTypeService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private routeLocation: RouteLocation
   ) { 
-    this.route.params.subscribe(params => {
-      this.currentDocumentTypeId = params['typeId'];
-      this.currentDocumentId = params['documentId'];
-    });
   }
 
-  ngAfterViewInit(): void {
-    this.documentTypeService.getDocumentTypesCount(this.getTypePageCriteria()).subscribe(data => {
-      this.typePageLength = data;
-    })
-    this.documentTypeComponent.loadDocumentTypes(this.getTypePageCriteria());
-    if (this.currentDocumentId != undefined) {
-      this.documentInfoComponent.setDocument(this.currentDocumentId);
-      this.documentTypeComponent.selectDocumentType({currentTarget: {value: this.currentDocumentTypeId}});
-      this.loadDocumentList({id: this.currentDocumentTypeId});
-      this.location.replaceState(this.urlService.getWorld() + "/document/" + this.currentDocumentTypeId + "/" + this.currentDocumentId);
-    }
-    else if (this.currentDocumentTypeId != undefined) {
-      this.documentTypeComponent.selectDocumentType({currentTarget: {value: this.currentDocumentTypeId}});
-      this.loadDocumentList({id: this.currentDocumentTypeId});
-    }
+  ngOnInit(): void {
+    fromEvent(window, 'resize').pipe(throttleTime(50)).subscribe(event => this.wideScreen = this.isWideScreen())
+    this.handleNavigate();
   }
 }

@@ -158,7 +158,15 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
   }
 
   public navigateToSelf() {
-    this.router.navigate([this.urlService.getWorld(), 'document', this.document?.typeId, this.document?.id])
+    this.router.navigate([this.urlService.getWorld(), 'document', 'view', this.document?.id])
+  }
+
+  public onEdit() {
+    this.router.navigate([this.urlService.getWorld(), 'document', 'edit', this.document?.id])
+  }
+
+  public onDelete() {
+
   }
 
   constructor(private cdref: ChangeDetectorRef, 

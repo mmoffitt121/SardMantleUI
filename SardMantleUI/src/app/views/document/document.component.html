@@ -1,83 +1,42 @@
 
 <div class="document-screen-container">
-    <div class="search-grid">
-        <mat-card *ngIf="searching"  class="document-list-container">
-            <mat-card-content>
-                <app-document-filter (search)="onSearch()" (searchTypes)="onSearchTypes()" #documentFilterComponent />
-            </mat-card-content>
-        </mat-card>
-    </div>
-    <div class="document-type-grid">
+    <div class="button-holder-wrapper">
         <div class="button-holder">
-            <app-nav-menu></app-nav-menu>
-            <button mat-icon-button class="button" matTooltip="Search/Filter" (click)="searching = !searching">
-                <mat-icon *ngIf="searching"> search_off </mat-icon>
-                <mat-icon *ngIf="!searching"> search </mat-icon>
+            <app-nav-menu class="button"></app-nav-menu>
+            <button mat-icon-button class="button" (click)="setDisplayMode('type')">
+                <mat-icon> perm_media </mat-icon>
             </button>
-            <button mat-icon-button class="button" matTooltip="Add Data Type" (click)="addDocumentType()">
-                <mat-icon> library_add </mat-icon>
+            <button mat-icon-button class="button" (click)="setDisplayMode('search')">
+                <mat-icon> search </mat-icon>
             </button>
-            <button mat-icon-button class="button" matTooltip="Edit Data Type" [disabled]="currentDocumentTypeId == -1" (click)="editDocumentType()">
-                <mat-icon> edit </mat-icon>
+            <button mat-icon-button class="button" (click)="setDisplayMode('results')" *ngIf="!wideScreen">
+                <mat-icon> file_copy </mat-icon>
             </button>
-            <mat-menu #menu="matMenu">
-                <button mat-menu-item>Item 1</button>
-                <button mat-menu-item>Item 2</button>
-            </mat-menu>
+            <button mat-icon-button class="button" (click)="setDisplayMode('view')" *ngIf="!wideScreen">
+                <mat-icon> description </mat-icon>
+            </button>
+            <button mat-icon-button class="button" (click)="setDisplayMode('add')">
+                <mat-icon> add </mat-icon>
+            </button>
         </div>
-        <mat-card class="document-type-container" style="height: 100fr">
-            <mat-card-content>
-                <app-document-type (select)="loadDocumentList($event)" #documentTypeComponent> </app-document-type>
-            </mat-card-content>
-        </mat-card>
-        <mat-card class="paginator-container">
-            <mat-paginator 
-                [hidePageSize]="true" 
-                class="paginator"
-                [length]="typePageLength"
-                [pageIndex]="typePageIndex"
-                [pageSize]="typePageSize"
-                [pageSizeOptions]="typePageSizeOptions"
-                (page)="onTypePageChange($event)"
-            >
-            </mat-paginator>
-        </mat-card>
     </div>
-    <div class="document-list-grid">
-        <mat-card class="document-list-container">
-            <mat-card-content>
-                <app-document-list (select)="loadDocument($event)" #documentListComponent> </app-document-list>
-            </mat-card-content>
-        </mat-card>
-        <mat-card class="paginator-container">
-            <mat-paginator 
-                [hidePageSize]="true" 
-                class="paginator"
-                [length]="pageLength"
-                [pageIndex]="pageIndex"
-                [pageSize]="pageSize"
-                [pageSizeOptions]="pageSizeOptions"
-                (page)="onPageChange($event)"
-            >
-            </mat-paginator>
-        </mat-card>
+
+    <div *ngIf="displayMode === 'type'" class="document-views-small">
+        <app-document-type />
     </div>
-    <div class="document-view-grid">
-        <mat-card class="document-view-container">
-            <app-document-info 
-                #documentInfoComponent 
-                *ngIf="!editing" 
-                (add)="handleAddDocument($event)"
-                (edit)="handleEditDocument($event)"
-                (delete)="handleDeleteDocument($event)"
-            />
-            <app-document-edit 
-                #documentEditComponent 
-                *ngIf="editing"
-                (cancel)="cancelAddEdit($event)"
-                (save)="addEditComplete($event)"
-            /> 
-        </mat-card>
+    <div class="document-views" *ngIf="displayMode === 'search' || displayMode === 'results' || displayMode === 'view'">
+        <div [hidden]="displayMode !== 'search' && !canSeeFullSearch()">
+            <app-document-filter #documentFilterComponent (search)="onSearch($event)" />
+        </div>
+        <div [hidden]="displayMode !== 'results' && !canSeeFullSearch()">
+            <app-document-list #documentListComponent (select)="loadDocument($event)" (doubleSelect)="pushDocument($event)" />
+        </div>
+        <div [hidden]="displayMode !== 'view' && !canSeeFullSearch()">
+            <app-document-view #documentViewComponent />
+        </div>
+    </div>
+    <div *ngIf="displayMode === 'edit' || displayMode === 'add'" class="document-views-small">
+        <app-document-edit #documentEditComponent (cancel)="setDisplayMode('search')" (save)="setDisplayMode('search'); loadDocument($event)"/>
     </div>
 </div>
     

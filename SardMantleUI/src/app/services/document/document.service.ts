@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 })
 export class DocumentService {
   public getDocuments(criteria: any) {
-    return this.http.get<any>(environment.baseUrl + '/Library/DataPoint/GetDataPoints', { params: criteria })
+    return this.http.post<any>(environment.baseUrl + '/Library/DataPoint/GetDataPoints', criteria)
   }
 
   public getDocumentsFromWorld(criteria: any, world: string) {
@@ -20,7 +20,7 @@ export class DocumentService {
   }
 
   public getDocumentsCount(criteria: any) {
-    return this.http.get<any>(environment.baseUrl + '/Library/DataPoint/GetDataPointsCount', { params: criteria })
+    return this.http.post<any>(environment.baseUrl + '/Library/DataPoint/GetDataPointsCount', criteria)
   }
 
   public getDocument(id: number) {
