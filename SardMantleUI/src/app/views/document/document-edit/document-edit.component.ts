@@ -27,8 +27,11 @@ import { UrlService } from 'src/app/services/url/url.service';
 export class DocumentEditComponent implements AfterViewInit {
   public document: Document;
   public documentType: DocumentType | undefined;
+  public documentTypes: DocumentType[] = [];
 
-  public addEditTitle: string;
+  public addEditTitle: string = "Add Document";
+
+  public editing = false;
 
   private parameterComponents: any[] = [];
 
@@ -98,7 +101,7 @@ export class DocumentEditComponent implements AfterViewInit {
   public saveDocument() {
     this.documentService.putDocument(this.buildDocument()).subscribe(result => {
       this.errorService.showSnackBar(`${this.document.name} successfully saved.`);
-      this.save.emit({documentTypeId: this.documentType?.id, documentId: result});
+      this.router.navigate([this.urlService.getWorld(), 'document', 'view', result])
     }, error => {
       this.errorService.handle(error);
     })
@@ -192,6 +195,23 @@ export class DocumentEditComponent implements AfterViewInit {
     })
   }
 
+  public loadDocumentTypes() {
+    this.documentTypeService.getDocumentTypes({}).subscribe(data => this.documentTypes = data, error => this.errorService.handle(error));
+  }
+
+  public canSave() {
+    return !this.document;
+  }
+
+  public onCancel() {
+    if (this.editing) {
+      this.router.navigate([this.urlService.getWorld(), 'document', 'view', this.document?.id])
+    }
+    else {
+      this.cancel.emit();
+    }
+  }
+
   constructor(private cdref: ChangeDetectorRef, 
     private documentService: DocumentService, 
     private documentTypeService: DocumentTypeService,
@@ -202,6 +222,6 @@ export class DocumentEditComponent implements AfterViewInit {
     private urlService: UrlService) { }
 
   ngAfterViewInit(): void {
-
+    this.loadDocumentTypes();
   }
 }

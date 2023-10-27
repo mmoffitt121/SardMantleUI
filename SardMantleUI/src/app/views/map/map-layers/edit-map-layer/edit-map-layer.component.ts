@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -30,27 +30,36 @@ export class EditMapLayerComponent implements OnInit {
   public name = new FormControl();
   public summary = new FormControl();
 
-  public onSave() {
+  public persistentZoomLevels: any[] = [];
+
+  public onSave() {   
     if (this.adding) {
       this.mapLayer = {
         name: this.name.value,
         summary: this.summary.value,
         mapId: this.mapId,
         isBaseLayer: false,
-        isIconLayer: this.iconLayer
+        isIconLayer: this.iconLayer,
+        persistentZoomLevels: this.persistentZoomLevels
       } as MapLayer;
       this.mapLayerService.postMapLayer(this.mapLayer).subscribe(result => {
         this.errorService.showSnackBar("Layer " + this.mapLayer.name + " successfully created.");
         this.dialogRef.close(true);
+
       },
       error => {
         this.errorService.handle(error);
       });
     }
     else {
+      let zoomLevels: any = [];
+      this.persistentZoomLevels.forEach(z => {
+        zoomLevels.push({zoom: z, mapLayerId: this.mapLayer.id});
+      })
       this.mapLayer.name = this.name.value;
       this.mapLayer.summary = this.summary.value;
       this.mapLayer.isBaseLayer = this.baseLayer;
+      this.mapLayer.persistentZoomLevels = zoomLevels;
       this.mapLayerService.putMapLayer(this.mapLayer).subscribe(result => {
         this.errorService.showSnackBar("Layer " + this.mapLayer.name + " successfully saved.");
         if (this.iconChanged) {
@@ -135,6 +144,12 @@ export class EditMapLayerComponent implements OnInit {
     if (!this.adding && !(this.mapLayer === undefined)) {
       this.name.setValue(this.mapLayer.name);
       this.summary.setValue(this.mapLayer.summary);
+      if (this.mapLayer.persistentZoomLevels && this.mapLayer.persistentZoomLevels.length) {
+        this.persistentZoomLevels = [];
+        this.mapLayer.persistentZoomLevels.forEach(z => {
+          this.persistentZoomLevels.push(z.zoom);
+        })
+      }
     }
   }
 }

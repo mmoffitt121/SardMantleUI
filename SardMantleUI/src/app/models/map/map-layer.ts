@@ -10,4 +10,5 @@ export interface MapLayer extends Selectable {
     isIconLayer: boolean;
     iconURL: string;
     safeURL: SafeUrl | undefined;
+    persistentZoomLevels: any[];
 }

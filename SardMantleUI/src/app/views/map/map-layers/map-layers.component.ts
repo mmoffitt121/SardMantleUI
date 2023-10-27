@@ -20,6 +20,7 @@ export class MapLayersComponent implements OnChanges {
   public mapLayers: MapLayer[];
 
   @Output() layerSelectionChanged = new EventEmitter();
+  @Output() saved = new EventEmitter();
   
   @Input() mapId: number;
   public length: number = 0;
@@ -71,6 +72,7 @@ export class MapLayersComponent implements OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.loadLayers();
+        this.saved.emit();
       }
     });
   }
@@ -84,6 +86,7 @@ export class MapLayersComponent implements OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.loadLayers();
+        this.saved.emit();
       }
     });
   }

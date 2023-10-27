@@ -5,7 +5,7 @@
     <button mat-icon-button (click)="add.emit(document)" matTooltip="Add" *ngIf="canAdd && showEditControls">
         <mat-icon> library_add </mat-icon>
     </button>
-    <button mat-icon-button (click)="edit.emit(document)" *ngIf="document !== undefined && showEditControls"  matTooltip="Edit">
+    <button mat-icon-button (click)="onEdit()" *ngIf="document !== undefined && showEditControls"  matTooltip="Edit">
         <mat-icon> edit </mat-icon>
     </button>
     <button mat-icon-button (click)="delete.emit(document)" *ngIf="document !== undefined && showEditControls"  matTooltip="Delete">

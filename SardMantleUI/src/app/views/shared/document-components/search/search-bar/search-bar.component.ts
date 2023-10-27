@@ -11,6 +11,7 @@ export class SearchBarComponent implements OnInit {
   @Input() maxLength: number | null = null;
   @Input() disabled: boolean = false;
   @Input() onTyping: boolean = false;
+  @Input() searchButton: boolean = true;
 
   @Output() valueChanged = new EventEmitter(); 
   @Output() search = new EventEmitter();

@@ -5,7 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ValueShortenPipe implements PipeTransform {
   public defaultLength = 20;
-  transform(value: string, ...args: number[]): unknown {
+  transform(value: string | undefined, ...args: number[]): unknown {
+
     var length;
     if (args[0]) {
       length = args[0];
@@ -14,11 +15,11 @@ export class ValueShortenPipe implements PipeTransform {
       length = this.defaultLength;
     }
 
-    if (value === null || value?.length <= length) {
+    if (value === null || (value?.length ?? 0) <= length) {
       return value;
     }
     else {
-      return value.substring(0, length) + (args[1] ? "..." : "");
+      return value?.substring(0, length) + (args[1] ? "..." : "");
     }
   }
 
