@@ -101,7 +101,7 @@ export class DocumentEditComponent implements AfterViewInit {
   public saveDocument() {
     this.documentService.putDocument(this.buildDocument()).subscribe(result => {
       this.errorService.showSnackBar(`${this.document.name} successfully saved.`);
-      this.save.emit({id: result});
+      this.router.navigate([this.urlService.getWorld(), 'document', 'view', result])
     }, error => {
       this.errorService.handle(error);
     })
@@ -204,7 +204,12 @@ export class DocumentEditComponent implements AfterViewInit {
   }
 
   public onCancel() {
-    this.cancel.emit();
+    if (this.editing) {
+      this.router.navigate([this.urlService.getWorld(), 'document', 'view', this.document?.id])
+    }
+    else {
+      this.cancel.emit();
+    }
   }
 
   constructor(private cdref: ChangeDetectorRef, 

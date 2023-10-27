@@ -35,10 +35,26 @@ export class DocumentFilterComponent implements OnInit {
   public pageMode = "documentTypes";
   public pageLength = 0;
   public pageIndex = 0;
-  public pageSize = 10;
+  public pageSize = 50;
   public pageSizeOptions: any;
 
+  public typeMultiSelect = false;
+
+  public toggleMultiSelect() {
+    this.typeMultiSelect = !this.typeMultiSelect;
+    if (!this.typeMultiSelect) {
+      this.selectedTypes = [];
+      this.filterDocumentTypes();
+    }
+    this.loadParameters();
+  }
+
   public toggleTypeSelected(type: DocumentType) {
+    if (!this.typeMultiSelect) {
+      this.selectedTypes = [];
+      this.documentTypes.forEach(type => type.selected = false);
+    }
+
     if (type.selected) {
       const i = this.selectedTypes.findIndex(x => x.id == type.id);
       if (i > -1) {
@@ -52,6 +68,7 @@ export class DocumentFilterComponent implements OnInit {
     }
 
     this.loadParameters();
+    this.onSearch();
   }
 
   public filterDocumentTypes() {
