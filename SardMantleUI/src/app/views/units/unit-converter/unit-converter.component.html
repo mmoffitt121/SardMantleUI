@@ -1,1 +1,26 @@
-<p>unit-converter works!</p>
+<div class="converter-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                From
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <app-edit-data-point [items]="units ?? []" (selected)="from.next($event)" />
+            <app-edit-double [parameterName]="''" (onChanges)="conversionInput.next($event)" />
+        </mat-card-content>
+    </mat-card>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                To
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <app-edit-data-point [items]="compatibleUnits ?? []" (selected)="to.next($event)" [selectedItem]="to.value"  />
+            <p>
+                {{conversionResult}}
+            </p>
+        </mat-card-content>
+    </mat-card>
+</div>

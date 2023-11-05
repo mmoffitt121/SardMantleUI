@@ -17,9 +17,8 @@
     <app-edit-string [parameterName]="'Symbol'" [placeholder]="'Symbol...'" [required]="true" [control]="symbol" />
     <mat-divider style="margin-bottom: 20px" />
     <app-edit-data-point [parameterName]="'Measurable'" [items]="measurables" [selectedItem]="selectedMeasurable" (selected)="selectMeasurable($event)" />
-    <app-edit-data-point [parameterName]="'Base Unit'" [items]="units" [selectedItem]="selectedBaseUnit" (selected)="selectBaseUnit($event)" />
     <div style="display: flex">
-        <app-edit-double [parameterName]="'Amount per Base Unit'" [control]="amountPerBaseUnit"/>
+        <app-edit-double [parameterName]="'Amount per SI Unit'" [control]="amountPerBaseUnit"/>
         <p style="margin-top: 44px; margin-left: 20px;">{{symbol.value}}</p>
     </div>
     

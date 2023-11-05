@@ -19,14 +19,8 @@
         {{element.symbol}}
       </td>
     </ng-container>
-    <ng-container matColumnDef="baseUnit">
-      <th mat-header-cell *matHeaderCellDef> Base Unit </th>
-      <td mat-cell *matCellDef="let element">
-        {{element.baseUnit?.name}}
-      </td>
-    </ng-container>
     <ng-container matColumnDef="amountPerBaseUnit">
-      <th mat-header-cell *matHeaderCellDef> Amount Per Base Unit </th>
+      <th mat-header-cell *matHeaderCellDef> Amount Per SI Unit </th>
       <td mat-cell *matCellDef="let element">
         {{element.amountPerParent}} {{element.amountPerParent ? element.symbol : ""}}
       </td>

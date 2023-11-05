@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -11,6 +11,8 @@ export class EditDoubleComponent implements OnInit {
   @Input() parameterSummary: string = '';
   @Input() control = new FormControl();
   @Input() required: boolean = false;
+
+  @Output() onChanges = new EventEmitter();
 
   public typeParameterId: number;
   private previousValue: any;
@@ -27,6 +29,8 @@ export class EditDoubleComponent implements OnInit {
     newValue = newValue.replace(/(?<!^)[\-]/g, "");
     let split = newValue.split(".");
     this.control.setValue(newValue);
+
+    this.onChanges.emit(newValue);
   }
 
   public setValue(value: any) {

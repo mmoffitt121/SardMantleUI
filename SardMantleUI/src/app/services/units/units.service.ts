@@ -23,6 +23,10 @@ export class UnitsService {
     return this.http.put(environment.baseUrl + '/Library/Unit/Put', Unit);
   }
 
+  public convert(from: Unit, to: Unit, value: string) {
+    return this.http.post(environment.baseUrl + '/Library/Unit/Convert', {unitFrom: from, unitTo: to, value});
+  }
+
   public delete(id: number) {
     let params = new HttpParams().set("Id", id);
     return this.http.delete(environment.baseUrl + '/Library/Unit/Delete', { params: params });

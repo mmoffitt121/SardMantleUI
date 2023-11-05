@@ -21,21 +21,12 @@ export class AddEditUnitComponent {
   public measurables: Measurable[];
   public selectedMeasurable: Measurable | undefined;
   public units: Unit[];
-  public selectedBaseUnit: Unit | undefined;
 
   public editing = false;
 
   public selectMeasurable(data: any) {
     let oldId = this.selectedMeasurable?.id;
     this.selectedMeasurable = data;
-    if (oldId !== this.selectedMeasurable?.id) {
-      this.getBaseUnits();
-      this.selectedBaseUnit = undefined;
-    }
-  }
-
-  public selectBaseUnit(data: any) {
-    this.selectedBaseUnit = data;
   }
 
   public onCancel() {
@@ -48,7 +39,6 @@ export class AddEditUnitComponent {
         id: this.data.id, 
         name: this.name.value, 
         summary: this.summary.value,
-        parentId: this.selectedBaseUnit?.id,
         amountPerParent: this.amountPerBaseUnit.value,
         measurableId: this.selectedMeasurable?.id,
         symbol: this.symbol.value
@@ -62,7 +52,6 @@ export class AddEditUnitComponent {
         id: 0,
         name: this.name.value, 
         summary: this.summary.value,
-        parentId: this.selectedBaseUnit?.id,
         amountPerParent: this.amountPerBaseUnit.value,
         measurableId: this.selectedMeasurable?.id,
         symbol: this.symbol.value
@@ -71,15 +60,6 @@ export class AddEditUnitComponent {
         this.dialogRef.close(true);
       }, error => this.errorService.handle(error));
     }
-  }
-
-  public getBaseUnits() {
-    this.unitService.get({measurableId: this.selectedMeasurable?.id ?? -1}).pipe(take(1)).subscribe(data => {
-      this.units = data;
-      if (this.data) {
-        this.selectedBaseUnit = this.units.find(u => u.id == this.data.parentId) ?? this.selectedBaseUnit;
-      }
-    })
   }
 
   constructor(
@@ -97,7 +77,6 @@ export class AddEditUnitComponent {
         this.dialogRef.close();
       }
       this.selectedMeasurable = data[0];
-      this.getBaseUnits();
       if (this.data) {
         this.selectedMeasurable = this.measurables.find(m => m.id == this.data.measurableId) ?? this.selectedMeasurable;
       }

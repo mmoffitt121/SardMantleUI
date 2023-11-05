@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-view-double',
@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./view-double.component.scss']
 })
 export class ViewDoubleComponent {
-  public parameterName: string = 'Parameter Name';
-  public parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?';
-  public value: string;
+  @Input() parameterName: string = 'Parameter Name';
+  @Input() parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?';
+  @Input() value: string;
 }

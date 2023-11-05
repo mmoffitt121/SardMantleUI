@@ -17,7 +17,7 @@ export class UnitTablesComponent {
   public searchCriteria: any = {};
   public saving = false;
 
-  displayedColumns: string[] = ['name', 'summary', 'symbol', 'baseUnit', 'amountPerBaseUnit', 'actions'];
+  displayedColumns: string[] = ['name', 'summary', 'symbol', 'amountPerBaseUnit', 'actions'];
 
   private toDelete: number;
 
