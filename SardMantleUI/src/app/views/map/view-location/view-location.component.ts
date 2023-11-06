@@ -10,6 +10,7 @@ import { DocumentLocationService } from 'src/app/services/document/document-loca
 import { RegionService } from 'src/app/services/map/region.service';
 import { Region } from 'src/app/models/map/region';
 import { FormControl } from '@angular/forms';
+import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
   selector: 'app-view-location',
@@ -226,7 +227,8 @@ export class ViewLocationComponent implements OnInit {
     private errorHandler: ErrorService,
     private documentLocationService: DocumentLocationService,
     private regionService: RegionService,
-    private cdref: ChangeDetectorRef
+    private cdref: ChangeDetectorRef,
+    public loginService: LoginService
   ) { }
 
   ngOnInit(): void {

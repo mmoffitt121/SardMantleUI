@@ -69,7 +69,7 @@ export class TopBarComponent implements OnInit {
 
   constructor (
     public router: Router, 
-    private loginService: LoginService, 
+    public loginService: LoginService, 
     private dialog: MatDialog, 
     private themeService: ThemeService, 
     private urlService: UrlService

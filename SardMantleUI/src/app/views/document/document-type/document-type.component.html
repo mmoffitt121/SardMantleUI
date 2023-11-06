@@ -3,7 +3,7 @@
         <mat-card-title>
             Document Types
         </mat-card-title>
-        <button mat-icon-button (click)="addDocumentType()">
+        <button mat-icon-button (click)="addDocumentType()" *ngIf="loginService.isLoggedIn()">
             <mat-icon>
                 add
             </mat-icon>
@@ -28,14 +28,9 @@
                         </div>
                     </div>
                     <div>
-                        <button mat-icon-button style="margin: 5px; margin-bottom: 0px" (click)="editDocumentType(documentType.id)">
+                        <button mat-icon-button style="margin: 5px; margin-bottom: 0px" (click)="editDocumentType(documentType.id)" *ngIf="loginService.isLoggedIn()">
                             <mat-icon>
                                 edit
-                            </mat-icon>
-                        </button>
-                        <button mat-icon-button style="margin: 5px;">
-                            <mat-icon>
-                                search
                             </mat-icon>
                         </button>
                     </div>

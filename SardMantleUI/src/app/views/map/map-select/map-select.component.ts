@@ -8,6 +8,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MapLayerService } from 'src/app/services/map/map-layer.service';
 import { MapTile } from 'src/app/models/map/map-tile';
 import { MapTileService } from 'src/app/services/map/map-tile-service';
+import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
   selector: 'app-map-select',
@@ -93,6 +94,7 @@ export class MapSelectComponent {
   
   constructor (
     private mapService: MapService, 
+    public loginService: LoginService,
     private mapLayerService: MapLayerService,
     private mapTileService: MapTileService,
     private errorHandler: ErrorService, 

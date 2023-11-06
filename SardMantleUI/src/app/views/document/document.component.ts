@@ -21,6 +21,7 @@ import { DocumentFilterComponent } from './document-filter/document-filter.compo
 import { Observable, fromEvent, throttleTime } from 'rxjs';
 import { DocumentViewComponent } from './document-info/document-view/document-view.component';
 import { Document } from 'src/app/models/document/document-types/document';
+import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
   selector: 'app-document',
@@ -68,7 +69,7 @@ export class DocumentComponent implements OnInit {
   public adding = false;
 
   public currentDocumentTypeId: number | undefined;
-  private currentDocumentId: number | undefined;
+  public currentDocumentId: number | undefined;
 
   public wideScreen = this.isWideScreen();
 
@@ -89,6 +90,7 @@ export class DocumentComponent implements OnInit {
   }
 
   public onSearch(event: any) {
+    this.searchCriteria = event;
     this.displayMode = 'results';
     this.documentListComponent.search(event, true);
   }
@@ -105,35 +107,6 @@ export class DocumentComponent implements OnInit {
     this.loadDocument({id: event.documentId});
   }
 
-  /*public handleDeleteDocument(document: any) {
-    var deleteMessage = `Are you sure you want to delete ${document.name}?`;
-
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '500px',
-      data: { 
-        title: "Confirm Deletion", 
-        content: deleteMessage
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.deleteDocument();
-      }
-    });
-  }
-
-  public deleteDocument() {
-    this.documentService.deleteDocument(this.currentDocumentId ?? -1).subscribe(result => {
-      this.errorService.showSnackBar(`Delete successful.`);
-      this.documentTypeComponent.selectDocumentType({currentTarget: {value: this.currentDocumentTypeId}});
-      this.loadDocumentList({id: this.currentDocumentTypeId});
-    },
-    error => {
-      this.errorService.handle(error);
-    })
-  }*/
-
   public loadDocument(data: any) {
     this.displayMode = 'view';
     this.editing = false;
@@ -141,6 +114,10 @@ export class DocumentComponent implements OnInit {
     this.currentDocumentId = data.id;
     this.documentViewComponent.selectDocument(data);
     this.location.replaceState(this.urlService.getWorld() + "/document/view/" + data.id);
+  }
+
+  public clearDocument() {
+    this.documentViewComponent.clear();
   }
 
   public pushDocument(data: any) {
@@ -209,7 +186,8 @@ export class DocumentComponent implements OnInit {
     private documentService: DocumentService,
     private documentTypeService: DocumentTypeService,
     private errorService: ErrorService,
-    private routeLocation: RouteLocation
+    private routeLocation: RouteLocation,
+    public loginService: LoginService
   ) { 
   }
 

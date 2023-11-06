@@ -125,6 +125,7 @@ import { AddEditUnitComponent } from './views/units/unit-tables/add-edit-unit/ad
 import { DocumentViewComponent } from './views/document/document-info/document-view/document-view.component';
 import { EditParametersComponent } from './views/shared/document-components/edit/edit-parameters/edit-parameters.component';
 import { EditListComponent } from './views/shared/document-components/edit/edit-list/edit-list.component';
+import { EditTypeParameterUnitComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-unit/edit-type-parameter-unit.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -217,7 +218,8 @@ export function tokenGetter() {
     ChangePasswordComponent,
     DocumentViewComponent,
     EditParametersComponent,
-    EditListComponent
+    EditListComponent,
+    EditTypeParameterUnitComponent
   ],
   imports: [
     BrowserModule,

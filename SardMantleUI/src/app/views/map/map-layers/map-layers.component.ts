@@ -6,6 +6,7 @@ import { MapLayerService } from 'src/app/services/map/map-layer.service';
 import { EditMapLayerComponent } from './edit-map-layer/edit-map-layer.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MapTileService } from 'src/app/services/map/map-tile-service';
+import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
   selector: 'app-map-layers',
@@ -125,5 +126,6 @@ export class MapLayersComponent implements OnChanges {
     private mapTileService: MapTileService,
     private errorService: ErrorService, 
     private dialog: MatDialog,
-    private domSanitizer: DomSanitizer) {}
+    private domSanitizer: DomSanitizer,
+    public loginService: LoginService) {}
 }

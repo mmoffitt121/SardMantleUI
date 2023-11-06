@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, Subject, combineLatest, forkJoin, takeUntil } from 'rxjs';
 import { Unit } from 'src/app/models/units/unit';
+import { ErrorService } from 'src/app/services/error.service';
 import { UnitsService } from 'src/app/services/units/units.service';
 
 @Component({
@@ -16,6 +17,8 @@ export class UnitConverterComponent implements OnInit, OnDestroy {
   public conversionInput = new BehaviorSubject<number | undefined>(0);
   public conversionResult: string;
 
+  public presetFrom: Unit | undefined = undefined;
+
   private unsubscribe$ = new Subject();
 
   public convert() {
@@ -26,7 +29,7 @@ export class UnitConverterComponent implements OnInit, OnDestroy {
       this.conversionResult = "0"
     }
     else {
-      this.conversionResult = ((this.conversionInput.value ?? 0) * this.from.value.amountPerParent / this.to.value.amountPerParent).toString()
+      this.conversionResult = ((this.conversionInput.value ?? 0) / this.from.value.amountPerParent * this.to.value.amountPerParent).toString() + " " + this.to.value.symbol
     }
   }
 
@@ -41,10 +44,22 @@ export class UnitConverterComponent implements OnInit, OnDestroy {
   }
 
   public loadUnits() {
-    this.unitService.get({}).subscribe(result => this.units = result);
+    this.unitService.get({}).subscribe(result => {
+      this.units = result
+      if (this.presetFrom) {
+        this.from.next(this.presetFrom);
+        this.presetFrom = undefined;
+      }
+    }, error => this.errorService.handle(error));
   }
 
-  constructor(private unitService: UnitsService) {}
+  // Potential race condition here: presetFrom must be set before the result of unitService.get(), or navigating here with a preselected
+  // unit will not work.
+  public setFrom(from: Unit) {
+    this.presetFrom = from;
+  }
+
+  constructor(private unitService: UnitsService, private errorService: ErrorService) {}
 
   ngOnInit(): void {
     this.loadUnits();

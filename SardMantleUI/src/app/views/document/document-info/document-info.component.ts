@@ -21,6 +21,10 @@ import { UrlService } from 'src/app/services/url/url.service';
 import { Router } from '@angular/router';
 import { DocumentLocationService } from 'src/app/services/document/document-location.service';
 import { ViewLocationParamComponent } from '../../shared/document-components/view/view-location-param/view-location-param.component';
+import { LoginService } from 'src/app/services/login/login.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { ErrorService } from 'src/app/services/error.service';
 
 @Component({
   selector: 'app-document-info',
@@ -44,7 +48,7 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
 
   @Output() add = new EventEmitter();
   @Output() edit = new EventEmitter();
-  @Output() delete = new EventEmitter();
+  @Output() deleted = new EventEmitter();
 
   @ViewChild('parameterContainer', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
   @ViewChild('locationContainer', { read: ViewContainerRef, static: false }) locationContainer: ViewContainerRef;
@@ -88,6 +92,11 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
         case 'bit':
           this.parameterComponents.push(this.container.createComponent(ViewBoolComponent));
           this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.boolValue;
+          break;
+        case 'uni':
+          this.parameterComponents.push(this.container.createComponent(ViewDoubleComponent));
+          this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.unitValue;
+          this.parameterComponents[this.parameterComponents.length - 1].instance.setUnit(this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.unit);
           break;
       }
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterName = p.name;
@@ -166,7 +175,39 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
   }
 
   public onDelete() {
+    var deleteMessage = `Are you sure you want to delete ${this.document?.name}?`;
 
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '500px',
+      data: { 
+        title: "Confirm Deletion", 
+        content: deleteMessage
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteDocument();
+      }
+    });
+  }
+
+  public deleteDocument() {
+    this.documentService.deleteDocument(this.document?.id ?? -1).subscribe(result => {
+      this.errorService.showSnackBar(`Delete successful.`);
+      this.deleted.emit();
+    },
+    error => {
+      this.errorService.handle(error);
+    })
+  }
+
+  public clear() {
+    this.document = undefined;
+    this.documentType = undefined;
+    this.locations = undefined;
+    this.relatedDocuments = undefined;
+    this.loadDocument();
   }
 
   constructor(private cdref: ChangeDetectorRef, 
@@ -174,7 +215,11 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
     private documentTypeService: DocumentTypeService,
     private router: Router,
     private urlService: UrlService,
-    private documentLocationService: DocumentLocationService) { }
+    private documentLocationService: DocumentLocationService,
+    public loginService: LoginService,
+    public dialog: MatDialog,
+    public errorService: ErrorService,
+    ) { }
 
   ngOnInit(): void {
     if (this.autoLoadId > -1) {

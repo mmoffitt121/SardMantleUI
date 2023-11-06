@@ -15,7 +15,7 @@
             <button mat-icon-button class="button" (click)="setDisplayMode('view')" *ngIf="!wideScreen">
                 <mat-icon> description </mat-icon>
             </button>
-            <button mat-icon-button class="button" (click)="setDisplayMode('add')">
+            <button mat-icon-button class="button" (click)="setDisplayMode('add')" *ngIf="loginService.isLoggedIn()">
                 <mat-icon> add </mat-icon>
             </button>
         </div>
@@ -32,10 +32,10 @@
             <app-document-list #documentListComponent (select)="loadDocument($event)" (doubleSelect)="pushDocument($event)" />
         </div>
         <div [hidden]="displayMode !== 'view' && !canSeeFullSearch()">
-            <app-document-view #documentViewComponent />
+            <app-document-view #documentViewComponent (deleted)="onSearch(searchCriteria); clearDocument();" />
         </div>
     </div>
-    <div *ngIf="displayMode === 'edit' || displayMode === 'add'" class="document-views-small">
+    <div *ngIf="(displayMode === 'edit' || displayMode === 'add') && loginService.isLoggedIn()" class="document-views-small">
         <app-document-edit #documentEditComponent (cancel)="setDisplayMode('search')" (save)="setDisplayMode('search'); loadDocument($event)"/>
     </div>
 </div>

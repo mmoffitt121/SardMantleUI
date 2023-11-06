@@ -1,0 +1,9 @@
+<div *ngIf="documentTypeParameter?.typeValue === 'uni'">
+    <app-edit-data-point 
+        [items]="units" 
+        parameterName="Unit" 
+        parameterSummary="What unit this parameter is measured in."
+        [selectedItem]="unit"
+        (selected)="select($event)"
+    />
+</div>

@@ -6,7 +6,7 @@
             </mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <app-edit-data-point [items]="units ?? []" (selected)="from.next($event)" />
+            <app-edit-data-point [items]="units ?? []" (selected)="from.next($event)" [selectedItem]="from.value" />
             <app-edit-double [parameterName]="''" (onChanges)="conversionInput.next($event)" />
         </mat-card-content>
     </mat-card>

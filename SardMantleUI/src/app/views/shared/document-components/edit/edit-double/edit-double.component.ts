@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { Unit } from 'src/app/models/units/unit';
 
 @Component({
   selector: 'app-edit-double',
@@ -14,10 +15,13 @@ export class EditDoubleComponent implements OnInit {
 
   @Output() onChanges = new EventEmitter();
 
+  public unit: Unit | undefined;
+
   public typeParameterId: number;
   private previousValue: any;
 
   public validate(e: any) {
+
     this.control.markAsTouched();
     if (this.control.value.match(/[\-]?([0-9]*)[\.]?([0-9]*)/g).length > 2) {
       this.control.setValue(this.previousValue);
@@ -33,6 +37,10 @@ export class EditDoubleComponent implements OnInit {
     this.onChanges.emit(newValue);
   }
 
+  public openUnitMenu() {
+    
+  }
+
   public setValue(value: any) {
     if (value == null) {
       return;
@@ -45,6 +53,10 @@ export class EditDoubleComponent implements OnInit {
       this.control.setValue("");
     }
     return this.control.value;
+  }
+
+  public setUnit(unit: any) {
+    this.unit = unit;
   }
 
   ngOnInit() {

@@ -28,7 +28,7 @@ const routes: Routes = [
   { path:'world-browser', component:WorldBrowserComponent},
   { path:'home', component:GlobalHomeComponent },
   { path:'worlds', component:WorldBrowserComponent },
-  { path:'administration', component:AdministrationComponent },
+  { path:'administration', component:AdministrationComponent, canActivate: [AuthGuard] },
   { path:':world', redirectTo: ':world/home', pathMatch: 'full' },
   { path:':world', children: [ 
     { path:'home', component:HomeComponent },
@@ -48,12 +48,12 @@ const routes: Routes = [
     { path:'document/results', component:DocumentComponent },
     { path:'document/view', component:DocumentComponent },
     { path:'document/view/:docId', component:DocumentComponent },
-    { path:'document/add', component:DocumentComponent },
-    { path:'document/edit', component:DocumentComponent },
-    { path:'document/edit/:docId', component:DocumentComponent },
+    { path:'document/add', component:DocumentComponent, canActivate: [AuthGuard] },
+    { path:'document/edit', component:DocumentComponent, canActivate: [AuthGuard] },
+    { path:'document/edit/:docId', component:DocumentComponent, canActivate: [AuthGuard] },
     { path:'document/type/edit/:id', component:EditDocumentTypeComponent, canActivate: [AuthGuard] },
-    { path:'settings/theme', component:ManageThemesComponent },
-    { path:'settings/theme/:id', component:ManageThemesComponent },
+    { path:'settings/theme', component:ManageThemesComponent, canActivate: [AuthGuard] },
+    { path:'settings/theme/:id', component:ManageThemesComponent, canActivate: [AuthGuard] },
   ]}
 ];
 

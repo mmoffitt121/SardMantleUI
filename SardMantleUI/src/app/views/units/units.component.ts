@@ -37,6 +37,12 @@ export class UnitsComponent {
     this.pageName = name;
   }
 
+  public convert(data: Unit) {
+    this.setPageMode("convert", "Convert");
+    this.cdRef.detectChanges();
+    this.converterChild.setFrom(data);
+  }
+
   public doAdd() {
     switch (this.pageMode) {
       case 'units':
@@ -53,7 +59,8 @@ export class UnitsComponent {
   constructor(private errorService: ErrorService,
     private unitService: UnitsService,
     private cdRef: ChangeDetectorRef,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    public loginService: LoginService
   ) {}
 
   ngOnInit(): void {

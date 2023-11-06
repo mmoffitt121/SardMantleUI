@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Unit, UnitTable } from 'src/app/models/units/unit';
 import { ErrorService } from 'src/app/services/error.service';
@@ -20,6 +20,8 @@ export class UnitTablesComponent {
   displayedColumns: string[] = ['name', 'summary', 'symbol', 'amountPerBaseUnit', 'actions'];
 
   private toDelete: number;
+
+  @Output() convert = new EventEmitter();
 
   public addUnit() {
     const dialogRef = this.dialog.open(AddEditUnitComponent, {
@@ -76,6 +78,10 @@ export class UnitTablesComponent {
     })
   }
 
+  public convertUnit(unit: Unit) {
+    this.convert.emit(unit);
+  }
+
   public loadUnits() {
     this.unitService.getTables(this.searchCriteria).subscribe(data => {
       this.unitTables = data;
@@ -93,7 +99,8 @@ export class UnitTablesComponent {
   constructor(private errorService: ErrorService,
     private unitService: UnitsService,
     private cdRef: ChangeDetectorRef,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    public loginService: LoginService
   ) {}
 
   ngOnInit(): void {

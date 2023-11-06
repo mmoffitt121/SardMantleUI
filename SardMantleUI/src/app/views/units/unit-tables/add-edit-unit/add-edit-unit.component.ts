@@ -88,7 +88,6 @@ export class AddEditUnitComponent {
       this.symbol.setValue(this.data.symbol);
       this.amountPerBaseUnit.setValue(this.data.amountPerParent);
       this.editing = true;
-      console.log(this.data)
     }
   }
 }

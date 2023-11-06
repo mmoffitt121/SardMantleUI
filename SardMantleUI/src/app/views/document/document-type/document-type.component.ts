@@ -8,6 +8,7 @@ import { AddDocumentTypeComponent } from './add-document-type/add-document-type.
 import { forkJoin } from 'rxjs';
 import { ErrorService } from 'src/app/services/error.service';
 import { SearchBarComponent } from '../../shared/document-components/search/search-bar/search-bar.component';
+import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
   selector: 'app-document-type',
@@ -82,7 +83,8 @@ export class DocumentTypeComponent implements OnInit {
     public dialog: MatDialog, 
     private router: Router, 
     private urlService: UrlService, 
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    public loginService: LoginService
   ) { }
 
   ngOnInit(): void {

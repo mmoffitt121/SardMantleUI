@@ -5,6 +5,7 @@ import { ErrorService } from 'src/app/services/error.service';
 import { MeasurableService } from 'src/app/services/units/measurable.service';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { AddEditMeasurableComponent } from './add-edit-measurable/add-edit-measurable.component';
+import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
   selector: 'app-view-measurables',
@@ -87,7 +88,7 @@ export class ViewMeasurablesComponent {
     }
   }
 
-  public constructor(private measurableService: MeasurableService, private errorService: ErrorService, private dialog: MatDialog) {}
+  public constructor(private measurableService: MeasurableService, private errorService: ErrorService, private dialog: MatDialog, public loginService: LoginService) {}
 
   ngOnInit() {
     this.loadMeasurables();

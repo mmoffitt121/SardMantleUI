@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs';
 import { World } from 'src/app/models/world/world';
+import { LoginService } from 'src/app/services/login/login.service';
 import { ServerInfoService } from 'src/app/services/server-info.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
 
@@ -18,7 +19,7 @@ export class GlobalHomeComponent {
     this.router.navigate([world.location]);
   }
 
-  constructor(public router: Router, public activatedRoute: ActivatedRoute, private themeService: ThemeService, private serverInfoService: ServerInfoService) { 
+  constructor(public router: Router, public activatedRoute: ActivatedRoute, private themeService: ThemeService, private serverInfoService: ServerInfoService, public loginService: LoginService) { 
     this.userId = localStorage["userId"];
   }
 

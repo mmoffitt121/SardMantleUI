@@ -37,6 +37,7 @@ import { UrlService } from 'src/app/services/url/url.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
 import { RegionService } from 'src/app/services/map/region.service';
 import { environment } from 'src/environments/environment';
+import { LoginService } from 'src/app/services/login/login.service';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -152,7 +153,6 @@ export class MapComponent implements OnInit {
           noWrap: !this.mapData.loops
         });
         tilesOuter.addTo(this.map);
-        console.log(tilesOuter)
       }
     }
 
@@ -169,7 +169,6 @@ export class MapComponent implements OnInit {
           noWrap: !this.mapData.loops
         });
         tilesOuter.addTo(this.map);
-        console.log(tilesOuter)
       }
     }
 
@@ -695,6 +694,9 @@ export class MapComponent implements OnInit {
   }
 
   public editMapIcon() {
+    if (!this.loginService.isLoggedIn()) {
+      return;
+    }
     const dialogRef = this.dialog.open(UploadFileComponent, {
       width: '525px',
       data: { title: "Upload File" }
@@ -760,7 +762,8 @@ export class MapComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     public urlService: UrlService,
     private themeService: ThemeService,
-    private regionService: RegionService) { }
+    private regionService: RegionService,
+    public loginService: LoginService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {

@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { Location } from 'src/app/models/map/location-data-types/location-data-types';
+import { LoginService } from 'src/app/services/login/login.service';
 import { MapLayerService } from 'src/app/services/map/map-layer.service';
 import { MapService } from 'src/app/services/map/map.service';
 
@@ -38,6 +39,6 @@ export class FilterLocationComponent {
     this.add.emit();
   }
 
-  constructor(private mapService: MapService, private mapLayerService: MapLayerService) {
+  constructor(private mapService: MapService, private mapLayerService: MapLayerService, public loginService: LoginService) {
   }
 }

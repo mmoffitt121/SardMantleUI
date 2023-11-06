@@ -84,7 +84,6 @@ export class EditListComponent implements AfterViewInit {
 
   public updateItem($event: any) {
     this.items[$event.index] = $event.value;
-    console.log(this.items, $event.index);
     this.itemsChange.emit(this.items);
   }
 

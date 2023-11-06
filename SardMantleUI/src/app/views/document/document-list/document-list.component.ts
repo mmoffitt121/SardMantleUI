@@ -53,7 +53,6 @@ export class DocumentListComponent implements OnInit {
       pageNumber: this.pageIndex + 1,
       ...searchQuery
     }
-    console.log(query)
     this.documentService.getDocuments(query).pipe(take(1)).subscribe(data => {
       this.documents = data;
     });

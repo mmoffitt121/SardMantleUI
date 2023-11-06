@@ -12,14 +12,14 @@
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <ng-template matExpansionPanelContent>
-                        <div style="display: grid; grid-template-columns: auto auto;">
-                            <div style="display: grid; grid-template-columns: auto auto;">
+                        <div style="display: grid; grid-template-columns: auto 160px;">
+                            <div style="display: grid; grid-template-columns: auto 60px;">
                                 <div>
                                     <h3 class="subtitled-title"> {{ mapData.name }} </h3>
                                     <h4 class="subtitle"> {{ mapData.summary }} </h4>
                                     <button mat-button style="margin-left: 10px; margin-top: 30px;" (click)="changeMap()"> Change Map </button>
                                 </div>
-                                <div>
+                                <div *ngIf="loginService.isLoggedIn()">
                                     <button mat-icon-button style="margin: 10px" matTooltip="Edit Map Settings" (click)="editMap()">
                                         <mat-icon>
                                             edit
@@ -28,7 +28,7 @@
                                 </div>
                             </div>
                             <div>
-                                <mat-card class="map-card-over" style="z-index: 1000; position: absolute; " *ngIf="mapIconHovered">
+                                <mat-card class="map-card-over" style="z-index: 1000; position: absolute; " *ngIf="mapIconHovered && loginService.isLoggedIn()">
                                     <mat-icon>edit</mat-icon>
                                 </mat-card>
                                 <img 
@@ -50,7 +50,7 @@
                                 </mat-card>
                             </div>
                         </div>
-                        <mat-card style="margin-top: 10px; background-color: var(--secondary-background-color)">
+                        <mat-card style="margin-top: 10px; background-color: var(--secondary-background-color)"  *ngIf="loginService.isLoggedIn()">
                             <mat-card-header>
                                 <mat-card-content style="width: 100%; font-size: 15px;">
                                     <p>Loops: {{ mapData.loops ? "Yes" : "No" }}</p>
@@ -137,7 +137,7 @@
         </div>
         <div class="map-overlay-buttons-container-right">
             <button mat-raised-button (click)="openMapSettings()" class="map-overlay-button"><mat-icon>map</mat-icon></button>
-            <button mat-raised-button (click)="openAddLocation()" class="map-overlay-button"><mat-icon>add</mat-icon></button>
+            <button mat-raised-button (click)="openAddLocation()" class="map-overlay-button" *ngIf="loginService.isLoggedIn()"><mat-icon>add</mat-icon></button>
         </div>
     </mat-drawer-content>
 </mat-drawer-container>

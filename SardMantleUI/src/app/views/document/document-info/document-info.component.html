@@ -5,10 +5,10 @@
     <button mat-icon-button (click)="add.emit(document)" matTooltip="Add" *ngIf="canAdd && showEditControls">
         <mat-icon> library_add </mat-icon>
     </button>
-    <button mat-icon-button (click)="onEdit()" *ngIf="document !== undefined && showEditControls"  matTooltip="Edit">
+    <button mat-icon-button (click)="onEdit()" *ngIf="document !== undefined && showEditControls && loginService.isLoggedIn()"  matTooltip="Edit">
         <mat-icon> edit </mat-icon>
     </button>
-    <button mat-icon-button (click)="delete.emit(document)" *ngIf="document !== undefined && showEditControls"  matTooltip="Delete">
+    <button mat-icon-button (click)="onDelete()" *ngIf="document !== undefined && showEditControls && loginService.isLoggedIn()"  matTooltip="Delete">
         <mat-icon> delete </mat-icon>
     </button>
 </div>

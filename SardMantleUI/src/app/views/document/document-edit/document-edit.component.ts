@@ -18,6 +18,7 @@ import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dial
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { UrlService } from 'src/app/services/url/url.service';
+import { UnitsService } from 'src/app/services/units/units.service';
 
 @Component({
   selector: 'app-document-edit',
@@ -90,6 +91,19 @@ export class DocumentEditComponent implements AfterViewInit {
             this.document.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.boolValue
           );
           break;
+        case 'uni':
+          this.parameterComponents.push(this.container.createComponent(EditDoubleComponent));
+          let unitParam = this.document.parameters?.find(x => x?.dataPointTypeParameterId == p.id);
+          let instance = this.parameterComponents[this.parameterComponents.length - 1].instance
+          instance.setValue(unitParam?.unitValue);
+          if (unitParam?.unitvalue === undefined) {
+            this.unitService.get({id: p.dataPointTypeReferenceId}).subscribe(units => {
+              instance.setUnit(units[0])
+            })
+          }
+          else { instance.setUnit(unitParam?.unit) };
+          
+          break;
       }
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterName = p.name;
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterSummary = p.summary;
@@ -161,6 +175,13 @@ export class DocumentEditComponent implements AfterViewInit {
             boolValue: p.instance.getValue()
           }
           break;
+        case 'uni':
+          param = {
+            dataPointId: this.document.id,
+            dataPointTypeParameterId: p.instance.typeParameterId,
+            unitValue: p.instance.getValue()
+          }
+          break;
       }
       if (p.instance.getValue() !== null) {
         params.push(param);
@@ -219,7 +240,8 @@ export class DocumentEditComponent implements AfterViewInit {
     private errorService: ErrorService,
     private dialog: MatDialog,
     private router: Router,
-    private urlService: UrlService) { }
+    private urlService: UrlService,
+    private unitService: UnitsService) { }
 
   ngAfterViewInit(): void {
     this.loadDocumentTypes();

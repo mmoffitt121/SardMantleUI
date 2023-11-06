@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
 import { DocumentInfoComponent } from '../document-info.component';
 import { Document } from 'src/app/models/document/document-types/document';
 
@@ -9,10 +9,16 @@ import { Document } from 'src/app/models/document/document-types/document';
 })
 export class DocumentViewComponent {
   @ViewChild('documentInfoComponent') documentInfoComponent: DocumentInfoComponent;
+  @Output() deleted = new EventEmitter();
   public selectDocument(doc: Document) {
     this.documentInfoComponent.setDocument(doc.id);
   }
+
   public pushDocument(doc: Document) {
     
+  }
+
+  public clear() {
+    this.documentInfoComponent.clear();
   }
 }

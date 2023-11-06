@@ -1,13 +1,13 @@
 <div class="view-location-container">
     <div style="margin-top: 15px; margin-bottom: 15px">
         <div class="button-holder">
-            <button mat-icon-button (click)="editMapObjectDocuments()" matTooltip="Edit Location Documents">
+            <button mat-icon-button (click)="editMapObjectDocuments()" matTooltip="Edit Location Documents" *ngIf="loginService.isLoggedIn()">
                 <mat-icon>description</mat-icon>
             </button>
-            <button mat-icon-button (click)="editMapObject()" matTooltip="Edit Location">
+            <button mat-icon-button (click)="editMapObject()" matTooltip="Edit Location" *ngIf="loginService.isLoggedIn()">
                 <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button (click)="confirmDeleteObject()" matTooltip="Delete Location">
+            <button mat-icon-button (click)="confirmDeleteObject()" matTooltip="Delete Location" *ngIf="loginService.isLoggedIn()">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>
@@ -54,7 +54,7 @@
                         <mat-card-content>
                             {{region.name}}
                             <div class="button-holder">
-                                <button mat-icon-button (click)="onEditRegion(region)">
+                                <button mat-icon-button (click)="onEditRegion(region)" *ngIf="loginService.isLoggedIn()">
                                     <mat-icon>edit</mat-icon>
                                 </button>
                                 <button mat-icon-button (click)="onCheckRegion(region)" class="carded-button">
@@ -65,7 +65,7 @@
                         </mat-card-content>
                     </mat-card>
                 </div>
-                <button mat-button style="background-color: var(--secondary-accent-color)" (click)="onAddRegion()" style="width: 100%; margin-bottom: 10px;" *ngIf="!editingRegion">
+                <button mat-button style="background-color: var(--secondary-accent-color)" (click)="onAddRegion()" style="width: 100%; margin-bottom: 10px;" *ngIf="!editingRegion && loginService.isLoggedIn()">
                     <mat-icon style="margin-left: auto; margin-right: auto; margin-top: 3px; margin-bottom: 3px;">add</mat-icon>
                 </button>
                 <app-edit-string *ngIf="editingRegion" [parameterName]="'Region Name'" [control]="regionName"/>

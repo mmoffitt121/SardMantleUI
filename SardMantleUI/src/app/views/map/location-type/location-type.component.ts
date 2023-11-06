@@ -5,6 +5,7 @@ import { PagedQuery } from 'src/app/models/shared/paged-query';
 import { ImageService } from 'src/app/services/image/image.service';
 import { MapService } from 'src/app/services/map/map.service';
 import { EditLocationTypeComponent } from './edit-location-type/edit-location-type.component';
+import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
   selector: 'app-location-type',
@@ -103,7 +104,7 @@ export class LocationTypeComponent implements OnInit  {
     });
   }
 
-  constructor(public mapService: MapService, private imageService: ImageService, private dialog: MatDialog, private cdref: ChangeDetectorRef) {
+  constructor(public mapService: MapService, private imageService: ImageService, private dialog: MatDialog, private cdref: ChangeDetectorRef, public loginService: LoginService) {
 
   }
 

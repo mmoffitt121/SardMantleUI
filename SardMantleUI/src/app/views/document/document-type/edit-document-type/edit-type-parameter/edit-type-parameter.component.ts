@@ -6,6 +6,7 @@ import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/conf
 import { EditStringComponent } from 'src/app/views/shared/document-components/edit/edit-string/edit-string.component';
 import { EditSummaryComponent } from 'src/app/views/shared/document-components/edit/edit-summary/edit-summary.component';
 import { EditTypeParameterDataPointComponent } from './edit-type-parameter-data-point/edit-type-parameter-data-point.component';
+import { EditTypeParameterUnitComponent } from './edit-type-parameter-unit/edit-type-parameter-unit.component';
 
 @Component({
   selector: 'app-edit-type-parameter',
@@ -16,6 +17,7 @@ export class EditTypeParameterComponent {
   @ViewChild('titleComponent') titleComponent: EditStringComponent;
   @ViewChild('summaryComponent') summaryComponent: EditSummaryComponent;
   @ViewChild('dataPointComponent') dataPointComponent: EditTypeParameterDataPointComponent;
+  @ViewChild('unitComponent') unitComponent: EditTypeParameterUnitComponent;
 
   @Output() delete = new EventEmitter();
 
@@ -35,6 +37,7 @@ export class EditTypeParameterComponent {
     this.summaryComponent.setValue(p.summary);
 
     this.dataPointComponent.setValues(p);
+    this.unitComponent.setValues(p);
   }
 
   public confirmDeleteObject() {

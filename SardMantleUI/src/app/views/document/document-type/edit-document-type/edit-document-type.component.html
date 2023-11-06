@@ -59,17 +59,17 @@
                         </mat-icon>
                         {{ iconMap.nameMap.get('bit') }}
                     </button>
-                    <button mat-menu-item class="parameter-menu-item" (click)="add('dat')">
-                        <mat-icon>
-                            {{ iconMap.iconMap.get('dat') }}
-                        </mat-icon>
-                        {{ iconMap.nameMap.get('dat') }}
-                    </button>
                     <button mat-menu-item class="parameter-menu-item" (click)="add('dub')">
                         <mat-icon>
                             {{ iconMap.iconMap.get('dub') }}
                         </mat-icon>
                         {{ iconMap.nameMap.get('dub') }}
+                    </button>
+                    <button mat-menu-item class="parameter-menu-item" (click)="add('dat')">
+                        <mat-icon>
+                            {{ iconMap.iconMap.get('dat') }}
+                        </mat-icon>
+                        {{ iconMap.nameMap.get('dat') }}
                     </button>
                     <button mat-menu-item class="parameter-menu-item" (click)="add('int')">
                         <mat-icon>
@@ -88,6 +88,12 @@
                             {{ iconMap.iconMap.get('sum') }}
                         </mat-icon>
                         {{ iconMap.nameMap.get('sum') }}
+                    </button>
+                    <button mat-menu-item class="parameter-menu-item" (click)="add('uni')">
+                        <mat-icon>
+                            {{ iconMap.iconMap.get('uni') }}
+                        </mat-icon>
+                        {{ iconMap.nameMap.get('uni') }}
                     </button>
                 </mat-menu>
             </mat-card-content>
@@ -117,13 +123,12 @@
                 #editPropertiesComponent
                 *ngIf="!parameterSelected"
                 (delete)="confirmDelete()"
-            >
-            </app-edit-document-type-properties>
+            />
             <app-edit-type-parameter 
                 #editParameterComponent 
                 *ngIf="parameterSelected"
-                (delete)="deleteParameter($event)">
-            </app-edit-type-parameter>
+                (delete)="deleteParameter($event)"
+            />
         </mat-card-content>
     </mat-card>
 </div>
