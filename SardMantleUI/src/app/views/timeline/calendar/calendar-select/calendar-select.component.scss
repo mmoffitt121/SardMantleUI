@@ -1,0 +1,51 @@
+.calendar-select-card {
+    width: min-content;
+}
+
+.calendar-list {
+    display: grid;
+    grid-template-columns: 120px 120px 120px;
+    grid-gap: 10px;
+    padding: 10px;
+    max-width: 600px;
+    overflow: auto;
+}
+
+.calendar-card {
+    width: 120px;
+    height: 120px;
+    background-color: var(--secondary-accent-color)
+}
+
+.label-over {
+    pointer-events: none;
+    background-color: var(--secondary-accent-color); 
+    border-radius: 5px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+.label-over p {
+    margin: 5px;
+}
+
+.select-overlay {
+    pointer-events: none;
+    position: absolute;
+    background-color: var(--secondary-accent-color);
+    top: 0px;
+    left: 0px;
+    width: 120px;
+    height: 120px;
+    z-index: 1000;
+}
+
+.icon-over {
+    pointer-events: none;
+    position: absolute;
+    top: calc(50% - 15px);
+    left: calc(50% - 12px);
+    z-index: 1001;
+}

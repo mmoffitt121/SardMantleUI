@@ -74,7 +74,7 @@ export class UnitConverterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next("");
+    this.unsubscribe$.next("unsub");
     this.unsubscribe$.complete();
   }
 }

@@ -7,17 +7,21 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./edit-string.component.scss']
 })
 export class EditStringComponent implements OnInit {
-  @Input() parameterName: string = 'Parameter Name';
+  @Input() parameterName: string = '';
   @Input() parameterSummary: string = '';
   @Input() placeholder: string = '';
   @Input() required: boolean = false;
   @Input() maxLength: number | null = null;
+  @Input() thin = false;
 
   @Input() type: string = '';
 
   @Output() valueChanged = new EventEmitter(); 
 
   @Input() control = new FormControl();
+
+  @Input() model: string;
+  @Output() modelChange = new EventEmitter<string>();
 
   public typeParameterId: number;
 
@@ -30,6 +34,8 @@ export class EditStringComponent implements OnInit {
       return;
     }
     this.control.setValue(value);
+    this.model = value;
+    this.modelChange.emit(value);
   }
 
   public getValue() {
@@ -43,7 +49,13 @@ export class EditStringComponent implements OnInit {
     if (this.maxLength != null) {
       this.control.addValidators([Validators.maxLength(this.maxLength)]);
     }
+
+    this.control.setValue(this.model);
     
-    this.control.valueChanges.subscribe(value => this.valueChanged.emit(value))
+    this.control.valueChanges.subscribe(value => {
+      this.valueChanged.emit(value);
+      this.modelChange.emit(value);
+      this.model = value;
+    })
   }
 }

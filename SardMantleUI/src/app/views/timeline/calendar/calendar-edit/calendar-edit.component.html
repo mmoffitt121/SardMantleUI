@@ -1,0 +1,150 @@
+<div [ngClass]="skeletonService.toggleSidebarSubject.value ? 'calendar-edit-container-small-sidebar' : 'calendar-edit-container'">
+    <mat-card class="header-card">
+        <mat-card-header class="detail-header-container">
+            <mat-card-title>
+                Editing {{calendar.name}}
+            </mat-card-title>
+            <div style="float: right; margin-left: auto">
+                <button mat-icon-button matTooltip="Close" (click)="onCancel()">
+                    <mat-icon>
+                        close
+                    </mat-icon>
+                </button>
+            </div>
+        </mat-card-header>
+    </mat-card>
+
+    <mat-tab-group>
+        <mat-tab label="Calendar Info">
+            <div class="tab-content">
+                <mat-card class="unit-card">
+                    <mat-card-content class=" grid-1 pad-content">
+                        Calendar Name
+                        <app-edit-string [(model)]="calendar.name" />
+                        Calendar Summary
+                        <app-edit-summary [(model)]="calendar.summary" />
+                        Unit Time per Day
+                        <app-edit-int [thin]="true" [(model)]="calendar.unitTimePerDay" />
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </mat-tab>
+        <mat-tab label="Clock Time">
+            <div class="tab-content">
+                <mat-card *ngFor="let timeUnit of calendar.timeUnits" class="unit-card">
+                    <mat-card-content class="grid-1 pad-content">
+                        Name
+                        <app-edit-string [thin]="true" [(model)]="timeUnit.name" />
+                        Description
+                        <app-edit-string [thin]="true" [(model)]="timeUnit.summary" />
+                        Formatter
+                        <app-edit-string [thin]="true" [(model)]="timeUnit.formatter" />
+                        Derived From
+                        <app-edit-data-point [thin]="true" [(model)]="timeUnit.derivedFromId" [items]="calendar.timeUnits" />
+                        Amount per Derived
+                        <app-edit-int [thin]="true" [(model)]="timeUnit.amountPerDerived" />
+                    </mat-card-content>
+                </mat-card>
+                <button mat-button class="add-button" (click)="add('timeUnit')">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </mat-tab>
+        <mat-tab label="Weekdays">
+            <div class="tab-content">
+                <mat-card *ngFor="let day of calendar.weekdays" class="unit-card">
+                    <mat-card-content class="grid-1 pad-content">
+                        Name
+                        <app-edit-string [thin]="true" [(model)]="day.name" />
+                        Description
+                        <app-edit-string [thin]="true" [(model)]="day.summary" />
+                        Formatter
+                        <app-edit-string [thin]="true" [(model)]="day.formatter" />
+                    </mat-card-content>
+                </mat-card>
+                <button mat-button class="add-button" (click)="add('weekday')">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </mat-tab>
+        <mat-tab label="Months">
+            <div class="tab-content">
+                <mat-card *ngFor="let month of calendar.months" class="unit-card">
+                    <mat-card-content class="grid-1 pad-content">
+                        Name
+                        <app-edit-string [thin]="true" [(model)]="month.name" />
+                        Description
+                        <app-edit-string [thin]="true" [(model)]="month.summary" />
+                        Days
+                        <app-edit-int [thin]="true" [(model)]="month.days" />
+                    </mat-card-content>
+                </mat-card>
+                <button mat-button class="add-button" (click)="add('month')">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </mat-tab>
+        <mat-tab label="Eras">
+            <div class="tab-content">
+                <mat-card *ngFor="let era of calendar.eras" class="unit-card">
+                    <mat-card-content class="grid-1 pad-content">
+                        Name
+                        <app-edit-string [thin]="true" [(model)]="era.name" />
+                        Description
+                        <app-edit-string [thin]="true" [(model)]="era.summary" />
+                        Formatter
+                        <app-edit-string [thin]="true" [(model)]="era.formatter" />
+                        Derived From
+                        <app-edit-data-point [thin]="true" [(model)]="era.derivedFromId" [items]="calendar.eras" />
+                        Amount per Derived
+                        <app-edit-int [thin]="true" [(model)]="era.amountPerDerived" />
+                    </mat-card-content>
+                </mat-card>
+                <button mat-button class="add-button" (click)="add('era')">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </mat-tab>
+        <mat-tab label="Format">
+            <div class="tab-content">
+                <mat-card *ngFor="let format of calendar.formatters" class="unit-card">
+                    <mat-card-content class="grid-1 pad-content">
+                        Name
+                        <app-edit-string [thin]="true" [(model)]="format.name" />
+                        Description
+                        <app-edit-string [thin]="true" [(model)]="format.summary" />
+                        Formatter
+                        <app-edit-string [thin]="true" [(model)]="format.formatter" />
+                    </mat-card-content>
+                </mat-card>
+                <button mat-button class="add-button" (click)="add('formatter')">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </mat-tab>
+        <mat-tab label="Time Zones">
+            <div class="tab-content">
+                <mat-card *ngFor="let timezone of calendar.timeZones" class="unit-card">
+                    <mat-card-content class="grid-1 pad-content">
+                        Name
+                        <app-edit-string [thin]="true" [(model)]="timezone.name" />
+                        Description
+                        <app-edit-string [thin]="true" [(model)]="timezone.summary" />
+                        Offset
+                        <app-edit-int [thin]="true" [(model)]="timezone.offset" />
+                        Time Unit
+                        <app-edit-data-point [thin]="true" [(model)]="timezone.derivedTimeUnitId" [items]="calendar.timeUnits" />
+                    </mat-card-content>
+                </mat-card>
+                <button mat-button class="add-button" (click)="add('timeZone')">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+    
+    <mat-card-actions>
+        <button mat-button style="margin-left: auto; margin-right: 10px;" (click)="onCancel()">Cancel</button>
+        <button mat-button color="primary" (click)="onSave()">Save</button>
+    </mat-card-actions>
+</div>

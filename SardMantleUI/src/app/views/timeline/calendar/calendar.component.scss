@@ -1,0 +1,21 @@
+.screen-container {
+    overflow-y: auto;
+    background-color: var(--secondary-background-color);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0px;
+    padding-bottom: 10px;
+}
+
+.top-actions-container {
+    display: grid;
+    grid-template-columns: auto min-content;
+    margin: 20px;
+}
+
+.icon-button {
+    margin: 5px;
+}

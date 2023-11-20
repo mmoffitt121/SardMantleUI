@@ -1,4 +1,3 @@
-<app-top-bar></app-top-bar>
 <div class="centered-div">
     <mat-card >
         <mat-card-header>
@@ -7,8 +6,8 @@
         <mat-card-content>
             <app-edit-string [parameterName]="'Username'" [control]="userName"></app-edit-string>
             <app-edit-string [parameterName]="'Email'" [control]="email"></app-edit-string>
-            <app-edit-string [parameterName]="'Password'" [control]="password"></app-edit-string>
-            <app-edit-string [parameterName]="'Confirm Password'" [control]="confirmPassword"></app-edit-string>
+            <app-edit-string [parameterName]="'Password'" [control]="password" type="password"></app-edit-string>
+            <app-edit-string [parameterName]="'Confirm Password'" [control]="confirmPassword" type="password"></app-edit-string>
         </mat-card-content>
         <mat-card-actions align="end">
             <button mat-button color="primary" (click)="register()" [disabled]="!canLogIn()">Register</button>

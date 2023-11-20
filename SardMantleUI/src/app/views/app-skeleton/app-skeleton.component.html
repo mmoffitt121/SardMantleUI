@@ -1,0 +1,11 @@
+<div [ngClass]="useTopBar ? 'topbar-app-skeleton' : 'app-skeleton'">
+    <app-skeleton-top-bar (openMenu)="toggleMenu()" *ngIf="useTopBar" />
+    <mat-drawer-container [hasBackdrop]="false">
+        <mat-drawer #sidenav mode="side" position="start" [disableClose]="true" [ngClass]="skeletonService.labels ? 'nav-sidebar' : 'nav-sidebar-small'" [opened]="this.skeletonService.toggleSidebarSubject.value">
+            <app-skeleton-nav-bar />
+        </mat-drawer>
+        <mat-drawer-content>
+            <router-outlet></router-outlet>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</div>

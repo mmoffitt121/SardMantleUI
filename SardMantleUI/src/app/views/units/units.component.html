@@ -1,12 +1,11 @@
-<app-top-bar></app-top-bar>
 <div class="screen-container">
   <div class="top-actions-container">
     <div>
-      <h2 style="margin-top: 0px">{{pageName}}</h2>
+      <h2 style="margin-top: 10px; margin-bottom: 0px;">{{pageName}}</h2>
     </div>
     <div style="display: flex">
       <div style="margin-right: 10px; display: flex;">
-        <button mat-icon-button class="icon-button" matTooltip="Add" *ngIf="(pageMode === 'units' || pageMode === 'measurables' || pageMode === 'calendars') && loginService.isLoggedIn()" (click)="doAdd()">
+        <button mat-icon-button class="icon-button" matTooltip="Add" *ngIf="(pageMode === 'units' || pageMode === 'measurables' || pageMode === 'calendars') && loginService.userHasAnyOfRoles(['Administrator', 'Editor'])" (click)="doAdd()">
           <mat-icon> add </mat-icon>
         </button>
       </div>
@@ -21,14 +20,11 @@
         <mat-button-toggle value="convert" matTooltip="Convert" (click)="setPageMode('convert', 'Convert')">
           <mat-icon> autorenew </mat-icon>
         </mat-button-toggle>
-        <mat-button-toggle value="calendars" matTooltip="Calendars" (click)="setPageMode('calendars', 'Calendars')">
-          <mat-icon> date_range </mat-icon>
-        </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
   </div>
   <app-unit-tables *ngIf="pageMode === 'units'" (convert)="convert($event)" />
   <app-view-measurables *ngIf="pageMode === 'measurables'" />
-  <app-view-calendars *ngIf="pageMode === 'calendars'" />
   <app-unit-converter *ngIf="pageMode === 'convert'" />
+  
 </div>

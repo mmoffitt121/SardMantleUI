@@ -462,7 +462,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 .mat-mdc-option {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    font-family: var(--mdc-typography-body1-font-family, var(--mdc-typography-font-family, var(--primary-font)));
+    font-family: var(--primary-font);
     font-size: var(--mdc-typography-body1-font-size, 16px);
     line-height: var(--mdc-typography-body1-line-height, 24px);
     font-weight: var(--mdc-typography-body1-font-weight, 400);
@@ -1119,7 +1119,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 .mdc-text-field__input {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    font-family: var(--mdc-typography-subtitle1-font-family, var(--primary-font, var(--primary-font)));
+    font-family: var(--primary-font);
     font-size: var(--mdc-typography-subtitle1-font-size, 16px);
     font-weight: var(--mdc-typography-subtitle1-font-weight, 400);
     letter-spacing: var(--mdc-typography-subtitle1-letter-spacing, 0.009375em);
@@ -1130,7 +1130,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 .mdc-text-field__affix {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    font-family: var(--mdc-typography-subtitle1-font-family, var(--primary-font, var(--primary-font)));
+    font-family: var(--primary-font);
     font-size: var(--mdc-typography-subtitle1-font-size, 16px);
     font-weight: var(--mdc-typography-subtitle1-font-weight, 400);
     letter-spacing: var(--mdc-typography-subtitle1-letter-spacing, 0.009375em);
@@ -1145,7 +1145,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 .mdc-floating-label {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    font-family: var(--mdc-typography-subtitle1-font-family, var(--mdc-typography-font-family, var(--primary-font)));
+    font-family: var(--primary-font);
     font-size: var(--mdc-typography-subtitle1-font-size, 16px);
     font-weight: var(--mdc-typography-subtitle1-font-weight, 400);
     letter-spacing: var(--mdc-typography-subtitle1-letter-spacing, 0.009375em);
@@ -1157,7 +1157,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 .mat-mdc-form-field-bottom-align::before {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    font-family: var(--mdc-typography-caption-font-family, var(--mdc-typography-font-family, var(--primary-font)));
+    font-family: var(--primary-font);
     font-size: var(--mdc-typography-caption-font-size, 12px);
     line-height: var(--mdc-typography-caption-line-height, 20px);
     font-weight: var(--mdc-typography-caption-font-weight, 400);
@@ -1170,7 +1170,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 .mat-mdc-floating-label {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    font-family: var(--mdc-typography-body1-font-family, var(--mdc-typography-font-family, var(--primary-font)));
+    font-family: var(--primary-font);
     font-size: var(--mdc-typography-body1-font-size, 16px);
     line-height: var(--mdc-typography-body1-line-height, 24px);
     font-weight: var(--mdc-typography-body1-font-weight, 400);
@@ -1229,7 +1229,8 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mdc-list-item--disabled .mdc-list-item__primary-text {
-    color: var(--text-color)
+    color: var(--text-color);
+    font-family: var(--primary-font);
 }
 
 .mdc-list-item--disabled .mdc-list-item__secondary-text {
@@ -1254,7 +1255,8 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 
 .mdc-list-item--selected .mdc-list-item__primary-text,
 .mdc-list-item--activated .mdc-list-item__primary-text {
-    color: var(--mdc-theme-primary, var(--primary-accent-color))
+    color: var(--mdc-theme-primary, var(--primary-accent-color));
+    font-family: var(--primary-font);
 }
 
 .mdc-list-item--selected.mdc-list-item--with-leading-icon .mdc-list-item__start,
@@ -1313,7 +1315,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 .mat-mdc-select-panel {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    font-family: var(--mdc-typography-subtitle1-font-family, var(--mdc-typography-font-family, var(--primary-font)));
+    font-family: var(--primary-font);
     font-size: var(--mdc-typography-subtitle1-font-size, 16px);
     line-height: var(--mdc-typography-subtitle1-line-height, 28px);
     font-weight: var(--mdc-typography-subtitle1-font-weight, 400);
@@ -1326,7 +1328,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 .mat-mdc-select {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    font-family: var(--mdc-typography-body1-font-family, var(--mdc-typography-font-family, var(--primary-font)));
+    font-family: var(--primary-font);
     font-size: var(--mdc-typography-body1-font-size, 16px);
     line-height: var(--mdc-typography-body1-line-height, 24px);
     font-weight: var(--mdc-typography-body1-font-weight, 400);
@@ -1345,7 +1347,8 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mdc-list-item__primary-text {
-    color: var(--mdc-theme-text-primary-on-background, white)
+    color: var(--text-color, white);
+    font-family: var(--primary-font);
 }
 
 .mdc-list-item__secondary-text {
@@ -1858,7 +1861,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 .mat-mdc-menu-content .mat-mdc-menu-item .mdc-list-item__primary-text {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    font-family: var(--mdc-typography-body1-font-family, var(--mdc-typography-font-family, var(--primary-font)));
+    font-family: var(--primary-font);
     font-size: var(--mdc-typography-body1-font-size, 16px);
     line-height: var(--mdc-typography-body1-line-height, 24px);
     font-weight: var(--mdc-typography-body1-font-weight, 400);
@@ -3465,17 +3468,19 @@ html {
 }
 
 .mat-drawer-container {
-    background-color: #303030;
-    color: #fff
+    background-color: var(--primary-background-color);
+    color: var(--text-color);
+    font-family: var(--primary-font);
 }
 
 .mat-drawer {
-    background-color: #424242;
-    color: #fff
+    background-color: var(--secondary-background-color);
+    color: var(--text-color);
+    font-family: var(--primary-font);
 }
 
 .mat-drawer.mat-drawer-push {
-    background-color: #424242
+    background-color: var(--secondary-background-color)
 }
 
 .mat-drawer:not(.mat-drawer-side) {
@@ -3483,22 +3488,22 @@ html {
 }
 
 .mat-drawer-side {
-    border-right: solid 1px rgba(255, 255, 255, .12)
+    border-right: none/*solid 1px rgba(255, 255, 255, .12)*/
 }
 
 .mat-drawer-side.mat-drawer-end {
-    border-left: solid 1px rgba(255, 255, 255, .12);
+    border-left: none;
     border-right: none
 }
 
 [dir=rtl] .mat-drawer-side {
-    border-left: solid 1px rgba(255, 255, 255, .12);
+    border-left: none;
     border-right: none
 }
 
 [dir=rtl] .mat-drawer-side.mat-drawer-end {
     border-left: none;
-    border-right: solid 1px rgba(255, 255, 255, .12)
+    border-right: none
 }
 
 .mat-drawer-backdrop.mat-drawer-shown {

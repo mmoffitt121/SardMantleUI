@@ -1,5 +1,5 @@
 <div class="corner-button-container">
-    <button mat-icon-button class="corner-button" (click)="onAdd()" matTooltip="New Map"  *ngIf="loginService.isLoggedIn()">
+    <button mat-icon-button class="corner-button" (click)="onAdd()" matTooltip="New Map"  *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
         <mat-icon>
             library_add
         </mat-icon>

@@ -20,10 +20,10 @@
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let element">
           <div style="display: flex">
-            <button mat-icon-button matTooltip="Edit" (click)="editMeasurable(element)" *ngIf="loginService.isLoggedIn()">
+            <button mat-icon-button matTooltip="Edit" (click)="editMeasurable(element)" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
               <mat-icon> edit </mat-icon>
             </button>
-            <button mat-icon-button matTooltip="Delete" (click)="deleteMeasurable(element)" *ngIf="loginService.isLoggedIn()">
+            <button mat-icon-button matTooltip="Delete" (click)="deleteMeasurable(element)" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
                 <mat-icon> delete </mat-icon>
             </button>
           </div>

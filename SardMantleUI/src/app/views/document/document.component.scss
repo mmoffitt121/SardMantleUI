@@ -66,12 +66,10 @@
 }
 
 .button-holder-wrapper {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     background-color: var(--primary-color);
     overflow: hidden;
+    height: min-content;
+    border-radius: 0px 0px 40px 40px;
 }
 
 .button-holder {

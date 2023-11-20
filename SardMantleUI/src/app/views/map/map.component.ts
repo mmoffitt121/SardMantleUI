@@ -38,6 +38,7 @@ import { ThemeService } from 'src/app/services/theme/theme.service';
 import { RegionService } from 'src/app/services/map/region.service';
 import { environment } from 'src/environments/environment';
 import { LoginService } from 'src/app/services/login/login.service';
+import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -694,7 +695,7 @@ export class MapComponent implements OnInit {
   }
 
   public editMapIcon() {
-    if (!this.loginService.isLoggedIn()) {
+    if (!this.loginService.userHasAnyOfRoles(['Administrator', 'Editor'])) {
       return;
     }
     const dialogRef = this.dialog.open(UploadFileComponent, {
@@ -763,7 +764,8 @@ export class MapComponent implements OnInit {
     public urlService: UrlService,
     private themeService: ThemeService,
     private regionService: RegionService,
-    public loginService: LoginService) { }
+    public loginService: LoginService,
+    public skeletonService: SkeletonService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {

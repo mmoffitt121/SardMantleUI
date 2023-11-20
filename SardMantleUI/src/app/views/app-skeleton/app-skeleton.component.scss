@@ -1,0 +1,19 @@
+.nav-sidebar {
+    width: min(200px, 100%);
+}
+
+.nav-sidebar-small {
+    width: 50px;
+}
+
+.topbar-app-skeleton {
+    display: grid;
+    grid-template-rows: 50px auto;
+    height: 100vh;
+}
+
+.app-skeleton {
+    display: grid;
+    grid-template-rows: auto;
+    height: 100vh;
+}

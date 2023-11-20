@@ -1,8 +1,8 @@
 <div>
     <div style="display: grid; grid-template-columns: auto 50px;">
         <h3 *ngIf="!(iconLayers === undefined) && iconLayers.length > 0">Icon Layers</h3>
-        <h3 *ngIf="!(!(iconLayers === undefined) && iconLayers.length > 0) && loginService.isLoggedIn()">Add New Icon Layer</h3>
-        <button mat-icon-button matTooltip="Add Layer" (click)="handleAdd('icon')" *ngIf="loginService.isLoggedIn()">
+        <h3 *ngIf="!(!(iconLayers === undefined) && iconLayers.length > 0) && loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">Add New Icon Layer</h3>
+        <button mat-icon-button matTooltip="Add Layer" (click)="handleAdd('icon')" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
             <mat-icon>
                 add
             </mat-icon>
@@ -14,10 +14,10 @@
                 <img class="card-image" [src]="layer.safeURL" *ngIf="layer.safeURL" />
                 <p class="label-over"> {{ layer.name | valueShorten: 25:1 }} </p>
             </div>
-            <button mat-icon-button matTooltip="Edit Layer" class="carded-button" (click)="handleEdit(layer)" *ngIf="loginService.isLoggedIn()">
+            <button mat-icon-button matTooltip="Edit Layer" class="carded-button" (click)="handleEdit(layer)" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
                 <mat-icon> edit </mat-icon>
             </button>
-            <div  *ngIf="!loginService.isLoggedIn()"></div>
+            <div  *ngIf="!loginService.userHasAnyOfRoles(['Administrator', 'Editor'])"></div>
             <button mat-icon-button (click)="onCheck(layer)" class="carded-button">
                 <mat-icon *ngIf="layer.selected"> check_circle </mat-icon>
                 <mat-icon *ngIf="!layer.selected"> radio_button_unchecked </mat-icon>
@@ -28,8 +28,8 @@
 <div>
     <div style="display: grid; grid-template-columns: auto 50px;">
         <h3 *ngIf="!(mapLayers === undefined) && mapLayers.length > 0">Map Layers</h3>
-        <h3 *ngIf="!(!(mapLayers === undefined) && mapLayers.length > 0) && loginService.isLoggedIn()">Add New Map Layer</h3>
-        <button mat-icon-button matTooltip="Add Layer" (click)="handleAdd('map')" *ngIf="loginService.isLoggedIn()">
+        <h3 *ngIf="!(!(mapLayers === undefined) && mapLayers.length > 0) && loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">Add New Map Layer</h3>
+        <button mat-icon-button matTooltip="Add Layer" (click)="handleAdd('map')" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
             <mat-icon>
                 add
             </mat-icon>
@@ -41,8 +41,8 @@
                 <img class="card-image" [src]="layer.safeURL" *ngIf="layer.safeURL" />
                 <p class="label-over"> {{ layer.name | valueShorten: 25:1 }} </p>
             </div>
-            <div *ngIf="!loginService.isLoggedIn()"></div>
-            <button mat-icon-button matTooltip="Edit Layer" class="carded-button" (click)="handleEdit(layer)" *ngIf="loginService.isLoggedIn()">
+            <div *ngIf="!loginService.userHasAnyOfRoles(['Administrator', 'Editor'])"></div>
+            <button mat-icon-button matTooltip="Edit Layer" class="carded-button" (click)="handleEdit(layer)" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
                 <mat-icon> edit </mat-icon>
             </button>
             <button mat-icon-button (click)="onCheck(layer)" class="carded-button">
@@ -60,10 +60,10 @@
                 <img class="card-image" [src]="baseLayer.safeURL" *ngIf="baseLayer.safeURL" />
                 <p class="label-over"> {{ baseLayer.name | valueShorten: 25:1 }} </p>
             </div>
-            <button mat-icon-button matTooltip="Edit Layer" class="carded-button" (click)="handleEdit(baseLayer)" *ngIf="loginService.isLoggedIn()">
+            <button mat-icon-button matTooltip="Edit Layer" class="carded-button" (click)="handleEdit(baseLayer)" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
                 <mat-icon> edit </mat-icon>
             </button>
-            <div  *ngIf="!loginService.isLoggedIn()"></div>
+            <div  *ngIf="!loginService.userHasAnyOfRoles(['Administrator', 'Editor'])"></div>
             <button mat-icon-button class="carded-button" disabled>
                 <mat-icon> check_circle </mat-icon>
             </button>
@@ -71,7 +71,7 @@
     </mat-card>
 </div>
 
-<div *ngIf="baseLayer === undefined && loginService.isLoggedIn()">
+<div *ngIf="baseLayer === undefined && loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
     <h3>Base Layer</h3>
     <button mat-button (click)="generateBaseLayer()"> Generate Base Layer </button>
 </div>

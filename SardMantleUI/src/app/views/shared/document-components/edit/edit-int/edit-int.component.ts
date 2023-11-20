@@ -21,6 +21,9 @@ export class EditIntComponent implements OnInit {
 
   public typeParameterId: number;
 
+  @Input() model: number;
+  @Output() modelChange = new EventEmitter<number>();
+
   public validate(e: any) {
     this.control.markAsTouched();
     let newValue = this.control.value.replace(/[^\-0-9]/g, "");
@@ -35,6 +38,8 @@ export class EditIntComponent implements OnInit {
       return;
     }
     this.control.setValue(value);
+    this.model = value;
+    this.modelChange.emit(value);
   }
 
   public getValue() {
@@ -42,9 +47,15 @@ export class EditIntComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.control.valueChanges.subscribe(value => this.valueChanged.emit({value, index: this.index}))
+    this.control.valueChanges.subscribe(value => {
+      this.model = value;
+      this.valueChanged.emit({value, index: this.index})
+      this.modelChange.emit(this.model);
+    });
     if (this.required) {
       this.control.addValidators([Validators.required]);
     }
+
+    this.control.setValue(this.model);
   }
 }

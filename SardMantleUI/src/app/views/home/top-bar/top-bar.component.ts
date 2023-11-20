@@ -8,7 +8,7 @@ import { ThemeService } from 'src/app/services/theme/theme.service';
 import { UrlService } from 'src/app/services/url/url.service';
 
 @Component({
-  selector: 'app-top-bar',
+  selector: 'app-top-bar2',
   templateUrl: './top-bar.component.html',
   styleUrls: ['./top-bar.component.scss']
 })
@@ -64,7 +64,7 @@ export class TopBarComponent implements OnInit {
     }
   }
   public openThemeManager() {
-    this.router.navigate([this.urlService.getWorld(), 'settings', 'theme']);
+    this.router.navigate([this.urlService.getWorld(), 'theme']);
   }
 
   constructor (

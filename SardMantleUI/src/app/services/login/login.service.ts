@@ -52,6 +52,22 @@ export class LoginService {
     return false;*/
   }
 
+  public userHasAnyOfRoles(roles: string[]) {
+    if (!roles || !roles.length) { return true; }
+    let userRoles = localStorage.getItem('roles')?.split(',');
+    if (!userRoles || !userRoles.length || !this.isLoggedIn()) { return false; }
+
+    let result = false;
+    userRoles.forEach(ur => {
+      roles.forEach(r => {
+        if (ur === r) {
+          result = true;
+        }
+      })
+    })
+    return result;
+  }
+
   public isUserAuthenticated = (): boolean => {
     const token = localStorage.getItem("token");
  

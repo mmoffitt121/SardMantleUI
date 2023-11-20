@@ -10,7 +10,7 @@
         <mat-menu #menu="matMenu">
             <div style="padding: 10px; display: flex">
                 <h3 style="margin: 0px; margin-top: 10px">Themes</h3>
-                <button mat-icon-button style="margin-left: 50px;" (click)="openThemeManager()" *ngIf="loginService.isLoggedIn()">
+                <button mat-icon-button style="margin-left: 50px;" (click)="openThemeManager()" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
                     <mat-icon> settings </mat-icon> 
                 </button>
             </div>

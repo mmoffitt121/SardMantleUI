@@ -1,0 +1,25 @@
+<div class="screen-container">
+  <div class="top-actions-container">
+    <div>
+      <h2 style="margin-top: 10px; margin-bottom: 0px;">{{pageName}}</h2>
+    </div>
+    <div style="display: flex">
+      <div style="margin-right: 10px; display: flex;">
+        <button mat-icon-button class="icon-button" matTooltip="Add" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])" (click)="doAdd()">
+          <mat-icon> add </mat-icon>
+        </button>
+      </div>
+      
+      <mat-button-toggle-group name="pageMode" [value]="pageMode" >
+        <mat-button-toggle value="calendars" matTooltip="Calendars" (click)="setPageMode('calendars', 'Calendars')">
+          <mat-icon> calendar_month </mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </div>
+  <div style="width: fit-content; margin-left: auto; margin-right: auto;">
+    <app-calendar-select *ngIf="pageMode === 'calendars' && !calendar" (selected)="selectCalendar($event)" />
+    <app-calendar-detail *ngIf="pageMode === 'calendars' && calendar && !editing" [calendar]="calendar" (cancel)="calendar = undefined; editing = false;" (edit)="editCalendar()" />
+    <app-calendar-edit *ngIf="pageMode === 'calendars' && calendar && editing" [calendar]="calendar" (cancel)="editing = false;" (edit)="editCalendar()" />
+  </div>
+</div>

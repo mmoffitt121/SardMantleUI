@@ -7,7 +7,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./edit-summary.component.scss']
 })
 export class EditSummaryComponent implements OnInit {
-  @Input() parameterName: string = 'Parameter Name';
+  @Input() parameterName: string = '';
   @Input() parameterSummary: string = '';
   @Input() placeholder: string = '';
 
@@ -17,7 +17,12 @@ export class EditSummaryComponent implements OnInit {
 
   public typeParameterId: number;
 
+  @Input() model: string;
+  @Output() modelChange = new EventEmitter<string>();
+
   public setValue(value: any) {
+    this.model = value;
+    this.modelChange.emit(value);
     if (value == null) {
       return;
     }
@@ -29,6 +34,10 @@ export class EditSummaryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.control.valueChanges.subscribe(value => this.valueChanged.emit(value))
+    this.control.setValue(this.model);
+    this.control.valueChanges.subscribe(value => {
+      this.valueChanged.emit(value);
+      this.modelChange.emit(value);
+    })
   }
 }

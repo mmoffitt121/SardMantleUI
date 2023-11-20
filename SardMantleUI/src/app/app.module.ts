@@ -118,7 +118,6 @@ import { UnitsComponent } from './views/units/units.component';
 import { ChangePasswordComponent } from './views/auth/user-settings/change-password/change-password.component';
 import { UnitTablesComponent } from './views/units/unit-tables/unit-tables.component';
 import { ViewMeasurablesComponent } from './views/units/view-measurables/view-measurables.component';
-import { ViewCalendarsComponent } from './views/units/view-calendars/view-calendars.component';
 import { UnitConverterComponent } from './views/units/unit-converter/unit-converter.component';
 import { AddEditMeasurableComponent } from './views/units/view-measurables/add-edit-measurable/add-edit-measurable.component';
 import { AddEditUnitComponent } from './views/units/unit-tables/add-edit-unit/add-edit-unit.component';
@@ -126,6 +125,13 @@ import { DocumentViewComponent } from './views/document/document-info/document-v
 import { EditParametersComponent } from './views/shared/document-components/edit/edit-parameters/edit-parameters.component';
 import { EditListComponent } from './views/shared/document-components/edit/edit-list/edit-list.component';
 import { EditTypeParameterUnitComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-unit/edit-type-parameter-unit.component';
+import { AppSkeletonComponent } from './views/app-skeleton/app-skeleton.component';
+import { SkeletonTopBarComponent } from './views/app-skeleton/skeleton-top-bar/skeleton-top-bar.component';
+import { SkeletonNavBarComponent } from './views/app-skeleton/skeleton-nav-bar/skeleton-nav-bar.component';
+import { CalendarComponent } from './views/timeline/calendar/calendar.component';
+import { CalendarSelectComponent } from './views/timeline/calendar/calendar-select/calendar-select.component';
+import { CalendarEditComponent } from './views/timeline/calendar/calendar-edit/calendar-edit.component';
+import { CalendarDetailComponent } from './views/timeline/calendar/calendar-detail/calendar-detail.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -211,7 +217,6 @@ export function tokenGetter() {
     ChangePasswordComponent,
     UnitTablesComponent,
     ViewMeasurablesComponent,
-    ViewCalendarsComponent,
     UnitConverterComponent,
     AddEditMeasurableComponent,
     AddEditUnitComponent,
@@ -219,8 +224,15 @@ export function tokenGetter() {
     DocumentViewComponent,
     EditParametersComponent,
     EditListComponent,
-    EditTypeParameterUnitComponent
-  ],
+    EditTypeParameterUnitComponent,
+    AppSkeletonComponent,
+    SkeletonTopBarComponent,
+    SkeletonNavBarComponent,
+    CalendarComponent,
+    CalendarSelectComponent,
+    CalendarEditComponent,
+    CalendarDetailComponent
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,

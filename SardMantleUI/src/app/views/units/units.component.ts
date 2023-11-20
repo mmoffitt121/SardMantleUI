@@ -6,7 +6,6 @@ import { LoginService } from 'src/app/services/login/login.service';
 import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
 import { UnitsService } from 'src/app/services/units/units.service';
 import { ViewMeasurablesComponent } from './view-measurables/view-measurables.component';
-import { ViewCalendarsComponent } from './view-calendars/view-calendars.component';
 import { UnitTablesComponent } from './unit-tables/unit-tables.component';
 import { UnitConverterComponent } from './unit-converter/unit-converter.component';
 
@@ -30,7 +29,6 @@ export class UnitsComponent {
   @ViewChild(UnitTablesComponent) unitsChild: UnitTablesComponent;
   @ViewChild(ViewMeasurablesComponent) measurablesChild: ViewMeasurablesComponent;
   @ViewChild(UnitConverterComponent) converterChild: UnitConverterComponent;
-  @ViewChild(ViewCalendarsComponent) calendarsChild: ViewCalendarsComponent;
 
   public setPageMode(mode: string, name: string) {
     this.pageMode = mode;

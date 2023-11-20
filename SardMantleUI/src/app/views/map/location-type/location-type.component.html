@@ -1,6 +1,6 @@
 <div style="display: grid; grid-template-columns: auto 55px;">
     <h3>Location Types</h3>
-    <button mat-icon-button matTooltip="Add Location Type" (click)="addLocationType()" *ngIf="loginService.isLoggedIn()">
+    <button mat-icon-button matTooltip="Add Location Type" (click)="addLocationType()" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
         <mat-icon> add </mat-icon>
     </button>
 </div>
@@ -19,7 +19,7 @@
                     <mat-icon> location_on </mat-icon>
                 </div>
                 <h5>{{locationType.name}}</h5>
-                <button mat-icon-button (click)="editLocationType(locationType)" *ngIf="loginService.isLoggedIn()">
+                <button mat-icon-button (click)="editLocationType(locationType)" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
                     <mat-icon> edit </mat-icon>
                 </button>
             </mat-card>

@@ -1,0 +1,21 @@
+.group-header {
+    margin: 10px;
+    margin-bottom: 5px;
+}
+
+::ng-deep .mat-mdc-menu-item {
+    min-height: 37px !important;
+}
+
+.small-button {
+    width: 100px; 
+    height: 50px; 
+    padding: 13px;
+}
+
+.small-icon {
+    margin-right: 0px; 
+    margin-left: 0px; 
+    padding-right: 0px; 
+    padding-left: 0px; 
+}

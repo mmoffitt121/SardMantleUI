@@ -18,6 +18,7 @@ import { AuthGuard } from './guards/auth-guard.guard';
 import { WorldManagerComponent } from './views/common/world-manager/world-manager.component';
 import { ManageThemesComponent } from './views/home/top-bar/manage-themes/manage-themes.component';
 import { UnitsComponent } from './views/units/units.component';
+import { CalendarComponent } from './views/timeline/calendar/calendar.component';
 
 const routes: Routes = [
   { path:'', redirectTo: 'home', pathMatch: 'full' },
@@ -41,6 +42,7 @@ const routes: Routes = [
     { path:'map-tiles/:layerId', component:MapTilesComponent },
     { path:'map-tiles/:layerId/:z/:x/:y', component:MapTilesComponent },
     { path:'timeline', component:TimelineComponent },
+    { path:'calendar', component:CalendarComponent },
     { path:'units', component:UnitsComponent },
     { path:'document', component:DocumentComponent },
     { path:'document/type', component:DocumentComponent },
@@ -52,8 +54,8 @@ const routes: Routes = [
     { path:'document/edit', component:DocumentComponent, canActivate: [AuthGuard] },
     { path:'document/edit/:docId', component:DocumentComponent, canActivate: [AuthGuard] },
     { path:'document/type/edit/:id', component:EditDocumentTypeComponent, canActivate: [AuthGuard] },
-    { path:'settings/theme', component:ManageThemesComponent, canActivate: [AuthGuard] },
-    { path:'settings/theme/:id', component:ManageThemesComponent, canActivate: [AuthGuard] },
+    { path:'theme', component:ManageThemesComponent, canActivate: [AuthGuard] },
+    { path:'theme/:id', component:ManageThemesComponent, canActivate: [AuthGuard] },
   ]}
 ];
 

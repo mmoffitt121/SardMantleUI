@@ -22,6 +22,7 @@ import { Observable, fromEvent, throttleTime } from 'rxjs';
 import { DocumentViewComponent } from './document-info/document-view/document-view.component';
 import { Document } from 'src/app/models/document/document-types/document';
 import { LoginService } from 'src/app/services/login/login.service';
+import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
 
 @Component({
   selector: 'app-document',
@@ -187,7 +188,8 @@ export class DocumentComponent implements OnInit {
     private documentTypeService: DocumentTypeService,
     private errorService: ErrorService,
     private routeLocation: RouteLocation,
-    public loginService: LoginService
+    public loginService: LoginService,
+    public skeletonService: SkeletonService
   ) { 
   }
 

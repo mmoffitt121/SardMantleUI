@@ -26,11 +26,16 @@ export class EditDataPointComponent implements OnChanges, OnInit {
   public filter: string | undefined;
   @Output() selected = new EventEmitter();
   @Output() filterChanged = new EventEmitter();
+  @Input() thin = false;
 
   public typeParameterId: number;
   public typeId: number;
 
   private selfLoading = false;
+
+  @Input() model: number;
+  @Output() modelChange = new EventEmitter<number>();
+
 
   public setValue(value: any) {
     if (value !== undefined) {
@@ -44,9 +49,11 @@ export class EditDataPointComponent implements OnChanges, OnInit {
         return;
       }
       this.selectedItem = data;
+      this.model = this.selectedItem?.id;
+      this.modelChange.emit(this.model);
       this.formControl.setValue(this.selectedItem?.name);
     },
-    error => this.errorService.handle(error))
+    error => this.errorService.handle(error));
   }
 
   public setTypeId(type: number) {
@@ -99,6 +106,7 @@ export class EditDataPointComponent implements OnChanges, OnInit {
     this.filter = undefined;
     this.selected.emit(this.selectedItem);
     this.handleFilterChange();
+    this.modelChange.emit(this.model);
   }
 
   public clearSelection() {
@@ -138,6 +146,11 @@ export class EditDataPointComponent implements OnChanges, OnInit {
     if (this.automaticallyLoadAllDataPoints) {
       this.selfLoading = true;
       this.queryChoices();
+    }
+    console.log(this.items)
+    console.log(this.model)
+    if (this.items && this.items.length && this.model != null) {
+      this.handleSelectionChange({option: {value: this.model}});
     }
   }
 

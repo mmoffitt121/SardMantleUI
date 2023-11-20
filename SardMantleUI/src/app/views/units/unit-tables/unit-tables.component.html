@@ -32,10 +32,10 @@
         <button mat-icon-button (click)="convertUnit(element)">
           <mat-icon>autorenew</mat-icon>
         </button>
-        <button mat-icon-button (click)="editUnit(element)" *ngIf="loginService.isLoggedIn()">
+        <button mat-icon-button (click)="editUnit(element)" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="deleteUnit(element)" *ngIf="loginService.isLoggedIn()">
+        <button mat-icon-button (click)="deleteUnit(element)" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
           <mat-icon>delete</mat-icon>
         </button>
       </td>
