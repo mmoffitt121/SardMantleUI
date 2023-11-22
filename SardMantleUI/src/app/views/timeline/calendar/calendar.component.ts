@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Calendar } from 'src/app/models/units/calendar';
+import { Component, ViewChild } from '@angular/core';
+import { Calendar, Formatter, Month, TimeUnit, TimeZone, Weekday } from 'src/app/models/units/calendar';
 import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
@@ -12,7 +12,8 @@ export class CalendarComponent {
   public pageName: string = "Calendars";
 
   public calendar: Calendar | undefined;
-  public editing = false;;
+  public editing = false;
+  public adding = false;
 
   public setPageMode(mode: string, name: string) {
     this.pageMode = mode;
@@ -20,7 +21,25 @@ export class CalendarComponent {
   }
 
   public doAdd() {
-    
+    this.editing = true;
+    this.calendar = {
+      name: "",
+      summary: "",
+      unitTimePerDay: 3600,
+      months: [] as Month[],
+      timeUnits: [] as TimeUnit[],
+      eras: [] as TimeUnit[],
+      timeZones: [] as TimeZone[],
+      formatters: [] as Formatter[],
+      weekdays: [] as Weekday[],
+    } as Calendar
+  }
+
+  public cancelEdit() {
+    this.editing = false; 
+    if (!this.calendar?.id) {
+      this.calendar = undefined;
+    } 
   }
 
   public selectCalendar(event: any) {

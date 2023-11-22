@@ -132,6 +132,7 @@ import { CalendarComponent } from './views/timeline/calendar/calendar.component'
 import { CalendarSelectComponent } from './views/timeline/calendar/calendar-select/calendar-select.component';
 import { CalendarEditComponent } from './views/timeline/calendar/calendar-edit/calendar-edit.component';
 import { CalendarDetailComponent } from './views/timeline/calendar/calendar-detail/calendar-detail.component';
+import { CardNavComponent } from './views/shared/document-components/navigation/card-nav/card-nav.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -231,7 +232,8 @@ export function tokenGetter() {
     CalendarComponent,
     CalendarSelectComponent,
     CalendarEditComponent,
-    CalendarDetailComponent
+    CalendarDetailComponent,
+    CardNavComponent
     ],
   imports: [
     BrowserModule,

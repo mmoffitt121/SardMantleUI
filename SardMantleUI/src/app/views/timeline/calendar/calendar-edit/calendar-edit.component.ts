@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Calendar } from 'src/app/models/units/calendar';
+import { Calendar, Formatter, Month, TimeUnit, TimeZone, Weekday } from 'src/app/models/units/calendar';
 import { CalendarDataService } from 'src/app/services/calendar/calendar-data.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
@@ -32,9 +32,30 @@ export class CalendarEditComponent {
     }, error => this.errorService.handle(error));
   }
 
+  public onDelete() {
+    
+  }
+
   public add(toAdd: string) {
     switch (toAdd) {
       case "timeUnit":
+        this.calendar.timeUnits.push({} as TimeUnit);
+        break;
+      case "weekday":
+        this.calendar.weekdays.push({} as Weekday);
+        break;
+      case "month":
+        this.calendar.months.push({} as Month);
+        break;
+      case "era":
+        this.calendar.eras.push({} as TimeUnit);
+        break;
+      case "formatter":
+        this.calendar.formatters.push({} as Formatter);
+        break;
+      case "timeZone":
+        this.calendar.timeZones.push({} as TimeZone);
+        break;
       default:
         break;
     }

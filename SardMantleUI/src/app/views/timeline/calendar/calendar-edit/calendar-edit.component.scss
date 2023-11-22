@@ -17,6 +17,11 @@
     padding-bottom: 20px;
 }
 
+.grid-1-outer {
+    display: grid;
+    grid-template-columns: auto 35px;
+}
+
 .grid-1 {
     display: grid;
     grid-template-columns: 30% 70%;
@@ -30,6 +35,10 @@
     grid-template-columns: 50% 50%;
     grid-gap: 10px;
     margin-top: 10px;
+}
+
+.card-side-button-container {
+    padding-top: 10px;
 }
 
 .pad-content {

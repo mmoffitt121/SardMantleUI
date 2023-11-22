@@ -20,6 +20,6 @@
   <div style="width: fit-content; margin-left: auto; margin-right: auto;">
     <app-calendar-select *ngIf="pageMode === 'calendars' && !calendar" (selected)="selectCalendar($event)" />
     <app-calendar-detail *ngIf="pageMode === 'calendars' && calendar && !editing" [calendar]="calendar" (cancel)="calendar = undefined; editing = false;" (edit)="editCalendar()" />
-    <app-calendar-edit *ngIf="pageMode === 'calendars' && calendar && editing" [calendar]="calendar" (cancel)="editing = false;" (edit)="editCalendar()" />
+    <app-calendar-edit *ngIf="pageMode === 'calendars' && calendar && editing" [calendar]="calendar" (cancel)="cancelEdit()" (edit)="editCalendar()" />
   </div>
 </div>
