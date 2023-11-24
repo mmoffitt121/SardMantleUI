@@ -15,7 +15,7 @@ export class CalendarEditComponent {
   @Output() save = new EventEmitter();
 
   public onCancel() {
-    this.cancel.emit();
+    this.cancel.emit(false);
   }
 
   public onSave() {
@@ -33,7 +33,40 @@ export class CalendarEditComponent {
   }
 
   public onDelete() {
+    this.calendarDataService.delete(this.calendar.id).subscribe(result => {
+      this.errorService.showSnackBar("Calendar " + this.calendar.name + " successfully deleted.");
+      this.cancel.emit(true);
+    }, error => this.errorService.handle(error));
+  }
+
+  public move(array: string, target: any, direction: string) {
+    let arr: any = [];
+    switch (array) {
+      case "timeUnits":
+        arr = this.calendar.timeUnits;
+        break;
+      case "weekdays":
+        arr = this.calendar.weekdays;
+        break;
+      case "months":
+        arr = this.calendar.months;
+        break;
+      case "eras":
+        arr = this.calendar.eras;
+        break;
+      case "formatters":
+        arr = this.calendar.formatters;
+        break;
+      case "timeZones":
+        arr = this.calendar.timeZones;
+        break;
+    }
     
+    let oldIndex = arr.indexOf(target);
+    let newIndex = oldIndex + (direction == "down" ? 1 : -1);
+
+    arr.splice(oldIndex, 1);
+    arr.splice(newIndex, 0, target);
   }
 
   public add(toAdd: string) {

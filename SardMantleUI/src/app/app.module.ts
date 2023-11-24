@@ -133,6 +133,7 @@ import { CalendarSelectComponent } from './views/timeline/calendar/calendar-sele
 import { CalendarEditComponent } from './views/timeline/calendar/calendar-edit/calendar-edit.component';
 import { CalendarDetailComponent } from './views/timeline/calendar/calendar-detail/calendar-detail.component';
 import { CardNavComponent } from './views/shared/document-components/navigation/card-nav/card-nav.component';
+import { DeleteButtonComponent } from './views/shared/document-components/delete-button/delete-button.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -233,7 +234,8 @@ export function tokenGetter() {
     CalendarSelectComponent,
     CalendarEditComponent,
     CalendarDetailComponent,
-    CardNavComponent
+    CardNavComponent,
+    DeleteButtonComponent
     ],
   imports: [
     BrowserModule,

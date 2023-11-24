@@ -35,9 +35,9 @@ export class CalendarComponent {
     } as Calendar
   }
 
-  public cancelEdit() {
+  public cancelEdit(backToList: boolean) {
     this.editing = false; 
-    if (!this.calendar?.id) {
+    if (!this.calendar?.id || backToList) {
       this.calendar = undefined;
     } 
   }

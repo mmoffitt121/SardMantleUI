@@ -28,7 +28,7 @@
                     </mat-card-content>
                     <mat-card-content>
                         <mat-divider style="margin-top: 20px; margin-bottom: 20px;" *ngIf="calendar.id" />
-                        <button mat-button (click)="onDelete()" class="destructive-button" *ngIf="calendar.id">Delete Calendar</button>
+                        <app-delete-button (delete)="onDelete()" *ngIf="calendar.id" [text]="'Delete Calendar ' + calendar.name" />
                     </mat-card-content>
                 </mat-card>
             </div>
@@ -50,7 +50,7 @@
                             <app-edit-int [thin]="true" [(model)]="timeUnit.amountPerDerived" />
                         </div>
                         <div class="card-side-button-container">
-                            <app-card-nav />
+                            <app-card-nav (up)="move('timeUnits', timeUnit, 'up')" (down)="move('timeUnits', timeUnit, 'down')" />
                         </div>
                     </mat-card-content>
                 </mat-card>
@@ -72,7 +72,7 @@
                             <app-edit-string [thin]="true" [(model)]="day.formatter" />
                         </div>
                         <div class="card-side-button-container">
-                            <app-card-nav />
+                            <app-card-nav (up)="move('weekdays', day, 'up')" (down)="move('weekdays', day, 'down')" />
                         </div>
                     </mat-card-content>
                 </mat-card>
@@ -94,7 +94,7 @@
                             <app-edit-int [thin]="true" [(model)]="month.days" />
                         </div>
                         <div class="card-side-button-container">
-                            <app-card-nav />
+                            <app-card-nav (up)="move('months', month, 'up')" (down)="move('months', month, 'down')" />
                         </div>
                     </mat-card-content>
                 </mat-card>
@@ -120,7 +120,7 @@
                             <app-edit-int [thin]="true" [(model)]="era.amountPerDerived" />
                         </div>
                         <div class="card-side-button-container">
-                            <app-card-nav />
+                            <app-card-nav (up)="move('eras', era, 'up')" (down)="move('eras', era, 'down')" />
                         </div>
                     </mat-card-content>
                 </mat-card>
@@ -142,8 +142,7 @@
                             <app-edit-string [thin]="true" [(model)]="format.formatter" />
                         </div>
                         <div class="card-side-button-container">
-                            <app-card-nav />
-                        </div>
+                            <app-card-nav (up)="move('formatters', format, 'up')" (down)="move('formatters', format, 'down')" />                        </div>
                     </mat-card-content>
                 </mat-card>
                 <button mat-button class="add-button" (click)="add('formatter')">
@@ -166,8 +165,7 @@
                             <app-edit-data-point [thin]="true" [(model)]="timezone.derivedTimeUnitId" [items]="calendar.timeUnits" />
                         </div>
                         <div class="card-side-button-container">
-                            <app-card-nav />
-                        </div>
+                            <app-card-nav (up)="move('timeZones', timezone, 'up')" (down)="move('timeZones', timezone, 'down')" />                        </div>
                     </mat-card-content>
                 </mat-card>
                 <button mat-button class="add-button" (click)="add('timeZone')">
