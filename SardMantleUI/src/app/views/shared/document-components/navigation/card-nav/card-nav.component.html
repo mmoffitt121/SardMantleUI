@@ -2,10 +2,21 @@
     <button mat-button class="card-side-button card-side-button-top" (click)="this.up.emit()">
         <mat-icon> keyboard_arrow_up </mat-icon>
     </button>
-    <button mat-button class="card-side-button card-side-button-middle" (click)="this.delete.emit()">
+    <button mat-button class="card-side-button card-side-button-middle" (click)="onDelete()">
         <mat-icon> delete </mat-icon>
     </button>
     <button mat-button class="card-side-button card-side-button-bottom" (click)="this.down.emit()">
         <mat-icon> keyboard_arrow_down </mat-icon>
+    </button>
+</div>
+<div class="button-container">
+    <button 
+        *ngFor="let item of items"
+        mat-button 
+        class="card-side-button card-side-button-top" 
+        [ngClass]="getItemClass(item)" 
+        (click)="this.action.emit(item.action)"
+    >
+        <mat-icon> {{item.icon}} </mat-icon>
     </button>
 </div>

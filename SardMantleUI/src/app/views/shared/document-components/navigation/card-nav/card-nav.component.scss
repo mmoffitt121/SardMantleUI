@@ -1,5 +1,6 @@
 .button-container {
     width: 35px;
+    margin-bottom: 10px;
 }
 
 .card-side-button-container {
@@ -16,6 +17,10 @@
 
 .card-side-button-bottom {
     border-radius: 0 0 20px 20px;
+}
+
+.card-side-button-only {
+    border-radius: 20px 20px 20px 20px;
 }
 
 .card-side-button {

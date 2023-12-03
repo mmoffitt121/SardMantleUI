@@ -37,6 +37,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
+import { OverlayModule } from '@angular/cdk/overlay';
+import { Portal, PortalModule } from '@angular/cdk/portal';
+
 import { NgxEditorModule } from 'ngx-editor';
 
 import { ViewLocationComponent } from './views/map/view-location/view-location.component';
@@ -134,6 +137,17 @@ import { CalendarEditComponent } from './views/timeline/calendar/calendar-edit/c
 import { CalendarDetailComponent } from './views/timeline/calendar/calendar-detail/calendar-detail.component';
 import { CardNavComponent } from './views/shared/document-components/navigation/card-nav/card-nav.component';
 import { DeleteButtonComponent } from './views/shared/document-components/delete-button/delete-button.component';
+import { CalendarPickerComponent } from './views/timeline/calendar/calendar-picker/calendar-picker.component';
+import { CalendarPickerButtonComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-button/calendar-picker-button.component';
+import { CalendarPickerDaySelectComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-day-select/calendar-picker-day-select.component';
+import { CalendarPickerYearSelectComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-year-select/calendar-picker-year-select.component';
+import { CalendarPickerEraViewComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-era-view/calendar-picker-era-view.component';
+import { EraSelectComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-era-view/era-select/era-select.component';
+import { CalendarPickerDropdownComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-dropdown/calendar-picker-dropdown.component';
+import { TimelineViewComponent } from './views/timeline/timeline-view/timeline-view.component';
+import { BarTimelineViewComponent } from './views/timeline/timeline-view/bar-timeline-view/bar-timeline-view.component';
+import { LinearTimelineViewComponent } from './views/timeline/timeline-view/linear-timeline-view/linear-timeline-view.component';
+import { CalendarTimelineViewComponent } from './views/timeline/timeline-view/calendar-timeline-view/calendar-timeline-view.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -235,7 +249,18 @@ export function tokenGetter() {
     CalendarEditComponent,
     CalendarDetailComponent,
     CardNavComponent,
-    DeleteButtonComponent
+    DeleteButtonComponent,
+    CalendarPickerComponent,
+    CalendarPickerButtonComponent,
+    CalendarPickerDaySelectComponent,
+    CalendarPickerYearSelectComponent,
+    CalendarPickerEraViewComponent,
+    EraSelectComponent,
+    CalendarPickerDropdownComponent,
+    TimelineViewComponent,
+    BarTimelineViewComponent,
+    LinearTimelineViewComponent,
+    CalendarTimelineViewComponent
     ],
   imports: [
     BrowserModule,
@@ -277,7 +302,9 @@ export function tokenGetter() {
         allowedDomains: ["localhost:7094", "libratlas.net", "*.libratlas.net"],
         disallowedRoutes: []
       }
-    })
+    }),
+    OverlayModule,
+    PortalModule
   ],
   providers: [
     SharedService,

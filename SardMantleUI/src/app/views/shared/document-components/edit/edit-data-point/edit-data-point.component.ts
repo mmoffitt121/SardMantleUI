@@ -106,6 +106,7 @@ export class EditDataPointComponent implements OnChanges, OnInit {
     this.filter = undefined;
     this.selected.emit(this.selectedItem);
     this.handleFilterChange();
+    this.model = this.selectedItem.id;
     this.modelChange.emit(this.model);
   }
 
@@ -147,8 +148,6 @@ export class EditDataPointComponent implements OnChanges, OnInit {
       this.selfLoading = true;
       this.queryChoices();
     }
-    console.log(this.items)
-    console.log(this.model)
     if (this.items && this.items.length && this.model != null) {
       this.handleSelectionChange({option: {value: this.model}});
     }

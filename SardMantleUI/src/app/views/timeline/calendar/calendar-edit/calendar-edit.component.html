@@ -35,7 +35,7 @@
         </mat-tab>
         <mat-tab label="Clock Time">
             <div class="tab-content">
-                <mat-card *ngFor="let timeUnit of calendar.timeUnits" class="unit-card">
+                <mat-card *ngFor="let timeUnit of calendar.timeUnits; index as i" class="unit-card">
                     <mat-card-content class="grid-1-outer">
                         <div class="grid-1 pad-content">
                             Name
@@ -44,15 +44,35 @@
                             <app-edit-string [thin]="true" [(model)]="timeUnit.summary" />
                             Formatter
                             <app-edit-string [thin]="true" [(model)]="timeUnit.formatter" />
-                            Derived From
-                            <app-edit-data-point [thin]="true" [(model)]="timeUnit.derivedFromId" [items]="calendar.timeUnits" />
-                            Amount per Derived
+                            Derived per {{timeUnit.name}}
                             <app-edit-int [thin]="true" [(model)]="timeUnit.amountPerDerived" />
                         </div>
                         <div class="card-side-button-container">
-                            <app-card-nav (up)="move('timeUnits', timeUnit, 'up')" (down)="move('timeUnits', timeUnit, 'down')" />
+                            <app-card-nav (up)="move('timeUnits', timeUnit, 'up')" (down)="move('timeUnits', timeUnit, 'down')" (delete)="deleteItem('timeUnits', timeUnit)" />
                         </div>
                     </mat-card-content>
+                    <mat-card style="background-color: var(--secondary-accent-color); margin-bottom: 0px;" class="grid-1">
+                        <mat-card-content style="display: grid; grid-template-columns: auto min-content; ">
+                            <div>
+                                Derived From {{i == calendar.timeUnits.length - 1 ? "Unit Time" : ""}}
+                            </div>
+                            <div style="
+                                    position: relative; 
+                                    z-index: 999; 
+                                    margin-bottom: -100px; 
+                                    width: 40px; 
+                                    height: 100px; 
+                                    background-color: var(--secondary-accent-color); 
+                                    border-radius: 0 0 20px 20px; 
+                                    box-shadow: 0px 2px 2px -1px rgba(0, 0, 0, 0.5);"
+                                *ngIf="i < calendar.timeUnits.length - 1"
+                            >
+                                <mat-icon style="position: relative; top: 70px; left: 8px; right: 8px;">
+                                    expand_more
+                                </mat-icon>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
                 </mat-card>
                 <button mat-button class="add-button" (click)="add('timeUnit')">
                     <mat-icon>add</mat-icon>
@@ -72,7 +92,7 @@
                             <app-edit-string [thin]="true" [(model)]="day.formatter" />
                         </div>
                         <div class="card-side-button-container">
-                            <app-card-nav (up)="move('weekdays', day, 'up')" (down)="move('weekdays', day, 'down')" />
+                            <app-card-nav (up)="move('weekdays', day, 'up')" (down)="move('weekdays', day, 'down')" (delete)="deleteItem('weekdays', day)" />
                         </div>
                     </mat-card-content>
                 </mat-card>
@@ -94,7 +114,7 @@
                             <app-edit-int [thin]="true" [(model)]="month.days" />
                         </div>
                         <div class="card-side-button-container">
-                            <app-card-nav (up)="move('months', month, 'up')" (down)="move('months', month, 'down')" />
+                            <app-card-nav (up)="move('months', month, 'up')" (down)="move('months', month, 'down')" (delete)="deleteItem('months', month)" />
                         </div>
                     </mat-card-content>
                 </mat-card>
@@ -105,7 +125,7 @@
         </mat-tab>
         <mat-tab label="Eras">
             <div class="tab-content">
-                <mat-card *ngFor="let era of calendar.eras" class="unit-card">
+                <mat-card *ngFor="let era of calendar.eras; index as i" class="unit-card">
                     <mat-card-content class="grid-1-outer">
                         <div class="grid-1 pad-content">
                             Name
@@ -114,15 +134,35 @@
                             <app-edit-string [thin]="true" [(model)]="era.summary" />
                             Formatter
                             <app-edit-string [thin]="true" [(model)]="era.formatter" />
-                            Derived From
-                            <app-edit-data-point [thin]="true" [(model)]="era.derivedFromId" [items]="calendar.eras" />
-                            Amount per Derived
+                            Derived per {{era.name}}
                             <app-edit-int [thin]="true" [(model)]="era.amountPerDerived" />
                         </div>
                         <div class="card-side-button-container">
-                            <app-card-nav (up)="move('eras', era, 'up')" (down)="move('eras', era, 'down')" />
+                            <app-card-nav (up)="move('eras', era, 'up')" (down)="move('eras', era, 'down')" (delete)="deleteItem('eras', era)" (action)="handleCardAction($event, i)" [items]="eraMenuItems" />
                         </div>
                     </mat-card-content>
+                    <mat-card style="background-color: var(--secondary-accent-color); margin-bottom: 0px;" class="grid-1">
+                        <mat-card-content style="display: grid; grid-template-columns: auto min-content; ">
+                            <div>
+                                Derived From {{i == calendar.eras.length - 1 ? "Years" : ""}}
+                            </div>
+                            <div style="
+                                    position: relative; 
+                                    z-index: 999; 
+                                    margin-bottom: -100px; 
+                                    width: 40px; 
+                                    height: 100px; 
+                                    background-color: var(--secondary-accent-color); 
+                                    border-radius: 0 0 20px 20px; 
+                                    box-shadow: 0px 2px 2px -1px rgba(0, 0, 0, 0.5);"
+                                *ngIf="i < calendar.eras.length - 1"
+                            >
+                                <mat-icon style="position: relative; top: 70px; left: 8px; right: 8px;">
+                                    expand_more
+                                </mat-icon>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
                 </mat-card>
                 <button mat-button class="add-button" (click)="add('era')">
                     <mat-icon>add</mat-icon>
@@ -142,7 +182,8 @@
                             <app-edit-string [thin]="true" [(model)]="format.formatter" />
                         </div>
                         <div class="card-side-button-container">
-                            <app-card-nav (up)="move('formatters', format, 'up')" (down)="move('formatters', format, 'down')" />                        </div>
+                            <app-card-nav (up)="move('formatters', format, 'up')" (down)="move('formatters', format, 'down')" (delete)="deleteItem('formatters', format)" />                        
+                        </div>
                     </mat-card-content>
                 </mat-card>
                 <button mat-button class="add-button" (click)="add('formatter')">
@@ -165,7 +206,8 @@
                             <app-edit-data-point [thin]="true" [(model)]="timezone.derivedTimeUnitId" [items]="calendar.timeUnits" />
                         </div>
                         <div class="card-side-button-container">
-                            <app-card-nav (up)="move('timeZones', timezone, 'up')" (down)="move('timeZones', timezone, 'down')" />                        </div>
+                            <app-card-nav (up)="move('timeZones', timezone, 'up')" (down)="move('timeZones', timezone, 'down')" (delete)="deleteItem('timeZones', timezone)" />                        
+                        </div>
                     </mat-card-content>
                 </mat-card>
                 <button mat-button class="add-button" (click)="add('timeZone')">
