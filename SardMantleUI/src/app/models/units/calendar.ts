@@ -1,4 +1,5 @@
 import { Selectable } from "../selectable/selectable";
+import { DateTimeObject } from "../timeline/time";
 
 export interface Calendar extends Selectable {
     id: number;
@@ -63,4 +64,9 @@ export interface Weekday {
     name: string;
     summary: string;
     formatter: string;
+}
+
+export interface Week {
+    number: bigint;
+    days: DateTimeObject[];
 }

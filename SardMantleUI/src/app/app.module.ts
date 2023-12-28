@@ -35,6 +35,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
+import { MatSliderModule } from '@angular/material/slider';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -148,6 +149,7 @@ import { TimelineViewComponent } from './views/timeline/timeline-view/timeline-v
 import { BarTimelineViewComponent } from './views/timeline/timeline-view/bar-timeline-view/bar-timeline-view.component';
 import { LinearTimelineViewComponent } from './views/timeline/timeline-view/linear-timeline-view/linear-timeline-view.component';
 import { CalendarTimelineViewComponent } from './views/timeline/timeline-view/calendar-timeline-view/calendar-timeline-view.component';
+import { EditRangeComponent } from './views/shared/document-components/edit/edit-range/edit-range.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -260,7 +262,8 @@ export function tokenGetter() {
     TimelineViewComponent,
     BarTimelineViewComponent,
     LinearTimelineViewComponent,
-    CalendarTimelineViewComponent
+    CalendarTimelineViewComponent,
+    EditRangeComponent
     ],
   imports: [
     BrowserModule,
@@ -292,6 +295,7 @@ export function tokenGetter() {
     MatProgressBarModule,
     MatToolbarModule,
     MatTableModule,
+    MatSliderModule,
     DragDropModule,
     BrowserAnimationsModule,
     NgxEditorModule,

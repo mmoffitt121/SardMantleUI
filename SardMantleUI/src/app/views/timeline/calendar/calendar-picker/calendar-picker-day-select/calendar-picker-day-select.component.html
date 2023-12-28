@@ -1,1 +1,25 @@
-<p>calendar-picker-day-select works!</p>
+<div class="calendar-container" [style]="'grid-template-rows: min-content min-content repeat(' + weeks.length + ', minmax(0, 1fr));'">
+    <div class="picker-header">
+        <button mat-icon-button (click)="scrubMonth(-1)">
+            <mat-icon>chevron_left</mat-icon>
+        </button>
+        <div class="month-year-label-control">
+            <div class="month-year-label">
+                {{calendar.months[dateTimeObject.month - 1].name}} {{dateTimeObject.year}}
+            </div>
+        </div>
+        <button mat-icon-button (click)="scrubMonth(1)">
+            <mat-icon>chevron_right</mat-icon>
+        </button>
+    </div>
+    <div class="calendar-grid-header" [style]="'grid-template-columns: repeat(' + weekdays.length + ', minmax(0, 1fr))'">
+        <div *ngFor="let w of weekdays" class="calendar-header">
+            {{w.name}}
+        </div>
+    </div>
+    <div class="calendar-grid-header" [style]="'grid-template-columns: repeat(' + weekdays.length + ', minmax(0, 1fr));'" *ngFor="let week of weeks">
+        <button mat-button class="calendar-day" [style]="'background-color: ' + (day.month == dateTimeObject.month ? 'var(--secondary-accent-color)' : 'var(--primary-color)')" *ngFor="let day of week.days">
+            {{day.day}}
+        </button>
+    </div>
+</div>

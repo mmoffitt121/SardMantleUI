@@ -11,20 +11,32 @@
 
 .bar-timeline-bottom-panel {
     display: grid;
-    grid-template-rows: auto 200px;
+    grid-template-rows: auto 250px;
 }
 
 .timeline-panel {
     overflow: auto;
 }
 
-.bottom-panel {
+.bottom-panel-container {
     background-color: var(--primary-color);
+    display: grid;
+    grid-template-columns: auto min-content;
+    grid-gap: 10px;
+    padding: 10px;
+}
+
+.bottom-panel-nav {
+    background-color: var(--primary-color);
+    display: grid;
+    grid-template-columns: min-content auto min-content;
+    grid-gap: 10px;
 }
 
 .row-wrapper {
     padding-top: 20px;
     width: inherit;
+    overflow: visible;
 }
 
 .row-items {
@@ -32,10 +44,14 @@
     width: inherit;
 }
 
+.row-name {
+    /*position: fixed;*/
+    left: 10px;
+}
+
 .ladder-row {
-    width: 3px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    position: relative;
+    top: 20px;
     height: 1px;
     background-color: var(--secondary-text-color);
 }
@@ -54,8 +70,8 @@
     margin-bottom: 5px;
     height: 30px;
     width: 100px;
-    border-radius: 15px;
     background-color: var(--primary-color);
+    overflow: hidden;
 }
 
 .ladder-row-display {

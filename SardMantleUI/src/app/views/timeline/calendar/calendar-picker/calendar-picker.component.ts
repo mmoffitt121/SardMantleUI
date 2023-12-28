@@ -17,7 +17,5 @@ export class CalendarPickerComponent {
     this.calendar = data.calendar;
     this.dateTime = data.dateTime ?? BigInt(1000*60*60*24*10*30);
     this.displayMode = data.displayMode ?? "day";
-    console.log(this.calendar)
-    console.log(this.calendarService.toDateTimeObject(this.dateTime, this.calendar));
   }
 }

@@ -1,8 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { TimelineViewComponent } from '../timeline-view.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
 import { TimelineItem, TimelineRow } from 'src/app/models/timeline/timeline-item';
+import { CalendarService } from 'src/app/services/calendar/calendar.service';
+import { Subject, fromEvent, takeUntil } from 'rxjs';
+import { MatButtonToggleGroup } from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-bar-timeline-view',
@@ -13,9 +16,124 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
   public bottomPanelOpen = false;
   public editingEras = false;
 
+  public pageMode = "nav";
+
+  public beginningYear = 0;
+  public endYear = 1;
+
+  public displaySize = window.innerWidth;
+  public calendarStart = 0n;
+  public calendarEnd = 0n;
+  public calendarLength = 0n;
+
+  public currentScrollLeft = 0;
+  public currentScrollTop = 0;
+  public currentScrollWidth = 0;
+  public zoom = 1;
+  public zoomDelta = 10;
+  public minZoom = 1;
+  public maxZoom = 1000;
+
   public lanes: TimelineRow[] = [];
+  public selectedItem: TimelineItem | undefined;
+
+  private unsubscribe$ = new Subject();
+
+  public displayItems() {
+    this.lanes = [];
+
+    let rangeWidth = BigInt(this.displaySize);
+    this.calendarStart = this.calendarService.getDateTimeFromBaseYear(BigInt(this.beginningYear), this.calendar);
+    this.calendarEnd = this.calendarService.getDateTimeFromBaseYear(BigInt(this.endYear), this.calendar);
+    this.calendarLength = this.calendarEnd - this.calendarStart;
+
+    this.calendar.eras.forEach(era => {
+      let lane = { objectType: era, items: [] } as TimelineRow;
+      for (let i = 0; i < era.eraDefinitions?.length ?? 0; i++) {
+        let def = era.eraDefinitions[i];
+        if (!(BigInt(def.start) > this.calendarEnd || BigInt(def.end) < this.calendarStart)) {
+          lane.items.push(this.buildTimelineItem(def));
+        }
+      }
+      this.lanes.push(lane);
+    })
+  }
+
+  public buildTimelineItem(obj: any) {
+    let laneItem = {
+      object: obj,
+      startDate: BigInt(obj.start),
+      endDate: BigInt(obj.end) ?? this.calendarEnd,
+      active: true
+    } as TimelineItem
+
+    this.setScreenPosition(laneItem);
+
+    return laneItem;
+  }
+
+  public setScreenPosition(item: TimelineItem) {
+    let timeOffset = this.calendarStart;
+    let timeRange = this.calendarEnd - this.calendarStart;
+
+    let startDisplay = Number((item.startDate - timeOffset) * BigInt(this.displaySize) / timeRange);
+    let endDisplay = Number(((item.endDate ?? -1n) - timeOffset) * BigInt(this.displaySize) / timeRange);
+    let startCal = Number((this.calendarStart - timeOffset) * BigInt(this.displaySize) / timeRange);
+    let endCal = Number(((this.calendarEnd ?? -1n) - timeOffset) * BigInt(this.displaySize) / timeRange);
+
+    item.startDisplay = Math.max(startDisplay, startCal);
+    item.endDisplay = Math.min(endDisplay, endCal);
+    item.offScreenStart = startDisplay < startCal;
+    item.offScreenEnd = endDisplay > endCal;
+  }
+
+  public calcBorderRadius(item: TimelineItem) {
+    return (item.offScreenStart ? "0px" : "15px")
+     + " " + (item.offScreenEnd ? "0px" : "15px")
+     + " " + (item.offScreenEnd ? "0px" : "15px")
+     + " " + (item.offScreenStart ? "0px" : "15px");
+  }
+
+  public zoomIn() {
+    this.zoom += this.zoomDelta;
+    if (this.zoom > this.maxZoom) { this.zoom = this.maxZoom; }
+  }
+
+  public zoomOut() {
+    this.zoom -= this.zoomDelta;
+    if (this.zoom < this.minZoom) { this.zoom = this.minZoom; }
+  }
+
+  public scrub(dif: number) {
+    let panel = document.querySelector("#timelinePanel");
+    if (!panel) return;
+
+    let pos = this.currentScrollLeft + dif;
+    if (pos > panel?.scrollWidth) pos = panel?.scrollWidth;
+    if (pos < 0) pos = 0;
+
+    panel.scroll(pos, this.currentScrollTop);
+  }
+
+  public onItemClick(item: TimelineItem) {
+    if (item.selected) {
+      item.selected = false;
+      this.pageMode = "nav";
+    }
+    else {
+      this.lanes.forEach(lane => {
+        lane.items.forEach(i => {
+          i.selected = false;
+        })
+      })
   
-  constructor (public dialogRef: MatDialogRef<ConfirmDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+      item.selected = true;
+      this.pageMode = "edit";
+      this.selectedItem = item;
+    }
+  }
+  
+  constructor (public dialogRef: MatDialogRef<ConfirmDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private calendarService: CalendarService) {
     super();
     if (data.calendar) { this.calendar = data.calendar; }
     if (data.editingEras) { 
@@ -26,28 +144,22 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
     }
   }
 
+  ngOnDestroy() {
+    this.unsubscribe$.next("unsub");
+    this.unsubscribe$.complete();
+  }
+
   ngOnInit(): void {
-    let rangeWidth = 1920;
-    let rangeWidthBigInt = BigInt(rangeWidth);
-    let calendarStart = 1_000_000n;
-    let calendarEnd = 10_000_000n;
-    let calendarLength = calendarEnd - calendarStart;
-    this.calendar.eras.forEach(era => {
-      let lane = { objectType: era, items: [] } as TimelineRow;
-      for (let i = 0; i < era.eraDefinitions?.length ?? 0; i++) {
-        let def = era.eraDefinitions[i];
-        let next = era.eraDefinitions[i+1] ?? {start: calendarEnd};
-        lane.items.push({
-          object: def,
-          startDate: BigInt(def.start),
-          endDate: BigInt(def.end) ?? calendarEnd,
-          active: true,
-          startDisplay: Number(BigInt(def.start) * rangeWidthBigInt / calendarEnd),
-          endDisplay: Number(BigInt(def.end) * rangeWidthBigInt / calendarEnd),
-        } as TimelineItem)
-        console.log(lane.items[i])
-      }
-      this.lanes.push(lane);
-    })
+    this.displayItems();
+    let panel = document.querySelector("#timelinePanel")
+    if (panel) {
+      fromEvent(panel, 'scroll')
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe((e: Event) => {
+          this.currentScrollLeft = (e.target as HTMLTextAreaElement).scrollLeft;
+          this.currentScrollTop = (e.target as HTMLTextAreaElement).scrollTop;
+          this.currentScrollWidth = (e.target as HTMLTextAreaElement).scrollWidth;
+        });
+    }
   }
 }

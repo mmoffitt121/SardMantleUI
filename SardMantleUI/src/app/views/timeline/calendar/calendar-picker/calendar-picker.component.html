@@ -1,6 +1,10 @@
-<div>
-    <app-calendar-picker-day-select [calendar]="calendar" *ngIf="displayMode === 'day'" />
-    <app-calendar-picker-year-select [calendar]="calendar" *ngIf="displayMode === 'year'" />
-    <app-calendar-picker-era-view [calendar]="calendar" *ngIf="displayMode === 'era'" />
-    <app-era-select [calendar]="calendar" *ngIf="displayMode === 'era-select'" />
+<div class="calendar-picker-container">
+    <div></div>
+    <div class="calendar-picker-inner-container">
+        <div></div>
+        <app-calendar-picker-day-select [calendar]="calendar" *ngIf="displayMode === 'day'" />
+        <app-calendar-picker-year-select [calendar]="calendar" *ngIf="displayMode === 'year'" />
+        <app-calendar-picker-era-view [calendar]="calendar" *ngIf="displayMode === 'era'" />
+        <app-era-select [calendar]="calendar" *ngIf="displayMode === 'era-select'" />
+    </div>
 </div>

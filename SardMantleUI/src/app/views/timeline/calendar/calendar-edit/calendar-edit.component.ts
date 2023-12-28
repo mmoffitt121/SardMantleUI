@@ -31,8 +31,6 @@ export class CalendarEditComponent {
     this.calendar.formatters = this.calendar.formatters ?? [];
     this.calendar.timeZones = this.calendar.timeZones ?? [];
 
-    console.log(this.calendar);
-
     this.calendarDataService.put(this.calendar).subscribe(result => {
       this.errorService.showSnackBar("Calendar " + this.calendar.name + " saved successfully.")
       this.save.emit(this.calendar);
@@ -132,7 +130,6 @@ export class CalendarEditComponent {
   }
 
   public handleCardAction(event: any, index: number) {
-    console.log(event)
     switch (event) {
       case "view_timeline":
         this.viewEraTimeline(index);

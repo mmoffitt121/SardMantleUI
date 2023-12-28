@@ -1,23 +1,107 @@
 <div class="bar-timeline-background" [ngClass]="bottomPanelOpen ? 'bar-timeline-bottom-panel' : 'bar-timeline-no-bottom-panel'">
-    <div class="timeline-panel">
+    <div class="timeline-panel" id=timelinePanel>
         <div *ngFor="let lane of lanes; index as i" class="row-wrapper">
-            <p> {{lane.objectType.name}} </p>
+            <p class="row-name"> {{lane.objectType.name}} </p>
+            <div
+                class="ladder-row"
+                style="z-index: 1000"
+                [style.minWidth]="displaySize * zoom + 'px'"
+                [style.width]="displaySize * zoom + 'px'"
+                >
+            </div>
             <div class="row-items">
                 <div *ngFor="let item of lane.items" class="row-items" style="width: 0">
-                    <div class="ladder-row"></div>
-                    <mat-card class="ladder-row-item" style="position: relative;" [style.minWidth]="(item.endDisplay - item.startDisplay) + 'px'" [style.left]="item.startDisplay + 'px'">
+                    <!--<div class="ladder-row"></div>-->
+                    <mat-card 
+                        class="ladder-row-item" 
+                        style="position: relative;" 
+                        [style.minWidth]="((item.endDisplay - item.startDisplay) * zoom) + 'px'" 
+                        [style.width]="((item.endDisplay - item.startDisplay) * zoom) + 'px'" 
+                        [style.left]="(item.startDisplay * zoom) + 'px'"
+                        [style.borderRadius]="calcBorderRadius(item)"
+                        [style.background]="item.selected ? 'var(--secondary-accent-color-selected)' : 'var(--primary-color)'"
+                        (click)="onItemClick(item)"
+                    >
                         <div class="ladder-row-display">
                             {{item.object.name}}
                         </div>
-                        
                     </mat-card>
                 </div>
-                <div class="ladder-row-final"></div>
+                <!--<div class="ladder-row-final"></div>-->
             </div>
             
         </div>
     </div>
-    <div class="bottom-panel">
-        
+    <div class="bottom-panel-container">
+        <div class="bottom-panel-nav" *ngIf="pageMode === 'nav'">
+            <div>
+                <app-edit-int parameterName="Beginning Year" [(model)]="beginningYear" [thin]="true" />
+                <div style="margin-top: 10px;"></div>
+                <app-edit-int parameterName="End Year" [(model)]="endYear" [thin]="true" />
+                <div style="margin-top: 10px;"></div>
+                <button mat-button (click)="displayItems()" color="primary">Update</button>
+            </div>
+            <div>
+                <app-edit-range [(model)]="zoom" [min]="minZoom" [max]="maxZoom" [step]="0.25" parameterName="Zoom" />
+                <button mat-icon-button (click)="zoomIn()">
+                    <mat-icon>
+                        zoom_in
+                    </mat-icon>
+                </button>
+                <button mat-icon-button (click)="zoomOut()">
+                    <mat-icon>
+                        zoom_out
+                    </mat-icon>
+                </button>
+                <button mat-icon-button (click)="scrub(-3000000)">
+                    <mat-icon>
+                        first_page
+                    </mat-icon>
+                </button>
+                <button mat-icon-button (click)="scrub(-500)">
+                    <mat-icon>
+                        keyboard_double_arrow_left
+                    </mat-icon>
+                </button>
+                <button mat-icon-button (click)="scrub(-20)">
+                    <mat-icon>
+                        chevron_left
+                    </mat-icon>
+                </button>
+                <button mat-icon-button (click)="scrub(20)">
+                    <mat-icon>
+                        chevron_right
+                    </mat-icon>
+                </button>
+                <button mat-icon-button (click)="scrub(500)">
+                    <mat-icon>
+                        keyboard_double_arrow_right
+                    </mat-icon>
+                </button>
+                <button mat-icon-button (click)="scrub(3000000)">
+                    <mat-icon>
+                        last_page
+                    </mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="bottom-panel" *ngIf="pageMode === 'edit'">
+            <div>
+                
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div>
+            <mat-button-toggle-group name="pageMode" [value]="pageMode">
+                <mat-button-toggle value="nav" matTooltip="Navigation" (click)="pageMode = 'nav'">
+                  <mat-icon> search </mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle value="edit" matTooltip="Edit Timeline" (click)="pageMode = 'edit'">
+                  <mat-icon> timeline </mat-icon>
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+        </div>
     </div>
 </div>
