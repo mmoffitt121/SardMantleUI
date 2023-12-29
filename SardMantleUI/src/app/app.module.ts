@@ -150,6 +150,8 @@ import { BarTimelineViewComponent } from './views/timeline/timeline-view/bar-tim
 import { LinearTimelineViewComponent } from './views/timeline/timeline-view/linear-timeline-view/linear-timeline-view.component';
 import { CalendarTimelineViewComponent } from './views/timeline/timeline-view/calendar-timeline-view/calendar-timeline-view.component';
 import { EditRangeComponent } from './views/shared/document-components/edit/edit-range/edit-range.component';
+import { CalendarPickerMonthSelectComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-month-select/calendar-picker-month-select.component';
+import { EditDatetimeComponent } from './views/shared/document-components/edit/edit-datetime/edit-datetime.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -263,7 +265,9 @@ export function tokenGetter() {
     BarTimelineViewComponent,
     LinearTimelineViewComponent,
     CalendarTimelineViewComponent,
-    EditRangeComponent
+    EditRangeComponent,
+    CalendarPickerMonthSelectComponent,
+    EditDatetimeComponent
     ],
   imports: [
     BrowserModule,

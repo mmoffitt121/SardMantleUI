@@ -12,6 +12,8 @@ export class CalendarPickerDaySelectComponent implements OnInit {
   @Input() public calendar: Calendar;
   @Input() public time: bigint = 0n;
   @Output() public timeChange = new EventEmitter<bigint>();
+  @Output() public changeMonth = new EventEmitter();
+  @Output() public select = new EventEmitter<bigint>();
 
   public weekdays: Weekday[] = [];
   public weeks: Week[] = [];
@@ -29,6 +31,12 @@ export class CalendarPickerDaySelectComponent implements OnInit {
   public scrubMonth(amount: number) {
     if (this.dateTimeObject.year == 0 && this.dateTimeObject.month == 1 && amount < 0) return; 
     this.setCalendar(this.calendar, this.calendarService.addMonths(amount, this.time, this.calendar));
+  }
+
+  public onSelect(day: DateTimeObject) {
+    this.time = this.calendarService.fromDateTimeObject(day, this.calendar);
+    this.timeChange.emit(this.time);
+    this.select.emit(this.time);
   }
 
   constructor (private calendarService: CalendarService) {}

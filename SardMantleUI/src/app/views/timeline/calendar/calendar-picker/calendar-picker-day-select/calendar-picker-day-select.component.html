@@ -4,8 +4,13 @@
             <mat-icon>chevron_left</mat-icon>
         </button>
         <div class="month-year-label-control">
-            <div class="month-year-label">
-                {{calendar.months[dateTimeObject.month - 1].name}} {{dateTimeObject.year}}
+            <div class="month-year-label-container">
+                <button mat-button class="month-year-label month-label mat-elevation-z0" (click)="changeMonth.emit();">
+                    {{calendar.months[dateTimeObject.month - 1].name}}
+                </button>
+                <button mat-button class="month-year-label year-label mat-elevation-z0">
+                    {{dateTimeObject.year}}
+                </button>
             </div>
         </div>
         <button mat-icon-button (click)="scrubMonth(1)">
@@ -14,11 +19,11 @@
     </div>
     <div class="calendar-grid-header" [style]="'grid-template-columns: repeat(' + weekdays.length + ', minmax(0, 1fr))'">
         <div *ngFor="let w of weekdays" class="calendar-header">
-            {{w.name}}
+            {{w.formatter ? w.formatter : w.name}}
         </div>
     </div>
     <div class="calendar-grid-header" [style]="'grid-template-columns: repeat(' + weekdays.length + ', minmax(0, 1fr));'" *ngFor="let week of weeks">
-        <button mat-button class="calendar-day" [style]="'background-color: ' + (day.month == dateTimeObject.month ? 'var(--secondary-accent-color)' : 'var(--primary-color)')" *ngFor="let day of week.days">
+        <button mat-button class="calendar-day" [style]="'background-color: ' + (day.month == dateTimeObject.month ? 'var(--secondary-accent-color)' : 'var(--primary-color)')" *ngFor="let day of week.days" (click)="onSelect(day)">
             {{day.day}}
         </button>
     </div>

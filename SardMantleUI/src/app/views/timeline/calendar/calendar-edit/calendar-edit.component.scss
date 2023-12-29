@@ -37,6 +37,19 @@
     margin-top: 10px;
 }
 
+.grid-3-outer {
+    display: grid;
+    grid-template-columns: auto;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .card-side-button-container {
     padding-top: 10px;
 }
@@ -60,4 +73,13 @@
 
 .downward-mark {
     position: relative; z-index: 999; margin-bottom: -100px; width: 40px; height: 100px; background-color: var(--secondary-accent-color); border-radius: 0 0 20px 20px; box-shadow: 0px 3px 2px -1px rgba(0, 0, 0, 0.5);
+}
+
+.problem-container {
+    display: grid;
+    grid-template-columns: min-content auto;
+}
+
+.problem-icon {
+    margin-top: 5px;
 }

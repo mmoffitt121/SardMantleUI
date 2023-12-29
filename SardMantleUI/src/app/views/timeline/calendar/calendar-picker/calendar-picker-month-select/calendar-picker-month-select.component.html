@@ -1,0 +1,6 @@
+<h3>Select Month</h3>
+<mat-selection-list>
+    <button mat-menu-item *ngFor="let month of calendar.months; index as i" (click)="selectMonth(i + 1)">
+        {{month.name}} ({{i+1}})
+    </button>
+</mat-selection-list>

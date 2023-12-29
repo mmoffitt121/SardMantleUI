@@ -36,6 +36,8 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
 
   public lanes: TimelineRow[] = [];
   public selectedItem: TimelineItem | undefined;
+  public editingBeginningTime = 0n;
+  public editingEndingTime = 0n;
 
   private unsubscribe$ = new Subject();
 
@@ -130,7 +132,20 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
       item.selected = true;
       this.pageMode = "edit";
       this.selectedItem = item;
+
+      this.editingBeginningTime = item.startDate;
+      this.editingEndingTime = item.endDate!;
     }
+  }
+
+  public onChange() {
+    if (!this.selectedItem) { return; }
+
+    this.selectedItem.startDate = this.editingBeginningTime;
+    this.selectedItem.endDate = this.editingEndingTime;
+    this.selectedItem.object.start = this.editingBeginningTime;
+    this.selectedItem.object.end = this.editingEndingTime;
+    this.displayItems();
   }
   
   constructor (public dialogRef: MatDialogRef<ConfirmDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private calendarService: CalendarService) {

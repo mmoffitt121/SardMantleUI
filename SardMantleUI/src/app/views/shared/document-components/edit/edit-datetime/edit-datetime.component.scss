@@ -1,0 +1,19 @@
+.edit-datetime-wrapper {
+    min-width: 200px;
+}
+
+.datetime-picker-grid {
+    display: grid;
+    grid-template-columns: auto min-content;
+    background-color: var(--secondary-accent-color);
+    border-radius: 3px;
+    outline: var(--text-color) solid 1px;
+    box-shadow: 0px 1px 5px 0px #000000e0 ;
+}
+
+.value-display {
+    margin-top: 12px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}

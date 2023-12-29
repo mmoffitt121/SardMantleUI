@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Calendar } from 'src/app/models/units/calendar';
 import { CalendarService } from 'src/app/services/calendar/calendar.service';
 
@@ -13,9 +13,13 @@ export class CalendarPickerComponent {
   public dateTime: bigint;
   public displayMode: string;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private calendarService: CalendarService) {
+  public select(date: bigint) {
+    this.dialogRef.close(date);
+  }
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<CalendarPickerComponent>, private calendarService: CalendarService) {
     this.calendar = data.calendar;
-    this.dateTime = data.dateTime ?? BigInt(1000*60*60*24*10*30);
+    this.dateTime = data.dateTime ?? 0n;
     this.displayMode = data.displayMode ?? "day";
   }
 }

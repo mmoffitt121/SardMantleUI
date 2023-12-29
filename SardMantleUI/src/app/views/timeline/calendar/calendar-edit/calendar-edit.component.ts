@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { Calendar, Era, Formatter, Month, TimeUnit, TimeZone, Weekday } from 'src/app/models/units/calendar';
 import { CalendarDataService } from 'src/app/services/calendar/calendar-data.service';
 import { ErrorService } from 'src/app/services/error.service';
@@ -6,6 +6,7 @@ import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
 import { eraNavMenuItems } from 'src/app/models/navigation/card-nav-item';
 import { MatDialog } from '@angular/material/dialog';
 import { BarTimelineViewComponent } from '../../timeline-view/bar-timeline-view/bar-timeline-view.component';
+import { Problem } from 'src/app/models/shared/problem';
 
 @Component({
   selector: 'app-calendar-edit',
@@ -18,6 +19,23 @@ export class CalendarEditComponent {
   @Output() save = new EventEmitter();
 
   public eraMenuItems = eraNavMenuItems;
+  displayedColumns: string[] = ['name', 'formatter'];
+  specialDisplayedColumns: string[] = ['name', 'formatter', 'description'];
+  public defaultFormatters = [
+    {name: "Day", formatter: "d"},
+    {name: "Weekday Name", formatter: "W"},
+    {name: "Weekday Abbr.", formatter: "w"},
+    {name: "Month", formatter: "m"},
+    {name: "Month Name", formatter: "M"},
+    {name: "Year", formatter: "y"},
+  ];
+  public specialFormatters = [
+    {name: "End", formatter: "$", description: "Will stop showing the formatted value when it reaches this point. Example: using the format \"dd\", the number 1234 will output \"1234\". However, \"dd$\" will output \"12\"."},
+    //{name: "Escape", formatter: "\\", description: "Causes the next character to not act like a formatter, but instead appear in the result as normal."},
+    {name: "String", formatter: "`", description: "Disables padding with zeroes on the proceeding string. Normally, \"80\" plugged into \"mmmm\" will become \"0080\". Plugged into \"mmmm`\", it will become \"80\""},
+  ];
+
+  public problems: Problem[] = [];
 
   public onCancel() {
     this.cancel.emit(false);
@@ -30,6 +48,8 @@ export class CalendarEditComponent {
     this.calendar.eras = this.calendar.eras ?? [];
     this.calendar.formatters = this.calendar.formatters ?? [];
     this.calendar.timeZones = this.calendar.timeZones ?? [];
+
+    if (!this.validate()) { return; }
 
     this.calendarDataService.put(this.calendar).subscribe(result => {
       this.errorService.showSnackBar("Calendar " + this.calendar.name + " saved successfully.")
@@ -166,6 +186,64 @@ export class CalendarEditComponent {
       }
     }
     return id;
+  }
+
+  public validate() {
+    let problems = [] as Problem[];
+
+    if (!this.calendar.name) { problems.push({message: "Calendar Info: Calendar Name cannot be blank."} as Problem); }
+    if (this.calendar.unitTimePerDay == 0) { problems.push({message: "Calendar Info: Unit Time per Day cannot be blank or 0."} as Problem); }
+    if (this.calendar.unitTimePerDay < 0) { problems.push({message: "Calendar Info: Unit Time per Day cannot be negative."} as Problem); }
+
+    if (this.calendar.timeUnits.length < 1) { problems.push({message: "Clock Time: At least 1 clock time item is required."} as Problem); }
+    this.calendar.timeUnits.forEach(u => {
+      let itemName = u.name ? u.name : "Item " + (this.calendar.timeUnits.indexOf(u) + 1);
+      let header = "Clock Time - " + itemName + ": "
+      if (!u.name) { problems.push({message: header + "Name cannot be blank."} as Problem); }
+      if (!u.formatter) { problems.push({message: header + "Formatter cannot be blank."} as Problem); }
+      if (u.amountPerDerived == 0 || !u.amountPerDerived) { problems.push({message: header + "Derived field cannot be blank or 0."} as Problem); }
+    });
+
+    if (this.calendar.weekdays.length < 1) { problems.push({message: "Weekdays: At least 1 weekday is required."} as Problem); }
+    this.calendar.weekdays.forEach(w => {
+      let itemName = w.name ? w.name : "Item " + (this.calendar.weekdays.indexOf(w) + 1);
+      let header = "Weekdays - " + itemName + ": "
+      if (!w.name) { problems.push({message: header + "Name cannot be blank."} as Problem); }
+    });
+
+    if (this.calendar.months.length < 1) { problems.push({message: "Months: At least 1 month is required."} as Problem); }
+    this.calendar.months.forEach(m => {
+      let itemName = m.name ? m.name : "Item " + (this.calendar.months.indexOf(m) + 1);
+      let header = "Clock Time - " + itemName + ": "
+      if (!m.name) { problems.push({message: header + "Name cannot be blank."} as Problem); }
+      if (m.days == 0 || !m.days) { problems.push({message: header + "Days cannot be blank or 0."} as Problem); }
+    });
+
+    this.calendar.eras.forEach(e => {
+      let itemName = e.name ? e.name : "Item " + (this.calendar.eras.indexOf(e) + 1);
+      let header = "Era - " + itemName + ": "
+      if (!e.name) { problems.push({message: header + "Name cannot be blank."} as Problem); }
+      if (!e.formatter) { problems.push({message: header + "Formatter cannot be blank."} as Problem); }
+    })
+
+    if (this.calendar.formatters.length < 1) { problems.push({message: "Format: At least 1 format is required."} as Problem); }
+    this.calendar.formatters.forEach(f => {
+      let itemName = f.name ? f.name : "Item " + (this.calendar.formatters.indexOf(f) + 1);
+      let header = "Format - " + itemName + ": "
+      if (!f.name) { problems.push({message: header + "Name cannot be blank."} as Problem); }
+      if (!f.formatter) { problems.push({message: header + "Formatter cannot be blank."} as Problem); }
+    })
+
+    this.calendar.timeZones.forEach(t => {
+      let itemName = t.name ? t.name : "Item " + (this.calendar.timeZones.indexOf(t) + 1);
+      let header = "Time Zone - " + itemName + ": "
+      if (!t.name) { problems.push({message: header + "Name cannot be blank."} as Problem); }
+      if (t.offset == 0 || !t.offset) { problems.push({message: header + "Offset cannot be blank or 0."} as Problem); }
+      if (t.derivedTimeUnitId == 0 || !t.derivedTimeUnitId) { problems.push({message: header + "Time Unit cannot be blank or 0."} as Problem); }
+    })
+
+    this.problems = problems;
+    return !(problems.length > 0);
   }
 
   constructor(public skeletonService: SkeletonService, private calendarDataService: CalendarDataService, private errorService: ErrorService, private dialog: MatDialog) {

@@ -10,6 +10,7 @@ export class CalendarDetailComponent {
   @Input() calendar: Calendar;
   @Output() cancel = new EventEmitter();
   @Output() edit = new EventEmitter();
+  public testerModel = 0n;
 
   public onCancel() {
     this.cancel.emit();

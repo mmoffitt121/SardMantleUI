@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { CalendarDataService } from './calendar-data.service';
-import { Calendar, Week } from 'src/app/models/units/calendar';
+import { Calendar, Formatter, TimeZone, Week } from 'src/app/models/units/calendar';
 import { DateTimeObject } from 'src/app/models/timeline/time';
 
 @Injectable({
@@ -8,6 +8,8 @@ import { DateTimeObject } from 'src/app/models/timeline/time';
 })
 export class CalendarService {
   calendars: Calendar[];
+  public selectedCalendar: Calendar;
+  public selectedFormatter: Formatter;
 
   public loadCalendars() {
     this.dataService.get({}).subscribe(data => {
@@ -161,17 +163,13 @@ export class CalendarService {
 
   public getWeeksInMonth(time: bigint, calendar: Calendar) {
     let selectedDate = this.toDateTimeObject(time, calendar);
-    console.log(selectedDate);
     let targetMonth = selectedDate.month;
 
     let firstDateOfMonth = {...selectedDate}
     firstDateOfMonth.day = 1;
     firstDateOfMonth.time = new Array(firstDateOfMonth.time.length).fill(0);
     let firstTimeOfMonth = this.fromDateTimeObject(firstDateOfMonth, calendar);
-    console.log(time)
-    console.log(firstTimeOfMonth)
     firstDateOfMonth = this.toDateTimeObject(firstTimeOfMonth, calendar);
-    console.log(firstDateOfMonth);
     let currentDay = this.addDays(-1 * firstDateOfMonth.weekday, firstTimeOfMonth, calendar);
 
     let weeks = [] as Week[];
@@ -201,9 +199,105 @@ export class CalendarService {
       }
     });
 
-    console.log(maxDays)
-
     return Math.floor(maxDays / calendar.weekdays.length) + 2; 
+  }
+
+  // -=-=-=-=-=-=-=-=-
+  // Format
+  // -=-=-=-=-=-=-=-=-
+
+  public format(time: bigint, calendar?: Calendar, formatter?: Formatter) {
+    if (!formatter) {
+      if (calendar) {
+        formatter = calendar.formatters[0];
+      } 
+      else if (this.selectedFormatter) {
+        formatter = this.selectedFormatter;
+      }
+      else {
+        formatter = this.selectedCalendar?.formatters[0];
+      }
+    }
+    if (!calendar) {
+      calendar = this.selectedCalendar;
+    }
+
+    return this.parseFormattedDate(this.toDateTimeObject(time, calendar), calendar, formatter);
+  }
+
+  private parseFormattedDate(dto: DateTimeObject, calendar: Calendar, formatter: Formatter) {
+    let map = this.buildFormatValueMap(dto, calendar);
+    let output: string[] = [];
+    let specialTokens = new Set(["$", "`"]);
+
+    let i = 0;
+    let source = formatter.formatter
+    let end = source.length;
+    while (true) {
+      // Get the current token
+      let currentToken = source[i];
+      let j = i + 1;
+      let coreLength = 1;
+      while ((source.charAt(j) == currentToken) || specialTokens.has(source.charAt(j))) {
+        if (source.charAt(j) == currentToken) {coreLength++;}
+        j++;
+      }
+
+      let formatToken = source.substring(i, j);
+      let valueToDisplay = map.get(currentToken) + "";
+      if (valueToDisplay === "undefined") {
+        valueToDisplay = formatToken;
+      }
+      let outputToken = "";
+      if (!formatToken.includes("`") && coreLength > valueToDisplay.length) {
+        outputToken += "0".repeat(coreLength - valueToDisplay.length);
+        outputToken += valueToDisplay;
+      }
+      else if (formatToken.includes("$") && coreLength < valueToDisplay.length) {
+        outputToken += valueToDisplay.substring(0, coreLength);
+      }
+      else {
+        outputToken += valueToDisplay;
+      }
+      output.push(outputToken);
+
+      // Fill current token with characters
+      // Append new characters to output
+
+      i = j;
+      if (i >= end) { break;}
+    }
+    /*for (let i = 0; i < formatter.formatter.length; i++) {
+      let current = formatter.formatter.charAt(i);
+      if (map.get(current)) {
+        output.push(map.get(current));
+      }
+      else {
+        output.push(current);
+      }
+    }*/
+    return output.join("");
+  }
+
+  private buildFormatValueMap(dto: DateTimeObject, calendar: Calendar) {
+    let map = new Map();
+
+    map.set("d", dto.day);
+    map.set("W", calendar.weekdays[dto.weekday].name);
+    map.set("w", calendar.weekdays[dto.weekday].formatter);
+    map.set("m", dto.month);
+    map.set("M", calendar.months[dto.month - 1].name);
+    map.set("y", dto.year);
+
+    calendar.timeUnits.forEach(u => {
+      map.set(u.formatter, dto.time[calendar.timeUnits.indexOf(u)]);
+    });
+
+    /*calendar.eras.forEach(e => {
+      map.set(e.formatter, dto.era[calendar.eras.indexOf(e)]);
+    });*/
+
+    return map;
   }
 
   // -=-=-=-=-=-=-=-=-
@@ -216,10 +310,6 @@ export class CalendarService {
 
   public addMonths(months: number, time: bigint, calendar: Calendar) {
     let dto = this.toDateTimeObject(time, calendar);
-    console.log("TEST " + dto.month + " " + months);
-  
-    //let subtractionHelper = Math.ceil(Math.abs(months));
-    //months += subtractionHelper
     
     dto.year += Math.floor((dto.month + months - 1) / calendar.months.length);
     calendar.months.length;
@@ -229,6 +319,12 @@ export class CalendarService {
     dto.month = ((monthDelta % monthLength) + monthLength) % monthLength + 1;
     dto.day = 1;
     dto.time = new Array(dto.time.length).fill(0);
+    return this.fromDateTimeObject(dto, calendar);
+  } 
+
+  public setMonth(month: number, time: bigint, calendar: Calendar) {
+    let dto = this.toDateTimeObject(time, calendar);
+    dto.month = month;
     return this.fromDateTimeObject(dto, calendar);
   } 
   

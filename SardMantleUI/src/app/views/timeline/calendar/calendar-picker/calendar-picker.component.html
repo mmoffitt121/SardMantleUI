@@ -2,7 +2,8 @@
     <div></div>
     <div class="calendar-picker-inner-container">
         <div></div>
-        <app-calendar-picker-day-select [calendar]="calendar" *ngIf="displayMode === 'day'" />
+        <app-calendar-picker-day-select [calendar]="calendar" [(time)]="dateTime" (changeMonth)="displayMode = 'month'" (select)="select($event)" *ngIf="displayMode === 'day'" />
+        <app-calendar-picker-month-select [calendar]="calendar" [(time)]="dateTime" (done)="displayMode = 'day'" *ngIf="displayMode === 'month'" />
         <app-calendar-picker-year-select [calendar]="calendar" *ngIf="displayMode === 'year'" />
         <app-calendar-picker-era-view [calendar]="calendar" *ngIf="displayMode === 'era'" />
         <app-era-select [calendar]="calendar" *ngIf="displayMode === 'era-select'" />

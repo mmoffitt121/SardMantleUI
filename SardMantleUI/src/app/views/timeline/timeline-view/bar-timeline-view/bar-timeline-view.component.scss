@@ -33,6 +33,13 @@
     grid-gap: 10px;
 }
 
+.bottom-panel-edit {
+    background-color: var(--primary-color);
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-gap: 10px;
+}
+
 .row-wrapper {
     padding-top: 20px;
     width: inherit;
@@ -77,4 +84,9 @@
 .ladder-row-display {
     padding: 5px;
     padding-left: 8px;
+}
+
+.no-margin-header {
+    margin-top: 0px;
+    margin-bottom: 0px;
 }

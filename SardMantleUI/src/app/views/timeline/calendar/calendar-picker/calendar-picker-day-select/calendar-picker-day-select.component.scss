@@ -39,9 +39,26 @@
     align-items: center;
 }
 
-.month-year-label {
+.month-year-label-container {
     margin: auto;
-    margin-top: 10px;
+    margin-top: 5px;
     width: max-content;
     display: flex;
+}
+
+.month-year-label {
+    background-color: var(--primary-color);
+    box-shadow: 0px 0px 0px 0px;
+}
+
+.month-label {
+    border-radius: 20px 0px 0px 20px;
+}
+
+.era-label {
+    border-radius: 0px 0px 0px 0px;
+}
+
+.year-label {
+    border-radius: 0px 20px 20px 0px;
 }
