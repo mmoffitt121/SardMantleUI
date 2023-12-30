@@ -1,17 +1,24 @@
 <div class="bar-timeline-background" [ngClass]="bottomPanelOpen ? 'bar-timeline-bottom-panel' : 'bar-timeline-no-bottom-panel'">
     <div class="timeline-panel" id=timelinePanel>
         <div *ngFor="let lane of lanes; index as i" class="row-wrapper">
-            <p class="row-name"> {{lane.objectType.name}} </p>
+            <div class="row-name" [style]="'display: flex; position: relative; left: ' + currentScrollLeft + 'px'">
+                <div class="row-header">
+                    {{lane.objectType.name}} 
+                </div>
+                <button mat-icon-button>
+                    <mat-icon>
+                        add
+                    </mat-icon>
+                </button>
+            </div>
             <div
                 class="ladder-row"
-                style="z-index: 1000"
                 [style.minWidth]="displaySize * zoom + 'px'"
                 [style.width]="displaySize * zoom + 'px'"
                 >
             </div>
             <div class="row-items">
                 <div *ngFor="let item of lane.items" class="row-items" style="width: 0">
-                    <!--<div class="ladder-row"></div>-->
                     <mat-card 
                         class="ladder-row-item" 
                         style="position: relative;" 
@@ -27,7 +34,6 @@
                         </div>
                     </mat-card>
                 </div>
-                <!--<div class="ladder-row-final"></div>-->
             </div>
             
         </div>
@@ -87,16 +93,20 @@
         </div>
         <div class="bottom-panel-edit" *ngIf="pageMode === 'edit'">
             <div>
-                <h3 class="no-margin-header"> {{selectedItem?.object?.name}} </h3>
+                
             </div>
             <div>
+                
+            </div>
+            <div>
+                <app-edit-string #editName [(model)]="editingName" [thin]="true" (modelChange)="onChange()" parameterName="Name" />
+                <div style="margin-top: 10px;"></div>
                 <app-edit-datetime [calendar]="calendar" [(model)]="editingBeginningTime" (modelChange)="onChange()" parameterName="Beginning Date" />
-            </div>
-            <div>
+                <div style="margin-top: 10px;"></div>
                 <app-edit-datetime [calendar]="calendar" [(model)]="editingEndingTime" (modelChange)="onChange()" parameterName="End Date" />
             </div>
         </div>
-        <div>
+        <div class="bottom-panel-sidebar">
             <mat-button-toggle-group name="pageMode" [value]="pageMode">
                 <mat-button-toggle value="nav" matTooltip="Navigation" (click)="pageMode = 'nav'">
                   <mat-icon> search </mat-icon>
@@ -104,7 +114,11 @@
                 <mat-button-toggle value="edit" matTooltip="Edit Timeline" (click)="pageMode = 'edit'">
                   <mat-icon> timeline </mat-icon>
                 </mat-button-toggle>
-              </mat-button-toggle-group>
+            </mat-button-toggle-group>
+            <div></div>
+            <button mat-button color="primary" style="width: 100%" (click)="close()">
+                Close
+            </button>
         </div>
     </div>
 </div>

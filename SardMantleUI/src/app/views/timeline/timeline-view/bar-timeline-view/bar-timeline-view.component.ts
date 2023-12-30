@@ -6,6 +6,7 @@ import { TimelineItem, TimelineRow } from 'src/app/models/timeline/timeline-item
 import { CalendarService } from 'src/app/services/calendar/calendar.service';
 import { Subject, fromEvent, takeUntil } from 'rxjs';
 import { MatButtonToggleGroup } from '@angular/material/button-toggle';
+import { EditStringComponent } from 'src/app/views/shared/document-components/edit/edit-string/edit-string.component';
 
 @Component({
   selector: 'app-bar-timeline-view',
@@ -36,8 +37,11 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
 
   public lanes: TimelineRow[] = [];
   public selectedItem: TimelineItem | undefined;
+  public editingName = "";
   public editingBeginningTime = 0n;
   public editingEndingTime = 0n;
+
+  @ViewChild('editName') editName: EditStringComponent;
 
   private unsubscribe$ = new Subject();
 
@@ -54,11 +58,15 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
       for (let i = 0; i < era.eraDefinitions?.length ?? 0; i++) {
         let def = era.eraDefinitions[i];
         if (!(BigInt(def.start) > this.calendarEnd || BigInt(def.end) < this.calendarStart)) {
-          lane.items.push(this.buildTimelineItem(def));
+          let timelineItem = this.buildTimelineItem(def);
+          if (this.selectedItem?.object === timelineItem.object) {
+            timelineItem.selected = true;
+          }
+          lane.items.push(timelineItem);
         }
       }
       this.lanes.push(lane);
-    })
+    });
   }
 
   public buildTimelineItem(obj: any) {
@@ -118,11 +126,7 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
   }
 
   public onItemClick(item: TimelineItem) {
-    if (item.selected) {
-      item.selected = false;
-      this.pageMode = "nav";
-    }
-    else {
+    if (!item.selected) {
       this.lanes.forEach(lane => {
         lane.items.forEach(i => {
           i.selected = false;
@@ -135,17 +139,25 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
 
       this.editingBeginningTime = item.startDate;
       this.editingEndingTime = item.endDate!;
+      this.editingName = item.object?.name ?? "";
+      this.editName?.setValue(this.editingName);
     }
   }
 
   public onChange() {
-    if (!this.selectedItem) { return; }
+    if (!this.selectedItem || !this.selectedItem.object) { return; }
 
     this.selectedItem.startDate = this.editingBeginningTime;
     this.selectedItem.endDate = this.editingEndingTime;
-    this.selectedItem.object.start = this.editingBeginningTime;
-    this.selectedItem.object.end = this.editingEndingTime;
+    
+    this.selectedItem.object.start = this.editingBeginningTime.toString();
+    this.selectedItem.object.end = this.editingEndingTime.toString();
+    this.selectedItem.object.name = this.editingName;
     this.displayItems();
+  }
+
+  public close() {
+    this.dialogRef.close();
   }
   
   constructor (public dialogRef: MatDialogRef<ConfirmDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private calendarService: CalendarService) {

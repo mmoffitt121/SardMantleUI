@@ -1,9 +1,9 @@
 import { DocumentType } from "../document/document-types/document-type";
 import { Selectable } from "../selectable/selectable";
-import { Era } from "../units/calendar";
+import { Era, EraDefinition } from "../units/calendar";
 
 export interface TimelineItem extends Selectable {
-    object: any;
+    object: EraDefinition | undefined;
     startDate: bigint;
     endDate: bigint | undefined;
     active: boolean;

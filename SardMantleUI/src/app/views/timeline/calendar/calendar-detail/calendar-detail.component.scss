@@ -10,5 +10,5 @@
 .calendar-detail-grid {
     display: grid;
     grid-gap: 10px;
-    grid-template-columns: auto min-content;
+    grid-template-columns: auto max-content;
 }

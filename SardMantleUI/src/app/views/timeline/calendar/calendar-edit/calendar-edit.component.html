@@ -321,7 +321,7 @@
     <mat-card class="unit-card" *ngIf="problems && problems.length">
         <mat-card-content class="grid-3-outer">
             <div class="pad-content">
-                Problems
+                Validation
                 <div class="problem-container" *ngFor="let problem of problems">
                     <mat-icon class="problem-icon"> {{problem.icon ? problem.icon : "error"}} </mat-icon>
                     <p> {{problem.message}} </p>

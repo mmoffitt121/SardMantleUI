@@ -36,6 +36,7 @@ export class CalendarEditComponent {
   ];
 
   public problems: Problem[] = [];
+  private erasChanged: boolean = false;
 
   public onCancel() {
     this.cancel.emit(false);
@@ -168,9 +169,10 @@ export class CalendarEditComponent {
       }
     });
 
-    /*dialogRef.afterClosed().subscribe(result => {
-      
-    });*/
+    dialogRef.afterClosed().subscribe(result => {
+      this.erasChanged = true;
+      this.validate();
+    });
   }
 
   generateId(array: any[]) {
@@ -190,6 +192,7 @@ export class CalendarEditComponent {
 
   public validate() {
     let problems = [] as Problem[];
+    let warnings = [] as Problem[];
 
     if (!this.calendar.name) { problems.push({message: "Calendar Info: Calendar Name cannot be blank."} as Problem); }
     if (this.calendar.unitTimePerDay == 0) { problems.push({message: "Calendar Info: Unit Time per Day cannot be blank or 0."} as Problem); }
@@ -214,14 +217,14 @@ export class CalendarEditComponent {
     if (this.calendar.months.length < 1) { problems.push({message: "Months: At least 1 month is required."} as Problem); }
     this.calendar.months.forEach(m => {
       let itemName = m.name ? m.name : "Item " + (this.calendar.months.indexOf(m) + 1);
-      let header = "Clock Time - " + itemName + ": "
+      let header = "Months - " + itemName + ": "
       if (!m.name) { problems.push({message: header + "Name cannot be blank."} as Problem); }
       if (m.days == 0 || !m.days) { problems.push({message: header + "Days cannot be blank or 0."} as Problem); }
     });
 
     this.calendar.eras.forEach(e => {
       let itemName = e.name ? e.name : "Item " + (this.calendar.eras.indexOf(e) + 1);
-      let header = "Era - " + itemName + ": "
+      let header = "Eras - " + itemName + ": "
       if (!e.name) { problems.push({message: header + "Name cannot be blank."} as Problem); }
       if (!e.formatter) { problems.push({message: header + "Formatter cannot be blank."} as Problem); }
     })
@@ -242,7 +245,9 @@ export class CalendarEditComponent {
       if (t.derivedTimeUnitId == 0 || !t.derivedTimeUnitId) { problems.push({message: header + "Time Unit cannot be blank or 0."} as Problem); }
     })
 
-    this.problems = problems;
+    if (this.erasChanged) { warnings.push({message: "Eras: Era definitions have been changed.", icon: "warning"} as Problem); }
+
+    this.problems = problems.concat(warnings);
     return !(problems.length > 0);
   }
 
