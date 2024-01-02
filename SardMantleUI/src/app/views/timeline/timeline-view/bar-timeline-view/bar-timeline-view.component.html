@@ -5,7 +5,7 @@
                 <div class="row-header">
                     {{lane.objectType.name}} 
                 </div>
-                <button mat-icon-button>
+                <button mat-icon-button (click)="add(lane.objectType, i)">
                     <mat-icon>
                         add
                     </mat-icon>
@@ -92,19 +92,26 @@
             </div>
         </div>
         <div class="bottom-panel-edit" *ngIf="pageMode === 'edit'">
-            <div>
+            <div *ngIf="selectedItem">
+                <h3>{{editingName}}</h3>
+                <p>{{editingSummary}}</p>
                 
+                <button mat-button style="background-color: var(--destructive-action-color);" (click)="deleteItem()">
+                    Delete Item
+                </button>
             </div>
-            <div>
-                
-            </div>
-            <div>
+            <div *ngIf="selectedItem">
                 <app-edit-string #editName [(model)]="editingName" [thin]="true" (modelChange)="onChange()" parameterName="Name" />
                 <div style="margin-top: 10px;"></div>
                 <app-edit-datetime [calendar]="calendar" [(model)]="editingBeginningTime" (modelChange)="onChange()" parameterName="Beginning Date" />
                 <div style="margin-top: 10px;"></div>
                 <app-edit-datetime [calendar]="calendar" [(model)]="editingEndingTime" (modelChange)="onChange()" parameterName="End Date" />
             </div>
+            <div *ngIf="selectedItem">
+                <app-edit-summary #editSummary [(model)]="editingSummary" (modelChange)="onChange()" parameterName="Description" />
+                <div style="margin-top: 10px;"></div>
+            </div>
+            
         </div>
         <div class="bottom-panel-sidebar">
             <mat-button-toggle-group name="pageMode" [value]="pageMode">
@@ -116,7 +123,7 @@
                 </mat-button-toggle>
             </mat-button-toggle-group>
             <div></div>
-            <button mat-button color="primary" style="width: 100%" (click)="close()">
+            <button mat-button style="width: 100%" (click)="close()">
                 Close
             </button>
         </div>

@@ -1,12 +1,14 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { TimelineViewComponent } from '../timeline-view.component';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
 import { TimelineItem, TimelineRow } from 'src/app/models/timeline/timeline-item';
 import { CalendarService } from 'src/app/services/calendar/calendar.service';
 import { Subject, fromEvent, takeUntil } from 'rxjs';
 import { MatButtonToggleGroup } from '@angular/material/button-toggle';
 import { EditStringComponent } from 'src/app/views/shared/document-components/edit/edit-string/edit-string.component';
+import { EraDefinition } from 'src/app/models/units/calendar';
+import { EditSummaryComponent } from 'src/app/views/shared/document-components/edit/edit-summary/edit-summary.component';
 
 @Component({
   selector: 'app-bar-timeline-view',
@@ -31,17 +33,19 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
   public currentScrollTop = 0;
   public currentScrollWidth = 0;
   public zoom = 1;
-  public zoomDelta = 10;
+  public zoomDelta = 2;
   public minZoom = 1;
-  public maxZoom = 1000;
+  public maxZoom = 100;
 
   public lanes: TimelineRow[] = [];
   public selectedItem: TimelineItem | undefined;
   public editingName = "";
+  public editingSummary = "";
   public editingBeginningTime = 0n;
   public editingEndingTime = 0n;
 
   @ViewChild('editName') editName: EditStringComponent;
+  @ViewChild('editSummary') editSummary: EditSummaryComponent;
 
   private unsubscribe$ = new Subject();
 
@@ -57,6 +61,7 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
       let lane = { objectType: era, items: [] } as TimelineRow;
       for (let i = 0; i < era.eraDefinitions?.length ?? 0; i++) {
         let def = era.eraDefinitions[i];
+
         if (!(BigInt(def.start) > this.calendarEnd || BigInt(def.end) < this.calendarStart)) {
           let timelineItem = this.buildTimelineItem(def);
           if (this.selectedItem?.object === timelineItem.object) {
@@ -80,6 +85,23 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
     this.setScreenPosition(laneItem);
 
     return laneItem;
+  }
+
+  public add(itemType: any, index: number) {
+    let newItem = {
+      name: "New Era Definition",
+      summary: "",
+      start: this.calendarStart.toString(),
+      end: this.calendarEnd.toString(),
+      backwards: false
+    } as EraDefinition;
+
+    if (!this.calendar.eras[index].eraDefinitions) {
+      this.calendar.eras[index].eraDefinitions = [];
+    }
+    this.calendar.eras[index].eraDefinitions.push(newItem);
+    this.displayItems();
+    //this.onItemClick(newItem);
   }
 
   public setScreenPosition(item: TimelineItem) {
@@ -140,7 +162,9 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
       this.editingBeginningTime = item.startDate;
       this.editingEndingTime = item.endDate!;
       this.editingName = item.object?.name ?? "";
+      this.editingSummary = item.object?.summary ?? "";
       this.editName?.setValue(this.editingName);
+      this.editSummary?.setValue(this.editingSummary);
     }
   }
 
@@ -153,6 +177,37 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
     this.selectedItem.object.start = this.editingBeginningTime.toString();
     this.selectedItem.object.end = this.editingEndingTime.toString();
     this.selectedItem.object.name = this.editingName;
+    this.selectedItem.object.summary = this.editingSummary;
+    this.displayItems();
+  }
+
+  public deleteItem() {
+    if (!this.selectedItem || !this.selectedItem.object) { return; }
+    let toDelete = this.selectedItem.object.name;
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '500px',
+      data: { 
+        title: "Confirm Deletion", 
+        content: `Are you sure you want to remove ${toDelete}?`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteConfirmed();
+      }
+    });
+  }
+
+  public deleteConfirmed() {
+    this.calendar.eras.forEach(era => {
+      let index = era.eraDefinitions.findIndex((object) => object === this.selectedItem!.object!);
+      if (index != -1) {
+        era.eraDefinitions.splice(index, 1);
+      }
+    })
+    this.selectedItem = undefined;
     this.displayItems();
   }
 
@@ -160,7 +215,11 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
     this.dialogRef.close();
   }
   
-  constructor (public dialogRef: MatDialogRef<ConfirmDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private calendarService: CalendarService) {
+  constructor (
+    public dialogRef: MatDialogRef<TimelineViewComponent>, 
+    @Inject(MAT_DIALOG_DATA) public data: any, 
+    private calendarService: CalendarService,
+    private dialog: MatDialog) {
     super();
     if (data.calendar) { this.calendar = data.calendar; }
     if (data.editingEras) { 

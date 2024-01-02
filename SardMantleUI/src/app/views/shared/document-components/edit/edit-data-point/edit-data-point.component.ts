@@ -43,6 +43,14 @@ export class EditDataPointComponent implements OnChanges, OnInit {
     }
   }
 
+  public setModels(items: any[], model: number) {
+    this.items = items;
+    this.selectedItem = this.items[model];
+    this.formControl.setValue(this.selectedItem?.name);
+    this.model = model;
+    this.modelChange.emit(model);
+  }
+
   public setDataPointId(valueId: number) {
     this.documentService.getDocument(valueId).subscribe(data => {
       if (data == null) {

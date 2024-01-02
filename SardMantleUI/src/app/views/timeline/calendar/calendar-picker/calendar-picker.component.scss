@@ -3,8 +3,12 @@
     max-height: 100%;
     display: grid;
     grid-template-columns: 10px auto 10px;
+    grid-template-rows: min-content auto;
 }
 
+.calendar-picker-value-display {
+    font-size: 32px;
+}
 
 .calendar-picker-inner-container {
     display: grid;

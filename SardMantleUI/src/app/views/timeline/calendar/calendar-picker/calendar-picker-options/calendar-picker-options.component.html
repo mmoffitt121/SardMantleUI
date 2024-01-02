@@ -1,0 +1,7 @@
+<app-edit-data-point #editCalendar [parameterName]="'Calendar'" [items]="calendars" [(model)]="selectedCalendar" (selected)="changeCalendar($event)" />
+<app-edit-data-point #editFormat [parameterName]="'Format'" [items]="formatters" [(model)]="selectedFormatter" />
+<app-edit-data-point #editTimezone [parameterName]="'Time Zone'" [items]="timeZones" [(model)]="selectedTimezone" />
+<div style="display: grid; grid-gap: 5px; grid-template-columns: 1fr 1fr; margin-top: 20px;">
+    <button mat-button (click)="onCancel()"> Cancel </button>
+    <button mat-button color="primary" (click)="onApply()"> Apply </button>
+</div>
