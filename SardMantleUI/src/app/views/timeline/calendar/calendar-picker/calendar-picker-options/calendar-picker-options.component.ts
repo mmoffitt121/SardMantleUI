@@ -14,7 +14,9 @@ export class CalendarPickerOptionsComponent implements AfterViewInit {
   public timeZones: TimeZone[];
   @Input() inputCalendar: Calendar;
   public selectedCalendar: number;
+  @Input() inputFormatter: Formatter;
   public selectedFormatter: number;
+  @Input() inputTimeZone: TimeZone;
   public selectedTimezone: number;
 
   @ViewChild('editCalendar') editCalendar: EditDataPointComponent;
@@ -30,6 +32,15 @@ export class CalendarPickerOptionsComponent implements AfterViewInit {
     this.selectedTimezone = 0;
     this.editFormat.setModels(calendar.formatters, 0);
     this.editTimezone.setModels(calendar.timeZones, 0);
+    this.selectedCalendar = this.calendars.indexOf(calendar);
+  }
+
+  public changeFormatter(formatter: Formatter) {
+    this.selectedFormatter = this.formatters.indexOf(formatter);
+  }
+
+  public changeTimeZone(timeZone: TimeZone) {
+    this.selectedTimezone = this.timeZones.indexOf(timeZone);
   }
 
   public onCancel() {
@@ -37,7 +48,11 @@ export class CalendarPickerOptionsComponent implements AfterViewInit {
   }
 
   public onApply() {
-    this.done.emit({calendar: this.selectedCalendar, formatter: this.selectedFormatter, timeZone: this.selectedTimezone});
+    this.done.emit({
+      calendar: this.calendars[this.selectedCalendar], 
+      formatter: this.formatters[this.selectedFormatter], 
+      timeZone: this.timeZones[this.selectedTimezone]
+    });
   }
 
   constructor (private calendarService: CalendarService, private cdref: ChangeDetectorRef) {}
@@ -52,6 +67,8 @@ export class CalendarPickerOptionsComponent implements AfterViewInit {
       this.editCalendar.setModels(this.calendars, 0);
       this.changeCalendar(this.calendars[0]);
     }
+    this.editFormat.setModels(this.formatters, this.formatters.indexOf(this.inputFormatter));
+    this.editTimezone.setModels(this.timeZones, this.timeZones.indexOf(this.inputTimeZone))
     this.cdref.detectChanges();
   }
 }

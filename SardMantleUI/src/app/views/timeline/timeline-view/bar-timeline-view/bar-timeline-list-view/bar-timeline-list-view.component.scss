@@ -1,0 +1,13 @@
+.era-header {
+    margin-left: 10px;
+}
+
+.era-def-card {
+    background-color: var(--secondary-accent-color);
+    margin: 10px;
+}
+
+.era-def-card-grid {
+    display: grid;
+    grid-template-columns: auto min-content;
+}

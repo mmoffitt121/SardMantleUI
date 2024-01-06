@@ -42,6 +42,7 @@ export interface EraDefinition {
     start: string;
     end: string;
     backwards: boolean;
+    eraNumber: number;
 }
 
 export interface TimeZone {

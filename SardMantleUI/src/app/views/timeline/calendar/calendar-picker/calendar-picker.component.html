@@ -17,6 +17,6 @@
         <app-calendar-picker-year-select [calendar]="calendar" *ngIf="displayMode === 'year'" />
         <app-calendar-picker-era-view [calendar]="calendar" *ngIf="displayMode === 'era'" />
         <app-era-select [calendar]="calendar" *ngIf="displayMode === 'era-select'" />
-        <app-calendar-picker-options [inputCalendar]="calendar" *ngIf="displayMode === 'options'" />
+        <app-calendar-picker-options [inputCalendar]="calendar" [inputFormatter]="format" [inputTimeZone]="timeZone" (done)="handleSetOptions($event)" *ngIf="displayMode === 'options'" />
     </div>
 </div>

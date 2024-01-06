@@ -7,6 +7,7 @@ import { eraNavMenuItems } from 'src/app/models/navigation/card-nav-item';
 import { MatDialog } from '@angular/material/dialog';
 import { BarTimelineViewComponent } from '../../timeline-view/bar-timeline-view/bar-timeline-view.component';
 import { Problem } from 'src/app/models/shared/problem';
+import { CalendarService } from 'src/app/services/calendar/calendar.service';
 
 @Component({
   selector: 'app-calendar-edit',
@@ -49,6 +50,8 @@ export class CalendarEditComponent {
     this.calendar.eras = this.calendar.eras ?? [];
     this.calendar.formatters = this.calendar.formatters ?? [];
     this.calendar.timeZones = this.calendar.timeZones ?? [];
+
+    this.calendarService.applyEraDefinitionNumbers(this.calendar);
 
     if (!this.validate()) { return; }
 
@@ -251,7 +254,12 @@ export class CalendarEditComponent {
     return !(problems.length > 0);
   }
 
-  constructor(public skeletonService: SkeletonService, private calendarDataService: CalendarDataService, private errorService: ErrorService, private dialog: MatDialog) {
+  constructor(
+    public skeletonService: SkeletonService, 
+    private calendarDataService: CalendarDataService, 
+    private errorService: ErrorService, 
+    private dialog: MatDialog,
+    private calendarService: CalendarService) {
 
   }
 }

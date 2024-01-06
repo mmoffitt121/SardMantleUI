@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { CalendarDataService } from './calendar-data.service';
-import { Calendar, Formatter, TimeZone, Week } from 'src/app/models/units/calendar';
+import { Calendar, Era, EraDefinition, Formatter, TimeZone, Week } from 'src/app/models/units/calendar';
 import { DateTimeObject } from 'src/app/models/timeline/time';
 
 @Injectable({
@@ -10,6 +10,7 @@ export class CalendarService {
   calendars: Calendar[];
   public selectedCalendar: Calendar;
   public selectedFormatter: Formatter;
+  public selectedTimeZone: TimeZone;
 
   public loadCalendars() {
     this.dataService.get({}).subscribe(data => {
@@ -28,6 +29,7 @@ export class CalendarService {
       day: Number(this.getDay(dateTime, calendar)),
       time: this.getTime(dateTime, calendar).map(x => Number(x)),
       weekday: Number(this.getWeekday(dateTime, calendar)),
+      era: this.getEra(dateTime, calendar).map(x => Number(x)),
     } as DateTimeObject;
   }
 
@@ -104,7 +106,13 @@ export class CalendarService {
   }
 
   public getEra(dateTime: bigint, calendar: Calendar) {
+    let eraObjects = [] as EraDefinition[];
+    let eras = [] as number[];
+    calendar.eras.forEach(e => {
+      let definition = e.eraDefinitions?.find(def => BigInt(def.start) <= dateTime && BigInt(def.end) >= dateTime);
+    });
 
+    return eras;
   }
 
   public getWeekday(dateTime: bigint, calendar: Calendar) {
@@ -202,6 +210,42 @@ export class CalendarService {
     return Math.floor(maxDays / calendar.weekdays.length) + 2; 
   }
 
+  public applyEraDefinitionNumbers(calendar: Calendar) {
+    calendar.eras.forEach(e => {
+      e.eraDefinitions = e.eraDefinitions.sort((d1, d2) => BigInt(d1.start) < BigInt(d2.start) ? -1 : 1)
+    })
+    let i = 0;
+    calendar.eras[0].eraDefinitions.forEach(def => {
+      this.applyEraDefinitionNumberToChildren(0, i, calendar);
+      i++;
+    })
+    
+  }
+
+  // Recursive function for calculating and adding the era number
+  private applyEraDefinitionNumberToChildren(currentEra: number, currentEraDefinition: number, calendar: Calendar) {
+    // console.log(calendar.eras[currentEra].name + ": " + calendar.eras[currentEra].eraDefinitions[currentEraDefinition].name)
+    // Base case - If we are at the end of the array, we are done. Return.
+    if (currentEra >= calendar.eras.length - 1) {
+      //console.log(" --- Exiting --- ")
+      return;
+    }
+
+    // Next case - We still have work to do
+    // Iterate through all values in the next era down that are in the range of the current era definition. Set the values to the iterator.
+    // Call this function on each child.
+    let startRange = BigInt(calendar.eras[currentEra].eraDefinitions[currentEraDefinition].start);
+    let endRange = BigInt(calendar.eras[currentEra].eraDefinitions[currentEraDefinition].end);
+    let inRange = calendar.eras[currentEra+1].eraDefinitions.filter(def => (BigInt(def.start) >= startRange) && (BigInt(def.start) < endRange));
+    for (let i = 0; i < inRange.length; i++) {
+      console.log(calendar.eras[currentEra].name + ": " + calendar.eras[currentEra].eraDefinitions[currentEraDefinition].name + " triggers " +
+        calendar.eras[currentEra + 1].name + ": " + calendar.eras[currentEra + 1].eraDefinitions[i]?.name + "\n\n" + "In Range: ", inRange 
+      )
+      inRange[i].eraNumber = i + 1;
+      this.applyEraDefinitionNumberToChildren(currentEra + 1, calendar.eras[currentEra + 1].eraDefinitions.indexOf(inRange[i]), calendar);
+    }
+  }
+
   // -=-=-=-=-=-=-=-=-
   // Format
   // -=-=-=-=-=-=-=-=-
@@ -261,21 +305,9 @@ export class CalendarService {
       }
       output.push(outputToken);
 
-      // Fill current token with characters
-      // Append new characters to output
-
       i = j;
       if (i >= end) { break;}
     }
-    /*for (let i = 0; i < formatter.formatter.length; i++) {
-      let current = formatter.formatter.charAt(i);
-      if (map.get(current)) {
-        output.push(map.get(current));
-      }
-      else {
-        output.push(current);
-      }
-    }*/
     return output.join("");
   }
 

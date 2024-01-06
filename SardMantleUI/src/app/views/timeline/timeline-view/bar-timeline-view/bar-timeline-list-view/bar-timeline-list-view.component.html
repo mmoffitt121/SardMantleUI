@@ -1,0 +1,18 @@
+<div>
+    <div *ngFor="let era of calendar.eras">
+        <h3 class="era-header">
+            {{era.name}}
+        </h3>
+        <mat-card *ngFor="let def of era.eraDefinitions" class="era-def-card">
+            <mat-card-content class="era-def-card-grid">
+                {{def.name}}
+                <button mat-icon-button (click)="found(def)">
+                    <mat-icon>
+                        arrow_forward
+                    </mat-icon>
+                </button>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    
+</div>

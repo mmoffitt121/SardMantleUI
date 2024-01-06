@@ -153,6 +153,7 @@ import { EditRangeComponent } from './views/shared/document-components/edit/edit
 import { CalendarPickerMonthSelectComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-month-select/calendar-picker-month-select.component';
 import { EditDatetimeComponent } from './views/shared/document-components/edit/edit-datetime/edit-datetime.component';
 import { CalendarPickerOptionsComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-options/calendar-picker-options.component';
+import { BarTimelineListViewComponent } from './views/timeline/timeline-view/bar-timeline-view/bar-timeline-list-view/bar-timeline-list-view.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -269,7 +270,8 @@ export function tokenGetter() {
     EditRangeComponent,
     CalendarPickerMonthSelectComponent,
     EditDatetimeComponent,
-    CalendarPickerOptionsComponent
+    CalendarPickerOptionsComponent,
+    BarTimelineListViewComponent
     ],
   imports: [
     BrowserModule,

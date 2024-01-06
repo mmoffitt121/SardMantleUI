@@ -41,9 +41,9 @@
     <div class="bottom-panel-container">
         <div class="bottom-panel-nav" *ngIf="pageMode === 'nav'">
             <div>
-                <app-edit-int parameterName="Beginning Year" [(model)]="beginningYear" [thin]="true" />
+                <app-edit-int #editBeginningYear parameterName="Beginning Year" [(model)]="beginningYear" [thin]="true" />
                 <div style="margin-top: 10px;"></div>
-                <app-edit-int parameterName="End Year" [(model)]="endYear" [thin]="true" />
+                <app-edit-int #editEndYear parameterName="End Year" [(model)]="endYear" [thin]="true" />
                 <div style="margin-top: 10px;"></div>
                 <button mat-button (click)="displayItems()" color="primary">Update</button>
             </div>
@@ -122,7 +122,11 @@
                   <mat-icon> timeline </mat-icon>
                 </mat-button-toggle>
             </mat-button-toggle-group>
-            <div></div>
+            <div>
+                <button mat-button style="width: 100%; margin-top: 10px;" (click)="find()">
+                    Find
+                </button>
+            </div>
             <button mat-button style="width: 100%" (click)="close()">
                 Close
             </button>

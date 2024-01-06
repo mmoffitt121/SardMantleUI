@@ -9,6 +9,8 @@ import { MatButtonToggleGroup } from '@angular/material/button-toggle';
 import { EditStringComponent } from 'src/app/views/shared/document-components/edit/edit-string/edit-string.component';
 import { EraDefinition } from 'src/app/models/units/calendar';
 import { EditSummaryComponent } from 'src/app/views/shared/document-components/edit/edit-summary/edit-summary.component';
+import { BarTimelineListViewComponent } from './bar-timeline-list-view/bar-timeline-list-view.component';
+import { EditIntComponent } from 'src/app/views/shared/document-components/edit/edit-int/edit-int.component';
 
 @Component({
   selector: 'app-bar-timeline-view',
@@ -23,6 +25,8 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
 
   public beginningYear = 0;
   public endYear = 1;
+  @ViewChild('editBeginningYear') editBeginningYear: EditIntComponent;
+  @ViewChild('editEndYear') editEndYear: EditIntComponent;
 
   public displaySize = window.innerWidth;
   public calendarStart = 0n;
@@ -181,6 +185,32 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
     this.displayItems();
   }
 
+  public findAndSelect(def: EraDefinition) {
+    let startDTO = this.calendarService.toDateTimeObject(BigInt(def.start), this.calendar)
+    let endDTO = this.calendarService.toDateTimeObject(BigInt(def.end), this.calendar)
+
+    let defBeginningYear = startDTO.year;
+    let defEndYear = endDTO.year;
+    let deltaYear = Math.floor((defEndYear - defBeginningYear) / 2);
+
+    this.beginningYear = Math.max(defBeginningYear - defEndYear, 0);
+    this.endYear = defEndYear + deltaYear;
+
+    if (this.beginningYear == this.endYear) {
+      this.endYear += 1;
+    }
+
+    this.editBeginningYear?.setValue(this.beginningYear);
+    this.editEndYear?.setValue(this.endYear);
+
+    this.lanes.forEach(lane => {
+      let found = lane.items.find(x => x.object === def);
+      if (found) {
+        this.onItemClick(found)
+      }
+    })
+  }
+
   public deleteItem() {
     if (!this.selectedItem || !this.selectedItem.object) { return; }
     let toDelete = this.selectedItem.object.name;
@@ -209,6 +239,23 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
     })
     this.selectedItem = undefined;
     this.displayItems();
+  }
+
+  public find() {
+    const dialogRef = this.dialog.open(BarTimelineListViewComponent, {
+      width: '500px',
+      height: '500px',
+      data: { 
+        calendar: this.calendar
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.findAndSelect(result);
+      }
+      this.displayItems();
+    });
   }
 
   public close() {
