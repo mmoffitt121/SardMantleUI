@@ -24,12 +24,13 @@ export class CalendarService {
 
   public toDateTimeObject(dateTime: bigint, calendar: Calendar) {
     return {
-      year: Number(this.getYear(dateTime, calendar)),
+      year: this.getYear(dateTime, calendar),
+      eraYear: this.getEraYear(dateTime, calendar),
       month: Number(this.getMonth(dateTime, calendar)),
       day: Number(this.getDay(dateTime, calendar)),
       time: this.getTime(dateTime, calendar).map(x => Number(x)),
       weekday: Number(this.getWeekday(dateTime, calendar)),
-      era: this.getEra(dateTime, calendar).map(x => Number(x)),
+      era: this.getEraFill(dateTime, calendar),
     } as DateTimeObject;
   }
 
@@ -42,10 +43,7 @@ export class CalendarService {
   }
 
   public getYear(dateTime: bigint, calendar: Calendar) {
-    let daysPerYear = BigInt(this.getDaysPerYear(calendar));
-    
-    let day = dateTime / BigInt(calendar.unitTimePerDay);
-    return day / daysPerYear;
+    return this.getBaseYear(dateTime, calendar);
   }
 
   public getMonth(dateTime: bigint, calendar: Calendar) {
@@ -105,14 +103,37 @@ export class CalendarService {
     return [...times.reverse()];
   }
 
-  public getEra(dateTime: bigint, calendar: Calendar) {
-    let eraObjects = [] as EraDefinition[];
-    let eras = [] as number[];
+  public getEraEmpty(dateTime: bigint, calendar: Calendar) {
+    let eras = [] as (EraDefinition | undefined)[];
     calendar.eras.forEach(e => {
-      let definition = e.eraDefinitions?.find(def => BigInt(def.start) <= dateTime && BigInt(def.end) >= dateTime);
+      eras.push(e.eraDefinitions?.find(def => BigInt(def.start) <= dateTime && BigInt(def.end) >= dateTime));
     });
 
     return eras;
+  }
+
+  public getEraFill(dateTime: bigint, calendar: Calendar) {
+    let eras = [] as (EraDefinition | undefined)[];
+    calendar.eras.forEach(e => {
+      if (e.eraDefinitions) {
+        let defs = [...e.eraDefinitions].sort((a, b) => BigInt(a.start) < BigInt(b.start) ? 1 : -1);
+        eras.push(defs.find(def => BigInt(def.start) <= dateTime)!);
+      }
+    });
+
+    return eras;
+  }
+
+  public getEraYear(dateTime: bigint, calendar: Calendar) {
+    let eras = this.getEraFill(dateTime, calendar);
+    let year = this.getBaseYear(dateTime, calendar);
+    let baseYear = 0n;
+    eras.forEach(e => {
+      if (e != undefined) {
+        baseYear = this.getBaseYear(BigInt(e.start), calendar);
+      }
+    });
+    return year - baseYear;
   }
 
   public getWeekday(dateTime: bigint, calendar: Calendar) {
@@ -216,6 +237,7 @@ export class CalendarService {
     })
     let i = 0;
     calendar.eras[0].eraDefinitions.forEach(def => {
+      def.eraNumber = i + 1;
       this.applyEraDefinitionNumberToChildren(0, i, calendar);
       i++;
     })
@@ -224,10 +246,8 @@ export class CalendarService {
 
   // Recursive function for calculating and adding the era number
   private applyEraDefinitionNumberToChildren(currentEra: number, currentEraDefinition: number, calendar: Calendar) {
-    // console.log(calendar.eras[currentEra].name + ": " + calendar.eras[currentEra].eraDefinitions[currentEraDefinition].name)
     // Base case - If we are at the end of the array, we are done. Return.
     if (currentEra >= calendar.eras.length - 1) {
-      //console.log(" --- Exiting --- ")
       return;
     }
 
@@ -238,9 +258,6 @@ export class CalendarService {
     let endRange = BigInt(calendar.eras[currentEra].eraDefinitions[currentEraDefinition].end);
     let inRange = calendar.eras[currentEra+1].eraDefinitions.filter(def => (BigInt(def.start) >= startRange) && (BigInt(def.start) < endRange));
     for (let i = 0; i < inRange.length; i++) {
-      console.log(calendar.eras[currentEra].name + ": " + calendar.eras[currentEra].eraDefinitions[currentEraDefinition].name + " triggers " +
-        calendar.eras[currentEra + 1].name + ": " + calendar.eras[currentEra + 1].eraDefinitions[i]?.name + "\n\n" + "In Range: ", inRange 
-      )
       inRange[i].eraNumber = i + 1;
       this.applyEraDefinitionNumberToChildren(currentEra + 1, calendar.eras[currentEra + 1].eraDefinitions.indexOf(inRange[i]), calendar);
     }
@@ -250,7 +267,7 @@ export class CalendarService {
   // Format
   // -=-=-=-=-=-=-=-=-
 
-  public format(time: bigint, calendar?: Calendar, formatter?: Formatter) {
+  public format(time: bigint, calendar?: Calendar, formatter?: Formatter, useBaseYear?: boolean) {
     if (!formatter) {
       if (calendar) {
         formatter = calendar.formatters[0];
@@ -266,11 +283,11 @@ export class CalendarService {
       calendar = this.selectedCalendar;
     }
 
-    return this.parseFormattedDate(this.toDateTimeObject(time, calendar), calendar, formatter);
+    return this.parseFormattedDate(this.toDateTimeObject(time, calendar), calendar, formatter, useBaseYear);
   }
 
-  private parseFormattedDate(dto: DateTimeObject, calendar: Calendar, formatter: Formatter) {
-    let map = this.buildFormatValueMap(dto, calendar);
+  private parseFormattedDate(dto: DateTimeObject, calendar: Calendar, formatter: Formatter, useBaseYear?: boolean) {
+    let map = this.buildFormatValueMap(dto, calendar, useBaseYear);
     let output: string[] = [];
     let specialTokens = new Set(["$", "`"]);
 
@@ -311,7 +328,7 @@ export class CalendarService {
     return output.join("");
   }
 
-  private buildFormatValueMap(dto: DateTimeObject, calendar: Calendar) {
+  private buildFormatValueMap(dto: DateTimeObject, calendar: Calendar, useBaseYear?: boolean) {
     let map = new Map();
 
     map.set("d", dto.day);
@@ -319,15 +336,16 @@ export class CalendarService {
     map.set("w", calendar.weekdays[dto.weekday].formatter);
     map.set("m", dto.month);
     map.set("M", calendar.months[dto.month - 1].name);
-    map.set("y", dto.year);
+    map.set("y", useBaseYear ? dto.year : dto.eraYear);
 
     calendar.timeUnits.forEach(u => {
       map.set(u.formatter, dto.time[calendar.timeUnits.indexOf(u)]);
     });
 
-    /*calendar.eras.forEach(e => {
-      map.set(e.formatter, dto.era[calendar.eras.indexOf(e)]);
-    });*/
+    calendar.eras.forEach(e => {
+      map.set(e.formatter, useBaseYear ? " " : dto.era[calendar.eras.indexOf(e)]?.eraNumber);
+      map.set(e.nameFormatter, useBaseYear ? " " : dto.era[calendar.eras.indexOf(e)]?.name);
+    });
 
     return map;
   }
@@ -338,12 +356,12 @@ export class CalendarService {
 
   public addDays(days: bigint | number, time: bigint, calendar: Calendar) {
     return time + BigInt(days) * BigInt(calendar.unitTimePerDay);
-  } 
+  }
 
   public addMonths(months: number, time: bigint, calendar: Calendar) {
     let dto = this.toDateTimeObject(time, calendar);
     
-    dto.year += Math.floor((dto.month + months - 1) / calendar.months.length);
+    dto.year += BigInt(Math.floor((dto.month + months - 1) / calendar.months.length));
     calendar.months.length;
 
     let monthDelta = dto.month + months - 1;
@@ -353,6 +371,10 @@ export class CalendarService {
     dto.time = new Array(dto.time.length).fill(0);
     return this.fromDateTimeObject(dto, calendar);
   } 
+
+  public addYears(years: bigint | number, time: bigint, calendar: Calendar) {
+
+  }
 
   public setMonth(month: number, time: bigint, calendar: Calendar) {
     let dto = this.toDateTimeObject(time, calendar);

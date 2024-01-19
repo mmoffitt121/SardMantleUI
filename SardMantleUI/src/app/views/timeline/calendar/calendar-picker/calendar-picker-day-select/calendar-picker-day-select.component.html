@@ -8,7 +8,15 @@
                 <button mat-button class="month-year-label month-label mat-elevation-z0" (click)="changeMonth.emit();">
                     {{calendar.months[dateTimeObject.month - 1].name}}
                 </button>
-                <button mat-button class="month-year-label year-label mat-elevation-z0">
+                <div *ngIf="!useBaseYear">
+                    <button mat-button class="month-year-label era-label mat-elevation-z0" *ngFor="let era of dateTimeObject.era; index as i" (click)="changeEra.emit(i)">
+                        {{era?.eraNumber}}
+                    </button>
+                </div>
+                <button mat-button class="month-year-label year-label mat-elevation-z0" *ngIf="!useBaseYear" (click)="changeYear.emit()">
+                    {{dateTimeObject.eraYear}}
+                </button>
+                <button mat-button class="month-year-label year-label mat-elevation-z0" *ngIf="useBaseYear" (click)="changeYear.emit()">
                     {{dateTimeObject.year}}
                 </button>
             </div>

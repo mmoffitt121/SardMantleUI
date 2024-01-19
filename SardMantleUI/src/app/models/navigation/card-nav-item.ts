@@ -3,7 +3,7 @@ export interface CardNavItem {
     action: string;
 }
 
-export const eraNavMenuItems= [
+export const eraNavMenuItems = [
     {
         icon: "view_timeline",
         action: "view_timeline"

@@ -11,7 +11,7 @@ export class EditStringComponent implements OnInit {
   @Input() parameterSummary: string = '';
   @Input() placeholder: string = '';
   @Input() required: boolean = false;
-  @Input() maxLength: number | null = null;
+  @Input() maxLength: number | undefined = undefined;
   @Input() thin = false;
 
   @Input() type: string = '';
@@ -27,6 +27,9 @@ export class EditStringComponent implements OnInit {
 
   public validate(e: any) {
     this.control.markAsTouched();
+    if (this.maxLength !== undefined) {
+      this.control.setValue(e.target.value.substring(0, this.maxLength))
+    }
   }
 
   public setValue(value: any) {
@@ -45,9 +48,6 @@ export class EditStringComponent implements OnInit {
   ngOnInit() {
     if (this.required) {
       this.control.addValidators([Validators.required]);
-    }
-    if (this.maxLength != null) {
-      this.control.addValidators([Validators.maxLength(this.maxLength)]);
     }
 
     this.control.setValue(this.model);

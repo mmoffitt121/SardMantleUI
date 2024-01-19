@@ -8,4 +8,5 @@ import { Calendar } from 'src/app/models/units/calendar';
 })
 export class CalendarPickerYearSelectComponent {
   @Input() public calendar: Calendar;
+  @Input() public useBaseYear: boolean;
 }

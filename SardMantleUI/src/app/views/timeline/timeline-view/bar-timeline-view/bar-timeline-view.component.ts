@@ -23,8 +23,8 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
 
   public pageMode = "nav";
 
-  public beginningYear = 0;
-  public endYear = 1;
+  public beginningYear = 0n;
+  public endYear = 1n;
   @ViewChild('editBeginningYear') editBeginningYear: EditIntComponent;
   @ViewChild('editEndYear') editEndYear: EditIntComponent;
 
@@ -191,13 +191,13 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
 
     let defBeginningYear = startDTO.year;
     let defEndYear = endDTO.year;
-    let deltaYear = Math.floor((defEndYear - defBeginningYear) / 2);
+    let deltaYear = (defEndYear - defBeginningYear) / 2n;
 
-    this.beginningYear = Math.max(defBeginningYear - defEndYear, 0);
+    this.beginningYear = defBeginningYear - defEndYear > 0 ? defBeginningYear - defEndYear : 0n;
     this.endYear = defEndYear + deltaYear;
 
     if (this.beginningYear == this.endYear) {
-      this.endYear += 1;
+      this.endYear += 1n;
     }
 
     this.editBeginningYear?.setValue(this.beginningYear);

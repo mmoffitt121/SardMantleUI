@@ -51,6 +51,13 @@ export class CalendarEditComponent {
     this.calendar.formatters = this.calendar.formatters ?? [];
     this.calendar.timeZones = this.calendar.timeZones ?? [];
 
+    let i = 0;
+    this.calendar.formatters.forEach(f => {f.id = i; i++;});
+    i = 0;
+    this.calendar.eras.forEach(e => {
+      e.eraDefinitions.forEach(def => {def.id = i; i++;})
+    })
+
     this.calendarService.applyEraDefinitionNumbers(this.calendar);
 
     if (!this.validate()) { return; }
@@ -230,6 +237,7 @@ export class CalendarEditComponent {
       let header = "Eras - " + itemName + ": "
       if (!e.name) { problems.push({message: header + "Name cannot be blank."} as Problem); }
       if (!e.formatter) { problems.push({message: header + "Formatter cannot be blank."} as Problem); }
+      if (!e.nameFormatter) { problems.push({message: header + "Name Formatter cannot be blank."} as Problem); }
     })
 
     if (this.calendar.formatters.length < 1) { problems.push({message: "Format: At least 1 format is required."} as Problem); }

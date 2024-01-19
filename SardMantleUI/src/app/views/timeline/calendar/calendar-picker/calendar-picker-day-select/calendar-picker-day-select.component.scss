@@ -56,9 +56,13 @@
 }
 
 .era-label {
+    min-width: 0px;
     border-radius: 0px 0px 0px 0px;
 }
 
 .year-label {
     border-radius: 0px 20px 20px 0px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
 }

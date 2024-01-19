@@ -23,9 +23,7 @@ export interface Month {
 
 export interface TimeUnit {
     id: number;
-    derivedFromId: number;
     amountPerDerived: number;
-    startTimeUnit: number;
     formatter: string;
     name: string;
     summary: string;
@@ -34,9 +32,11 @@ export interface TimeUnit {
 export interface Era extends TimeUnit {
     eraDefinitions: EraDefinition[];
     defined: boolean;
+    nameFormatter: string;
 }
 
 export interface EraDefinition {
+    id: number;
     name: string;
     summary: string;
     start: string;

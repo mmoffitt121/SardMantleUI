@@ -41,9 +41,9 @@
     <div class="bottom-panel-container">
         <div class="bottom-panel-nav" *ngIf="pageMode === 'nav'">
             <div>
-                <app-edit-int #editBeginningYear parameterName="Beginning Year" [(model)]="beginningYear" [thin]="true" />
+                <app-edit-big-int #editBeginningYear parameterName="Beginning Year" [(model)]="beginningYear" [thin]="true" />
                 <div style="margin-top: 10px;"></div>
-                <app-edit-int #editEndYear parameterName="End Year" [(model)]="endYear" [thin]="true" />
+                <app-edit-big-int #editEndYear parameterName="End Year" [(model)]="endYear" [thin]="true" />
                 <div style="margin-top: 10px;"></div>
                 <button mat-button (click)="displayItems()" color="primary">Update</button>
             </div>
@@ -103,9 +103,9 @@
             <div *ngIf="selectedItem">
                 <app-edit-string #editName [(model)]="editingName" [thin]="true" (modelChange)="onChange()" parameterName="Name" />
                 <div style="margin-top: 10px;"></div>
-                <app-edit-datetime [calendar]="calendar" [(model)]="editingBeginningTime" (modelChange)="onChange()" parameterName="Beginning Date" />
+                <app-edit-datetime [calendar]="calendar" [(model)]="editingBeginningTime" (modelChange)="onChange()" parameterName="Beginning Date" [useBaseYear]="true" />
                 <div style="margin-top: 10px;"></div>
-                <app-edit-datetime [calendar]="calendar" [(model)]="editingEndingTime" (modelChange)="onChange()" parameterName="End Date" />
+                <app-edit-datetime [calendar]="calendar" [(model)]="editingEndingTime" (modelChange)="onChange()" parameterName="End Date" [useBaseYear]="true" />
             </div>
             <div *ngIf="selectedItem">
                 <app-edit-summary #editSummary [(model)]="editingSummary" (modelChange)="onChange()" parameterName="Description" />

@@ -55,6 +55,15 @@ export class CalendarPickerOptionsComponent implements AfterViewInit {
     });
   }
 
+  public onApplyAndClose() {
+    this.done.emit({
+      close: true,
+      calendar: this.calendars[this.selectedCalendar], 
+      formatter: this.formatters[this.selectedFormatter], 
+      timeZone: this.timeZones[this.selectedTimezone]
+    })
+  }
+
   constructor (private calendarService: CalendarService, private cdref: ChangeDetectorRef) {}
 
   ngAfterViewInit() {

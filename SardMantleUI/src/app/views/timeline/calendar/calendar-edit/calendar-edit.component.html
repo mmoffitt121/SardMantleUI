@@ -43,7 +43,7 @@
                             Description
                             <app-edit-string [thin]="true" [(model)]="timeUnit.summary" />
                             Formatter
-                            <app-edit-string [thin]="true" [(model)]="timeUnit.formatter" />
+                            <app-edit-string [thin]="true" [(model)]="timeUnit.formatter" [maxLength]="1" />
                             Derived per {{timeUnit.name}}
                             <app-edit-int [thin]="true" [(model)]="timeUnit.amountPerDerived" />
                         </div>
@@ -89,7 +89,7 @@
                             Description
                             <app-edit-string [thin]="true" [(model)]="day.summary" />
                             Abbreviation
-                            <app-edit-string [thin]="true" [(model)]="day.formatter" />
+                            <app-edit-string [thin]="true" [(model)]="day.formatter" [maxLength]="3" />
                         </div>
                         <div class="card-side-button-container">
                             <app-card-nav (up)="move('weekdays', day, 'up')" (down)="move('weekdays', day, 'down')" (delete)="deleteItem('weekdays', day)" />
@@ -132,8 +132,10 @@
                             <app-edit-string [thin]="true" [(model)]="era.name" />
                             Description
                             <app-edit-string [thin]="true" [(model)]="era.summary" />
-                            Formatter
-                            <app-edit-string [thin]="true" [(model)]="era.formatter" />
+                            Number Formatter
+                            <app-edit-string [thin]="true" [(model)]="era.formatter" [maxLength]="1" />
+                            Name Formatter
+                            <app-edit-string [thin]="true" [(model)]="era.nameFormatter" [maxLength]="1" />
                             Derived per {{era.name}}
                             <app-edit-int [thin]="true" [(model)]="era.amountPerDerived" />
                         </div>
@@ -225,9 +227,9 @@
                                               <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                                             </ng-container>
                                             <ng-container matColumnDef="formatter">
-                                              <th mat-header-cell *matHeaderCellDef> Formatter </th>
+                                              <th mat-header-cell *matHeaderCellDef> Formatters </th>
                                               <td mat-cell *matCellDef="let element">
-                                                {{element.formatter}}
+                                                {{element.formatter}}, {{element.nameFormatter}}
                                               </td>
                                             </ng-container>
                                           

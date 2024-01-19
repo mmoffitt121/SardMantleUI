@@ -142,8 +142,7 @@ import { CalendarPickerComponent } from './views/timeline/calendar/calendar-pick
 import { CalendarPickerButtonComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-button/calendar-picker-button.component';
 import { CalendarPickerDaySelectComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-day-select/calendar-picker-day-select.component';
 import { CalendarPickerYearSelectComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-year-select/calendar-picker-year-select.component';
-import { CalendarPickerEraViewComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-era-view/calendar-picker-era-view.component';
-import { EraSelectComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-era-view/era-select/era-select.component';
+import { CalendarPickerEraSelectComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-era-select/calendar-picker-era-select.component';
 import { CalendarPickerDropdownComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-dropdown/calendar-picker-dropdown.component';
 import { TimelineViewComponent } from './views/timeline/timeline-view/timeline-view.component';
 import { BarTimelineViewComponent } from './views/timeline/timeline-view/bar-timeline-view/bar-timeline-view.component';
@@ -154,6 +153,7 @@ import { CalendarPickerMonthSelectComponent } from './views/timeline/calendar/ca
 import { EditDatetimeComponent } from './views/shared/document-components/edit/edit-datetime/edit-datetime.component';
 import { CalendarPickerOptionsComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-options/calendar-picker-options.component';
 import { BarTimelineListViewComponent } from './views/timeline/timeline-view/bar-timeline-view/bar-timeline-list-view/bar-timeline-list-view.component';
+import { EditBigIntComponent } from './views/shared/document-components/edit/edit-big-int/edit-big-int.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -260,8 +260,7 @@ export function tokenGetter() {
     CalendarPickerButtonComponent,
     CalendarPickerDaySelectComponent,
     CalendarPickerYearSelectComponent,
-    CalendarPickerEraViewComponent,
-    EraSelectComponent,
+    CalendarPickerEraSelectComponent,
     CalendarPickerDropdownComponent,
     TimelineViewComponent,
     BarTimelineViewComponent,
@@ -271,7 +270,8 @@ export function tokenGetter() {
     CalendarPickerMonthSelectComponent,
     EditDatetimeComponent,
     CalendarPickerOptionsComponent,
-    BarTimelineListViewComponent
+    BarTimelineListViewComponent,
+    EditBigIntComponent
     ],
   imports: [
     BrowserModule,

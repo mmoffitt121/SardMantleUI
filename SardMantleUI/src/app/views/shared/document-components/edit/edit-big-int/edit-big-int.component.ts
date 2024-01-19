@@ -2,11 +2,11 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-edit-int',
-  templateUrl: './edit-int.component.html',
-  styleUrls: ['./edit-int.component.scss']
+  selector: 'app-edit-big-int',
+  templateUrl: './edit-big-int.component.html',
+  styleUrls: ['./edit-big-int.component.scss']
 })
-export class EditIntComponent implements OnInit {
+export class EditBigIntComponent implements OnInit {
   @Input() parameterName: string = '';
   @Input() parameterSummary: string = '';
   @Input() control = new FormControl();
@@ -23,18 +23,18 @@ export class EditIntComponent implements OnInit {
 
   public typeParameterId: number;
 
-  @Input() model: number;
-  @Output() modelChange = new EventEmitter<number>();
+  @Input() model: bigint;
+  @Output() modelChange = new EventEmitter<bigint>();
 
   public validate(e: any) {
     this.control.markAsTouched();
     let newValue = this.control.value.replace(/[^\-0-9]/g, "");
     newValue = newValue.replace(/(?<!^)[\-]/g, "");
     this.control.setValue(newValue);
-    let min = this.minValue ?? -9223372036854775808n;
-    let max = this.maxValue ?? 9223372036854775807n;
-    if (this.control.value < min) { this.control.setValue(min) }
-    if (this.control.value > max) { this.control.setValue(max) }
+    let min = this.minValue;
+    let max = this.maxValue;
+    if (min != undefined && this.control.value < min) { this.control.setValue(min) }
+    if (max != undefined && this.control.value > max) { this.control.setValue(max) }
   }
 
   public setValue(value: any) {

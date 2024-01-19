@@ -1,0 +1,15 @@
+<div [ngClass]="{'edit-int-form': thin}">
+    <h4 class="subtitled-title"> {{ parameterName }} </h4>
+    <h5 class="subtitle"> {{ parameterSummary }} </h5>
+    <mat-form-field appearance="outline">
+        <input matInput [formControl]="control" [placeholder]="placeholder" (input)="validate($event)"/>
+        <mat-hint *ngIf="control.touched && (control.hasError('minlength') || control.hasError('required'))">
+            {{ control.hasError('required') ? 'Field is required.' : 'Field cannot be larger than 1000 characters.' }}
+        </mat-hint>
+    </mat-form-field>
+    <button mat-icon-button style="margin: 1px;" (click)="this.delete.emit(index)" *ngIf="canDelete">
+        <mat-icon>
+            close
+        </mat-icon>
+    </button>
+</div>

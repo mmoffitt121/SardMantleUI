@@ -11,9 +11,12 @@ import { CalendarService } from 'src/app/services/calendar/calendar.service';
 export class CalendarPickerDaySelectComponent implements OnInit {
   @Input() public calendar: Calendar;
   @Input() public time: bigint = 0n;
+  @Input() useBaseYear: boolean;
   @Output() public timeChange = new EventEmitter<bigint>();
   @Output() public changeMonth = new EventEmitter();
   @Output() public select = new EventEmitter<bigint>();
+  @Output() public changeEra = new EventEmitter();
+  @Output() public changeYear = new EventEmitter();
 
   public weekdays: Weekday[] = [];
   public weeks: Week[] = [];
@@ -29,7 +32,7 @@ export class CalendarPickerDaySelectComponent implements OnInit {
   }
 
   public scrubMonth(amount: number) {
-    if (this.dateTimeObject.year == 0 && this.dateTimeObject.month == 1 && amount < 0) return; 
+    if (this.dateTimeObject.year == 0n && this.dateTimeObject.month == 1 && amount < 0) return; 
     this.setCalendar(this.calendar, this.calendarService.addMonths(amount, this.time, this.calendar));
   }
 
@@ -42,6 +45,7 @@ export class CalendarPickerDaySelectComponent implements OnInit {
   constructor (private calendarService: CalendarService) {}
 
   ngOnInit(): void {
+    console.log(this.useBaseYear)
     this.setCalendar(this.calendar, this.time);
   }
 }

@@ -1,6 +1,6 @@
-<div>
+<div class="list-picker-container">
     <h3>Select Month</h3>
-    <mat-selection-list>
+    <mat-selection-list style="overflow: auto; max-height: calc(100% - 250px)">
         <button mat-menu-item *ngFor="let month of calendar.months; index as i" (click)="selectMonth(i + 1)">
             {{month.name}} ({{i+1}})
         </button>

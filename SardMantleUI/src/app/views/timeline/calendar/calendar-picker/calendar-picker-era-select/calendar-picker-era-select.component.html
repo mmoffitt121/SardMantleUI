@@ -1,0 +1,18 @@
+<div class="list-picker-container">
+    <h3>Select {{selectingEra() ? calendar.eras[eraIndex].name : 'Year'}}</h3>
+    <mat-selection-list style="overflow: auto;" *ngIf="selectingEra()">
+        <button mat-menu-item (click)="advance(def)" *ngFor="let def of options">
+            {{def.name}} ({{def.eraNumber}})
+        </button>
+    </mat-selection-list>
+    <app-edit-big-int 
+        [parameterSummary]="useBaseYear ? '' : 'Enter a value between 0 and ' + endingYear" 
+        [minValue]="0"
+        [maxValue]="useBaseYear ? undefined : endingYear"
+        [(model)]="yearChoice" 
+        *ngIf="!selectingEra()" 
+    />
+    <button mat-button color="primary" style="float: right" *ngIf="!selectingEra()" (click)="select()">
+        Select
+    </button>
+</div>

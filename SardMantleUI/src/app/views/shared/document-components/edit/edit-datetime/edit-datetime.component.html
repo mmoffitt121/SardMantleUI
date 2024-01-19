@@ -3,8 +3,8 @@
     <h5 class="subtitle"> {{ parameterSummary }} </h5>
     <div class="datetime-picker-grid">
         <div class="value-display">
-            {{calendarService.format(model, calendar, calendar.formatters[formatterIndex])}}
+            {{display}}
         </div>
-        <app-calendar-picker-button [calendar]="calendar" [model]="model" (modelChange)="modelChanged($event)"  />
+        <app-calendar-picker-button [calendar]="calendar" [model]="model" [useBaseYear]="useBaseYear" (modelChange)="modelChanged($event)"  />
     </div>
 </div>

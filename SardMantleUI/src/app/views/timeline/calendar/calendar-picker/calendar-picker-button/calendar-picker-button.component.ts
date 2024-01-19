@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CalendarPickerComponent } from '../calendar-picker.component';
-import { Calendar } from 'src/app/models/units/calendar';
+import { Calendar, Formatter, TimeZone } from 'src/app/models/units/calendar';
 
 @Component({
   selector: 'app-calendar-picker-button',
@@ -10,6 +10,9 @@ import { Calendar } from 'src/app/models/units/calendar';
 })
 export class CalendarPickerButtonComponent {
   @Input() calendar: Calendar;
+  @Input() formatter: Formatter;
+  @Input() timeZone: TimeZone;
+  @Input() useBaseYear: boolean;
 
   @Input() model: bigint;
   @Output() modelChange = new EventEmitter<bigint>();
@@ -20,12 +23,25 @@ export class CalendarPickerButtonComponent {
       height: '600px',
       data: {
         calendar: this.calendar,
-        dateTime: this.model
+        formatter: this.formatter,
+        timeZone: this.timeZone,
+        dateTime: this.model,
+        useBaseYear: this.useBaseYear
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.modelChange.emit(result === undefined ? this.model : result);
+      this.model = result?.dateTime ?? this.model;
+      this.calendar = result?.calendar ?? this.calendar;
+      this.formatter = result?.format ?? this.formatter;
+      this.timeZone = result?.timeZone ?? this.timeZone;
+
+      this.modelChange.emit({
+        dateTime: this.model,
+        calendar: this.calendar,
+        formatter: this.formatter,
+        timeZone: this.timeZone,
+      } as any);
     });
   }
 
