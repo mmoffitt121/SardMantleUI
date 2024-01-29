@@ -14,6 +14,7 @@ export class CalendarPickerComponent implements OnInit {
   @Input() format: Formatter;
   @Input() timeZone: TimeZone;
   @Input() useBaseYear: boolean;
+  @Input() editTime: boolean;
   public dateTime: bigint;
   public displayMode: string;
   public displayValue: string;
@@ -69,6 +70,7 @@ export class CalendarPickerComponent implements OnInit {
     this.dateTime = data.dateTime ?? 0n;
     this.displayMode = data.displayMode ?? "day";
     this.useBaseYear = data.useBaseYear ?? false;
+    this.editTime = data.editTime ?? true;
   }
 
   ngOnInit(): void {
@@ -76,7 +78,5 @@ export class CalendarPickerComponent implements OnInit {
     this.format = this.format ?? this.calendarService.selectedFormatter;
     this.timeZone = this.timeZone ?? this.calendarService.selectedTimeZone;
     this.refreshView();
-    console.log(this.calendar)
-    console.log(this.calendarService.toDateTimeObject(this.dateTime, this.calendar))
   }
 }

@@ -1,0 +1,15 @@
+<div *ngIf="documentTypeParameter?.typeValue === 'tim'">
+    <app-edit-data-point 
+        #editCalendar
+        [items]="calendars" 
+        parameterName="Default Calendar" 
+        (selected)="selectCalendar($event)"
+    />
+    <app-edit-data-point 
+        #editFormatter
+        [items]="formatters" 
+        parameterName="Default Formatter" 
+        (selected)="selectFormatter($event)"
+    />
+    <app-edit-bool parameterName="Use Time" />
+</div>

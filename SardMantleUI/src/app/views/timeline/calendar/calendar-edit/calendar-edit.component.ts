@@ -52,8 +52,6 @@ export class CalendarEditComponent {
     this.calendar.timeZones = this.calendar.timeZones ?? [];
 
     let i = 0;
-    this.calendar.formatters.forEach(f => {f.id = i; i++;});
-    i = 0;
     this.calendar.eras.forEach(e => {
       e.eraDefinitions.forEach(def => {def.id = i; i++;})
     })
@@ -150,7 +148,7 @@ export class CalendarEditComponent {
         this.calendar.eras.push({id: this.generateId(this.calendar.eras)} as Era);
         break;
       case "formatter":
-        this.calendar.formatters.push({} as Formatter);
+        this.calendar.formatters.push({id: this.generateId(this.calendar.formatters)} as Formatter);
         break;
       case "timeZone":
         this.calendar.timeZones.push({} as TimeZone);
@@ -186,16 +184,12 @@ export class CalendarEditComponent {
   }
 
   generateId(array: any[]) {
+    const idSet = new Set();
+    array.forEach(item => idSet.add(item.id));
+    
     let id = 1;
-    let arr = [...array];
-    arr.sort(item => item.id)
-    for (let a of arr) {
-      if (a.id == id) {
-        id++;
-      }
-      else {
-        break;
-      }
+    while (idSet.has(id)) {
+      id++;
     }
     return id;
   }

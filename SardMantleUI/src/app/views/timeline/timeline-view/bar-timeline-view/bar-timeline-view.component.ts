@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { TimelineViewComponent } from '../timeline-view.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
@@ -11,6 +11,7 @@ import { EraDefinition } from 'src/app/models/units/calendar';
 import { EditSummaryComponent } from 'src/app/views/shared/document-components/edit/edit-summary/edit-summary.component';
 import { BarTimelineListViewComponent } from './bar-timeline-list-view/bar-timeline-list-view.component';
 import { EditIntComponent } from 'src/app/views/shared/document-components/edit/edit-int/edit-int.component';
+import { EditDatetimeComponent } from 'src/app/views/shared/document-components/edit/edit-datetime/edit-datetime.component';
 
 @Component({
   selector: 'app-bar-timeline-view',
@@ -50,6 +51,9 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
 
   @ViewChild('editName') editName: EditStringComponent;
   @ViewChild('editSummary') editSummary: EditSummaryComponent;
+
+  @ViewChild('editEraBeginningTime') editEraBeginningTime: EditDatetimeComponent;
+  @ViewChild('editEraEndTime') editEraEndTime: EditDatetimeComponent;
 
   private unsubscribe$ = new Subject();
 
@@ -266,7 +270,9 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
     public dialogRef: MatDialogRef<TimelineViewComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: any, 
     private calendarService: CalendarService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private cdref: ChangeDetectorRef
+  ) {
     super();
     if (data.calendar) { this.calendar = data.calendar; }
     if (data.editingEras) { 

@@ -231,7 +231,13 @@ export class CalendarService {
     return Math.floor(maxDays / calendar.weekdays.length) + 2; 
   }
 
+  public extractTimeValue(time: bigint, calendar: Calendar) {
+    return time % BigInt(calendar.unitTimePerDay);
+  }
+
   public applyEraDefinitionNumbers(calendar: Calendar) {
+    if (calendar.eras.length < 1) return;
+
     calendar.eras.forEach(e => {
       e.eraDefinitions = e.eraDefinitions.sort((d1, d2) => BigInt(d1.start) < BigInt(d2.start) ? -1 : 1)
     })

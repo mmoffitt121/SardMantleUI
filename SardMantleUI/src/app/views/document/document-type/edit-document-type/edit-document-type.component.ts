@@ -49,7 +49,8 @@ export class EditDocumentTypeComponent {
       summary: "",
       typeValue: typeValue,
       selected: false,
-      dataPointTypeReferenceId: -1
+      dataPointTypeReferenceId: -1,
+      settings: null
     };
 
     this.documentType.typeParameters = this.documentType.typeParameters.concat(param);
@@ -89,6 +90,7 @@ export class EditDocumentTypeComponent {
   }
 
   save() {
+    console.log(this.documentType)
     this.saving = true;
     this.typeService.putDocumentType(this.documentType).subscribe(result => {
       this.errorHandler.showSnackBar("Data Type " + this.documentType.name + " saved successfully.");

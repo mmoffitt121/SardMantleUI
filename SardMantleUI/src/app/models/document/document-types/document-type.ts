@@ -15,4 +15,5 @@ export interface DocumentTypeParameter extends Selectable {
     typeValue: string;
     sequence: number;
     dataPointTypeReferenceId: number | null;
+    settings: any | undefined;
 }

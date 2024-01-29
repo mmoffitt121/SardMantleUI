@@ -31,7 +31,7 @@ export class CalendarPickerOptionsComponent implements AfterViewInit {
     this.selectedFormatter = 0;
     this.selectedTimezone = 0;
     this.editFormat.setModels(calendar.formatters, 0);
-    this.editTimezone.setModels(calendar.timeZones, 0);
+    if (this.editTimezone) this.editTimezone.setModels(calendar.timeZones, 0);
     this.selectedCalendar = this.calendars.indexOf(calendar);
   }
 
@@ -77,7 +77,7 @@ export class CalendarPickerOptionsComponent implements AfterViewInit {
       this.changeCalendar(this.calendars[0]);
     }
     this.editFormat.setModels(this.formatters, this.formatters.indexOf(this.inputFormatter));
-    this.editTimezone.setModels(this.timeZones, this.timeZones.indexOf(this.inputTimeZone))
+    if (this.editTimezone) this.editTimezone.setModels(this.timeZones, this.timeZones.indexOf(this.inputTimeZone))
     this.cdref.detectChanges();
   }
 }

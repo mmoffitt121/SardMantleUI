@@ -13,6 +13,7 @@ export class CalendarPickerButtonComponent {
   @Input() formatter: Formatter;
   @Input() timeZone: TimeZone;
   @Input() useBaseYear: boolean;
+  @Input() editTime: boolean;
 
   @Input() model: bigint;
   @Output() modelChange = new EventEmitter<bigint>();
@@ -26,7 +27,8 @@ export class CalendarPickerButtonComponent {
         formatter: this.formatter,
         timeZone: this.timeZone,
         dateTime: this.model,
-        useBaseYear: this.useBaseYear
+        useBaseYear: this.useBaseYear,
+        editTime: this.editTime
       }
     });
 

@@ -154,6 +154,7 @@ import { EditDatetimeComponent } from './views/shared/document-components/edit/e
 import { CalendarPickerOptionsComponent } from './views/timeline/calendar/calendar-picker/calendar-picker-options/calendar-picker-options.component';
 import { BarTimelineListViewComponent } from './views/timeline/timeline-view/bar-timeline-view/bar-timeline-list-view/bar-timeline-list-view.component';
 import { EditBigIntComponent } from './views/shared/document-components/edit/edit-big-int/edit-big-int.component';
+import { EditTypeParameterTimeComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-time/edit-type-parameter-time.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -271,7 +272,8 @@ export function tokenGetter() {
     EditDatetimeComponent,
     CalendarPickerOptionsComponent,
     BarTimelineListViewComponent,
-    EditBigIntComponent
+    EditBigIntComponent,
+    EditTypeParameterTimeComponent,
     ],
   imports: [
     BrowserModule,

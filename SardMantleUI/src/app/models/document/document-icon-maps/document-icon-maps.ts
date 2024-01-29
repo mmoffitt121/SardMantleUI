@@ -9,7 +9,8 @@ export class DocumentIconMaps {
         ["img", "image"],
         ["dat", "dataset"],
         ["bit", "check_box"],
-        ["uni", "design_services"]
+        ["uni", "design_services"],
+        ["tim", "schedule"]
     ])
     public nameMap = new Map<string | null, string>([
         [null, "Unknown"],
@@ -21,6 +22,7 @@ export class DocumentIconMaps {
         ["img", "Image"],
         ["dat", "Document"],
         ["bit", "Checkbox"],
-        ["uni", "Unit"]
+        ["uni", "Unit"],
+        ["tim", "Date/Time"]
     ])
 }

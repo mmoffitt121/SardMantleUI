@@ -45,7 +45,6 @@ export class CalendarPickerDaySelectComponent implements OnInit {
   constructor (private calendarService: CalendarService) {}
 
   ngOnInit(): void {
-    console.log(this.useBaseYear)
     this.setCalendar(this.calendar, this.time);
   }
 }

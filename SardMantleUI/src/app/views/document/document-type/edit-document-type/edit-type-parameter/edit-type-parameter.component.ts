@@ -7,6 +7,7 @@ import { EditStringComponent } from 'src/app/views/shared/document-components/ed
 import { EditSummaryComponent } from 'src/app/views/shared/document-components/edit/edit-summary/edit-summary.component';
 import { EditTypeParameterDataPointComponent } from './edit-type-parameter-data-point/edit-type-parameter-data-point.component';
 import { EditTypeParameterUnitComponent } from './edit-type-parameter-unit/edit-type-parameter-unit.component';
+import { EditTypeParameterTimeComponent } from './edit-type-parameter-time/edit-type-parameter-time.component';
 
 @Component({
   selector: 'app-edit-type-parameter',
@@ -18,6 +19,7 @@ export class EditTypeParameterComponent {
   @ViewChild('summaryComponent') summaryComponent: EditSummaryComponent;
   @ViewChild('dataPointComponent') dataPointComponent: EditTypeParameterDataPointComponent;
   @ViewChild('unitComponent') unitComponent: EditTypeParameterUnitComponent;
+  @ViewChild('timeComponent') timeComponent: EditTypeParameterTimeComponent;
 
   @Output() delete = new EventEmitter();
 
@@ -38,6 +40,7 @@ export class EditTypeParameterComponent {
 
     this.dataPointComponent.setValues(p);
     this.unitComponent.setValues(p);
+    this.timeComponent.setValues(p);
   }
 
   public confirmDeleteObject() {
