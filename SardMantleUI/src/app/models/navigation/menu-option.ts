@@ -13,6 +13,8 @@ export interface MenuGrouping {
     options: MenuOption[];
 }
 
+export const MENU_GROUPINGS_EXPANDED = "MenuGroupingsExpanded";
+
 export const navMenuOptions = [
     {
         name: "Navigation",
@@ -52,7 +54,7 @@ export const navMenuOptions = [
     {
         name: "World Setup",
         fillHook: "",
-        expanded: true,
+        expanded: false,
         options: [
             {
                 name: "Units",
@@ -78,9 +80,9 @@ export const navMenuOptions = [
         ]
     },
     {
-        name: "Community",
+        name: "Global",
         fillHook: "",
-        expanded: true,
+        expanded: false,
         options: [
             {
                 name: "Library Home",
@@ -96,13 +98,6 @@ export const navMenuOptions = [
                 route: "world-browser",
                 roles: []
             },
-        ]
-    },
-    {
-        name: "Settings",
-        fillHook: "",
-        expanded: true,
-        options: [
             {
                 name: "World Manager",
                 icon: "public",
@@ -122,7 +117,7 @@ export const navMenuOptions = [
     {
         name: "Administration",
         fillHook: "",
-        expanded: true,
+        expanded: false,
         options: [
             {
                 name: "Administration",
