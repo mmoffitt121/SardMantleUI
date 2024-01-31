@@ -19,6 +19,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { UrlService } from 'src/app/services/url/url.service';
 import { UnitsService } from 'src/app/services/units/units.service';
+import { EditDatetimeComponent } from '../../shared/document-components/edit/edit-datetime/edit-datetime.component';
+import { CalendarService } from 'src/app/services/calendar/calendar.service';
 
 @Component({
   selector: 'app-document-edit',
@@ -104,6 +106,24 @@ export class DocumentEditComponent implements AfterViewInit {
           else { instance.setUnit(unitParam?.unit) };
           
           break;
+        case 'tim':
+          let timeComponent = this.container.createComponent(EditDatetimeComponent);
+          let timeSettings = JSON.parse(p.settings) ?? {};
+          if (timeSettings.calendar) {
+            timeComponent.instance.calendar = this.calendarService.calendars.find(cal => cal.id == timeSettings.calendar) ?? this.calendarService.selectedCalendar;
+            if (timeSettings.formatter) {
+              timeComponent.instance.formatter = timeComponent.instance.calendar.formatters.find(f => timeSettings.formatter == f.id) ?? timeComponent.instance.calendar.formatters[0];
+            }
+          }
+          timeComponent.instance.thick = true;
+          
+          let timeParam = this.document.parameters?.find(x => x?.dataPointTypeParameterId == p.id);
+          if (timeParam) {
+            timeComponent.instance.setValue(timeParam.timeValue);
+          }
+
+          this.parameterComponents.push(timeComponent);
+          break;
       }
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterName = p.name;
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterSummary = p.summary;
@@ -182,6 +202,13 @@ export class DocumentEditComponent implements AfterViewInit {
             unitValue: p.instance.getValue()
           }
           break;
+        case 'tim':
+          param = {
+            dataPointId: this.document.id,
+            dataPointTypeParameterId: p.instance.typeParameterId,
+            timeValue: p.instance.getValue()?.toString()
+          }
+          break;
       }
       if (p.instance.getValue() !== null) {
         params.push(param);
@@ -241,7 +268,8 @@ export class DocumentEditComponent implements AfterViewInit {
     private dialog: MatDialog,
     private router: Router,
     private urlService: UrlService,
-    private unitService: UnitsService) { }
+    private unitService: UnitsService,
+    private calendarService: CalendarService) { }
 
   ngAfterViewInit(): void {
     this.loadDocumentTypes();

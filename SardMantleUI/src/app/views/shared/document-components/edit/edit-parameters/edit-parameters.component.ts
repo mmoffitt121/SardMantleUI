@@ -6,6 +6,7 @@ import { EditSummaryComponent } from '../edit-summary/edit-summary.component';
 import { EditArticleComponent } from '../edit-article/edit-article.component';
 import { EditDataPointComponent } from '../edit-data-point/edit-data-point.component';
 import { EditBoolComponent } from '../edit-bool/edit-bool.component';
+import { EditDatetimeComponent } from '../edit-datetime/edit-datetime.component';
 
 @Component({
   selector: 'app-edit-parameters',
@@ -65,6 +66,12 @@ export class EditParametersComponent {
           this.parameterComponents.push(this.container.createComponent(EditBoolComponent));
           this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
             this.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.boolValue
+          );
+          break;
+        case 'tim':
+          this.parameterComponents.push(this.container.createComponent(EditDatetimeComponent));
+          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
+            this.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.timeValue
           );
           break;
       }
@@ -127,6 +134,13 @@ export class EditParametersComponent {
             dataPointId: -1,
             dataPointTypeParameterId: p.instance.typeParameterId,
             boolValue: p.instance.getValue()
+          }
+          break;
+        case 'tim':
+          param = {
+            dataPointId: -1,
+            dataPointTypeParameterId: p.instance.typeParameterId,
+            timeValue: p.instance.getValue()
           }
           break;
       }

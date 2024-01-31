@@ -64,7 +64,6 @@ export class CalendarPickerEraSelectComponent implements OnInit {
 
   ngOnInit(): void {
     this.setOptions();
-    console.log(this.currentTime);
     if (this.eraIndex == this.calendar.eras.length) {
       let previous = this.calendarService.getEraFill(this.currentTime, this.calendar);
       let previousDef = previous[this.eraIndex - 1];

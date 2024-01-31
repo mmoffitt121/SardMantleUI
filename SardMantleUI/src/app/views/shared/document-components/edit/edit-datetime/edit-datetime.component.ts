@@ -8,12 +8,14 @@ import { CalendarService } from 'src/app/services/calendar/calendar.service';
   styleUrls: ['./edit-datetime.component.scss']
 })
 export class EditDatetimeComponent implements OnInit {
+  @Input() thick = false;
   @Input() public calendar: Calendar;
   @Input() formatter: Formatter;
   @Input() timeZone: TimeZone;
   @Input() useBaseYear: boolean = false;
   @Input() parameterName: string = '';
   @Input() parameterSummary: string = '';
+  public typeParameterId: any;
 
   @Input() model: bigint;
   @Output() modelChange = new EventEmitter<bigint>();
@@ -37,7 +39,23 @@ export class EditDatetimeComponent implements OnInit {
   }
 
   public updateDisplay() {
-    this.display = this.calendarService.format(this.model, this.calendar, this.formatter, this.useBaseYear);
+    if (!this.calendar) {
+      this.display = "";
+    }
+    else if (this.model === undefined) {
+      this.display = "";
+    }
+    else {
+      this.display = this.calendarService.format(this.model, this.calendar, this.formatter, this.useBaseYear);
+    }
+  }
+
+  public getValue() {
+    return this.model;
+  }
+
+  public setValue(model: bigint) {
+    this.model = model;
   }
 
   constructor(public calendarService: CalendarService) {}

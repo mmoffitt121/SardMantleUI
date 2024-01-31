@@ -29,6 +29,7 @@ export class UrlService {
                 case "map-tiles":
                 case "timeline":
                 case "document":
+                case "document-type":
                     return "";
                     break;
                 default:

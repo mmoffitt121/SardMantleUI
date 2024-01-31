@@ -155,6 +155,7 @@ import { CalendarPickerOptionsComponent } from './views/timeline/calendar/calend
 import { BarTimelineListViewComponent } from './views/timeline/timeline-view/bar-timeline-view/bar-timeline-list-view/bar-timeline-list-view.component';
 import { EditBigIntComponent } from './views/shared/document-components/edit/edit-big-int/edit-big-int.component';
 import { EditTypeParameterTimeComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-time/edit-type-parameter-time.component';
+import { ViewDatetimeComponent } from './views/shared/document-components/view/view-datetime/view-datetime.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -274,6 +275,7 @@ export function tokenGetter() {
     BarTimelineListViewComponent,
     EditBigIntComponent,
     EditTypeParameterTimeComponent,
+    ViewDatetimeComponent,
     ],
   imports: [
     BrowserModule,

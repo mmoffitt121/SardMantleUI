@@ -69,13 +69,13 @@ export class DocumentTypeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result > 0) {
-        this.router.navigate([this.urlService.getWorld(), 'document', 'type', 'edit', result]);
+        this.router.navigate([this.urlService.getWorld(), 'document-type', 'edit', result]);
       }
     });
   }
 
   public editDocumentType(id: number) {
-    this.router.navigate([this.urlService.getWorld(), 'document', 'type', 'edit', id]);
+    this.router.navigate([this.urlService.getWorld(), 'document-type', 'edit', id]);
   }
 
   constructor(

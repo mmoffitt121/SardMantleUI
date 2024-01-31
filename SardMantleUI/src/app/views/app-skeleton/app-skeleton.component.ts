@@ -3,6 +3,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
+import { UrlService } from 'src/app/services/url/url.service';
 
 
 @Component({
@@ -17,17 +18,14 @@ export class AppSkeletonComponent implements OnDestroy, OnInit {
   public useTopBar = true;
 
   public updateState(routerEvent: any) {
-    let currentLocation = routerEvent.url.split('/')[2];
-    this.useTopBar = !(currentLocation === "map"
-      || currentLocation === "document"
-    );
+    this.useTopBar = !(this.urlService.getWorld());
   }
 
   public toggleMenu() {
     this.skeletonService.toggleSidebar();
   }
 
-  constructor (public router: Router, public skeletonService: SkeletonService, private cdref: ChangeDetectorRef) { }
+  constructor (public router: Router, public skeletonService: SkeletonService, private cdref: ChangeDetectorRef, private urlService: UrlService) { }
 
   ngOnInit() {
     this.router.events.pipe(

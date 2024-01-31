@@ -21,7 +21,6 @@ describe("CalendarService", () => {
     it('should convert dateTime to dateTimeObject correctly', () => {
         let dateTime = 0n;
         let dto = service.toDateTimeObject(dateTime, mockCalendar);
-        console.log(dto);
         expect(dto.year).toEqual(0n);
         expect(dto.eraYear).toEqual(0n);
         expect(dto.month).toEqual(1);

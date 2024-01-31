@@ -25,6 +25,8 @@ import { LoginService } from 'src/app/services/login/login.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { ErrorService } from 'src/app/services/error.service';
+import { ViewDatetimeComponent } from '../../shared/document-components/view/view-datetime/view-datetime.component';
+import { CalendarService } from 'src/app/services/calendar/calendar.service';
 
 @Component({
   selector: 'app-document-info',
@@ -97,6 +99,27 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
           this.parameterComponents.push(this.container.createComponent(ViewDoubleComponent));
           this.parameterComponents[this.parameterComponents.length - 1].instance.value = this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.unitValue;
           this.parameterComponents[this.parameterComponents.length - 1].instance.setUnit(this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.unit);
+          break;
+        case 'tim':
+          let timeComponent = this.container.createComponent(ViewDatetimeComponent);
+          timeComponent.instance.value = this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.timeValue;
+
+          let timeSettings = JSON.parse(p.settings) ?? {};
+          console.log(timeSettings)
+          if (timeSettings.calendar) {
+            timeComponent.instance.calendar = this.calendarService.calendars.find(cal => cal.id == timeSettings.calendar) ?? this.calendarService.selectedCalendar;
+            if (timeSettings.formatter) {
+              timeComponent.instance.formatter = timeComponent.instance.calendar.formatters.find(f => timeSettings.formatter == f.id) ?? timeComponent.instance.calendar.formatters[0];
+            }
+          }
+          
+          let timeTypeParam = this.document?.parameters?.find(x => x?.dataPointTypeParameterId == p.id);
+          if (timeTypeParam) {
+            timeComponent.instance.setValue(timeTypeParam.timeValue);
+          }
+
+          this.parameterComponents.push(timeComponent);
+          break;
           break;
       }
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterName = p.name;
@@ -219,6 +242,7 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
     public loginService: LoginService,
     public dialog: MatDialog,
     public errorService: ErrorService,
+    private calendarService: CalendarService
     ) { }
 
   ngOnInit(): void {

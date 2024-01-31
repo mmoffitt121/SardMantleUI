@@ -33,7 +33,7 @@ export class EditDocumentTypeComponent {
   @ViewChild('editParameterComponent') editParameterComponent: EditTypeParameterComponent;
 
   public returnToDocument() {
-    this.router.navigate([this.urlService.getWorld(), 'document', 'type']);
+    this.router.navigate([this.urlService.getWorld(), 'document-type']);
   }
 
   select(parameter: any) {
@@ -90,7 +90,6 @@ export class EditDocumentTypeComponent {
   }
 
   save() {
-    console.log(this.documentType)
     this.saving = true;
     this.typeService.putDocumentType(this.documentType).subscribe(result => {
       this.errorHandler.showSnackBar("Data Type " + this.documentType.name + " saved successfully.");

@@ -37,7 +37,7 @@ export const navMenuOptions = [
             },
             {
                 name: "Document",
-                icon: "description",
+                icon: "history_edu",
                 isRoot: false,
                 route: "document",
                 roles: []
@@ -56,6 +56,13 @@ export const navMenuOptions = [
         fillHook: "",
         expanded: false,
         options: [
+            {
+                name: "Document Types",
+                icon: "receipt_long",
+                isRoot: false,
+                route: "document-type",
+                roles: ["Editor", "Administrator"]
+            },
             {
                 name: "Units",
                 icon: "design_services",
