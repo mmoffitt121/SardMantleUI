@@ -27,8 +27,8 @@ export class EditDatetimeComponent implements OnInit {
   public modelChanged(event: any) {
     this.model = event.dateTime;
     this.calendar = event.calendar;
-    this.formatter = event.formatter ?? this.calendar.formatters[0];
-    this.timeZone = event.timeZone ?? this.calendar.timeZones[0];
+    this.formatter = event.formatter ?? this.formatter ?? this.calendar.formatters[0];
+    this.timeZone = event.timeZone ?? this.timeZone ?? this.calendar.timeZones[0];
 
     this.calendarService.selectedCalendar = event.calendar ?? this.calendarService.selectedCalendar;
     this.calendarService.selectedFormatter = event.formatter ?? this.calendarService.selectedFormatter;
@@ -42,7 +42,7 @@ export class EditDatetimeComponent implements OnInit {
     if (!this.calendar) {
       this.display = "";
     }
-    else if (this.model === undefined) {
+    else if (this.model == undefined) {
       this.display = "";
     }
     else {

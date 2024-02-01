@@ -17,7 +17,7 @@ export class ViewDatetimeComponent {
   public formattedValue: string;
 
   public setValue(value: string | bigint) {
-    if (value === undefined) return;
+    if (value == undefined) return;
     this.value = BigInt(value);
 
     this.formattedValue = this.calendarService.format(this.value, this.calendar, this.formatter);

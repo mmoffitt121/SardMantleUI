@@ -69,11 +69,8 @@ export class EditParametersComponent {
           );
           break;
         case 'tim':
-          this.parameterComponents.push(this.container.createComponent(EditDatetimeComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
-            this.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.timeValue
-          );
-          break;
+        case 'uni':
+          return;
       }
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterName = p.name;
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterSummary = p.summary;
@@ -137,12 +134,8 @@ export class EditParametersComponent {
           }
           break;
         case 'tim':
-          param = {
-            dataPointId: -1,
-            dataPointTypeParameterId: p.instance.typeParameterId,
-            timeValue: p.instance.getValue()
-          }
-          break;
+        case 'uni':
+          return;
       }
       if (p.instance.getValue() !== null) {
         params.push(param);

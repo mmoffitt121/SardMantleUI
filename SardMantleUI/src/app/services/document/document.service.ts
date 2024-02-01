@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -24,7 +25,14 @@ export class DocumentService {
   }
 
   public getDocument(id: number) {
-    return this.http.get<any>(environment.baseUrl + '/Library/DataPoint/GetDataPoint', { params: { id } })
+    return this.http.get<any>(environment.baseUrl + '/Library/DataPoint/GetDataPoint', { params: { id } }).pipe(map(result => {
+      result.parameters.forEach((p: any) => {
+        if (p?.timeValueString) {
+          p.timeValue = BigInt(p.timeValueString);
+        }
+      })
+      return result;
+    }))
   }
 
   public putDocument(data: any) {

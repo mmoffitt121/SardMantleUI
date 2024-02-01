@@ -105,7 +105,6 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
           timeComponent.instance.value = this.document?.parameters.find(x => x?.dataPointTypeParameterId == p.id)?.timeValue;
 
           let timeSettings = JSON.parse(p.settings) ?? {};
-          console.log(timeSettings)
           if (timeSettings.calendar) {
             timeComponent.instance.calendar = this.calendarService.calendars.find(cal => cal.id == timeSettings.calendar) ?? this.calendarService.selectedCalendar;
             if (timeSettings.formatter) {
