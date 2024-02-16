@@ -157,6 +157,8 @@ import { EditBigIntComponent } from './views/shared/document-components/edit/edi
 import { EditTypeParameterTimeComponent } from './views/document/document-type/edit-document-type/edit-type-parameter/edit-type-parameter-time/edit-type-parameter-time.component';
 import { ViewDatetimeComponent } from './views/shared/document-components/view/view-datetime/view-datetime.component';
 import { ThemeSelectComponent } from './views/theme/theme-select/theme-select.component';
+import { ThemeEditComponent } from './views/theme/theme-edit/theme-edit.component';
+import { ThemeManageComponent } from './views/theme/theme-manage/theme-manage.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -278,6 +280,8 @@ export function tokenGetter() {
     EditTypeParameterTimeComponent,
     ViewDatetimeComponent,
     ThemeSelectComponent,
+    ThemeEditComponent,
+    ThemeManageComponent,
     ],
   imports: [
     BrowserModule,

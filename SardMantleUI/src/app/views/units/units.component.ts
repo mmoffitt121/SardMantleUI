@@ -8,6 +8,7 @@ import { UnitsService } from 'src/app/services/units/units.service';
 import { ViewMeasurablesComponent } from './view-measurables/view-measurables.component';
 import { UnitTablesComponent } from './unit-tables/unit-tables.component';
 import { UnitConverterComponent } from './unit-converter/unit-converter.component';
+import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
 
 @Component({
   selector: 'app-units',
@@ -58,7 +59,8 @@ export class UnitsComponent {
     private unitService: UnitsService,
     private cdRef: ChangeDetectorRef,
     private dialog: MatDialog,
-    public loginService: LoginService
+    public loginService: LoginService,
+    public skeletonService: SkeletonService,
   ) {}
 
   ngOnInit(): void {

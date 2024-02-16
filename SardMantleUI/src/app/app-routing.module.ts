@@ -20,6 +20,7 @@ import { ManageThemesComponent } from './views/home/top-bar/manage-themes/manage
 import { UnitsComponent } from './views/units/units.component';
 import { CalendarComponent } from './views/timeline/calendar/calendar.component';
 import { DocumentTypeComponent } from './views/document/document-type/document-type.component';
+import { ThemeManageComponent } from './views/theme/theme-manage/theme-manage.component';
 
 const routes: Routes = [
   { path:'', redirectTo: 'home', pathMatch: 'full' },
@@ -55,8 +56,8 @@ const routes: Routes = [
     { path:'document/edit/:docId', component:DocumentComponent, canActivate: [AuthGuard] },
     { path:'document-type', component:DocumentTypeComponent },
     { path:'document-type/edit/:id', component:EditDocumentTypeComponent, canActivate: [AuthGuard] },
-    { path:'theme', component:ManageThemesComponent, canActivate: [AuthGuard] },
-    { path:'theme/:id', component:ManageThemesComponent, canActivate: [AuthGuard] },
+    { path:'theme', component:ThemeManageComponent, canActivate: [AuthGuard] },
+    { path:'theme/:id', component:ThemeManageComponent, canActivate: [AuthGuard] },
   ]}
 ];
 

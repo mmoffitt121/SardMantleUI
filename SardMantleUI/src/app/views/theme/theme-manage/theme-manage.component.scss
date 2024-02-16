@@ -14,15 +14,10 @@
     grid-template-columns: auto min-content;
     border-radius: 0 0 30px 30px;
     padding: 10px;
-    padding-right: 30px;
     position: sticky;
     position: -webkit-sticky;
     top: 0;
     background-color: var(--primary-color);
     z-index: 100;
     margin-bottom: 20px;
-}
-
-.icon-button {
-    margin: 5px;
 }

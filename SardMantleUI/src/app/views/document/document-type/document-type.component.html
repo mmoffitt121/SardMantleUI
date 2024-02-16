@@ -1,63 +1,55 @@
-<div class="document-screen-container">
-    <mat-card style="height: 100%">
-        <mat-card-header style="display: grid; grid-template-columns: auto 40px;">
-            <mat-card-title style="display: flex;">
-                <button mat-icon-button (click)="skeletonService.toggleSidebar()">
-                    <mat-icon>
-                        menu
-                    </mat-icon>
-                </button>
-                <div style="margin-left: 10px; margin-top: 3px;">
-                    Document Types
-                </div>
-            </mat-card-title>
-            <button mat-icon-button (click)="addDocumentType()" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+<div class="screen-container">
+    <mat-card class="top-actions-container">
+        <div style="display: flex">
+            <button mat-icon-button (click)="skeletonService.toggleSidebar()" style="margin-top: 5px; margin-right: 15px;">
                 <mat-icon>
-                    add
+                    menu
                 </mat-icon>
             </button>
-        </mat-card-header>
-        <mat-card-content style="overflow: auto">
-            <div style="margin-top: 10px">
-                <app-search-bar  #searchBar (search)="loadDocumentTypes(getPageCriteria())"/>
-                <div style="margin-top: 10px" class="document-types-results">
-                    <mat-card 
-                        mat-list-item class="list-item" 
-                        *ngFor="let documentType of documentTypes" 
-                        (click)="selectDocumentType($event)"
-                        style="display: grid; grid-template-columns: auto 50px; margin: 3px;"
-                    >
-                        <div style="margin: 10px;">
-                            <div style="word-break: break-all; text-wrap:pretty">
-                                {{documentType.name}}
-                            </div>
-                            <div style="color: var(--secondary-text-color); word-break: break-all; text-wrap:pretty">
-                                {{documentType.summary}}
-                            </div>
-                        </div>
-                        <div>
-                            <button mat-icon-button style="margin: 5px; margin-bottom: 0px" (click)="editDocumentType(documentType.id)" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
-                                <mat-icon>
-                                    edit
-                                </mat-icon>
-                            </button>
-                        </div>
-                    </mat-card>
-                </div>
-            </div>
-        </mat-card-content>
-        <mat-card-actions style="height: 60px; overflow: hidden; display: grid;">
-            <mat-paginator 
-                [hidePageSize]="true" 
-                class="paginator"
-                [length]="pageLength"
-                [pageIndex]="pageIndex"
-                [pageSize]="pageSize"
-                [pageSizeOptions]="pageSizeOptions"
-                (page)="onPageChange($event)"
-                style="margin-top: -10px"
+            <h2 style="margin-top: 10px; margin-bottom: 0px;">Document Types</h2>
+        </div>
+        <button mat-icon-button (click)="addDocumentType()" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])" style="margin-top: 5px;">
+            <mat-icon>
+                add
+            </mat-icon>
+        </button>
+    </mat-card>
+    <div style="margin: 30px; min-height: 100%">
+        <app-search-bar  #searchBar (search)="loadDocumentTypes(getPageCriteria())" />
+        <div class="document-types-results">
+            <mat-card 
+                mat-list-item class="list-item" 
+                *ngFor="let documentType of documentTypes" 
+                (click)="selectDocumentType($event)"
+                style="display: grid; grid-template-columns: auto 50px; margin: 3px; height: 200px;"
             >
-            </mat-paginator>
-        </mat-card-actions>
+                <div style="margin: 10px; overflow: auto">
+                    <div style="word-break: break-all; text-wrap:pretty">
+                        {{documentType.name}}
+                    </div>
+                    <div style="color: var(--secondary-text-color); word-break: break-all; text-wrap:pretty; overflow: auto;">
+                        {{documentType.summary}}
+                    </div>
+                </div>
+                <div>
+                    <button mat-icon-button style="margin: 5px; margin-bottom: 0px" (click)="editDocumentType(documentType.id)" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+                        <mat-icon>
+                            edit
+                        </mat-icon>
+                    </button>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+    <mat-card class="paginator-container">
+        <mat-paginator 
+            [hidePageSize]="true" 
+            [length]="pageLength"
+            [pageIndex]="pageIndex"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="onPageChange($event)"
+            style="background-color: #00000000;"
+        ></mat-paginator>
     </mat-card>
 </div>

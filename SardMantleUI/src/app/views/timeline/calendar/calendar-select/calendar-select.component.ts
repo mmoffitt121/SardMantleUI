@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Calendar } from 'src/app/models/units/calendar';
 import { CalendarService } from 'src/app/services/calendar/calendar.service';
+import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
 
 @Component({
   selector: 'app-calendar-select',

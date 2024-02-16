@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Calendar, Formatter, Month, TimeUnit, TimeZone, Weekday } from 'src/app/models/units/calendar';
 import { LoginService } from 'src/app/services/login/login.service';
+import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
 
 @Component({
   selector: 'app-calendar',
@@ -50,5 +51,5 @@ export class CalendarComponent {
     this.editing = true;
   }
 
-  constructor(public loginService: LoginService) {}
+  constructor(public loginService: LoginService, public skeletonService: SkeletonService) {}
 }
