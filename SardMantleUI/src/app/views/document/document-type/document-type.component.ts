@@ -9,6 +9,7 @@ import { forkJoin } from 'rxjs';
 import { ErrorService } from 'src/app/services/error.service';
 import { SearchBarComponent } from '../../shared/document-components/search/search-bar/search-bar.component';
 import { LoginService } from 'src/app/services/login/login.service';
+import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
 
 @Component({
   selector: 'app-document-type',
@@ -84,7 +85,8 @@ export class DocumentTypeComponent implements OnInit {
     private router: Router, 
     private urlService: UrlService, 
     private errorService: ErrorService,
-    public loginService: LoginService
+    public loginService: LoginService,
+    public skeletonService: SkeletonService
   ) { }
 
   ngOnInit(): void {

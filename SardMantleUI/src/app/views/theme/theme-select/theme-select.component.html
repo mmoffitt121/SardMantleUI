@@ -1,0 +1,34 @@
+<div style="max-height: min(100vh, 600px); overflow: auto;">
+    <div style="display: grid; grid-template-columns: auto min-content min-content">
+        <h2 style="margin-left: 10px">
+            Select Theme
+        </h2>
+        <div style="margin: 15px; display: flex;">
+            <button mat-icon-button (click)="openThemeManager();" *ngIf="userLoggedIn">
+                <mat-icon>palette</mat-icon>
+            </button>
+            <button mat-icon-button (click)="dialogRef.close();">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+    
+    <div *ngIf="themes.length">
+        <button mat-menu-item *ngFor="let theme of themes" (click)="selectTheme(theme)" [style]="'background-color: ' + theme.secondaryBackgroundColor + ';'">
+            <div style="display: grid; grid-template-columns: 300px min-content;">
+                <p [style]="'font-family: ' + theme.primaryFont">
+                    {{theme.name}}
+                </p>
+                <div class="theme-circle" [style]="'background-color: ' + theme.primaryColor">
+                    <div class="theme-circle" [style]="'background-color: ' + theme.secondaryAccentColor"> </div>
+                </div>
+            </div>
+            
+        </button>
+    </div>
+    <div *ngIf="!themes.length" style="margin: 10px;">
+        <p>
+            No themes installed.
+        </p>
+    </div>
+</div>

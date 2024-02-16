@@ -1,8 +1,15 @@
 <div class="document-screen-container">
-    <mat-card style="height: calc(100vh - 20px);">
+    <mat-card style="height: 100%">
         <mat-card-header style="display: grid; grid-template-columns: auto 40px;">
-            <mat-card-title>
-                Document Types
+            <mat-card-title style="display: flex;">
+                <button mat-icon-button (click)="skeletonService.toggleSidebar()">
+                    <mat-icon>
+                        menu
+                    </mat-icon>
+                </button>
+                <div style="margin-left: 10px; margin-top: 3px;">
+                    Document Types
+                </div>
             </mat-card-title>
             <button mat-icon-button (click)="addDocumentType()" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
                 <mat-icon>

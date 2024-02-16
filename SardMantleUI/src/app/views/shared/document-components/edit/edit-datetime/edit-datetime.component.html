@@ -1,6 +1,17 @@
 <div class="edit-datetime-wrapper" [ngClass]="{'thick': thick}">
     <h4 class="subtitled-title"> {{ parameterName }} </h4>
     <h5 class="subtitle"> {{ parameterSummary }} </h5>
+    <h5 class="subtitle" style="display: flex;" *ngIf="displayFilterOptions"> 
+        ({{ selectedFilterOption.name }})
+        <div [matMenuTriggerFor]="filterMenu">
+            <div class="arrow-down"></div>
+        </div>
+    </h5>
+    <mat-menu #filterMenu>
+        <button mat-menu-item *ngFor="let opt of filterOptions" (click)="selectedFilterOption = opt">
+            <span>{{opt.name}}</span>
+        </button>
+    </mat-menu>
     <div class="datetime-picker-grid">
         <div class="value-display">
             {{display}}

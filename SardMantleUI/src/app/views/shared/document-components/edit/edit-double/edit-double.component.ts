@@ -13,6 +13,14 @@ export class EditDoubleComponent implements OnInit {
   @Input() control = new FormControl();
   @Input() required: boolean = false;
 
+  @Input() displayFilterOptions: boolean = false;
+  @Input() filterOptions = [
+    { filterMode: 0, name: "Equals"},
+    { filterMode: 6, name: "Less Than"},
+    { filterMode: 5, name: "Greater Than"},
+  ];
+  @Input() public selectedFilterOption = { filterMode: 0, name: "Equals"};
+
   @Output() onChanges = new EventEmitter();
 
   public unit: Unit | undefined;

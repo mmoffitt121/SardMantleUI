@@ -2,7 +2,12 @@
     <h4 class="subtitled-title"> {{ parameterName }} </h4> 
     <h5 class="subtitle"> {{ parameterSummary }} </h5>
     <mat-form-field class="settings-field" style="width: 100%;" appearance="outline">
-        <input matInput [matAutocomplete]="autocomplete" [formControl]="formControl" (input)="onInput($event)"/>
+        <div style="display: grid; grid-template-columns: auto min-content">
+            <input matInput [matAutocomplete]="autocomplete" [formControl]="formControl" (input)="onInput($event)"/>
+            <button mat-icon-button *ngIf="selectedItem" (click)="clearSelection()">
+                <mat-icon> close </mat-icon>
+            </button>
+        </div>
         <mat-autocomplete #autocomplete (optionSelected)="handleSelectionChange($event)">
             <mat-option *ngFor="let item of filteredItems" [value]="item.id">
                 <div style="display: flex">

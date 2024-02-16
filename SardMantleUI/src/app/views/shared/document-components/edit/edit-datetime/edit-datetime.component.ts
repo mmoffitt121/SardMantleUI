@@ -17,6 +17,14 @@ export class EditDatetimeComponent implements OnInit {
   @Input() parameterSummary: string = '';
   public typeParameterId: any;
 
+  @Input() displayFilterOptions: boolean = false;
+  @Input() filterOptions = [
+    { filterMode: 0, name: "Equals"},
+    { filterMode: 6, name: "Before"},
+    { filterMode: 5, name: "After"},
+  ];
+  @Input() public selectedFilterOption = { filterMode: 0, name: "Equals"};
+
   @Input() model: bigint;
   @Output() modelChange = new EventEmitter<bigint>();
 

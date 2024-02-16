@@ -121,6 +121,7 @@ export class EditDataPointComponent implements OnChanges, OnInit {
   public clearSelection() {
     this.selectedItem = undefined;
     this.formControl.setValue("");
+    this.filter = undefined;
   }
 
   public handleFilterChange() {

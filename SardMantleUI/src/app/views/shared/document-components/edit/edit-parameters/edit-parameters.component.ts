@@ -7,6 +7,8 @@ import { EditArticleComponent } from '../edit-article/edit-article.component';
 import { EditDataPointComponent } from '../edit-data-point/edit-data-point.component';
 import { EditBoolComponent } from '../edit-bool/edit-bool.component';
 import { EditDatetimeComponent } from '../edit-datetime/edit-datetime.component';
+import { UnitsService } from 'src/app/services/units/units.service';
+import { CalendarService } from 'src/app/services/calendar/calendar.service';
 
 @Component({
   selector: 'app-edit-parameters',
@@ -24,53 +26,95 @@ export class EditParametersComponent {
     this.typeParameters = typeParameters;
     this.container.clear();
     this.parameterComponents = [];
+    let component: any = undefined;
     this.typeParameters.forEach(p => {
       switch (p.typeValue) {
         case 'int':
-          this.parameterComponents.push(this.container.createComponent(EditIntComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
+          component = this.container.createComponent(EditIntComponent);
+          this.parameterComponents.push(component);
+          component.instance.setValue(
             this.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.intValueString
           );
+          component.instance.displayFilterOptions = true;
           break;
         case 'dub':
-          this.parameterComponents.push(this.container.createComponent(EditDoubleComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
+          component = this.container.createComponent(EditDoubleComponent);
+          this.parameterComponents.push(component);
+          component.instance.setValue(
             this.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.doubleValue
           );
+          component.instance.displayFilterOptions = true;
           break;
         case 'str':
-          this.parameterComponents.push(this.container.createComponent(EditStringComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
+          component = this.container.createComponent(EditStringComponent);
+          this.parameterComponents.push(component);
+          component.instance.setValue(
             this.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.stringValue
           );
+          component.instance.displayFilterOptions = true;
           break;
         case 'sum':
-          this.parameterComponents.push(this.container.createComponent(EditSummaryComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
+          component = this.container.createComponent(EditStringComponent);
+          this.parameterComponents.push(component);
+          component.instance.setValue(
             this.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.summaryValue
           );
+          component.instance.displayFilterOptions = true;
           break;
         case 'doc':
-          this.parameterComponents.push(this.container.createComponent(EditArticleComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
+          component = this.container.createComponent(EditArticleComponent);
+          this.parameterComponents.push(component);
+          component.instance.setValue(
             this.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.documentValue
           );
           break;
         case 'dat':
-          this.parameterComponents.push(this.container.createComponent(EditDataPointComponent));
+          component = this.container.createComponent(EditDataPointComponent)
+          this.parameterComponents.push(component);
           let param = this.parameters?.find(x => x?.dataPointTypeParameterId == p.id)
-          this.parameterComponents[this.parameterComponents.length - 1].instance.setTypeId(p.dataPointTypeReferenceId ?? -1);
-          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(param);
+          component.instance.setTypeId(p.dataPointTypeReferenceId ?? -1);
+          component.instance.setValue(param);
           break;
         case 'bit':
-          this.parameterComponents.push(this.container.createComponent(EditBoolComponent));
-          this.parameterComponents[this.parameterComponents.length - 1].instance.setValue(
+          component = this.container.createComponent(EditBoolComponent)
+          this.parameterComponents.push(component);
+          component.instance.setValue(
             this.parameters?.find(x => x?.dataPointTypeParameterId == p.id)?.boolValue
           );
+          component.instance.displaySearchOptions = true;
           break;
         case 'tim':
+          component = this.container.createComponent(EditDatetimeComponent);
+          let timeSettings = JSON.parse(p.settings) ?? {};
+          if (timeSettings.calendar) {
+            component.instance.calendar = this.calendarService.calendars.find(cal => cal.id == timeSettings.calendar) ?? this.calendarService.selectedCalendar;
+            if (timeSettings.formatter) {
+              component.instance.formatter = component.instance.calendar.formatters.find((f: any) => timeSettings.formatter == f.id) ?? component.instance.calendar.formatters[0];
+            }
+          }
+          component.instance.displayFilterOptions = true;
+          component.instance.thick = true;
+          
+          let timeParam = this.parameters?.find(x => x?.dataPointTypeParameterId == p.id);
+          if (timeParam) {
+            component.instance.setValue(timeParam.timeValue);
+          }
+
+          this.parameterComponents.push(component);
+          break;
         case 'uni':
-          return;
+          this.parameterComponents.push(this.container.createComponent(EditDoubleComponent));
+          let unitParam = this.parameters?.find(x => x?.dataPointTypeParameterId == p.id);
+          let instance = this.parameterComponents[this.parameterComponents.length - 1].instance
+          instance.setValue(unitParam?.unitValue);
+          if (unitParam?.unitvalue === undefined) {
+            this.unitService.get({id: p.dataPointTypeReferenceId}).subscribe(units => {
+              instance.setUnit(units[0])
+            })
+          }
+          else { instance.setUnit(unitParam?.unit) };
+          instance.displayFilterOptions = true;
+          break;
       }
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterName = p.name;
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterSummary = p.summary;
@@ -134,18 +178,59 @@ export class EditParametersComponent {
           }
           break;
         case 'tim':
+          param = {
+            dataPointId: -1,
+            dataPointTypeParameterId: p.instance.typeParameterId,
+            timeValueString: p.instance.getValue()?.toString()
+          }
+          break;
         case 'uni':
-          return;
+          param = {
+            dataPointId: -1,
+            dataPointTypeParameterId: p.instance.typeParameterId,
+            unitValue: p.instance.getValue()
+          }
+          break;
       }
-      if (p.instance.getValue() !== null) {
+      if (p.instance.getValue() !== undefined && p.instance.getValue() !== null && p.instance.getValue() !== "") {
         params.push(param);
       }
     });
     this.parameters = params;
-    return(this.parameters);
+    console.log(params)
+    return this.parameters;
   }
 
-  constructor(private cdref: ChangeDetectorRef) {
+  public getParameterSearchOptions() {
+    let searchOptions = [] as any[];
+    this.parameterComponents.forEach(p => {
+      var opt = {};
+      switch (this.typeParameters.find(tp => tp.id == p.instance.typeParameterId )?.typeValue) {
+        case 'int':
+        case 'str':
+        case 'sum':
+        case 'dub':
+        case 'tim':
+        case 'uni':
+          opt = {
+            dataPointTypeParameterId: p.instance.typeParameterId,
+            filterMode: p.instance.selectedFilterOption?.filterMode
+          }
+          break;
+        default:
+          opt = {
+            dataPointTypeParameterId: p.instance.typeParameterId,
+            filterMode: 0
+          }
+      }
+      if (p.instance.getValue() !== undefined && p.instance.getValue() !== null && p.instance.getValue() !== "") {
+        searchOptions.push(opt);
+      }
+    });
+    return searchOptions;
+  }
+
+  constructor(private cdref: ChangeDetectorRef, private unitService: UnitsService, private calendarService: CalendarService) {
 
   }
 }

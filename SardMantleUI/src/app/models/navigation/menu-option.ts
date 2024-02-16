@@ -42,13 +42,13 @@ export const navMenuOptions = [
                 route: "document",
                 roles: []
             },
-            {
+            /*{
                 name: "Timeline",
                 icon: "timeline",
                 isRoot: false,
                 route: "timeline",
                 roles: []
-            },
+            },*/
         ]
     },
     {
@@ -79,7 +79,7 @@ export const navMenuOptions = [
             },
             {
                 name: "Themes",
-                icon: "brush",
+                icon: "palette",
                 isRoot: false,
                 route: "theme",
                 roles: ["Editor", "Administrator"]
@@ -119,13 +119,6 @@ export const navMenuOptions = [
                 route: "user-settings",
                 roles: ["Viewer", "Editor", "Administrator"]
             },
-        ]
-    },
-    {
-        name: "Administration",
-        fillHook: "",
-        expanded: false,
-        options: [
             {
                 name: "Administration",
                 icon: "shield_person",
@@ -134,5 +127,5 @@ export const navMenuOptions = [
                 roles: ["Administrator"]
             },
         ]
-    }
+    },
 ] as MenuGrouping[];

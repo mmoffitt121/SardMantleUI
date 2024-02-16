@@ -14,12 +14,15 @@
                 </button>
             </div>
         </div>
-        
     </div>
     <button mat-menu-item class="menu-item-header" (click)="setDisplayExpanded()">
         <h4 class="group-header">
             Display
         </h4>
+    </button>
+    <button mat-menu-item class="menu-item-content" (click)="this.selectTheme()" *ngIf="displayExpanded && inWorld">
+        <mat-icon> brush </mat-icon>
+        Select Theme
     </button>
     <button mat-menu-item class="menu-item-content" (click)="this.toggleLabels()" *ngIf="displayExpanded">
         <mat-icon> chevron_left </mat-icon>

@@ -2,6 +2,7 @@ import { Component, OnDestroy, ViewChild, ChangeDetectorRef, OnInit, AfterViewIn
 import { MatDrawer } from '@angular/material/sidenav';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
+import { LoginService } from 'src/app/services/login/login.service';
 import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
 import { UrlService } from 'src/app/services/url/url.service';
 
@@ -36,7 +37,12 @@ export class AppSkeletonComponent implements OnDestroy, OnInit {
     return this.screenWidth < MAX_SIDEBAR_SCREEN_WIDTH;
   }
 
-  constructor (public router: Router, public skeletonService: SkeletonService, private cdref: ChangeDetectorRef, private urlService: UrlService) { }
+  constructor (
+    public router: Router, 
+    public skeletonService: SkeletonService, 
+    private cdref: ChangeDetectorRef, 
+    private urlService: UrlService, 
+  ) { }
 
   ngOnInit() {
     this.screenWidth = window.innerWidth;

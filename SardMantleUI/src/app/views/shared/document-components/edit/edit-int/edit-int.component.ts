@@ -18,6 +18,14 @@ export class EditIntComponent implements OnInit {
   @Input() maxValue: number | undefined = undefined;
   public index: number;
 
+  @Input() displayFilterOptions: boolean = false;
+  @Input() filterOptions = [
+    { filterMode: 0, name: "Equals"},
+    { filterMode: 6, name: "Less Than"},
+    { filterMode: 5, name: "Greater Than"},
+  ];
+  @Input() public selectedFilterOption = { filterMode: 0, name: "Equals"};
+
   @Output() valueChanged = new EventEmitter();
   @Output() delete = new EventEmitter();
 

@@ -101,7 +101,7 @@ export class DocumentFilterComponent implements OnInit {
       this.searchableParams = [];
       data?.forEach((type: DocumentType) => {
         type.typeParameters?.forEach((p: any) => {
-          if (p.typeValue !== 'doc' && p.typeValue !== 'uni' /*&& p.typeValue !== 'dtm'*/) {
+          if (p.typeValue !== 'doc') {
             this.searchableParams.push(p);
           }
         });
@@ -120,6 +120,7 @@ export class DocumentFilterComponent implements OnInit {
     this.search.emit({
       query: this.documentControl.value ?? '',
       parameters: this.editParams?.getParameterList(),
+      parameterSearchOptions: this.editParams?.getParameterSearchOptions(),
       typeIds: typeIds
     });
   }

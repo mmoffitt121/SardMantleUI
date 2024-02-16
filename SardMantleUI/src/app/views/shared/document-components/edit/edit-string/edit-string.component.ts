@@ -14,6 +14,15 @@ export class EditStringComponent implements OnInit {
   @Input() maxLength: number | undefined = undefined;
   @Input() thin = false;
 
+  @Input() displayFilterOptions: boolean = false;
+  @Input() filterOptions = [
+    { filterMode: 0, name: "Equals"},
+    { filterMode: 1, name: "Contains"},
+    { filterMode: 2, name: "Starts With"},
+    { filterMode: 3, name: "Ends With"},
+  ];
+  @Input() public selectedFilterOption = { filterMode: 0, name: "Equals"};
+
   @Input() type: string = '';
 
   @Output() valueChanged = new EventEmitter(); 

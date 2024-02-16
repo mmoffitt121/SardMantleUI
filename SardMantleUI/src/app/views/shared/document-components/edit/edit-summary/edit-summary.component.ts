@@ -11,6 +11,15 @@ export class EditSummaryComponent implements OnInit {
   @Input() parameterSummary: string = '';
   @Input() placeholder: string = '';
 
+  @Input() displayFilterOptions: boolean = false;
+  @Input() filterOptions = [
+    { filterMode: 0, name: "Equals"},
+    { filterMode: 1, name: "Contains"},
+    { filterMode: 2, name: "Starts With"},
+    { filterMode: 3, name: "Ends With"},
+  ];
+  @Input() public selectedFilterOption = { filterMode: 0, name: "Equals"};
+
   @Output() valueChanged = new EventEmitter(); 
 
   @Input() control = new FormControl();

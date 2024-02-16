@@ -15,7 +15,7 @@ export class CalendarPickerButtonComponent {
   @Input() useBaseYear: boolean;
   @Input() editTime: boolean;
 
-  @Input() model: bigint;
+  @Input() model: bigint | undefined;
   @Output() modelChange = new EventEmitter<bigint>();
 
   public open() {
@@ -37,6 +37,10 @@ export class CalendarPickerButtonComponent {
       this.calendar = result?.calendar ?? this.calendar;
       this.formatter = result?.format ?? this.formatter;
       this.timeZone = result?.timeZone ?? this.timeZone;
+
+      if (result && result.dateTime == undefined) {
+        this.model = undefined;
+      }
 
       this.modelChange.emit({
         dateTime: this.model,

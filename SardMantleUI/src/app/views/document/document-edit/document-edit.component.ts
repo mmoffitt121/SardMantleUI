@@ -104,7 +104,6 @@ export class DocumentEditComponent implements AfterViewInit {
             })
           }
           else { instance.setUnit(unitParam?.unit) };
-          
           break;
         case 'tim':
           let timeComponent = this.container.createComponent(EditDatetimeComponent);

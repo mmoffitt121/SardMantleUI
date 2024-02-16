@@ -22,7 +22,7 @@ export class CalendarPickerComponent implements OnInit {
   public eraToChange: number;
   public eraToChangeTime: bigint;
 
-  public select(date: bigint) {
+  public select(date: bigint | undefined) {
     this.refreshView();
     let result = {
       dateTime: date,
@@ -61,6 +61,10 @@ export class CalendarPickerComponent implements OnInit {
     this.eraToChange = eraIndex;
     this.displayMode = 'era';
     this.eraToChangeTime = this.dateTime;
+  }
+
+  public clear() {
+    this.select(undefined);
   }
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<CalendarPickerComponent>, private calendarService: CalendarService) {

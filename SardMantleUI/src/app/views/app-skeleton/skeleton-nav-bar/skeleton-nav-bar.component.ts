@@ -6,6 +6,7 @@ import { UrlService } from 'src/app/services/url/url.service';
 import { MENU_GROUPINGS_EXPANDED, MenuGrouping, MenuOption, navMenuOptions } from 'src/app/models/navigation/menu-option';
 import { filter } from 'rxjs';
 import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
+import { ThemeSelectComponent } from '../../theme/theme-select/theme-select.component';
 
 export const DISPLAY_EXPANDED = "DisplayGroupingExpanded";
 
@@ -32,7 +33,6 @@ export class SkeletonNavBarComponent {
     else {
       this.router.navigate([this.urlService.getWorld(), option.route]);
     }
-    
   }
   public navigateLogIn() {
     this.router.navigate(['login']);
@@ -73,7 +73,9 @@ export class SkeletonNavBarComponent {
   public userIsAdmin() {
     return localStorage.getItem('roles')?.split(',').includes("Administrator");
   }
-
+  public selectTheme() {
+    this.dialog.open(ThemeSelectComponent, {});
+  }
   public toggleLabels() {
     this.skeletonService.toggleLabels();
   }
@@ -131,7 +133,8 @@ export class SkeletonNavBarComponent {
     private loginService: LoginService, 
     private urlService: UrlService,
     public skeletonService: SkeletonService,
-    public cdref: ChangeDetectorRef
+    public cdref: ChangeDetectorRef,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
