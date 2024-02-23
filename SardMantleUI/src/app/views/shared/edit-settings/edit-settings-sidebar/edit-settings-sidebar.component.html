@@ -1,0 +1,7 @@
+<mat-card class="sidebar-card">
+    <button mat-icon-button *ngFor="let setting of settings" (click)="selectSetting(setting)">
+        <mat-icon>
+            {{setting.icon}}
+        </mat-icon>
+    </button>
+</mat-card>

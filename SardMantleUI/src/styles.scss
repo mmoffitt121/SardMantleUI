@@ -15,8 +15,8 @@
 /* --------------- */
 
 :root {
-    --primary-color: rgba(71, 59, 59, 1);
-    --primary-color-selected: rgba(90, 76, 75, 1);
+    --lib-primary-color: rgba(71, 59, 59, 1);
+    --lib-primary-color-selected: rgba(90, 76, 75, 1);
     --inverted-text-color: rgb(44, 39, 39);
     --inverted-text-color-disabled: rgb(121, 102, 102);
     --text-color: rgba(255, 255, 255, 1);
@@ -40,11 +40,11 @@
     --button-circular-loading-indicator-size: 30px;
     --button-circular-loading-indicator-stroke: 200px;
 
-    --disabled-color: var(--primary-color);
+    --disabled-color: var(--lib-primary-color);
 
-    --mdc-theme-surface: var(--primary-color) !important;
-    --mdc-theme-primary: var(--primary-color) !important;
-    --mdc-theme-secondary: var(--primary-color) !important;
+    --mdc-theme-surface: var(--lib-primary-color) !important;
+    --mdc-theme-primary: var(--lib-primary-color) !important;
+    --mdc-theme-secondary: var(--lib-primary-color) !important;
     --mdc-typography-body2-font-family: var(--primary-font !important);
     --mdc-typography-font-family: var(--primary-font) !important;
     --mdc-typography-subtitle2-font-family: var(--primary-font) !important;
@@ -210,7 +210,7 @@ h5 {
 }
 
 .mat-expansion-panel {
-    background-color: var(--primary-color);
+    background-color: var(--lib-primary-color);
     font-family: var(--primary-font);
 }
 
@@ -263,22 +263,22 @@ mat-icon {
 }
 
 .mat-mdc-select-panel {
-    background-color: var(--primary-color);
+    background-color: var(--lib-primary-color);
     font-family: var(--primary-font);
 }
 
 .mat-mdc-option {
-    background-color: var(--primary-color);
+    background-color: var(--lib-primary-color);
     font-family: var(--primary-font);
 }
 
 .mat-mdc-form-field {
-    background-color: var(--primary-color);
+    background-color: var(--lib-primary-color);
     font-family: var(--primary-font);
 }
 
 .leaflet-popup-content-wrapper {
-    background-color: var(--primary-color); 
+    background-color: var(--lib-primary-color); 
     color:  var(--text-color);
     font-family: var(--primary-font);
     font-size: 15px;
@@ -287,7 +287,7 @@ mat-icon {
 
 .leaflet-popup-tip {
     pointer-events: none;
-    background-color: var(--primary-color);
+    background-color: var(--lib-primary-color);
 }
 
 ::ng-deep .mat-mdc-dialog-container {
@@ -323,7 +323,7 @@ mat-icon {
 
 .NgxEditor__MenuBar {
     color: var(--primary-accent-color);
-    background-color: var(--primary-color) !important;
+    background-color: var(--lib-primary-color) !important;
 }
 
 .NgxEditor__Placeholder {
@@ -360,7 +360,7 @@ ngx-editor {
 
 .leaflet-bar a {
     color: var(--text-color);
-    background-color: var(--primary-color);
+    background-color: var(--lib-primary-color);
 }
 
 .leaflet-top {
@@ -486,7 +486,7 @@ ngx-editor {
 }
 
 .leaflet-draw-actions a {
-	background-color: var(--primary-color);
+	background-color: var(--lib-primary-color);
 	border-left: 1px solid #AAA;
 	color: #FFF;
 	font: 11px/19px var(--primary-font), Arial, Helvetica, sans-serif;
@@ -518,7 +518,7 @@ ngx-editor {
 }
 
 .leaflet-draw-actions a:hover {
-	background-color: var(--primary-color);
+	background-color: var(--lib-primary-color);
 }
 
 .leaflet-draw-actions-top.leaflet-draw-actions-bottom a {
@@ -624,7 +624,7 @@ ngx-editor {
 }
 
 .leaflet-draw-tooltip {
-	background: var(--primary-color);
+	background: var(--lib-primary-color);
 	background: rgba(0, 0, 0, 0.5);
 	border: 1px solid transparent;
 	-webkit-border-radius: 4px;
@@ -682,7 +682,7 @@ ngx-editor {
 /* ================================================================== */
 
 .leaflet-edit-marker-selected {
-	background-color: var(--primary-color);
+	background-color: var(--lib-primary-color);
 	border: 4px dashed rgba(254, 87, 161, 0.6);
 	-webkit-border-radius: 4px;
 	border-radius: 4px;

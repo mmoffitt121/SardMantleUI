@@ -99,20 +99,6 @@ export const navMenuOptions = [
                 roles: []
             },
             {
-                name: "World Browser",
-                icon: "travel_explore",
-                isRoot: true,
-                route: "world-browser",
-                roles: []
-            },
-            {
-                name: "World Manager",
-                icon: "public",
-                isRoot: true,
-                route: "world-manager",
-                roles: ["Editor", "Administrator"]
-            },
-            {
                 name: "User Settings",
                 icon: "person",
                 isRoot: true,

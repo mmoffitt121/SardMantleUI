@@ -6,14 +6,15 @@
             </button>
             <h2 style="margin-top: 10px; margin-bottom: 0px;">Themes</h2>
         </div>
-        <button mat-icon-button (click)="skeletonService.toggleSidebar()" style="margin-top: 5px;">
-            <mat-icon> add </mat-icon>
-        </button>
+        <div style="display: flex">
+            <button mat-icon-button matTooltip="Add Theme" (click)="add()" style="margin-top: 5px;" *ngIf="!themeData">
+                <mat-icon> add </mat-icon>
+            </button>
+        </div>
     </div>
     <div>
-        <mat-card>
-            
-        </mat-card>
+        <app-theme-manage-select [themes]="themes" *ngIf="!themeData" (delete)="deleteTheme($event)"/>
+        <app-edit-settings [settings]="themeOptions" [data]="themeData" *ngIf="themeData" (cancel)="cancel()" (save)="save($event)" />
     </div>
     
 </div>

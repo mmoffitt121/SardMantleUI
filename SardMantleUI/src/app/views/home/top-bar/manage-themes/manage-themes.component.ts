@@ -52,45 +52,6 @@ export class ManageThemesComponent {
   public dataPointValueFontSize = new FormControl();
   public isDefault = new FormControl();
 
-  public loadThemes() {
-    this.themeService.getThemes({}).subscribe(themes => {
-      this.themes = themes;
-    });
-  }
-
-  public saveTheme() {
-    this.themeService.putTheme(this.getTheme()).subscribe(result => {
-      this.errorService.showSnackBar("Theme successfully saved.");
-    },
-    error => {
-      this.errorService.handle(error);
-    })
-  }
-
-  public deleteTheme() {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '500px',
-      data: { 
-        title: "Confirm Deletion", 
-        content: `Are you sure you want to delete this theme?`
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.themeService.deleteTheme(this.getTheme().id).subscribe(result => {
-          this.errorService.showSnackBar("Theme successfully deleted.");
-          this.loadThemes();
-        },
-        error => {
-          this.errorService.handle(error);
-        })
-      }
-    });
-
-    
-  }
-
   public previewTheme() {
     this.themeService.previewTheme(this.getTheme());
   }
@@ -134,15 +95,6 @@ export class ManageThemesComponent {
   }
 
   public newTheme() {
-    this.themeService.postTheme(this.themeService.baseTheme).subscribe(result => {
-      this.themeService.getThemes({}).subscribe(themes => {
-        this.themes = themes;
-        let newTheme = this.themes.find(th => th.id == result);
-        if (newTheme) {
-          this.selectTheme(newTheme);
-        }
-      });
-    })
   }
 
   public async selectTheme(theme: Theme) {
@@ -182,6 +134,5 @@ export class ManageThemesComponent {
   }
 
   constructor(private themeService: ThemeService, private errorService: ErrorService, private dialog: MatDialog) {
-    this.loadThemes();
   }
 }

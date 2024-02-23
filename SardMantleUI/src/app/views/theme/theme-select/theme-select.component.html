@@ -14,13 +14,13 @@
     </div>
     
     <div *ngIf="themes.length">
-        <button mat-menu-item *ngFor="let theme of themes" (click)="selectTheme(theme)" [style]="'background-color: ' + theme.secondaryBackgroundColor + ';'">
+        <button mat-menu-item *ngFor="let theme of themes" (click)="selectTheme(theme)" [style]="'background-color: ' + theme.setting['--lib-primary-color'] + ';'">
             <div style="display: grid; grid-template-columns: 300px min-content;">
-                <p [style]="'font-family: ' + theme.primaryFont">
-                    {{theme.name}}
+                <p [style]="'font-family: ' + theme.setting['--lib-primary-font'] ">
+                    {{theme.setting.name}}
                 </p>
-                <div class="theme-circle" [style]="'background-color: ' + theme.primaryColor">
-                    <div class="theme-circle" [style]="'background-color: ' + theme.secondaryAccentColor"> </div>
+                <div class="theme-circle" [style]="'background-color: ' + theme.setting['--lib-background-color']">
+                    <div class="theme-circle" [style]="'background-color: ' + theme.setting['--lib-accent-color']"> </div>
                 </div>
             </div>
             

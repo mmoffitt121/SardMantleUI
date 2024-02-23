@@ -9,6 +9,7 @@
                 <p class="centered">To get started, click one of the buttons below.</p>
                 <div  class="centered">
                     <button mat-button style="margin: 5px" (click)="router.navigate(['world-browser'])">World Browser</button>
+                    <button mat-button style="margin: 5px" (click)="router.navigate(['world-manager'])" *ngIf="loginService.isLoggedIn()">World Manager</button>
                     <button mat-button style="margin: 5px"  (click)="router.navigate(['login'])" *ngIf="!loginService.isLoggedIn()">Login</button>
                     <button mat-button style="margin: 5px"  (click)="router.navigate(['register'])" color="primary" *ngIf="!loginService.isLoggedIn()">Sign Up</button>
                 </div>

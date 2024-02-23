@@ -6,9 +6,6 @@
     </div>
     <div></div>
     <div style="display: flex;">
-        <button mat-icon-button class="topbar-icon-button" (click)="openThemes()" matTooltip="Themes" [matMenuTriggerFor]="menu" *ngIf="canGetThemes()">
-            <mat-icon> brush </mat-icon>
-        </button>
         <mat-menu #menu="matMenu">
             <div style="padding: 10px; display: flex">
                 <h3 style="margin: 0px; margin-top: 10px">Themes</h3>

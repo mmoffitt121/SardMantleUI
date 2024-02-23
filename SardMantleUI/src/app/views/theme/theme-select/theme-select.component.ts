@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ANY_SETTING_SUFFIX, THEME_SETTING } from 'src/app/models/settings/settings-constants';
 import { Theme } from 'src/app/models/theme/theme';
 import { LoginService } from 'src/app/services/login/login.service';
+import { SettingJsonService } from 'src/app/services/settings/setting-json.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
 import { UrlService } from 'src/app/services/url/url.service';
 
@@ -23,8 +25,9 @@ export class ThemeSelectComponent implements OnInit {
   }
   public getThemes() {
     if (this.canGetThemes()) {
-      this.themeService.getThemes({}).subscribe(data => {
+      this.settingService.get({id: THEME_SETTING + ANY_SETTING_SUFFIX}).subscribe(data => {
         this.themes = data;
+        console.log(data);
       })
     }
   }
@@ -33,7 +36,7 @@ export class ThemeSelectComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  constructor(private urlService: UrlService, private themeService: ThemeService, private router: Router, public dialogRef: MatDialogRef<ThemeSelectComponent>, public loginService: LoginService) {}
+  constructor(private urlService: UrlService, private themeService: ThemeService, private settingService: SettingJsonService, private router: Router, public dialogRef: MatDialogRef<ThemeSelectComponent>, public loginService: LoginService) {}
 
   ngOnInit(): void {
     this.getThemes();

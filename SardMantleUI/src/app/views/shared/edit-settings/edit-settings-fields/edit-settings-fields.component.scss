@@ -1,0 +1,29 @@
+.settings-fields-container {
+    padding-right: 10px; 
+    padding-left: 10px;
+    max-width: 1200px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.settings-cards-container {
+    margin-top: 10px;
+}
+
+@media (min-width: 1000px) {
+    .settings-cards-grid {
+        display: grid;
+        grid-template-columns: min(300px, 40%) 1fr;
+        grid-gap: 10px;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .settings-cards-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: 10px;
+        margin-top: 20px;
+    }
+}

@@ -26,7 +26,7 @@
                         [style.width]="((item.endDisplay - item.startDisplay) * zoom) + 'px'" 
                         [style.left]="(item.startDisplay * zoom) + 'px'"
                         [style.borderRadius]="calcBorderRadius(item)"
-                        [style.background]="item.selected ? 'var(--secondary-accent-color-selected)' : 'var(--primary-color)'"
+                        [style.background]="item.selected ? 'var(--secondary-accent-color-selected)' : 'var(--lib-primary-color)'"
                         (click)="onItemClick(item)"
                     >
                         <div class="ladder-row-display">

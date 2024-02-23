@@ -1,0 +1,4 @@
+<div class="edit-settings-container">
+    <app-edit-settings-sidebar [settings]="settings" (select)="select($event)" />
+    <app-edit-settings-fields [setting]="category" (save)="saveData()" (cancel)="cancel.emit()" />
+</div>

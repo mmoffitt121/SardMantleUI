@@ -1,0 +1,13 @@
+@media (min-width: 450px) {
+    .edit-setting-container {
+        display: grid;
+        grid-template-columns: 0.4fr 0.6fr;
+    }
+}
+
+@media (max-width: 450px) {
+    .edit-setting-container {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}

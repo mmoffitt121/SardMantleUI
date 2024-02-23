@@ -1,6 +1,6 @@
 <div class="screen-container">
     <div class="container">
-        <mat-card style="margin: 20px; background-color: var(--primary-color);">
+        <mat-card style="margin: 20px; background-color: var(--lib-primary-color);">
             <mat-card-header>
                 <mat-card-title>Themes</mat-card-title>
             </mat-card-header>
@@ -43,10 +43,6 @@
                             <app-edit-color [parameterName]="'Field Overlay Color'" [parameterSummary]="'Dark'" [control]="fieldOverlayColorDark" (valueChanged)="themeChanged()"></app-edit-color>
                             <app-edit-color [parameterName]="'Destructive Action Color'" [control]="destructiveActionColor" (valueChanged)="themeChanged()"></app-edit-color>
                             <app-edit-data-point [parameterName]="'Primary Font'" [items]="fonts" [selectedItem]="selectedFont" (selected)="fontChanged($event); themeChanged()"></app-edit-data-point>
-                            <div style="float: right">
-                                <button mat-button (click)="saveTheme()" color="primary">Save</button>
-                                <button mat-button (click)="deleteTheme()" style="background-color: var(--destructive-action-color); margin-left: 10px">Delete</button>
-                            </div>
                             
                         </mat-card-content>
                     </div>
@@ -56,12 +52,12 @@
                         <mat-card-content>
                             <h1 style="color: var(--inverted-text-color)"> Background Color</h1>
                             <h2 style="color: var(--inverted-text-color-disabled)"> Inverted Text Color Disabled</h2>
-                            <mat-card style="background-color: var(--primary-color); margin: 5px;">
+                            <mat-card style="background-color: var(--lib-primary-color); margin: 5px;">
                                 <mat-card-content>
                                     Primary Color
                                 </mat-card-content>
                             </mat-card>
-                            <mat-card style="background-color: var(--primary-color-selected); margin: 5px;">
+                            <mat-card style="background-color: var(--lib-primary-color-selected); margin: 5px;">
                                 <mat-card-content>
                                     Selected
                                 </mat-card-content>
@@ -72,12 +68,12 @@
                         <mat-card-content>
                             <h1 style="color: var(--text-color)"> Background Color</h1>
                             <h2 style="color: var(--text-color-disabled)"> Text Color Disabled</h2>
-                            <mat-card style="background-color: var(--primary-color); margin: 5px;">
+                            <mat-card style="background-color: var(--lib-primary-color); margin: 5px;">
                                 <mat-card-content>
                                     Primary Color
                                 </mat-card-content>
                             </mat-card>
-                            <mat-card style="background-color: var(--primary-color-selected); margin: 5px;">
+                            <mat-card style="background-color: var(--lib-primary-color-selected); margin: 5px;">
                                 <mat-card-content>
                                     Selected
                                 </mat-card-content>

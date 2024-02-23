@@ -19,7 +19,7 @@
 }
 
 .bottom-panel-container {
-    background-color: var(--primary-color);
+    background-color: var(--lib-primary-color);
     display: grid;
     grid-template-columns: auto min-content;
     grid-gap: 10px;
@@ -27,14 +27,14 @@
 }
 
 .bottom-panel-nav {
-    background-color: var(--primary-color);
+    background-color: var(--lib-primary-color);
     display: grid;
     grid-template-columns: min-content auto min-content;
     grid-gap: 10px;
 }
 
 .bottom-panel-edit {
-    background-color: var(--primary-color);
+    background-color: var(--lib-primary-color);
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
     grid-gap: 10px;
@@ -90,7 +90,7 @@
     margin-bottom: 5px;
     height: 30px;
     width: 100px;
-    background-color: var(--primary-color);
+    background-color: var(--lib-primary-color);
     overflow: hidden;
     z-index: 100;
 }

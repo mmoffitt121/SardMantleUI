@@ -14,7 +14,7 @@
     height: 1fr;
     margin: 5px;
     overflow-y: auto;
-    background-color: var(--primary-color);
+    background-color: var(--lib-primary-color);
 }
 
 .document-type-grid {
@@ -31,7 +31,7 @@
 .document-list-container {
     margin: 5px;
     overflow-y: auto;
-    background-color: var(--primary-color);
+    background-color: var(--lib-primary-color);
 }
 
 .document-list-grid {
@@ -45,7 +45,7 @@
     margin: 5px;
     padding: 10px;
     overflow-y: auto;
-    background-color: var(--primary-color)
+    background-color: var(--lib-primary-color)
 }
 
 .document-view-grid {
@@ -62,11 +62,11 @@
 .paginator {
     margin: 2px;
     height: 10px;
-    background-color: var(--primary-color);
+    background-color: var(--lib-primary-color);
 }
 
 .button-holder-wrapper {
-    background-color: var(--primary-color);
+    background-color: var(--lib-primary-color);
     overflow: hidden;
     height: min-content;
     border-radius: 0px 0px 40px 40px;

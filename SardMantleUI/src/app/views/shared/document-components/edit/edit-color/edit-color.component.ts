@@ -8,7 +8,7 @@ import { NgxMatColorPickerInput, Color } from '@angular-material-components/colo
   styleUrls: ['./edit-color.component.scss']
 })
 export class EditColorComponent {
-  @Input() parameterName: string = 'Parameter Name';
+  @Input() parameterName: string = '';
   @Input() parameterSummary: string = '';
   @Input() placeholder: string = '';
   @Input() required: boolean = false;
@@ -19,6 +19,9 @@ export class EditColorComponent {
 
   @Input() control = new FormControl();
 
+  @Input() model: string;
+  @Output() modelChange = new EventEmitter<string>();
+
   public typeParameterId: number;
 
   public validate(e: any) {
@@ -26,7 +29,9 @@ export class EditColorComponent {
   }
 
   public setValue(value: any) {
-    this.control.setValue(value);
+    this.control.setValue(this.parseColor(value));
+    this.model = value;
+    this.modelChange.emit(value);
   }
 
   public getValue() {
@@ -63,12 +68,16 @@ export class EditColorComponent {
   }
 
   ngOnInit() {
-    this.control.setValue(this.parseColor(this.control.value))
     this.control.valueChanges.subscribe(value => {
-      this.valueChanged.emit(value);
+      if (!value) return;
+      this.model = "#" + value.hex;
+      this.valueChanged.emit(this.model);
+      this.modelChange.emit(this.model);
       if (value && !value.rgba) {
         this.control.setValue(this.parseColor(value))
       }
     });
+
+    this.control.setValue(this.parseColor(this.model));
   }
 }

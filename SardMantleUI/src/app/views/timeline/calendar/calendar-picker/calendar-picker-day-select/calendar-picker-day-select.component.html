@@ -31,7 +31,7 @@
         </div>
     </div>
     <div class="calendar-grid-header" [style]="'grid-template-columns: repeat(' + weekdays.length + ', minmax(0, 1fr));'" *ngFor="let week of weeks">
-        <button mat-button class="calendar-day" [style]="'background-color: ' + (day.month == dateTimeObject.month ? 'var(--secondary-accent-color)' : 'var(--primary-color)')" *ngFor="let day of week.days" (click)="onSelect(day)">
+        <button mat-button class="calendar-day" [style]="'background-color: ' + (day.month == dateTimeObject.month ? 'var(--secondary-accent-color)' : 'var(--lib-primary-color)')" *ngFor="let day of week.days" (click)="onSelect(day)">
             {{day.day}}
         </button>
     </div>

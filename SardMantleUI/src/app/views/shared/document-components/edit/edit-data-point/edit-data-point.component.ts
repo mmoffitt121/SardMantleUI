@@ -27,6 +27,7 @@ export class EditDataPointComponent implements OnChanges, OnInit {
   @Output() selected = new EventEmitter();
   @Output() filterChanged = new EventEmitter();
   @Input() thin = false;
+  @Input() clear = true;
 
   public typeParameterId: number;
   public typeId: number;

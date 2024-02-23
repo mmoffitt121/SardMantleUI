@@ -228,7 +228,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 .mat-mdc-option:focus.mdc-list-item,
 .mat-mdc-option.mat-mdc-option-active.mdc-list-item,
 .mat-mdc-option.mdc-list-item--selected:not(.mat-mdc-option-multiple):not(.mdc-list-item--disabled) {
-    background: var(--primary-color-selected)
+    background: var(--lib-primary-color-selected)
 }
 
 .mat-primary .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
@@ -470,7 +470,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 }
 
 .mat-mdc-card {
-    --mdc-elevated-card-container-color: var(--primary-color);
+    --mdc-elevated-card-container-color: var(--lib-primary-color);
     --mdc-elevated-card-container-elevation: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
     --mdc-outlined-card-container-color: #424242;
     --mdc-outlined-card-outline-color: rgba(255, 255, 255, 0.12);
@@ -662,7 +662,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 }
 
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-    background-color: var(--primary-color)
+    background-color: var(--lib-primary-color)
 }
 
 .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
@@ -1439,7 +1439,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mat-mdc-dialog-container {
-    --mdc-dialog-container-color: var(--primary-color);
+    --mdc-dialog-container-color: var(--lib-primary-color);
     --mdc-dialog-subhead-color: rgba(255, 255, 255, 0.87);
     --mdc-dialog-supporting-text-color: rgba(255, 255, 255, 0.6)
 }
@@ -2050,7 +2050,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mat-mdc-paginator {
-    background: var(--primary-color);
+    background: var(--lib-primary-color);
     color: var(--text-color);
 }
 
@@ -3041,7 +3041,7 @@ html {
 }
 
 .mat-button-toggle .mat-button-toggle-focus-overlay {
-    background-color: var(--primary-color-selected);
+    background-color: var(--lib-primary-color-selected);
 }
 
 .mat-button-toggle-appearance-standard {

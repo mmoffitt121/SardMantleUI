@@ -1,0 +1,6 @@
+<div [ngSwitch]="setting.type" class="edit-setting-container">
+    <p>{{setting.name}}</p>
+    <app-edit-color #fieldComponent [(model)]="setting.value" *ngSwitchCase="'color'" />
+    <app-edit-data-point #fieldComponent [items]="setting.options" [(model)]="setting.value" [clear]="false" *ngSwitchCase="'select'" />
+    <app-edit-string #fieldComponent [(model)]="setting.value" *ngSwitchDefault />
+</div>

@@ -4,7 +4,7 @@
     <mat-form-field class="settings-field" style="width: 100%;" appearance="outline">
         <div style="display: grid; grid-template-columns: auto min-content">
             <input matInput [matAutocomplete]="autocomplete" [formControl]="formControl" (input)="onInput($event)"/>
-            <button mat-icon-button *ngIf="selectedItem" (click)="clearSelection()">
+            <button mat-icon-button *ngIf="selectedItem && clear" (click)="clearSelection()">
                 <mat-icon> close </mat-icon>
             </button>
         </div>
