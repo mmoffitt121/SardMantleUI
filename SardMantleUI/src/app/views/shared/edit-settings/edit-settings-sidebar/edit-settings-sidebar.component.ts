@@ -11,6 +11,5 @@ export class EditSettingsSidebarComponent {
 
   public selectSetting(setting: any) {
     this.select.emit(setting);
-    console.log(this.settings)
   }
 }
