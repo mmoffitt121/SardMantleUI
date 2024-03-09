@@ -28,7 +28,6 @@ export class ThemeService {
   public loadSelectedTheme() {
     let currentThemeId = this.getSelectedThemeId();
     this.settingService.get({ id: THEME_SETTING + "." + currentThemeId }).subscribe(data => {
-      console.log(data)
       if (data === undefined || data.length < 1) { return; }
       this.theme = data[0].setting;
       this.applyTheme();
@@ -36,7 +35,6 @@ export class ThemeService {
   }
 
   public previewTheme(theme: any) {
-    console.log(theme)
     this.theme = theme;
     this.applyTheme();
   }
@@ -63,7 +61,6 @@ export class ThemeService {
   ) { 
     this.theme = { };
     this.router.events.subscribe((val) => {
-      console.log(val)
       if (val instanceof NavigationEnd) {
         if (this.urlService.getWorld() === "") {
           this.theme = { ...defaultTheme };

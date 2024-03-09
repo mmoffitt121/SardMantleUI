@@ -197,7 +197,6 @@ export class EditParametersComponent {
       }
     });
     this.parameters = params;
-    console.log(params)
     return this.parameters;
   }
 

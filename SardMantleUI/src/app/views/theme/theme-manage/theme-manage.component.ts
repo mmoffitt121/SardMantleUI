@@ -20,7 +20,6 @@ export class ThemeManageComponent implements OnInit {
   public themeData: any = undefined;
 
   public previewTheme(theme: any) {
-    console.log("preview")
     this.themeService.previewTheme(theme);
   }
 
