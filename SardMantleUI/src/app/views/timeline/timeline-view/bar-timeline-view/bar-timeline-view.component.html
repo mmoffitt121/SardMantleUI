@@ -26,7 +26,7 @@
                         [style.width]="((item.endDisplay - item.startDisplay) * zoom) + 'px'" 
                         [style.left]="(item.startDisplay * zoom) + 'px'"
                         [style.borderRadius]="calcBorderRadius(item)"
-                        [style.background]="item.selected ? 'var(--secondary-accent-color-selected)' : 'var(--lib-primary-color)'"
+                        [style.background]="item.selected ? 'var(--lib-primary-accent-color-selected)' : 'var(--lib-primary-color)'"
                         (click)="onItemClick(item)"
                     >
                         <div class="ladder-row-display">
@@ -96,7 +96,7 @@
                 <h3>{{editingName}}</h3>
                 <p>{{editingSummary}}</p>
                 
-                <button mat-button style="background-color: var(--destructive-action-color);" (click)="deleteItem()">
+                <button mat-button style="background-color: var(--lib-destructive-action-color);" (click)="deleteItem()">
                     Delete Item
                 </button>
             </div>

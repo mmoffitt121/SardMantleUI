@@ -9,4 +9,5 @@ export class EditSettingsFieldsComponent {
   @Input() setting: any;
   @Output() save = new EventEmitter();
   @Output() cancel = new EventEmitter();
+  @Output() valueChange = new EventEmitter();
 }

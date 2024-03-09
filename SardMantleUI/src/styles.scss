@@ -17,23 +17,23 @@
 :root {
     --lib-primary-color: rgba(71, 59, 59, 1);
     --lib-primary-color-selected: rgba(90, 76, 75, 1);
-    --inverted-text-color: rgb(44, 39, 39);
-    --inverted-text-color-disabled: rgb(121, 102, 102);
-    --text-color: rgba(255, 255, 255, 1);
-    --text-color-disabled: rgba(255, 255, 255, 0.5);
-    --secondary-text-color: rgba(200, 200, 200, 1);
-    --tertiary-text-color: rgb(165, 165, 165);
-    --primary-accent-color: rgb(255, 236, 235);
-    --primary-accent-color-disabled: rgb(196, 179, 178);
-    --secondary-accent-color: rgb(102, 83, 82);
-    --secondary-accent-color-disabled: rgb(66, 52, 52);
-    --secondary-accent-color-selected: rgb(155, 95, 89);
-    --background-color: rgb(218, 197, 192);
-    --secondary-background-color: rgb(48, 34, 34);
-    --field-overlay-color: rgba(46, 28, 27, 0.25);
-    --field-overlay-color-dark: rgba(14, 8, 7, 0.5);
-    --destructive-action-color: rgb(119, 0, 0);
-    --primary-font: 'IM Fell English';
+    --lib-text-color: rgb(44, 39, 39);
+    --lib-text-color-disabled: rgb(121, 102, 102);
+    --lib-text-color: rgba(255, 255, 255, 1);
+    --lib-text-color-disabled: rgba(255, 255, 255, 0.5);
+    --lib-secondary-text-color: rgba(200, 200, 200, 1);
+    --lib-tertiary-text-color: rgb(165, 165, 165);
+    --lib-submit-accent-color: rgb(255, 236, 235);
+    --lib-submit-accent-color-disabled: rgb(196, 179, 178);
+    --lib-primary-accent-color: rgb(102, 83, 82);
+    --lib-primary-accent-color-disabled: rgb(66, 52, 52);
+    --lib-primary-accent-color-selected: rgb(155, 95, 89);
+    --lib-background-color: rgb(218, 197, 192);
+    --lib-background-color: rgb(48, 34, 34);
+    --lib-field-overlay-color: rgba(46, 28, 27, 0.25);
+    --lib-field-overlay-color: rgba(14, 8, 7, 0.5);
+    --lib-destructive-action-color: rgb(119, 0, 0);
+    --lib-primary-font: 'IM Fell English';
     --font-weight-bold: bold;
     --data-point-value-font-size: 20px;
 
@@ -45,12 +45,12 @@
     --mdc-theme-surface: var(--lib-primary-color) !important;
     --mdc-theme-primary: var(--lib-primary-color) !important;
     --mdc-theme-secondary: var(--lib-primary-color) !important;
-    --mdc-typography-body2-font-family: var(--primary-font !important);
-    --mdc-typography-font-family: var(--primary-font) !important;
-    --mdc-typography-subtitle2-font-family: var(--primary-font) !important;
-    --mat-card-subtitle-text-color: var(--text-color) !important;
-    --mdc-icon-button-icon-color:  var(--text-color) !important;
-    --mdc-list-list-item-label-text-font: var(--primary-font) !important;
+    --mdc-typography-body2-font-family: var(--lib-primary-font !important);
+    --mdc-typography-font-family: var(--lib-primary-font) !important;
+    --mdc-typography-subtitle2-font-family: var(--lib-primary-font) !important;
+    --mat-card-subtitle-text-color: var(--lib-text-color) !important;
+    --mdc-icon-button-icon-color:  var(--lib-text-color) !important;
+    --mdc-list-list-item-label-text-font: var(--lib-primary-font) !important;
 }
 
 /* --------------- */
@@ -68,7 +68,7 @@
 }
   
 ::-webkit-scrollbar-thumb {
-    background-color: var(--secondary-accent-color);
+    background-color: var(--lib-primary-accent-color);
     border-radius: 4px;
 }
 
@@ -77,9 +77,9 @@
 /* --------------- */
 
 body {
-    font-family: var(--primary-font);
-    background-color: var(--background-color);
-    color: var(--text-color);
+    font-family: var(--lib-primary-font);
+    background-color: var(--lib-background-color);
+    color: var(--lib-text-color);
 }
 
 /* ------------------- */
@@ -90,37 +90,37 @@ body {
 
 button.mat-mdc-button {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.5);
-    font-family: var(--primary-font);
+    font-family: var(--lib-primary-font);
 }
 
 .primary-button {
-    background-color: var(--primary-accent-color);
+    background-color: var(--lib-submit-accent-color);
     font-weight: bold;
-    color: var(--inverted-text-color);
+    color: var(--lib-submit-text-accent-color);
 }
 
 .secondary-button {
-    background-color: var(--secondary-accent-color);
+    background-color: var(--lib-primary-accent-color);
 }
 
 .destructive-button {
-    background-color: var(--destructive-action-color) !important;
+    background-color: var(--lib-destructive-action-color) !important;
 }
 
 .button-loading {
-    stroke: var(--primary-accent-color);
+    stroke: var(--lib-submit-accent-color);
     width: var(--button-circular-loading-indicator-size) !important;
     height: var(--button-circular-loading-indicator-size) !important;
 }
 
 .primary-button-loading {
-    stroke: var(--secondary-accent-color);
+    stroke: var(--lib-primary-accent-color);
     width: var(--button-circular-loading-indicator-size) !important;
     height: var(--button-circular-loading-indicator-size) !important;
 }
 
 .info-loading {
-    stroke: var(--primary-accent-color);
+    stroke: var(--lib-submit-accent-color);
     width: 100px !important;
     height: 100px !important;
 }
@@ -170,19 +170,19 @@ h1 {
 }
 
 h2 {
-    color: var(--text-color);
+    color: var(--lib-text-color);
 }
 
 h3 {
-    color: var(--text-color);
+    color: var(--lib-text-color);
 }
 
 h4 {
-    color: var(--text-color);
+    color: var(--lib-text-color);
 }
 
 h5 {
-    color: var(--text-color);
+    color: var(--lib-text-color);
 }
 
 .horizontal-card-container {
@@ -211,76 +211,76 @@ h5 {
 
 .mat-expansion-panel {
     background-color: var(--lib-primary-color);
-    font-family: var(--primary-font);
+    font-family: var(--lib-primary-font);
 }
 
 p:not(app-view-article .view-article) {
-    font-family: var(--primary-font);
+    font-family: var(--lib-primary-font);
     margin: 10px;
-    color: var(--text-color);
+    color: var(--lib-text-color);
 }
 
 mat-card {
-    color: var(--text-color);
+    color: var(--lib-text-color);
 }
 
 mat-card-content {
-    color: var(--text-color);
+    color: var(--lib-text-color);
 }
 
 mat-card-title {
-    color: var(--text-color);
+    color: var(--lib-text-color);
 }
 
 .mat-mdc-card-subtitle {
-    color: var(--text-color) !important;
+    color: var(--lib-text-color) !important;
 }
 
 .mat-expansion-panel-header-title {
-    color: var(--text-color) !important;
+    color: var(--lib-text-color) !important;
 }
 
 .mat-expansion-indicator {
-    color: var(--text-color) !important;
+    color: var(--lib-text-color) !important;
 }
 
 .mat-expansion-panel-header-description, .mat-expansion-indicator::after {
-    color: var(--text-color) !important;
+    color: var(--lib-text-color) !important;
 }
 
 .mat-mdc-icon-button[disabled][disabled] {
-    --mdc-icon-button-icon-color: var(--text-color);
-    --mdc-icon-button-disabled-icon-color: var(--text-color);
+    --mdc-icon-button-icon-color: var(--lib-text-color);
+    --mdc-icon-button-disabled-icon-color: var(--lib-text-color);
 }
 
 .mat-mdc-icon-button {
-    --mdc-icon-button-icon-color: rgbavar(--text-color);
-    --mdc-icon-button-disabled-icon-color: var(--text-color);
+    --mdc-icon-button-icon-color: rgbavar(--lib-text-color);
+    --mdc-icon-button-disabled-icon-color: var(--lib-text-color);
 }
 
 mat-icon {
-    color: var(--text-color);
+    color: var(--lib-text-color);
 }
 
 .mat-mdc-select-panel {
     background-color: var(--lib-primary-color);
-    font-family: var(--primary-font);
+    font-family: var(--lib-primary-font);
 }
 
 .mat-mdc-option {
     background-color: var(--lib-primary-color);
-    font-family: var(--primary-font);
+    font-family: var(--lib-primary-font);
 }
 
 .mat-mdc-form-field {
     background-color: var(--lib-primary-color);
-    font-family: var(--primary-font);
+    font-family: var(--lib-primary-font);
 }
 
 .leaflet-popup-content-wrapper {
     background-color: var(--lib-primary-color); 
-    color:  var(--text-color);
-    font-family: var(--primary-font);
+    color:  var(--lib-text-color);
+    font-family: var(--lib-primary-font);
     font-size: 15px;
     text-align: center;
 }
@@ -299,7 +299,7 @@ mat-icon {
     align-items: center;
     justify-content: space-between;
     background-color: transparent;
-    color: var(--text-color);
+    color: var(--lib-text-color);
 }
 
 .subtitled-title {
@@ -310,7 +310,7 @@ mat-icon {
 .subtitle {
     margin-top: 0px;
     margin-bottom: 5px;
-    color: var(--secondary-text-color);
+    color: var(--lib-secondary-text-color);
 }
 
 /* --------------- */
@@ -322,25 +322,25 @@ mat-icon {
 }
 
 .NgxEditor__MenuBar {
-    color: var(--primary-accent-color);
+    color: var(--lib-submit-accent-color);
     background-color: var(--lib-primary-color) !important;
 }
 
 .NgxEditor__Placeholder {
-    color: var(--secondary-text-color);
+    color: var(--lib-secondary-text-color);
 }
 
 .NgxEditor__MenuItem {
-    color: var(--primary-accent-color);
-    background-color: var(--secondary-accent-color);
+    color: var(--lib-submit-accent-color);
+    background-color: var(--lib-primary-accent-color);
 }
 
 .NgxEditor__Seperator {
-    border-left: 3px solid var(--secondary-accent-color) !important;
+    border-left: 3px solid var(--lib-primary-accent-color) !important;
 }
 
 .NgxEditor {
-    background: var(--secondary-background-color) !important;
+    background: var(--lib-background-color) !important;
 }
 
 /*
@@ -359,7 +359,7 @@ ngx-editor {
 }
 
 .leaflet-bar a {
-    color: var(--text-color);
+    color: var(--lib-text-color);
     background-color: var(--lib-primary-color);
 }
 
@@ -489,7 +489,7 @@ ngx-editor {
 	background-color: var(--lib-primary-color);
 	border-left: 1px solid #AAA;
 	color: #FFF;
-	font: 11px/19px var(--primary-font), Arial, Helvetica, sans-serif;
+	font: 11px/19px var(--lib-primary-font), Arial, Helvetica, sans-serif;
 	line-height: 28px;
 	text-decoration: none;
 	padding-left: 10px;
@@ -630,7 +630,7 @@ ngx-editor {
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	color: #fff;
-    font-family: var(--primary-font);
+    font-family: var(--lib-primary-font);
 	margin-left: 20px;
 	margin-top: -21px;
 	padding: 4px 8px;

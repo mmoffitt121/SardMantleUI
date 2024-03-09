@@ -122,6 +122,12 @@ export const themeMenuItems = [
                         value: undefined,
                         type: "color",
                     },
+                    {
+                        name: "Submit Text Color",
+                        key: "--lib-submit-text-accent-color",
+                        value: undefined,
+                        type: "color",
+                    },
                 ]
             },
         ]
@@ -140,6 +146,7 @@ export const defaultTheme = {
     "--lib-secondary-text-color": "#c8c8c8",
     "--lib-tertiary-text-color": "#a5a5a5",
     "--lib-submit-accent-color": "#ffeceb",
+    "--lib-submit-text-accent-color": "#111111",
     "--lib-primary-accent-color": "#665352",
     "--lib-primary-accent-color-disabled": "#423434",
     "--lib-primary-accent-color-selected": "#735f59",

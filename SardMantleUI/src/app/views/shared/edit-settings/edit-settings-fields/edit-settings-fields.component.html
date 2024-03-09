@@ -7,7 +7,7 @@
             <h3> {{child.name}} </h3>
             <mat-card>
                 <mat-card-content>
-                    <app-edit-setting *ngFor="let item of child.items" [setting]="item" />
+                    <app-edit-setting *ngFor="let item of child.items" [setting]="item" (valueChange)="valueChange.emit()" />
                 </mat-card-content>
             </mat-card>
         </div>

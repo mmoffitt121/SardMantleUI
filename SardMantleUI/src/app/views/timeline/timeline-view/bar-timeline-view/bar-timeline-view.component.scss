@@ -1,5 +1,5 @@
 .bar-timeline-background {
-    background-color: var(--secondary-background-color);
+    background-color: var(--lib-background-color);
     width: 100%;
     height: 100%;
     overflow: auto;
@@ -72,7 +72,7 @@
     position: relative;
     top: 20px;
     height: 1px;
-    background-color: var(--secondary-text-color);
+    background-color: var(--lib-secondary-text-color);
     z-index: 1;
 }
 
@@ -81,7 +81,7 @@
     margin-top: 20px;
     margin-bottom: 20px;
     height: 1px;
-    background-color: var(--secondary-text-color);
+    background-color: var(--lib-secondary-text-color);
 }
 
 .ladder-row-item {

@@ -6,7 +6,7 @@
     <mat-card-content style="display: grid; grid-template-columns: auto min-content min-content; grid-gap: 10px;">
         {{theme.name}}
         <div style="display: flex">
-            <button mat-icon-button color="primary">
+            <button mat-icon-button color="primary" (click)="this.edit.emit(theme)">
                 <mat-icon> edit </mat-icon>
             </button>
             <button mat-icon-button color="primary" (click)="this.delete.emit(theme)">

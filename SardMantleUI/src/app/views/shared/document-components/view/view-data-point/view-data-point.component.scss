@@ -8,11 +8,11 @@ p {
 }
 
 mat-divider {
-    background-color: var(--secondary-text-color);
+    background-color: var(--lib-secondary-text-color);
 }
 
 mat-expansion-panel { 
     border-style: solid;
     border-width: 1px;
-    border-color: var(--secondary-text-color);
+    border-color: var(--lib-secondary-text-color);
 }

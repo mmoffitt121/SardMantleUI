@@ -37,7 +37,7 @@ img {
 
 .label-over {
     pointer-events: none;
-    background-color: var(--secondary-accent-color); 
+    background-color: var(--lib-primary-accent-color); 
     border-radius: 5px;
     position: absolute;
     bottom: 0px;
@@ -52,7 +52,7 @@ img {
 .select-overlay {
     pointer-events: none;
     position: absolute;
-    background-color: var(--secondary-accent-color);
+    background-color: var(--lib-primary-accent-color);
     top: 0px;
     left: 0px;
     width: 150px;

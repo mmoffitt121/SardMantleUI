@@ -17,20 +17,22 @@ export class ThemeSelectComponent implements OnInit {
   public themes = [] as any[];
   public userLoggedIn = false;
 
-  public selectTheme(theme: Theme) {
-    this.themeService.selectTheme(theme)
+  public selectTheme(theme: any) {
+    this.themeService.selectTheme(theme.setting);
   }
+
   public canGetThemes() {
     return this.urlService.getWorld() !== "";
   }
+
   public getThemes() {
     if (this.canGetThemes()) {
       this.settingService.get({id: THEME_SETTING + ANY_SETTING_SUFFIX}).subscribe(data => {
         this.themes = data;
-        console.log(data);
       })
     }
   }
+
   public openThemeManager() {
     this.router.navigate([this.urlService.getWorld(), 'theme']);
     this.dialogRef.close();

@@ -13,8 +13,8 @@
         </div>
     </div>
     <div>
-        <app-theme-manage-select [themes]="themes" *ngIf="!themeData" (delete)="deleteTheme($event)"/>
-        <app-edit-settings [settings]="themeOptions" [data]="themeData" *ngIf="themeData" (cancel)="cancel()" (save)="save($event)" />
+        <app-theme-manage-select [themes]="themes" *ngIf="!themeData" (delete)="deleteTheme($event)" (edit)="editTheme($event)" />
+        <app-edit-settings [settings]="themeOptions" [data]="themeData" *ngIf="themeData" (cancel)="cancel()" (save)="save($event)" (valueChange)="previewTheme($event)" />
     </div>
     
 </div>

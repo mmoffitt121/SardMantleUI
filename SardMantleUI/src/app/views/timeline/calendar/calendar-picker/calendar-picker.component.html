@@ -1,6 +1,6 @@
 <div class="calendar-picker-container">
     <div></div>
-    <mat-card style="background-color: var(--secondary-background-color); margin-top: 10px;">
+    <mat-card style="background-color: var(--lib-background-color); margin-top: 10px;">
         <p class="calendar-picker-value-display" *ngIf="displayMode === 'day'">{{displayValue}}</p>
         <mat-card-actions align="end" *ngIf="displayMode === 'day'">
             <button mat-icon-button matTooltip="Calendar Settings" (click)="this.displayMode = 'options'">

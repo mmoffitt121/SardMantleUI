@@ -7,6 +7,7 @@ import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { SettingJsonService } from '../settings/setting-json.service';
 import { THEME_SETTING } from 'src/app/models/settings/settings-constants';
+import { defaultTheme } from 'src/app/models/theme/theme-items';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,8 @@ export class ThemeService {
     })
   }
 
-  public previewTheme(theme: Theme) {
+  public previewTheme(theme: any) {
+    console.log(theme)
     this.theme = theme;
     this.applyTheme();
   }
@@ -46,7 +48,6 @@ export class ThemeService {
         case "name":
           break;
         default:
-          console.log(key, this.theme[key])
           this.document.documentElement.style.setProperty(key, this.theme[key]);
           break;
       }
@@ -62,9 +63,10 @@ export class ThemeService {
   ) { 
     this.theme = { };
     this.router.events.subscribe((val) => {
+      console.log(val)
       if (val instanceof NavigationEnd) {
         if (this.urlService.getWorld() === "") {
-          this.theme = {} as Theme;
+          this.theme = { ...defaultTheme };
           this.applyTheme();
         }
         else {

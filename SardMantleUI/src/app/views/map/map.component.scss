@@ -17,7 +17,7 @@
 
 .map-sidebar {
     overflow: hidden;
-    background-color: var(--secondary-background-color);
+    background-color: var(--lib-background-color);
     padding: 10px;
 }
 
@@ -47,18 +47,18 @@
 }
 
 .mat-mdc-checkbox {
-    font-family: var(--primary-font);
+    font-family: var(--lib-primary-font);
     padding-right: 20px;
     size: fixed;
 }
 
 /* TODO(mdc-migration): The following rule targets internal classes of input that may no longer apply for the MDC version. */
 .mat-input {
-    font-family: var(--primary-font);
+    font-family: var(--lib-primary-font);
 }
 
 .mat-mdc-select {
-    font-family: var(--primary-font);
+    font-family: var(--lib-primary-font);
 }
 
 .map-overlay-buttons-container-left {
@@ -193,7 +193,7 @@
     justify-content: center; 
     align-items: center;
     pointer-events: none;
-    background-color: var(--field-overlay-color-dark);
+    background-color: var(--lib-field-overlay-color);
 }
 
 .button-holder {
@@ -210,7 +210,7 @@ mat-card-content {
 }
 
 ::ng-deep.label-icon-container {
-    font-family: var(--primary-font);
+    font-family: var(--lib-primary-font);
     display: flex;
     flex-direction: width;
     justify-content: center;

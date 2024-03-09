@@ -14,13 +14,13 @@
 .calendar-card {
     width: 120px;
     height: 120px;
-    background-color: var(--secondary-accent-color);
+    background-color: var(--lib-primary-accent-color);
     cursor: pointer;
 }
 
 .label-over {
     pointer-events: none;
-    background-color: var(--secondary-accent-color); 
+    background-color: var(--lib-primary-accent-color); 
     border-radius: 5px;
     position: absolute;
     bottom: 0px;
@@ -35,7 +35,7 @@
 .select-overlay {
     pointer-events: none;
     position: absolute;
-    background-color: var(--secondary-accent-color);
+    background-color: var(--lib-primary-accent-color);
     top: 0px;
     left: 0px;
     width: 120px;

@@ -12,6 +12,7 @@ export class EditSettingsComponent implements OnInit {
 
   @Output() save = new EventEmitter();
   @Output() cancel = new EventEmitter();
+  @Output() valueChange = new EventEmitter();
 
   public select(category: any) {
     this.category = category;
@@ -27,6 +28,18 @@ export class EditSettingsComponent implements OnInit {
     });
 
     this.save.emit(this.data);
+  }
+
+  public valueChanged() {
+    this.settings.forEach(setting => {
+      setting.children.forEach((child: any) => {
+        child.items.forEach((item: any) => {
+          this.data[item.key] = item.value;
+        })
+      })
+    });
+
+    this.valueChange.emit(this.data);
   }
 
   ngOnInit() {

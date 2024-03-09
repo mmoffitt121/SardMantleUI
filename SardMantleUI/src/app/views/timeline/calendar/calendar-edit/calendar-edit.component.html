@@ -51,7 +51,7 @@
                             <app-card-nav (up)="move('timeUnits', timeUnit, 'up')" (down)="move('timeUnits', timeUnit, 'down')" (delete)="deleteItem('timeUnits', timeUnit)" />
                         </div>
                     </mat-card-content>
-                    <mat-card style="background-color: var(--secondary-accent-color); margin-bottom: 0px;" class="grid-1">
+                    <mat-card style="background-color: var(--lib-primary-accent-color); margin-bottom: 0px;" class="grid-1">
                         <mat-card-content style="display: grid; grid-template-columns: auto min-content; ">
                             <div>
                                 Derived From {{i == calendar.timeUnits.length - 1 ? "Unit Time" : ""}}
@@ -62,7 +62,7 @@
                                     margin-bottom: -100px; 
                                     width: 40px; 
                                     height: 100px; 
-                                    background-color: var(--secondary-accent-color); 
+                                    background-color: var(--lib-primary-accent-color); 
                                     border-radius: 0 0 20px 20px; 
                                     box-shadow: 0px 2px 2px -1px rgba(0, 0, 0, 0.5);"
                                 *ngIf="i < calendar.timeUnits.length - 1"
@@ -143,7 +143,7 @@
                             <app-card-nav (up)="move('eras', era, 'up')" (down)="move('eras', era, 'down')" (delete)="deleteItem('eras', era)" (action)="handleCardAction($event, i)" [items]="eraMenuItems" />
                         </div>
                     </mat-card-content>
-                    <mat-card style="background-color: var(--secondary-accent-color); margin-bottom: 0px;" class="grid-1">
+                    <mat-card style="background-color: var(--lib-primary-accent-color); margin-bottom: 0px;" class="grid-1">
                         <mat-card-content style="display: grid; grid-template-columns: auto min-content; ">
                             <div>
                                 Derived From {{i == calendar.eras.length - 1 ? "Years" : ""}}
@@ -154,7 +154,7 @@
                                     margin-bottom: -100px; 
                                     width: 40px; 
                                     height: 100px; 
-                                    background-color: var(--secondary-accent-color); 
+                                    background-color: var(--lib-primary-accent-color); 
                                     border-radius: 0 0 20px 20px; 
                                     box-shadow: 0px 2px 2px -1px rgba(0, 0, 0, 0.5);"
                                 *ngIf="i < calendar.eras.length - 1"

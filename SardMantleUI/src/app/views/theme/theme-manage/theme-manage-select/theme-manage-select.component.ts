@@ -14,6 +14,7 @@ import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/conf
 export class ThemeManageSelectComponent {
   @Input() themes: any[] = [];
   @Output() delete = new EventEmitter();
+  @Output() edit = new EventEmitter();
 
   public selectTheme(theme: any) {
     this.themeService.selectTheme(theme);

@@ -25,7 +25,7 @@
             <mat-card-content>
                 <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
                     <div *ngFor="let parameter of documentType?.typeParameters" cdkDrag>
-                        <mat-card class="type-parameter-box" [style.background-color]="parameter.selected ? 'var(--secondary-accent-color-selected)' : 'var(--secondary-accent-color)'" (click)="select(parameter)">
+                        <mat-card class="type-parameter-box" [style.background-color]="parameter.selected ? 'var(--lib-primary-accent-color-selected)' : 'var(--lib-primary-accent-color)'" (click)="select(parameter)">
                             <mat-card-title>
                                 {{ parameter.name }}
                             </mat-card-title>

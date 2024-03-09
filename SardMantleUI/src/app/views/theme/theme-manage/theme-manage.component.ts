@@ -7,6 +7,7 @@ import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
 import { ThemeSelectComponent } from '../theme-select/theme-select.component';
 import { ErrorService } from 'src/app/services/error.service';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { ThemeService } from 'src/app/services/theme/theme.service';
 
 @Component({
   selector: 'app-theme-manage',
@@ -17,6 +18,11 @@ export class ThemeManageComponent implements OnInit {
   public themes: any[];
   public themeOptions = themeMenuItems;
   public themeData: any = undefined;
+
+  public previewTheme(theme: any) {
+    console.log("preview")
+    this.themeService.previewTheme(theme);
+  }
 
   public selectTheme() {
     this.dialog.open(ThemeSelectComponent, {
@@ -75,6 +81,10 @@ export class ThemeManageComponent implements OnInit {
     });
   }
 
+  public editTheme(theme: any) {
+    this.themeData = theme;
+  }
+
   public deleteTheme(theme: any) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '500px',
@@ -94,7 +104,13 @@ export class ThemeManageComponent implements OnInit {
     });
   }
 
-  constructor (public skeletonService: SkeletonService, public settingService: SettingJsonService, public dialog: MatDialog, private errorService: ErrorService) {}
+  constructor (
+    public skeletonService: SkeletonService, 
+    public settingService: SettingJsonService, 
+    public dialog: MatDialog, 
+    private errorService: ErrorService, 
+    private themeService: ThemeService
+  ) {}
 
   ngOnInit(): void {
     this.loadThemes();

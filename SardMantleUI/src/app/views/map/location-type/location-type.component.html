@@ -5,7 +5,7 @@
     </button>
 </div>
 <app-search-bar (valueChanged)="onSearch($event)" [onTyping]="true"></app-search-bar>
-<mat-card style="margin-top: 10px; background-color: var(--secondary-background-color)">
+<mat-card style="margin-top: 10px; background-color: var(--lib-background-color)">
     <mat-card-content>
         <div style="display: grid; grid-template-columns: 40px auto;">
             <mat-checkbox  [indeterminate]="someSelected" [checked]="allSelected" (change)="setAllSelected(!allSelected)"></mat-checkbox>
@@ -26,7 +26,7 @@
         </div>
     </mat-card-content>
     <mat-paginator 
-        style="background-color: var(--secondary-background-color)"
+        style="background-color: var(--lib-background-color)"
         [length]="length"
         [pageIndex]="locationTypeQuery.pageNumber"
         [pageSize]="locationTypeQuery.pageSize"

@@ -96,7 +96,6 @@ import { EditLocationTypeComponent } from './views/map/location-type/edit-locati
 import { FilterLocationComponent } from './views/map/filter-location/filter-location.component';
 import { LoginComponent } from './views/auth/login/login.component';
 import { NewAccountComponent } from './views/auth/new-account/new-account.component';
-import { TopBarComponent } from './views/home/top-bar/top-bar.component';
 import { UserSettingsComponent } from './views/auth/user-settings/user-settings.component';
 import { GlobalHomeComponent } from './views/common/global-home/global-home.component';
 import { WorldBrowserComponent } from './views/common/world-browser/world-browser.component';
@@ -106,8 +105,6 @@ import { AddHeaderInterceptor } from './http-interceptors/add-header-interceptor
 import { WorldListComponent } from './views/common/global-home/world-list/world-list.component';
 import { WorldManagerComponent } from './views/common/world-manager/world-manager.component';
 import { WorldCreatorComponent } from './views/common/world-manager/world-creator/world-creator.component';
-import { ManageThemesComponent } from './views/home/top-bar/manage-themes/manage-themes.component';
-import { ViewThemesComponent } from './views/home/top-bar/view-themes/view-themes.component';
 import { EditColorComponent } from './views/shared/document-components/edit/edit-color/edit-color.component';
 import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
 import { RouterModule } from '@angular/router';
@@ -116,7 +113,6 @@ import { DatabaseAdministrationComponent } from './views/administration/database
 import { DeploymentAdministrationComponent } from './views/administration/deployment-administration/deployment-administration.component';
 import { EditDocumentLocationsComponent } from './views/map/edit-location/edit-document-locations/edit-document-locations.component';
 import { ViewLocationParamComponent } from './views/shared/document-components/view/view-location-param/view-location-param.component';
-import { NavMenuComponent } from './views/home/top-bar/nav-menu/nav-menu.component';
 import { DocumentFilterComponent } from './views/document/document-filter/document-filter.component';
 import { UnitsComponent } from './views/units/units.component';
 import { ChangePasswordComponent } from './views/auth/user-settings/change-password/change-password.component';
@@ -226,7 +222,6 @@ export function tokenGetter() {
     FilterLocationComponent,
     LoginComponent,
     NewAccountComponent,
-    TopBarComponent,
     UserSettingsComponent,
     GlobalHomeComponent,
     WorldBrowserComponent,
@@ -234,15 +229,12 @@ export function tokenGetter() {
     WorldListComponent,
     WorldManagerComponent,
     WorldCreatorComponent,
-    ManageThemesComponent,
-    ViewThemesComponent,
     EditColorComponent,
     UserAdministrationComponent,
     DatabaseAdministrationComponent,
     DeploymentAdministrationComponent,
     EditDocumentLocationsComponent,
     ViewLocationParamComponent,
-    NavMenuComponent,
     DocumentFilterComponent,
     UnitsComponent,
     ChangePasswordComponent,

@@ -16,7 +16,6 @@ import { AdministrationComponent } from './views/administration/administration.c
 import { GlobalHomeComponent } from './views/common/global-home/global-home.component';
 import { AuthGuard } from './guards/auth-guard.guard';
 import { WorldManagerComponent } from './views/common/world-manager/world-manager.component';
-import { ManageThemesComponent } from './views/home/top-bar/manage-themes/manage-themes.component';
 import { UnitsComponent } from './views/units/units.component';
 import { CalendarComponent } from './views/timeline/calendar/calendar.component';
 import { DocumentTypeComponent } from './views/document/document-type/document-type.component';

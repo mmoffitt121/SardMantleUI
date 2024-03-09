@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { EditDataPointComponent } from '../../document-components/edit/edit-data-point/edit-data-point.component';
 
 @Component({
@@ -9,6 +9,7 @@ import { EditDataPointComponent } from '../../document-components/edit/edit-data
 export class EditSettingComponent implements AfterViewInit {
   @Input() setting: any;
   @ViewChild("fieldComponent") fieldComponent: any;
+  @Output() valueChange = new EventEmitter();
 
   constructor(private cdref: ChangeDetectorRef) {}
 

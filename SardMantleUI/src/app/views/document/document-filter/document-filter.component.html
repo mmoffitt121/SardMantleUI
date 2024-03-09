@@ -29,7 +29,7 @@
                         mat-list-item class="list-item" 
                         [value]="type.id" 
                         [style.--mdc-list-list-item-label-text-size]="type.selected ? '19px' : '16px'"
-                        [style.background-color]="type.selected ? 'var(--secondary-accent-color-selected)' : 'var(--secondary-accent-color)'"
+                        [style.background-color]="type.selected ? 'var(--lib-primary-accent-color-selected)' : 'var(--lib-primary-accent-color)'"
                         (click)="toggleTypeSelected(type)"
                     >
                         {{type.name}}

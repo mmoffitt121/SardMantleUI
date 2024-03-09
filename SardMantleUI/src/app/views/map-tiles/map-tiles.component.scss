@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: 55px 0.3fr 0.7fr;
     overflow-y: auto;
-    background-color: var(--secondary-background-color);
+    background-color: var(--lib-background-color);
     position: absolute;
     top: 0;
     left: 0;
@@ -16,7 +16,7 @@
     display: grid;
     grid-template-columns: 100%;
     margin: 10px;
-    color: var(--text-color);
+    color: var(--lib-text-color);
 }
 
 .floating-button-holder {
@@ -85,7 +85,7 @@
     position: absolute;
     z-index: 1000;
     pointer-events: none;
-    background-color: var(--field-overlay-color-dark);
+    background-color: var(--lib-field-overlay-color);
     width: 256px;
     height: 256px;
     display: flex; 
@@ -95,7 +95,7 @@
 
 .view-mode-select {
     margin-top: 20px;
-    background-color: var(--secondary-background-color);
+    background-color: var(--lib-background-color);
 }
 
 .options-under {

@@ -50,7 +50,7 @@
                                 </mat-card>
                             </div>
                         </div>
-                        <mat-card style="margin-top: 10px; background-color: var(--secondary-background-color)"  *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+                        <mat-card style="margin-top: 10px; background-color: var(--lib-background-color)"  *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
                             <mat-card-header>
                                 <mat-card-content style="width: 100%; font-size: 15px;">
                                     <p>Loops: {{ mapData.loops ? "Yes" : "No" }}</p>
