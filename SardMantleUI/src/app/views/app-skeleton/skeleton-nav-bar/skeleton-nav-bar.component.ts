@@ -27,11 +27,16 @@ export class SkeletonNavBarComponent {
   @Input() display: string | undefined = undefined;
 
   public navigate(option: MenuOption) {
-    if (option.isRoot) {
-      this.router.navigate([option.route]);
-    }
+    if (option.options?.length) {
+      this.setGroupingExpanded(option, !option.expanded);
+    } 
     else {
-      this.router.navigate([this.urlService.getWorld(), option.route]);
+      if (option.isRoot) {
+        this.router.navigate([option.route]);
+      }
+      else {
+        this.router.navigate([this.urlService.getWorld(), option.route]);
+      }
     }
   }
   public navigateLogIn() {
@@ -111,6 +116,7 @@ export class SkeletonNavBarComponent {
       } as MenuGrouping;
 
       grouping.options.forEach(option => {
+        option.expanded = (expandSettings[option.name] !== undefined ? expandSettings[option.name] : option.expanded);
         if ((option.isRoot || this.inWorld) && this.loginService.userHasAnyOfRoles(option.roles)) {
           newGrouping.options.push(option);
         }

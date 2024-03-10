@@ -20,6 +20,8 @@ import { UnitsComponent } from './views/units/units.component';
 import { CalendarComponent } from './views/timeline/calendar/calendar.component';
 import { DocumentTypeComponent } from './views/document/document-type/document-type.component';
 import { ThemeManageComponent } from './views/theme/theme-manage/theme-manage.component';
+import { RolesComponent } from './views/security/roles/roles.component';
+import { UsersComponent } from './views/security/users/users.component';
 
 const routes: Routes = [
   { path:'', redirectTo: 'home', pathMatch: 'full' },
@@ -57,6 +59,8 @@ const routes: Routes = [
     { path:'document-type/edit/:id', component:EditDocumentTypeComponent, canActivate: [AuthGuard] },
     { path:'theme', component:ThemeManageComponent, canActivate: [AuthGuard] },
     { path:'theme/:id', component:ThemeManageComponent, canActivate: [AuthGuard] },
+    { path:'roles', component:RolesComponent, canActivate: [AuthGuard] },
+    { path:'users', component:UsersComponent, canActivate: [AuthGuard] },
   ]}
 ];
 

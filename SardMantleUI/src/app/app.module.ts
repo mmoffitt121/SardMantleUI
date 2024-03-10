@@ -159,6 +159,9 @@ import { EditSettingsFieldsComponent } from './views/shared/edit-settings/edit-s
 import { EditSettingsSidebarComponent } from './views/shared/edit-settings/edit-settings-sidebar/edit-settings-sidebar.component';
 import { EditSettingComponent } from './views/shared/edit-settings/edit-setting/edit-setting.component';
 import { ThemeManageSelectComponent } from './views/theme/theme-manage/theme-manage-select/theme-manage-select.component';
+import { RolesComponent } from './views/security/roles/roles.component';
+import { UsersComponent } from './views/security/users/users.component';
+import { SettingsTopbarComponent } from './views/shared/settings-topbar/settings-topbar.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -282,6 +285,9 @@ export function tokenGetter() {
     EditSettingsSidebarComponent,
     EditSettingComponent,
     ThemeManageSelectComponent,
+    RolesComponent,
+    UsersComponent,
+    SettingsTopbarComponent,
     ],
   imports: [
     BrowserModule,

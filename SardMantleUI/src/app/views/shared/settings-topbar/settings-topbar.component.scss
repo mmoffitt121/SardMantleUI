@@ -1,20 +1,8 @@
-.screen-container {
-    overflow-y: auto;
-    background-color: var(--lib-background-color);
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 0px;
-}
-
 .top-actions-container {
     display: grid;
     grid-template-columns: auto min-content;
     border-radius: 0 0 30px 30px;
     padding: 10px;
-    padding-right: 30px;
     position: sticky;
     position: -webkit-sticky;
     top: 0;

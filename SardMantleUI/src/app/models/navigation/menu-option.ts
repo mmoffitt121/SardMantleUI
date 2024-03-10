@@ -1,5 +1,4 @@
-export interface MenuOption {
-    name: string;
+export interface MenuOption extends MenuGrouping {
     icon: string;
     isRoot: boolean;
     route: string;
@@ -57,32 +56,96 @@ export const navMenuOptions = [
         expanded: false,
         options: [
             {
-                name: "Document Types",
-                icon: "receipt_long",
-                isRoot: false,
-                route: "document-type",
-                roles: ["Editor", "Administrator"]
-            },
-            {
-                name: "Units",
-                icon: "design_services",
-                isRoot: false,
-                route: "units",
-                roles: []
-            },
-            {
-                name: "Calendars",
-                icon: "calendar_month",
-                isRoot: false,
-                route: "calendar",
-                roles: []
-            },
-            {
-                name: "Themes",
+                name: "Appearance",
                 icon: "palette",
                 isRoot: false,
                 route: "theme",
-                roles: ["Editor", "Administrator"]
+                roles: ["Editor", "Administrator"],
+                options: [
+                    {
+                        name: "Themes",
+                        icon: "palette",
+                        isRoot: false,
+                        route: "theme",
+                        roles: ["Editor", "Administrator"]
+                    },
+                ]
+            },
+            {
+                name: "Documents",
+                icon: "history_edu",
+                isRoot: false,
+                route: "document-type",
+                roles: ["Editor", "Administrator"],
+                options: [
+                    {
+                        name: "Calendars",
+                        icon: "calendar_month",
+                        isRoot: false,
+                        route: "calendar",
+                        roles: []
+                    },
+                    {
+                        name: "Document Types",
+                        icon: "receipt_long",
+                        isRoot: false,
+                        route: "document-type",
+                        roles: ["Editor", "Administrator"]
+                    },
+                    {
+                        name: "Units",
+                        icon: "design_services",
+                        isRoot: false,
+                        route: "units",
+                        roles: []
+                    },
+                ]
+            },
+            {
+                name: "Pages",
+                icon: "web",
+                isRoot: false,
+                route: "pages",
+                roles: ["Editor", "Administrator"],
+                options: [
+                    {
+                        name: "Pages",
+                        icon: "web",
+                        isRoot: false,
+                        route: "pages",
+                        roles: ["Editor", "Administrator"],
+                    },
+                    {
+                        name: "Views",
+                        icon: "table_chart",
+                        isRoot: false,
+                        route: "pages",
+                        roles: ["Editor", "Administrator"]
+                    },
+                ]
+            },
+            {
+                name: "Security",
+                icon: "lock_open",
+                isRoot: false,
+                route: "security",
+                roles: [],
+                options: [
+                    {
+                        name: "Roles",
+                        icon: "badge",
+                        isRoot: false,
+                        route: "roles",
+                        roles: []
+                    },
+                    {
+                        name: "Users",
+                        icon: "group",
+                        isRoot: false,
+                        route: "users",
+                        roles: []
+                    },
+                ]
             },
         ]
     },
