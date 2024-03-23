@@ -2730,7 +2730,7 @@ html {
 }
 
 .mat-mdc-table {
-    background: var(--lib-primary-accent-color)
+    background: var(--lib-primary-color)
 }
 
 .mat-mdc-table .mdc-data-table__row {
