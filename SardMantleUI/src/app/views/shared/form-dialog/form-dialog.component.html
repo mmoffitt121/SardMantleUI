@@ -1,0 +1,22 @@
+<mat-card>
+    <mat-card-header style="display: grid; grid-template-columns: auto min-content;">
+      <mat-card-title>
+        {{title}}
+      </mat-card-title>
+      <button mat-icon-button (click)="onCancel()" matTooltip="Close">
+          <mat-icon>
+              close
+          </mat-icon>
+      </button>
+    </mat-card-header>
+    <div style="padding: 10px;">
+        <div *ngFor="let item of items">
+            <app-edit-string [(model)]="item.value" [parameterName]="item.name" [parameterSummary]="item.description" (modelChange)="onChange()" />
+        </div>
+    </div>
+    <mat-card-actions>
+        <button mat-button color="primary" style="width: 100%;" (click)="onSave()" [disabled]="!valid">
+            Save
+        </button>
+    </mat-card-actions>
+</mat-card>

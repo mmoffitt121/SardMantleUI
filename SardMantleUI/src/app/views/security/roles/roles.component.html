@@ -1,4 +1,4 @@
-<app-settings-topbar pageName="Roles" [showAdd]="true" />
+<app-settings-topbar pageName="Roles" [showAdd]="true" (add)="add()" />
 <div style="margin-left: auto; margin-right: auto; max-width: 1000px">
     <table mat-table [dataSource]="roles" class="mat-elevation-z8">
       <ng-container matColumnDef="name">

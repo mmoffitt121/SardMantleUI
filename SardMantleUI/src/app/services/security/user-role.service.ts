@@ -11,7 +11,7 @@ export class UserRoleService {
     return this.http.get<any>(environment.baseUrl + '/Library/LibraryUserRole/Get', {params: {}})
   }
   public put(userId: string, roles: string[]) {
-    return this.http.post<any>(environment.baseUrl + '/Library/LibraryUserRole/Put', roles, {params: {user: userId}})
+    return this.http.put<any>(environment.baseUrl + '/Library/LibraryUserRole/Put', roles, {params: {user: userId}})
   }
   constructor(private http: HttpClient, private jwtHelperService: JwtHelperService) { }
 }

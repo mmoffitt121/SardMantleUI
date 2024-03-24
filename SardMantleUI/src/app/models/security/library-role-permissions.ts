@@ -2,6 +2,8 @@ export interface Permission {
     id: string;
     description: string;
     children: any[];
+    read: boolean | undefined;
+    write: boolean | undefined;
 }
 
 export interface Role {

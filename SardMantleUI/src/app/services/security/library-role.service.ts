@@ -15,7 +15,7 @@ export class LibraryRoleService {
     return this.http.get<any>(environment.baseUrl + '/Library/LibraryRole/GetPermissions')
   }
   public put(data: any) {
-    return this.http.post<any>(environment.baseUrl + '/Library/LibraryRole/Put', data)
+    return this.http.put<any>(environment.baseUrl + '/Library/LibraryRole/Put', data)
   }
   public delete(userId: string) {
     return this.http.delete<any>(environment.baseUrl + '/Library/LibraryRole/Delete', {params: {id: userId}})

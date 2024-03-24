@@ -36,6 +36,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatTreeModule } from '@angular/material/tree';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -162,6 +163,9 @@ import { ThemeManageSelectComponent } from './views/theme/theme-manage/theme-man
 import { RolesComponent } from './views/security/roles/roles.component';
 import { UsersComponent } from './views/security/users/users.component';
 import { SettingsTopbarComponent } from './views/shared/settings-topbar/settings-topbar.component';
+import { EditSelectionListComponent } from './views/shared/edit/edit-selection-list/edit-selection-list.component';
+import { EditSelectionTreeComponent } from './views/shared/edit/edit-selection-tree/edit-selection-tree.component';
+import { FormDialogComponent } from './views/shared/form-dialog/form-dialog.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -288,6 +292,9 @@ export function tokenGetter() {
     RolesComponent,
     UsersComponent,
     SettingsTopbarComponent,
+    EditSelectionListComponent,
+    EditSelectionTreeComponent,
+    FormDialogComponent,
     ],
   imports: [
     BrowserModule,
@@ -320,6 +327,7 @@ export function tokenGetter() {
     MatToolbarModule,
     MatTableModule,
     MatSliderModule,
+    MatTreeModule,
     DragDropModule,
     BrowserAnimationsModule,
     NgxEditorModule,
