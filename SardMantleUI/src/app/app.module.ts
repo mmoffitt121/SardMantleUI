@@ -166,6 +166,7 @@ import { SettingsTopbarComponent } from './views/shared/settings-topbar/settings
 import { EditSelectionListComponent } from './views/shared/edit/edit-selection-list/edit-selection-list.component';
 import { EditSelectionTreeComponent } from './views/shared/edit/edit-selection-tree/edit-selection-tree.component';
 import { FormDialogComponent } from './views/shared/form-dialog/form-dialog.component';
+import { SelectUserComponent } from './views/shared/edit/select-user/select-user.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -295,6 +296,7 @@ export function tokenGetter() {
     EditSelectionListComponent,
     EditSelectionTreeComponent,
     FormDialogComponent,
+    SelectUserComponent,
     ],
   imports: [
     BrowserModule,

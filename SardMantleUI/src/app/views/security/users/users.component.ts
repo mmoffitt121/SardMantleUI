@@ -6,6 +6,8 @@ import { LoginService } from 'src/app/services/login/login.service';
 import { LibraryRoleService } from 'src/app/services/security/library-role.service';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { UserRoleService } from 'src/app/services/security/user-role.service';
+import { SelectUserComponent } from '../../shared/edit/select-user/select-user.component';
+import { EditSelectionListComponent } from '../../shared/edit/edit-selection-list/edit-selection-list.component';
 
 @Component({
   selector: 'app-users',
@@ -13,7 +15,7 @@ import { UserRoleService } from 'src/app/services/security/user-role.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent {
-  public permissions: string[];
+  public roles: Role[];
   public users: ViewableLibraryUser[];
 
   displayedColumns: string[] = ['name', 'roles', 'actions'];
@@ -24,11 +26,54 @@ export class UsersComponent {
     },
     error => {
       this.errorService.handle(error);
-    })
+    });
+    this.roleService.get(undefined).subscribe(data => {
+      this.roles = data;
+    },
+    error => {
+      this.errorService.handle(error);
+    });
+  }
+
+  public add() {
+    const dialogRef = this.dialog.open(SelectUserComponent, {
+      width: '500px',
+      height: '600px',
+      data: { 
+        title: "Add User", 
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && !this.users.find(r => r.id == result.id)) {
+        this.userService.put(result.id, ["Viewer"]).subscribe(result => {
+          this.errorService.showSnackBar("User successfully added.");
+          this.load();
+        }, error => this.errorService.handle(error))
+      }
+    });
   }
 
   public editUser(data: ViewableLibraryUser) {
+    let roles = this.roles.map(r => r.id);
+    let selectedRoles = data.libraryRoles.map(role => role.id);
+    const dialogRef = this.dialog.open(EditSelectionListComponent, {
+      width: '500px',
+      data: { 
+        title: "Select Roles", 
+        items: roles,
+        selectedItems: selectedRoles
+      }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.userService.put(data.id, result).subscribe(result => {
+          this.errorService.showSnackBar("User saved.");
+          this.load();
+        }, error => this.errorService.handle(error))
+      }
+    });
   }
 
   public deleteUser(data: ViewableLibraryUser) {
@@ -42,16 +87,17 @@ export class UsersComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        /*this.rolesService.delete(role.id).subscribe(result => {
-          this.errorService.showSnackBar("Role successfully deleted.");
+        this.userService.put(data.id, []).subscribe(result => {
+          this.errorService.showSnackBar("User successfully deleted.");
           this.load();
-        }, error => this.errorService.handle(error))*/
+        }, error => this.errorService.handle(error))
       }
     });
   }
 
   constructor(private errorService: ErrorService,
     private userService: UserRoleService,
+    private roleService: LibraryRoleService,
     private dialog: MatDialog,
     public loginService: LoginService
   ) {}

@@ -1,5 +1,22 @@
-<div class="edit-selection-list-container">
-    <mat-selection-list>
-        <mat-list-option *ngFor="let item of items">{{item}}</mat-list-option>
-    </mat-selection-list>
-</div>
+<mat-card class="edit-selection-list-container">
+    <mat-card-header style="display: grid; grid-template-columns: auto min-content;">
+      <mat-card-title>
+        {{title}}
+      </mat-card-title>
+      <button mat-icon-button (click)="onCancel()" matTooltip="Close">
+          <mat-icon>
+              close
+          </mat-icon>
+      </button>
+    </mat-card-header>
+    <div class="list-container">
+        <mat-selection-list>
+            <mat-list-option *ngFor="let item of items" [(selected)]="item.selected">{{item.value}}</mat-list-option>
+        </mat-selection-list>
+    </div>
+    <div style="padding: 5px;">
+        <button mat-button color="primary" style="width: 100%;" (click)="onSave()">
+          Save
+        </button>
+    </div>
+</mat-card>
