@@ -115,6 +115,7 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
   public setScreenPosition(item: TimelineItem) {
     let timeOffset = this.calendarStart;
     let timeRange = this.calendarEnd - this.calendarStart;
+    if (timeRange == 0n) timeRange = 1n;
 
     let startDisplay = Number((item.startDate - timeOffset) * BigInt(this.displaySize) / timeRange);
     let endDisplay = Number(((item.endDate ?? -1n) - timeOffset) * BigInt(this.displaySize) / timeRange);
@@ -169,6 +170,8 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
 
       this.editingBeginningTime = item.startDate;
       this.editingEndingTime = item.endDate!;
+      this.editEraBeginningTime?.setValue(item.startDate);
+      this.editEraEndTime?.setValue(item.endDate!);
       this.editingName = item.object?.name ?? "";
       this.editingSummary = item.object?.summary ?? "";
       this.editName?.setValue(this.editingName);
@@ -189,26 +192,21 @@ export class BarTimelineViewComponent extends TimelineViewComponent implements O
     this.displayItems();
   }
 
-  public findAndSelect(def: EraDefinition) {
+  public async findAndSelect(def: EraDefinition) {
     let startDTO = this.calendarService.toDateTimeObject(BigInt(def.start), this.calendar)
     let endDTO = this.calendarService.toDateTimeObject(BigInt(def.end), this.calendar)
 
-    let defBeginningYear = startDTO.year;
-    let defEndYear = endDTO.year;
-    let deltaYear = (defEndYear - defBeginningYear) / 2n;
+    this.beginningYear = startDTO.year;
+    this.endYear = endDTO.year;
+    this.editBeginningYear?.setValue(startDTO.year);
+    this.editEndYear?.setValue(endDTO.year > startDTO.year ? endDTO.year : startDTO.year + 1n);
 
-    this.beginningYear = defBeginningYear - defEndYear > 0 ? defBeginningYear - defEndYear : 0n;
-    this.endYear = defEndYear + deltaYear;
+    this.displayItems();
 
-    if (this.beginningYear == this.endYear) {
-      this.endYear += 1n;
-    }
-
-    this.editBeginningYear?.setValue(this.beginningYear);
-    this.editEndYear?.setValue(this.endYear);
+    await new Promise(f => setTimeout(f, 1));
 
     this.lanes.forEach(lane => {
-      let found = lane.items.find(x => x.object === def);
+      let found = lane.items.find(x => x.object?.id === def.id);
       if (found) {
         this.onItemClick(found)
       }

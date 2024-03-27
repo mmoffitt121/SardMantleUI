@@ -103,9 +103,9 @@
             <div *ngIf="selectedItem">
                 <app-edit-string #editName [(model)]="editingName" [thin]="true" (modelChange)="onChange()" parameterName="Name" />
                 <div style="margin-top: 10px;"></div>
-                <app-edit-datetime [calendar]="calendar" [(model)]="editingBeginningTime" (modelChange)="onChange()" parameterName="Beginning Date" [useBaseYear]="true" />
+                <app-edit-datetime [calendar]="calendar" [(model)]="editingBeginningTime" #editEraBeginningTime (modelChange)="onChange()" parameterName="Beginning Date" [useBaseYear]="true" />
                 <div style="margin-top: 10px;"></div>
-                <app-edit-datetime [calendar]="calendar" [(model)]="editingEndingTime" (modelChange)="onChange()" parameterName="End Date" [useBaseYear]="true" />
+                <app-edit-datetime [calendar]="calendar" [(model)]="editingEndingTime" #editEraEndTime (modelChange)="onChange()" parameterName="End Date" [useBaseYear]="true" />
             </div>
             <div *ngIf="selectedItem">
                 <app-edit-summary #editSummary [(model)]="editingSummary" (modelChange)="onChange()" parameterName="Description" />
@@ -125,6 +125,9 @@
             <div>
                 <button mat-button style="width: 100%; margin-top: 10px;" (click)="find()">
                     Find
+                </button>
+                <button mat-button style="width: 100%; margin-top: 10px;" [disabled]="!selectedItem" (click)="findAndSelect(selectedItem!.object!)">
+                    Focus
                 </button>
             </div>
             <button mat-button style="width: 100%" (click)="close()">

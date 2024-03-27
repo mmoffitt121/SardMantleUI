@@ -52,8 +52,8 @@ export class CalendarEditComponent {
     this.calendar.timeZones = this.calendar.timeZones ?? [];
 
     let i = 0;
-    this.calendar.eras.forEach(e => {
-      e.eraDefinitions.forEach(def => {def.id = i; i++;})
+    this.calendar.eras?.forEach(e => {
+      e.eraDefinitions?.forEach(def => {def.id = i; i++;})
     })
 
     this.calendarService.applyEraDefinitionNumbers(this.calendar);

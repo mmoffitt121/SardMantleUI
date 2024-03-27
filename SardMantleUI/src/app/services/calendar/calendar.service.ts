@@ -239,10 +239,10 @@ export class CalendarService {
     if (calendar.eras.length < 1) return;
 
     calendar.eras.forEach(e => {
-      e.eraDefinitions = e.eraDefinitions.sort((d1, d2) => BigInt(d1.start) < BigInt(d2.start) ? -1 : 1)
+      e.eraDefinitions = e.eraDefinitions?.sort((d1, d2) => BigInt(d1.start) < BigInt(d2.start) ? -1 : 1)
     })
     let i = 0;
-    calendar.eras[0].eraDefinitions.forEach(def => {
+    calendar.eras[0].eraDefinitions?.forEach(def => {
       def.eraNumber = i + 1;
       this.applyEraDefinitionNumberToChildren(0, i, calendar);
       i++;

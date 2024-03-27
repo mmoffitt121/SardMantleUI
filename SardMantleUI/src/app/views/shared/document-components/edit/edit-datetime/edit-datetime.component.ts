@@ -64,6 +64,7 @@ export class EditDatetimeComponent implements OnInit {
 
   public setValue(model: bigint) {
     this.model = model;
+    this.updateDisplay();
   }
 
   constructor(public calendarService: CalendarService) {}
