@@ -167,6 +167,11 @@ import { EditSelectionListComponent } from './views/shared/edit/edit-selection-l
 import { EditSelectionTreeComponent } from './views/shared/edit/edit-selection-tree/edit-selection-tree.component';
 import { FormDialogComponent } from './views/shared/form-dialog/form-dialog.component';
 import { SelectUserComponent } from './views/shared/edit/select-user/select-user.component';
+import { MenusComponent } from './views/pages/menus/menus.component';
+import { PagesComponent } from './views/pages/pages/pages.component';
+import { ViewsComponent } from './views/pages/views/views.component';
+import { PageEditorComponent } from './views/pages/pages/page-editor/page-editor.component';
+import { RequireRoleDirective } from './directives/security/require-role.directive';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -297,6 +302,11 @@ export function tokenGetter() {
     EditSelectionTreeComponent,
     FormDialogComponent,
     SelectUserComponent,
+    MenusComponent,
+    PagesComponent,
+    ViewsComponent,
+    PageEditorComponent,
+    RequireRoleDirective,
     ],
   imports: [
     BrowserModule,

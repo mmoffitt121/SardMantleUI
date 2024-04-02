@@ -31,7 +31,6 @@ export class EditSelectionListComponent {
   ngOnInit(): void {
     this.title = this.data.title;
     this.items = this.data.items;
-    console.log(this.data);
     this.items = this.data.items.map((item: string) => {
       return {
         value: item,

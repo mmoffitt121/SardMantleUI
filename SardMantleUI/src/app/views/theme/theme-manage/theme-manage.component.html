@@ -7,7 +7,7 @@
             <h2 style="margin-top: 10px; margin-bottom: 0px;">Themes</h2>
         </div>
         <div style="display: flex">
-            <button mat-icon-button matTooltip="Add Theme" (click)="add()" style="margin-top: 5px;" *ngIf="!themeData">
+            <button mat-icon-button matTooltip="Add Theme" (click)="add()" style="margin-top: 5px;" *ngIf="!themeData" requireRole [role]="'Library.Setup.Settings'">
                 <mat-icon> add </mat-icon>
             </button>
         </div>

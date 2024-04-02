@@ -2,6 +2,9 @@ import { Injectable, OnInit } from '@angular/core';
 import { CalendarDataService } from './calendar-data.service';
 import { Calendar, Era, EraDefinition, Formatter, TimeZone, Week } from 'src/app/models/units/calendar';
 import { DateTimeObject } from 'src/app/models/timeline/time';
+import { UrlService } from '../url/url.service';
+
+export const SAVED_TIME = "SavedTime"
 
 @Injectable({
   providedIn: 'root'
@@ -270,6 +273,18 @@ export class CalendarService {
   }
 
   // -=-=-=-=-=-=-=-=-
+  // Defaults
+  // -=-=-=-=-=-=-=-=-
+
+  public saveDefaultDate(time: bigint) {
+    localStorage.setItem(`${this.urlService.getWorld()}-${SAVED_TIME}`, String(time));
+  }
+
+  public getDefaultDate(): bigint {
+    return BigInt(localStorage.getItem(`${this.urlService.getWorld()}-${SAVED_TIME}`) ?? 0);
+  }
+
+  // -=-=-=-=-=-=-=-=-
   // Format
   // -=-=-=-=-=-=-=-=-
 
@@ -388,7 +403,7 @@ export class CalendarService {
     return this.fromDateTimeObject(dto, calendar);
   } 
   
-  constructor(private dataService: CalendarDataService) {
+  constructor(private dataService: CalendarDataService, private urlService: UrlService) {
     this.loadCalendars();
   }
 }

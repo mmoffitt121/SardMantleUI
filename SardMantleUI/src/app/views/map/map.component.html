@@ -19,8 +19,8 @@
                                     <h4 class="subtitle"> {{ mapData.summary }} </h4>
                                     <button mat-button style="margin-left: 10px; margin-top: 30px;" (click)="changeMap()"> Change Map </button>
                                 </div>
-                                <div *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
-                                    <button mat-icon-button style="margin: 10px" matTooltip="Edit Map Settings" (click)="editMap()">
+                                <div>
+                                    <button mat-icon-button style="margin: 10px" matTooltip="Edit Map Settings" (click)="editMap()" requireRole [role]="'Library.Map'">
                                         <mat-icon>
                                             edit
                                         </mat-icon>
@@ -28,7 +28,7 @@
                                 </div>
                             </div>
                             <div>
-                                <mat-card class="map-card-over" style="z-index: 1000; position: absolute; " *ngIf="mapIconHovered && loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+                                <mat-card class="map-card-over" style="z-index: 1000; position: absolute; " *ngIf="mapIconHovered" requireRole [role]="'Library.Map'">
                                     <mat-icon>edit</mat-icon>
                                 </mat-card>
                                 <img 
@@ -50,7 +50,7 @@
                                 </mat-card>
                             </div>
                         </div>
-                        <mat-card style="margin-top: 10px; background-color: var(--lib-background-color)"  *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+                        <mat-card style="margin-top: 10px; background-color: var(--lib-background-color)" requireRole [role]="'Library.Map'">
                             <mat-card-header>
                                 <mat-card-content style="width: 100%; font-size: 15px;">
                                     <p>Loops: {{ mapData.loops ? "Yes" : "No" }}</p>
@@ -139,7 +139,7 @@
         </div>
         <div class="map-overlay-buttons-container-right">
             <button mat-raised-button (click)="openMapSettings()" class="map-overlay-button"><mat-icon>map</mat-icon></button>
-            <button mat-raised-button (click)="openAddLocation()" class="map-overlay-button" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])"><mat-icon>add</mat-icon></button>
+            <button mat-raised-button (click)="openAddLocation()" class="map-overlay-button" requireRole [role]="'Library.Map'"><mat-icon>add</mat-icon></button>
         </div>
     </mat-drawer-content>
 </mat-drawer-container>

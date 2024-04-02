@@ -1,20 +1,20 @@
 
 <div *ngIf="skeletonService.labels">
     <div *ngFor="let grouping of menuOptions">
-        <button mat-menu-item class="menu-item-header" (click)="setGroupingExpanded(grouping, !grouping.expanded)">
+        <button mat-menu-item class="menu-item-header" (click)="setGroupingExpanded(grouping, !grouping.expanded)" *ngIf="grouping.options?.length">
             <h4 class="group-header">
                 {{grouping.name}}
             </h4>
         </button>
         <div *ngIf="grouping.expanded">
             <div *ngFor="let option of grouping.options" style="display: grid;">
-                <button mat-menu-item class="menu-item-content" (click)="navigate(option)">
+                <button mat-menu-item class="menu-item-content" (click)="navigate(option)" *ngIf="option.options?.length || option.route">
                     <mat-icon *ngIf="option.icon"> {{option.icon}} </mat-icon>
                     {{option.name}}
                 </button>
                 <div *ngIf="option.expanded">
                     <div *ngFor="let option2 of option.options" style="display: flex;">
-                        <button mat-menu-item class="menu-item-content" (click)="navigate(option2)" style="margin-left: 15px;">
+                        <button mat-menu-item class="menu-item-content" (click)="navigate(option2)" style="margin-left: 15px;" *ngIf="option2.options?.length || option2.route">
                             <mat-icon *ngIf="option2.icon"> {{option2.icon}} </mat-icon>
                             {{option2.name}}
                         </button>

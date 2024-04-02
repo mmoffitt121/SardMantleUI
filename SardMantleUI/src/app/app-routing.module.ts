@@ -22,6 +22,9 @@ import { DocumentTypeComponent } from './views/document/document-type/document-t
 import { ThemeManageComponent } from './views/theme/theme-manage/theme-manage.component';
 import { RolesComponent } from './views/security/roles/roles.component';
 import { UsersComponent } from './views/security/users/users.component';
+import { PagesComponent } from './views/pages/pages/pages.component';
+import { MenusComponent } from './views/pages/menus/menus.component';
+import { ViewsComponent } from './views/pages/views/views.component';
 
 const routes: Routes = [
   { path:'', redirectTo: 'home', pathMatch: 'full' },
@@ -52,15 +55,21 @@ const routes: Routes = [
     { path:'document/results', component:DocumentComponent },
     { path:'document/view', component:DocumentComponent },
     { path:'document/view/:docId', component:DocumentComponent },
-    { path:'document/add', component:DocumentComponent, canActivate: [AuthGuard] },
-    { path:'document/edit', component:DocumentComponent, canActivate: [AuthGuard] },
-    { path:'document/edit/:docId', component:DocumentComponent, canActivate: [AuthGuard] },
+    { path:'document/view/:docId', component:DocumentComponent },
+    { path:'document/view/:docId', component:DocumentComponent },
+    { path:'document/view/:docId', component:DocumentComponent },
+    { path:'document/add', component:DocumentComponent },
+    { path:'document/edit', component:DocumentComponent },
+    { path:'document/edit/:docId', component:DocumentComponent },
     { path:'document-type', component:DocumentTypeComponent },
-    { path:'document-type/edit/:id', component:EditDocumentTypeComponent, canActivate: [AuthGuard] },
-    { path:'theme', component:ThemeManageComponent, canActivate: [AuthGuard] },
-    { path:'theme/:id', component:ThemeManageComponent, canActivate: [AuthGuard] },
-    { path:'roles', component:RolesComponent, canActivate: [AuthGuard] },
-    { path:'users', component:UsersComponent, canActivate: [AuthGuard] },
+    { path:'document-type/edit/:id', component:EditDocumentTypeComponent },
+    { path:'theme', component:ThemeManageComponent },
+    { path:'theme/:id', component:ThemeManageComponent },
+    { path:'roles', component:RolesComponent },
+    { path:'users', component:UsersComponent },
+    { path:'pages', component:PagesComponent },
+    { path:'menus', component:MenusComponent },
+    { path:'views', component:ViewsComponent },
   ]}
 ];
 

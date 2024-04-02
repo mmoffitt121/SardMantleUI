@@ -10,6 +10,7 @@ export class SettingsTopbarComponent {
   @Input() pageName: string;
   @Input() showAdd: boolean;
   @Input() toggleGroupOptions: any[];
+  @Input() addRole: string = "";
   @Output() add = new EventEmitter();
 
   public pageMode: string;

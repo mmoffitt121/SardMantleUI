@@ -14,7 +14,7 @@
             <button mat-icon-button class="button" (click)="setDisplayMode('view')" *ngIf="!wideScreen">
                 <mat-icon> description </mat-icon>
             </button>
-            <button mat-icon-button class="button" (click)="setDisplayMode('add')" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+            <button mat-icon-button class="button" (click)="setDisplayMode('add')" requireRole [role]="'Library.Document'">
                 <mat-icon> add </mat-icon>
             </button>
         </div>

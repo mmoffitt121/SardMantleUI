@@ -34,6 +34,7 @@ export class NewAccountComponent {
               localStorage.setItem("userId", data.id);
               localStorage.setItem("roles", data.roles);
               this.router.navigate(["user-settings"]);
+              this.loginService.loggedIn();
             })
           }
           else {

@@ -9,7 +9,7 @@
     </div>
     <div style="display: flex">
       <div style="display: flex;">
-        <button mat-icon-button class="icon-button" matTooltip="Add" *ngIf="showAdd" (click)="doAdd()">
+        <button mat-icon-button class="icon-button" matTooltip="Add" *ngIf="showAdd" (click)="doAdd()" requireRole [role]="addRole">
           <mat-icon> add </mat-icon>
         </button>
       </div>

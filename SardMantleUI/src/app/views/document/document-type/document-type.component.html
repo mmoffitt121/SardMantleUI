@@ -8,7 +8,7 @@
             </button>
             <h2 style="margin-top: 10px; margin-bottom: 0px;">Document Types</h2>
         </div>
-        <button mat-icon-button (click)="addDocumentType()" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])" style="margin-top: 5px;">
+        <button mat-icon-button (click)="addDocumentType()" requireRole [role]="'Library.Document.Type'" style="margin-top: 5px;">
             <mat-icon>
                 add
             </mat-icon>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div>
-                    <button mat-icon-button style="margin: 5px; margin-bottom: 0px" (click)="editDocumentType(documentType.id)" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+                    <button mat-icon-button style="margin: 5px; margin-bottom: 0px" (click)="editDocumentType(documentType.id)" requireRole [role]="'Library.Document.Type'">
                         <mat-icon>
                             edit
                         </mat-icon>

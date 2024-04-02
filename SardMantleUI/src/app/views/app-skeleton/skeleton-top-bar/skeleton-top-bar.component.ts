@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ReplaySubject, takeUntil } from 'rxjs';
 import { Theme } from 'src/app/models/theme/theme';
 import { LoginService } from 'src/app/services/login/login.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
@@ -11,13 +12,15 @@ import { UrlService } from 'src/app/services/url/url.service';
   templateUrl: './skeleton-top-bar.component.html',
   styleUrls: ['./skeleton-top-bar.component.scss']
 })
-export class SkeletonTopBarComponent {
+export class SkeletonTopBarComponent implements OnInit, OnDestroy {
   public userLoggedIn: boolean = false;
   public username: string | undefined;
   public themes = [] as Theme[];
   public loadingThemes = false;
   public inWorld = false;
   @Output() openMenu = new EventEmitter();
+
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   openNavigation() {
     this.openMenu.emit();
@@ -73,8 +76,15 @@ export class SkeletonTopBarComponent {
   ) { }
 
   ngOnInit() {
-    this.userLoggedIn = this.loginService.isLoggedIn();
-    this.username = localStorage['username'];
-    this.inWorld = this.urlService.getWorld() !== "";
+    this.loginService.userName$.pipe(takeUntil(this.destroyed$)).subscribe(userName => {
+      this.userLoggedIn = !!userName;
+      this.username = localStorage['username'];
+      this.inWorld = this.urlService.getWorld() !== "";
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 }

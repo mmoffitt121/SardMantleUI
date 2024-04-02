@@ -29,13 +29,13 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Actions </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button (click)="convertUnit(element)">
+        <button mat-icon-button (click)="convertUnit(element)" requireRole [role]="'Library.Setup.Units.Read'" [enabledDisplay]="'inline'">
           <mat-icon>autorenew</mat-icon>
         </button>
-        <button mat-icon-button (click)="editUnit(element)" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+        <button mat-icon-button (click)="editUnit(element)" requireRole [role]="'Library.Setup.Units'" [enabledDisplay]="'inline'">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="deleteUnit(element)" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+        <button mat-icon-button (click)="deleteUnit(element)" requireRole [role]="'Library.Setup.Units'" [enabledDisplay]="'inline'">
           <mat-icon>delete</mat-icon>
         </button>
       </td>
