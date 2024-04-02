@@ -172,6 +172,7 @@ import { PagesComponent } from './views/pages/pages/pages.component';
 import { ViewsComponent } from './views/pages/views/views.component';
 import { PageEditorComponent } from './views/pages/pages/page-editor/page-editor.component';
 import { RequireRoleDirective } from './directives/security/require-role.directive';
+import { CardViewComponent } from './views/pages/views/card-view/card-view.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -307,6 +308,7 @@ export function tokenGetter() {
     ViewsComponent,
     PageEditorComponent,
     RequireRoleDirective,
+    CardViewComponent,
     ],
   imports: [
     BrowserModule,
