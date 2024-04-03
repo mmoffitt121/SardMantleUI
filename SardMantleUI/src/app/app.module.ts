@@ -173,6 +173,8 @@ import { ViewsComponent } from './views/pages/views/views.component';
 import { PageEditorComponent } from './views/pages/pages/page-editor/page-editor.component';
 import { RequireRoleDirective } from './directives/security/require-role.directive';
 import { CardViewComponent } from './views/pages/views/card-view/card-view.component';
+import { GenericViewComponent } from './views/pages/views/generic-view/generic-view.component';
+import { QueryEditorComponent } from './views/shared/edit/query-editor/query-editor.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -309,6 +311,8 @@ export function tokenGetter() {
     PageEditorComponent,
     RequireRoleDirective,
     CardViewComponent,
+    GenericViewComponent,
+    QueryEditorComponent,
     ],
   imports: [
     BrowserModule,
