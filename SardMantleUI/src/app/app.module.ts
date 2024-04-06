@@ -175,6 +175,8 @@ import { RequireRoleDirective } from './directives/security/require-role.directi
 import { CardViewComponent } from './views/pages/views/card-view/card-view.component';
 import { GenericViewComponent } from './views/pages/views/generic-view/generic-view.component';
 import { QueryEditorComponent } from './views/shared/edit/query-editor/query-editor.component';
+import { ListViewComponent } from './views/pages/views/list-view/list-view.component';
+import { ViewEditComponent } from './views/pages/views/view-edit/view-edit.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -313,6 +315,8 @@ export function tokenGetter() {
     CardViewComponent,
     GenericViewComponent,
     QueryEditorComponent,
+    ListViewComponent,
+    ViewEditComponent,
     ],
   imports: [
     BrowserModule,

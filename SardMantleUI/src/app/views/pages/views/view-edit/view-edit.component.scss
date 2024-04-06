@@ -1,0 +1,35 @@
+.editor-container {
+    display: grid;
+    grid-template-rows: auto min-content;
+}
+
+.topbar {
+    display: inline-block;
+    padding: 2px;
+    width: 100%;
+    .topbar-button {
+        margin: 1px;
+        min-width: 150px;
+        min-height: 35px;
+        height: 35px;
+        border-radius: 0px;
+        justify-content: left;
+        background-color: var(--lib-primary-color);
+        box-shadow: none;;
+    }
+    .topbar-icon-button {
+        margin: 1px;
+        min-width: 35px;
+        width: 35px;
+        min-height: 35px;
+        height: 35px;
+        border-radius: 0px;
+        mat-icon {
+            margin-left: 8px;
+            overflow: visible;
+        }
+    }
+    .topbar-icon {
+        margin: 8px;
+    }
+}

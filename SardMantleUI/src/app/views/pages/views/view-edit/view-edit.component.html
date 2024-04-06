@@ -1,0 +1,39 @@
+<div class="editor-container">
+    <mat-card class="topbar">
+        <button mat-button class="topbar-button" matTooltip="Edit View Details" (click)="editDetails()">
+            {{view.name}}
+        </button>
+        <button mat-button class="topbar-button" matTooltip="Change View Type">
+            {{view.viewType}}
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Select Document Types">
+            <mat-icon>receipt_long</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Change Query Options">
+            <mat-icon>search</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Change Which Parameters Appear">
+            <mat-icon>list</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Adjust Appearance">
+            <mat-icon>brush</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Close" style="float: right" (click)="onSave()">
+            <mat-icon>close</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Save" style="float: right" (click)="onClose()">
+            <mat-icon>save</mat-icon>
+        </button>
+        <mat-icon class="topbar-icon" style="float: right" *ngIf="!changes">
+            check
+        </mat-icon>
+        <mat-icon class="topbar-icon" style="float: right" *ngIf="changes">
+            description
+        </mat-icon>
+    </mat-card>
+    <div>
+        <app-card-view *ngIf="view.viewType == 'Card'" />
+        <app-list-view *ngIf="view.viewType == 'List'" />
+    </div>
+    
+</div>

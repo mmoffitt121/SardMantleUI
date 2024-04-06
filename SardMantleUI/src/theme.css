@@ -2138,7 +2138,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
     --mdc-tab-indicator-active-indicator-color: var(--lib-submit-accent-color);
     --mat-tab-header-disabled-ripple-color: rgba(255, 255, 255, 0.5);
     --mat-tab-header-pagination-icon-color: #fff;
-    --mat-tab-header-inactive-label-text-color: rgba(255, 255, 255, 0.6);
+    --mat-tab-header-inactive-label-text-color: var(--lib-secondary-text-color);
     --mat-tab-header-active-label-text-color: var(--lib-submit-accent-color);
     --mat-tab-header-active-ripple-color: var(--lib-submit-accent-color);
     --mat-tab-header-inactive-ripple-color: var(--lib-submit-accent-color);
@@ -2155,7 +2155,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
     --mdc-tab-indicator-active-indicator-color: #b0bec5;
     --mat-tab-header-disabled-ripple-color: rgba(255, 255, 255, 0.5);
     --mat-tab-header-pagination-icon-color: #fff;
-    --mat-tab-header-inactive-label-text-color: rgba(255, 255, 255, 0.6);
+    --mat-tab-header-inactive-label-text-color: var(--lib-secondary-text-color);
     --mat-tab-header-active-label-text-color: #b0bec5;
     --mat-tab-header-active-ripple-color: #b0bec5;
     --mat-tab-header-inactive-ripple-color: #b0bec5;
@@ -2172,7 +2172,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
     --mdc-tab-indicator-active-indicator-color: #f44336;
     --mat-tab-header-disabled-ripple-color: rgba(255, 255, 255, 0.5);
     --mat-tab-header-pagination-icon-color: #fff;
-    --mat-tab-header-inactive-label-text-color: rgba(255, 255, 255, 0.6);
+    --mat-tab-header-inactive-label-text-color: var(--lib-secondary-text-color);
     --mat-tab-header-active-label-text-color: #f44336;
     --mat-tab-header-active-ripple-color: #f44336;
     --mat-tab-header-inactive-ripple-color: #f44336;

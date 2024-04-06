@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ViewQueryService } from 'src/app/services/pages/view-query.service';
+import { ViewQueryService } from 'src/app/services/document/view-query.service';
 
 @Component({
   selector: 'app-generic-view',

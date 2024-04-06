@@ -1,0 +1,34 @@
+.view-container {
+    display: grid;
+    grid-template-columns: min(300px, 100%) 1fr;
+    height: calc(100vh - 80px);
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+}
+
+.views-list-container {
+    margin: 10px;
+    .views-list {
+        height: calc(100vh - 104px);
+        display: grid;
+        grid-template-rows: min-content auto;
+        
+        .view-items {
+            max-height: 100%;
+            padding: 10px;
+            overflow: auto;
+            .view-item {
+                margin-top: 2px;
+                margin-bottom: 2px;
+                width: 100%;
+                justify-content: left;
+                background-color: var(--lib-primary-accent-color)
+            }
+        }
+    }
+}
+
+.views-view-container { 
+    margin: 10px;
+}

@@ -1,6 +1,6 @@
 import { query } from '@angular/animations';
 import { Component } from '@angular/core';
-import { ViewQueryService } from 'src/app/services/pages/view-query.service';
+import { ViewQueryService } from 'src/app/services/document/view-query.service';
 import { GenericViewComponent } from '../generic-view/generic-view.component';
 
 @Component({
