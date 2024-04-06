@@ -40,16 +40,53 @@ export class ThemeService {
   }
 
   public applyTheme() {
+    Object.keys(defaultTheme).forEach(key => {
+      this.document.documentElement.style.removeProperty(key);
+    })
     Object.keys(this.theme).forEach(key => {
       switch (key) {
         case "key":
         case "name":
+          break;
+        case "--lib-background-gradient-type":
+        case "--lib-sidebar-gradient-type":
+          this.setGradient(key);
           break;
         default:
           this.document.documentElement.style.setProperty(key, this.theme[key]);
           break;
       }
     })
+  }
+
+  private setGradient(key: string) {
+    let newKey;
+    let type;
+    let direction;
+    let color;
+    let gradColor;
+    switch (key) {
+      case "--lib-background-gradient-type":
+        newKey = "--lib-background-gradient";
+        color = "--lib-background-color"
+        break;
+      case "--lib-sidebar-gradient-type":
+        newKey = "--lib-sidebar-gradient";
+        color = "--lib-sidebar-color"
+        break;
+      default:
+        return;
+    }
+    type = newKey + "-type"
+    direction = newKey + "-direction"
+    gradColor = newKey + "-color"
+
+    if (!this.theme[key]) {
+      this.document.documentElement.style.setProperty(newKey, "none")
+      return;
+    }
+    let gradStyle = `${this.theme[type]}(${this.theme[direction]}, ${this.theme[color]}, ${this.theme[gradColor]}) `
+    this.document.documentElement.style.setProperty(newKey, gradStyle)
   }
   
   constructor(

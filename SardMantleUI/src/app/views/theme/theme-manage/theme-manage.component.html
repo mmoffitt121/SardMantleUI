@@ -1,20 +1,7 @@
 <div class="screen-container">
-    <div class="top-actions-container">
-        <div style="display: flex">
-            <button mat-icon-button (click)="skeletonService.toggleSidebar()" style="margin-top: 5px; margin-right: 15px;">
-                <mat-icon> menu </mat-icon>
-            </button>
-            <h2 style="margin-top: 10px; margin-bottom: 0px;">Themes</h2>
-        </div>
-        <div style="display: flex">
-            <button mat-icon-button matTooltip="Add Theme" (click)="add()" style="margin-top: 5px;" *ngIf="!themeData" requireRole [role]="'Library.Setup.Settings'">
-                <mat-icon> add </mat-icon>
-            </button>
-        </div>
-    </div>
+    <app-settings-topbar pageName="Themes" [showAdd]="true" (add)="add()" addRole="Library.Setup.Settings"/>
     <div>
         <app-theme-manage-select [themes]="themes" *ngIf="!themeData" (delete)="deleteTheme($event)" (edit)="editTheme($event)" />
         <app-edit-settings [settings]="themeOptions" [data]="themeData" *ngIf="themeData" (cancel)="cancel()" (save)="save($event)" (valueChange)="previewTheme($event)" />
     </div>
-    
 </div>

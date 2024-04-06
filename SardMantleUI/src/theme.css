@@ -489,6 +489,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
     --mat-card-subtitle-text-size: 14px;
     --mat-card-subtitle-text-tracking: 0.0071428571em;
     --mat-card-subtitle-text-weight: 500;
+    border: var(--lib-primary-outline-width) var(--lib-primary-outline-style) var(--lib-primary-outline-color) !important
 }
 
 .mat-mdc-progress-bar {
@@ -1920,7 +1921,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 .mat-warn .mdc-list-item__end {
     --mdc-radio-disabled-selected-icon-color: #fff;
     --mdc-radio-disabled-unselected-icon-color: #fff;
-    --mdc-radio-unselected-hover-icon-color: #eeeeee;
+    --mdc-radio-unselected-hover-icon-color: #f10909;
     --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
     --mdc-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
     --mdc-radio-selected-focus-icon-color: #f44336;
@@ -1932,27 +1933,27 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 .mat-mdc-list-option {
     --mdc-checkbox-disabled-selected-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-disabled-unselected-icon-color: var(--lib-submit-accent-color);
-    --mdc-checkbox-selected-checkmark-color: var(--lib-text-color);
+    --mdc-checkbox-selected-checkmark-color: var(--lib-submit-text-accent-color);
     --mdc-checkbox-selected-focus-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-hover-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-pressed-icon-color: var(--lib-submit-accent-color);
-    --mdc-checkbox-unselected-focus-icon-color: #eeeeee;
-    --mdc-checkbox-unselected-hover-icon-color: #eeeeee;
-    --mdc-checkbox-unselected-icon-color: rgba(255, 255, 255, 0.54);
-    --mdc-checkbox-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
+    --mdc-checkbox-unselected-focus-icon-color: #f10909;
+    --mdc-checkbox-unselected-hover-icon-color: #f10909;
+    --mdc-checkbox-unselected-icon-color: #f10909;
+    --mdc-checkbox-unselected-pressed-icon-color: #f10909;
     --mdc-checkbox-selected-focus-state-layer-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-hover-state-layer-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-pressed-state-layer-color: var(--lib-submit-accent-color);
-    --mdc-checkbox-unselected-focus-state-layer-color: white;
-    --mdc-checkbox-unselected-hover-state-layer-color: white;
-    --mdc-checkbox-unselected-pressed-state-layer-color: white
+    --mdc-checkbox-unselected-focus-state-layer-color: #f10909;
+    --mdc-checkbox-unselected-hover-state-layer-color: #f10909;
+    --mdc-checkbox-unselected-pressed-state-layer-color: #f10909
 }
 
 .mat-mdc-list-option.mat-accent {
     --mdc-checkbox-disabled-selected-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-disabled-unselected-icon-color: var(--lib-submit-accent-color);
-    --mdc-checkbox-selected-checkmark-color: var(--lib-text-color);
+    --mdc-checkbox-selected-checkmark-color: var(--lib-submit-text-accent-color);
     --mdc-checkbox-selected-focus-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-hover-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-icon-color: var(--lib-submit-accent-color);
@@ -2216,7 +2217,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 html {
     --mdc-checkbox-disabled-selected-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-disabled-unselected-icon-color: var(--lib-submit-accent-color);
-    --mdc-checkbox-selected-checkmark-color: var(--lib-text-color);
+    --mdc-checkbox-selected-checkmark-color: var(--lib-submit-text-accent-color);
     --mdc-checkbox-selected-focus-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-hover-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-icon-color: var(--lib-submit-accent-color);
@@ -3373,7 +3374,8 @@ html {
 
 .mat-expansion-panel {
     background: #424242;
-    color: #fff
+    color: #fff;
+    border: var(--lib-primary-outline-width) var(--lib-primary-outline-style) var(--lib-primary-outline-color) !important;
 }
 
 .mat-expansion-panel:not([class*=mat-elevation-z]) {
@@ -3469,12 +3471,14 @@ html {
 
 .mat-drawer-container {
     background-color: var(--lib-background-color);
+    background-image: var(--lib-background-gradient);
     color: var(--lib-text-color);
     font-family: var(--lib-primary-font);
 }
 
 .mat-drawer {
-    background-color: var(--lib-background-color);
+    background-color: var(--lib-sidebar-color, --lib-background-color);
+    background-image:  var(--lib-sidebar-gradient);
     color: var(--lib-text-color);
     font-family: var(--lib-primary-font);
 }
