@@ -11,7 +11,8 @@
     </mat-card-header>
     <div style="padding: 10px;">
         <div *ngFor="let item of items">
-            <app-edit-string [(model)]="item.value" [parameterName]="item.name" [parameterSummary]="item.description" (modelChange)="onChange()" />
+            <app-edit-string [(model)]="item.value" [parameterName]="item.name" [parameterSummary]="item.description" (modelChange)="onChange()" *ngIf="!item.type" />
+            <app-edit-selection *ngIf="item.type == 'select'" /> <!-- Doesn't quite work yet! -->
         </div>
     </div>
     <mat-card-actions>

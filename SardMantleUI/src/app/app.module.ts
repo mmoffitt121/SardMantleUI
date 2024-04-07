@@ -177,6 +177,7 @@ import { GenericViewComponent } from './views/pages/views/generic-view/generic-v
 import { QueryEditorComponent } from './views/shared/edit/query-editor/query-editor.component';
 import { ListViewComponent } from './views/pages/views/list-view/list-view.component';
 import { ViewEditComponent } from './views/pages/views/view-edit/view-edit.component';
+import { EditSelectionComponent } from './views/shared/document-components/edit/edit-selection/edit-selection.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -317,6 +318,7 @@ export function tokenGetter() {
     QueryEditorComponent,
     ListViewComponent,
     ViewEditComponent,
+    EditSelectionComponent,
     ],
   imports: [
     BrowserModule,

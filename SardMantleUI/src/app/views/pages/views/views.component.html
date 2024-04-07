@@ -8,7 +8,7 @@
                 </mat-card-title>
             </mat-card-header>
             <div class="view-items">
-                <button mat-button class="view-item" *ngFor="let view of views" (click)="select(view)">
+                <button mat-button class="view-item" *ngFor="let view of views" (click)="select(view)" [ngStyle]="{backgroundColor: view.id == selectedView?.id ? 'var(--lib-primary-accent-color-selected)' : 'var(--lib-primary-accent-color)'}">
                     <mat-card-content>
                         {{view.name}}
                     </mat-card-content>
@@ -18,7 +18,7 @@
     </div>
     <div>
         <div class="views-view-container">
-            <app-view-edit *ngIf="selectedView" [view]="selectedView" (close)="onEditorClose()" (save)="onEditorSave($event)" />
+            <app-view-edit *ngIf="selectedView" [view]="selectedView" (close)="onEditorClose()" (delete)="onEditorDelete($event)" (save)="onEditorSave($event)" (change)="changes = $event" />
         </div>
     </div>
 </div>

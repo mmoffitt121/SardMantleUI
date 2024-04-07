@@ -8,7 +8,7 @@
                 Search
             </mat-card-title>
             <div>
-                <mat-button-toggle-group name="pageMode" value="documentTypes">
+                <mat-button-toggle-group name="pageMode" value="documentTypes" *ngIf="showSwitcher">
                     <mat-button-toggle value="documentTypes" matTooltip="Document Types" (click)="setPageMode('documentTypes')">
                       <mat-icon> perm_media </mat-icon>
                     </mat-button-toggle>
@@ -84,8 +84,8 @@
         />
     </mat-card-actions>
     <mat-card-actions style="display: inline; padding-bottom: 10px">
-        <button mat-button style="width: 100%" color="primary" (click)="onSearch()">
-            Search
+        <button mat-button style="width: 100%" color="primary" (click)="onSearch(); onConfirm()">
+            {{confirmMessage}}
         </button>
     </mat-card-actions>
 </mat-card>

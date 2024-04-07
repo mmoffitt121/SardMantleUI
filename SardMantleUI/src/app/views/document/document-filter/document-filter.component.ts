@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Output, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, ViewChild, ChangeDetectorRef, Inject, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DocumentType } from 'src/app/models/document/document-types/document-type';
 import { DocumentTypeService } from 'src/app/services/document/document-type.service';
@@ -39,6 +39,9 @@ export class DocumentFilterComponent implements OnInit {
   public pageSizeOptions: any;
 
   public typeMultiSelect = false;
+
+  public showSwitcher = true;
+  public confirmMessage = "Search";
 
   public toggleMultiSelect() {
     this.typeMultiSelect = !this.typeMultiSelect;
@@ -125,6 +128,21 @@ export class DocumentFilterComponent implements OnInit {
     });
   }
 
+  public onConfirm() {
+    let typeIds: any[] = [];
+    this.selectedTypes.forEach(type => {
+      typeIds.push(type.id);
+    })
+    if (this.dialogRef) {
+      this.dialogRef.close({
+        query: this.documentControl.value ?? '',
+        parameters: this.editParams?.getParameterList(),
+        parameterSearchOptions: this.editParams?.getParameterSearchOptions(),
+        typeIds: typeIds
+      });
+    }
+  }
+
   public onPageChange(data: any) {
     this.pageIndex = data.pageIndex;
     this.pageSize = data.pageSize;
@@ -141,8 +159,17 @@ export class DocumentFilterComponent implements OnInit {
     private router: Router, 
     private urlService: UrlService, 
     private errorService: ErrorService,
-    private cdref: ChangeDetectorRef
-  ) { }
+    private cdref: ChangeDetectorRef,
+    @Optional() public dialogRef: MatDialogRef<DocumentFilterComponent>, @Optional() @Inject(MAT_DIALOG_DATA) public data: any
+  ) { 
+    if (data) {
+      this.showSwitcher = data.showSwitcher ?? this.showSwitcher;
+      this.confirmMessage = data.confirmMessage ?? this.confirmMessage;
+      if (data.pageMode) {
+        this.setPageMode(data.pageMode);
+      }
+    }
+  }
 
   public ngOnInit() {
     this.filterDocumentTypes();

@@ -15,3 +15,8 @@ export interface DataPointSearchCriteria {
     typeId: number | undefined;
     typeIds: number[] | undefined;
 }
+
+export const ViewTypes = [
+    "List",
+    "Card"
+]

@@ -15,5 +15,10 @@ export class ViewService {
     return this.http.put(environment.baseUrl + '/Library/View/Put', data);
   }
 
+  public delete(id: string) {
+    let params = new HttpParams().set("Id", id);
+    return this.http.delete(environment.baseUrl + '/Library/View/Delete', { params: params })
+  }
+
   constructor(private http: HttpClient) { }
 }

@@ -3,31 +3,40 @@
         <button mat-button class="topbar-button" matTooltip="Edit View Details" (click)="editDetails()">
             {{view.name}}
         </button>
-        <button mat-button class="topbar-button" matTooltip="Change View Type">
+        <button mat-button class="topbar-button" matTooltip="Change View Type" [matMenuTriggerFor]="viewTypeMenu">
             {{view.viewType}}
         </button>
-        <button mat-button class="topbar-icon-button" matTooltip="Select Document Types">
+        <mat-menu #viewTypeMenu="matMenu">
+            <button mat-menu-item *ngFor="let type of viewTypes" (click)="selectViewType(type)">{{type}}</button>
+          </mat-menu>
+        <button mat-button class="topbar-icon-button" matTooltip="Select Document Types" (click)="selectDocumentTypes()">
             <mat-icon>receipt_long</mat-icon>
         </button>
-        <button mat-button class="topbar-icon-button" matTooltip="Change Query Options">
+        <button mat-button class="topbar-icon-button" matTooltip="Change Query Options" (click)="configureFilter()">
             <mat-icon>search</mat-icon>
         </button>
         <button mat-button class="topbar-icon-button" matTooltip="Change Which Parameters Appear">
             <mat-icon>list</mat-icon>
         </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Change Which Parameters The User Can Filter By">
+            <mat-icon>check_circle_outline</mat-icon>
+        </button>
         <button mat-button class="topbar-icon-button" matTooltip="Adjust Appearance">
             <mat-icon>brush</mat-icon>
         </button>
-        <button mat-button class="topbar-icon-button" matTooltip="Close" style="float: right" (click)="onSave()">
+        <button mat-button class="topbar-icon-button" matTooltip="Close" style="float: right" (click)="onClose()">
             <mat-icon>close</mat-icon>
         </button>
-        <button mat-button class="topbar-icon-button" matTooltip="Save" style="float: right" (click)="onClose()">
+        <button mat-button class="topbar-icon-button" matTooltip="Delete" style="float: right" (click)="onDelete()">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Save" style="float: right" (click)="onSave()">
             <mat-icon>save</mat-icon>
         </button>
-        <mat-icon class="topbar-icon" style="float: right" *ngIf="!changes">
+        <mat-icon class="topbar-icon" style="float: right" *ngIf="!(changes$ | async)">
             check
         </mat-icon>
-        <mat-icon class="topbar-icon" style="float: right" *ngIf="changes">
+        <mat-icon class="topbar-icon" style="float: right" *ngIf="(changes$ | async)">
             description
         </mat-icon>
     </mat-card>

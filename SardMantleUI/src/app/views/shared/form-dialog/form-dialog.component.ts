@@ -10,7 +10,8 @@ export interface formDialogItem {
   name: string,
   description: string,
   value: string,
-  required: boolean
+  required: boolean,
+  type: string | undefined
 }
 
 @Component({
