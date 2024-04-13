@@ -14,12 +14,12 @@ export class EditBoolComponent implements OnInit {
   @Input() required: boolean = false;
 
   @Input() displaySearchOptions: boolean = false;
-  @Input() searchOptions = [
-    "True",
-    "False",
-    "Don't Filter",
+  @Input() filterOptions = [
+    { filterMode: 7, name: "True"},
+    { filterMode: 8, name: "False"},
+    { filterMode: 0, name: "Don't Filter"},
   ];
-  @Input() public selectedSearchOption = "Don't Filter";
+  @Input() public selectedFilterOption = { filterMode: 9, name: "Don't Filter"};
 
   @Output() valueChanged = new EventEmitter(); 
   
@@ -38,7 +38,7 @@ export class EditBoolComponent implements OnInit {
 
   public getValue() {
     if (this.displaySearchOptions) {
-      switch (this.selectedSearchOption) {
+      switch (this.selectedFilterOption.name) {
         case "True":
           return true;
         case "False":
@@ -53,10 +53,10 @@ export class EditBoolComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.control.setValue(false);
+    this.control.setValue(this.control.value ?? false);
     this.control.valueChanges.subscribe(value => {
       this.valueChanged.emit(value)
-      this.selectedSearchOption = value ? "True" : "False"
+      this.selectedFilterOption = value ? { filterMode: 7, name: "True" } : { filterMode: 8, name: "False" }
     });
   }
 }

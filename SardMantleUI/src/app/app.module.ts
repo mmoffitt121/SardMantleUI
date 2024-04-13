@@ -178,6 +178,8 @@ import { QueryEditorComponent } from './views/shared/edit/query-editor/query-edi
 import { ListViewComponent } from './views/pages/views/list-view/list-view.component';
 import { ViewEditComponent } from './views/pages/views/view-edit/view-edit.component';
 import { EditSelectionComponent } from './views/shared/document-components/edit/edit-selection/edit-selection.component';
+import { ViewParamComponent } from './views/shared/document-components/view-param/view-param.component';
+import { ViewParamStringComponent } from './views/shared/document-components/view-param/view-param-string/view-param-string.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -319,6 +321,8 @@ export function tokenGetter() {
     ListViewComponent,
     ViewEditComponent,
     EditSelectionComponent,
+    ViewParamComponent,
+    ViewParamStringComponent,
     ],
   imports: [
     BrowserModule,

@@ -33,3 +33,9 @@
         margin: 8px;
     }
 }
+
+.view-container {
+    height: 1fr;
+    overflow: auto;
+    height: calc(100vh - 150px);
+}

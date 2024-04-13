@@ -53,7 +53,17 @@ export class ViewsComponent implements OnInit {
   }
 
   public onEditorClose() {
-    this.selectedView = undefined;
+    if (this.changes) {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        width: '480px',
+        data: { title: 'Unsaved Changes', content: 'Are you sure you discard your changes?' }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        this.selectedView = undefined;
+        this.changes = false;
+      });
+    }
   }
 
   public onEditorDelete(view: View) {

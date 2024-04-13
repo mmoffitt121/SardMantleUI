@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, ReplaySubject, takeUntil } from 'rxjs';
-import { View, ViewTypes } from 'src/app/models/pages/view';
+import { DataPointSearchCriteria, SearchCriteriaOptions, View, ViewTypes } from 'src/app/models/pages/view';
+import { CalendarService } from 'src/app/services/calendar/calendar.service';
 import { DocumentFilterComponent } from 'src/app/views/document/document-filter/document-filter.component';
 import { DocumentTypeComponent } from 'src/app/views/document/document-type/document-type.component';
 import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
@@ -64,13 +65,14 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
       data: { 
         confirmMessage: "Select",
         showSwitcher: false,
-        pageMode: 'documentTypes'
+        pageMode: 'documentTypes',
+        criteria: this.view.searchCriteriaOptions!.criteria
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result)
+        this.view.searchCriteriaOptions!.criteria.typeIds = result.typeIds;
       }
     });
   }
@@ -79,15 +81,17 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
     const dialogRef = this.dialog.open(DocumentFilterComponent, {
       width: '500px',
       data: { 
-        confirmMessage: "Select",
+        confirmMessage: "Save Query",
         showSwitcher: false,
-        pageMode: 'filter'
+        pageMode: 'filter',
+        criteria: this.view.searchCriteriaOptions!.criteria
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result)
+        this.view.searchCriteriaOptions!.criteria.parameters = result.parameters;
+        this.view.searchCriteriaOptions!.criteria.parameterSearchOptions = result.parameterSearchOptions;
       }
     });
   }
@@ -117,7 +121,7 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
     this.close.emit();
   }
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private calendarService: CalendarService) {}
 
   ngOnDestroy(): void {
     this.destroyed$.next(true);
@@ -128,10 +132,17 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
     this.changes$.pipe(takeUntil(this.destroyed$)).subscribe(changes => {
       this.change.emit(changes);
     })
+    this.calendarService.ensureCalendarsLoaded();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['view']) {
+      if (this.view.searchCriteriaOptions == null) {
+        this.view.searchCriteriaOptions = {} as SearchCriteriaOptions;
+      }
+      if (this.view.searchCriteriaOptions.criteria == null) {
+        this.view.searchCriteriaOptions.criteria = {} as DataPointSearchCriteria;
+      }
       this.changes.next(false);
     }
   }

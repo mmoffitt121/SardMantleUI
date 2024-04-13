@@ -16,6 +16,7 @@ export interface QueriedDataPoint {
 
 export interface QueriedDataPointParameter {
     typeParameterId: number;
+    typeParameterName: string;
     typeParamterSummary: string | undefined;
     typeParameterTypeValue: string;
     typeParameterSequence: number;

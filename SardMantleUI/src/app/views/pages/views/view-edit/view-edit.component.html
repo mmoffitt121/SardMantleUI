@@ -18,6 +18,9 @@
         <button mat-button class="topbar-icon-button" matTooltip="Change Which Parameters Appear">
             <mat-icon>list</mat-icon>
         </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Change Paramater to Order by">
+            <mat-icon>swap_vert</mat-icon>
+        </button>
         <button mat-button class="topbar-icon-button" matTooltip="Change Which Parameters The User Can Filter By">
             <mat-icon>check_circle_outline</mat-icon>
         </button>
@@ -40,8 +43,8 @@
             description
         </mat-icon>
     </mat-card>
-    <div>
-        <app-card-view *ngIf="view.viewType == 'Card'" />
+    <div class="view-container">
+        <app-card-view *ngIf="view.viewType == 'Card'" [view]="view" />
         <app-list-view *ngIf="view.viewType == 'List'" />
     </div>
     

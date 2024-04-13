@@ -54,7 +54,7 @@ export class EditDatetimeComponent implements OnInit {
       this.display = "";
     }
     else {
-      this.display = this.calendarService.format(this.model, this.calendar, this.formatter, this.useBaseYear);
+      this.display = this.calendarService.format(BigInt(this.model), this.calendar, this.formatter, this.useBaseYear);
     }
   }
 

@@ -21,6 +21,10 @@ export class CalendarService {
     });
   }
 
+  public ensureCalendarsLoaded() {
+    // Do nothing, as all this needs to do is make sure the class is loaded.
+  }
+
   // -=-=-=-=-=-=-=-=-
   // Conversions
   // -=-=-=-=-=-=-=-=-
@@ -152,7 +156,7 @@ export class CalendarService {
   public getBaseYear(dateTime: bigint, calendar: Calendar) {
     let daysPerYear = BigInt(this.getDaysPerYear(calendar));
     
-    let day = dateTime / BigInt(calendar.unitTimePerDay);
+    let day = BigInt(dateTime) / BigInt(calendar.unitTimePerDay);
     return day / daysPerYear;
   }
 

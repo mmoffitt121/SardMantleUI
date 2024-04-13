@@ -22,6 +22,11 @@ export class EditParametersComponent {
 
   @ViewChild('parameterContainer', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
 
+  public setParameters(parameters: any[]) {
+    this.parameters = parameters;
+    this.setTypeParameters(this.typeParameters);
+  }
+
   public setTypeParameters(typeParameters: any[]) {
     this.typeParameters = typeParameters;
     this.container.clear();
@@ -87,8 +92,8 @@ export class EditParametersComponent {
           component = this.container.createComponent(EditDatetimeComponent);
           let timeSettings = JSON.parse(p.settings) ?? {};
           if (timeSettings.calendar) {
-            component.instance.calendar = this.calendarService.calendars.find(cal => cal.id == timeSettings.calendar) ?? this.calendarService.selectedCalendar;
-            if (timeSettings.formatter) {
+            component.instance.calendar = this.calendarService.calendars?.find(cal => cal.id == timeSettings.calendar) ?? this.calendarService.selectedCalendar;
+            if (timeSettings.formatter && component.instance.calendar) {
               component.instance.formatter = component.instance.calendar.formatters.find((f: any) => timeSettings.formatter == f.id) ?? component.instance.calendar.formatters[0];
             }
           }
@@ -97,7 +102,13 @@ export class EditParametersComponent {
           
           let timeParam = this.parameters?.find(x => x?.dataPointTypeParameterId == p.id);
           if (timeParam) {
-            component.instance.setValue(timeParam.timeValue);
+            let val;
+            if (timeParam.timeValue != undefined) {
+              val = BigInt(timeParam.timeValue)
+            } else {
+              val = BigInt(timeParam.timeValueString)
+            }
+            component.instance.setValue(val);
           }
 
           this.parameterComponents.push(component);
@@ -211,6 +222,7 @@ export class EditParametersComponent {
         case 'dub':
         case 'tim':
         case 'uni':
+        case 'bit':
           opt = {
             dataPointTypeParameterId: p.instance.typeParameterId,
             filterMode: p.instance.selectedFilterOption?.filterMode
@@ -227,6 +239,22 @@ export class EditParametersComponent {
       }
     });
     return searchOptions;
+  }
+
+  public setParameterSearchOptions(searchOptions: any[]) {
+    this.parameterComponents.forEach(p => {
+      let opt = searchOptions.find(s => s.dataPointTypeParameterId == p.instance.typeParameterId);
+      if (p.instance.filterOptions?.length) {
+        if (opt?.filterMode != undefined && p.instance.filterOptions?.length) {
+          p.instance.selectedFilterOption = p.instance.filterOptions.find((f: any) => f.filterMode == opt.filterMode);
+        }
+      }
+      else if (p.instance.searchOptions?.length) {
+        if (opt?.filterMode != undefined && p.instance.searchOptions?.length) {
+          p.instance.selectedSearchOption = p.instance.searchOptions.find((f: any) => f.filterMode == opt.filterMode);
+        }
+      }
+    });
   }
 
   constructor(private cdref: ChangeDetectorRef, private unitService: UnitsService, private calendarService: CalendarService) {

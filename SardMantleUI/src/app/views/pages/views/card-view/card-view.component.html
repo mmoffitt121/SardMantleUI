@@ -1,1 +1,9 @@
-<p>card-view works!</p>
+<mat-card *ngFor="let card of data?.results" class="viewable-card">
+    <mat-card-header class="viewable-card-header">
+        <mat-card-title> {{card.name}}</mat-card-title>
+        <mat-card-subtitle> {{card.typeName}} </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="parameter-grid">
+        <app-view-param *ngFor="let param of card.parameters" [parameter]="param" class="card-param" />
+    </mat-card-content>
+</mat-card>

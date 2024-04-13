@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, OnInit, ViewChild, ChangeDetectorRef, Inject, Optional } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, ViewChild, ChangeDetectorRef, Inject, Optional, AfterViewInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -112,6 +112,12 @@ export class DocumentFilterComponent implements OnInit {
       this.cdref.detectChanges();
       this.searchableParams.sort((a, b) => a.name.localeCompare(b.name));
       this.editParams?.setTypeParameters(this.searchableParams);
+      if (this.data?.criteria.parameters && this.editParams) {
+        this.editParams.setParameters(this.data.criteria.parameters);
+      }
+      if (this.data?.criteria.parameterSearchOptions && this.editParams) {
+        this.editParams.setParameterSearchOptions(this.data.criteria.parameterSearchOptions);
+      }
     })
   }
 
@@ -167,6 +173,17 @@ export class DocumentFilterComponent implements OnInit {
       this.confirmMessage = data.confirmMessage ?? this.confirmMessage;
       if (data.pageMode) {
         this.setPageMode(data.pageMode);
+      }
+      if (data.criteria) {
+        if (data.criteria.query) this.documentControl.setValue(data.criteria.query);
+
+        if (data.criteria.typeIds){
+          this.selectedTypes = data.criteria.typeIds.map((typeId: number) => {return {id: typeId}});
+          if (this.selectedTypes.length > 1) {
+            this.typeMultiSelect = true;
+          }
+          this.loadParameters();
+        } 
       }
     }
   }
