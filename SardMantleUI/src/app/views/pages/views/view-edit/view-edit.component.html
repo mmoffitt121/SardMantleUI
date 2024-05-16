@@ -15,13 +15,13 @@
         <button mat-button class="topbar-icon-button" matTooltip="Change Query Options" (click)="configureFilter()">
             <mat-icon>search</mat-icon>
         </button>
-        <button mat-button class="topbar-icon-button" matTooltip="Change Which Parameters Appear">
+        <button mat-button class="topbar-icon-button" matTooltip="Change Which Parameters Appear" (click)="selectDisplayParameters()">
             <mat-icon>list</mat-icon>
         </button>
-        <button mat-button class="topbar-icon-button" matTooltip="Change Paramater to Order by">
+        <button mat-button class="topbar-icon-button" matTooltip="Change Paramater to Order by" (click)="selectOrderByParameter()">
             <mat-icon>swap_vert</mat-icon>
         </button>
-        <button mat-button class="topbar-icon-button" matTooltip="Change Which Parameters The User Can Filter By">
+        <button mat-button class="topbar-icon-button" matTooltip="Change Which Parameters The User Can Filter By" (click)="selectUserFilterParameters()">
             <mat-icon>check_circle_outline</mat-icon>
         </button>
         <button mat-button class="topbar-icon-button" matTooltip="Adjust Appearance">

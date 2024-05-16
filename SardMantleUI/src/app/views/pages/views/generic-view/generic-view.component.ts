@@ -14,11 +14,20 @@ export class GenericViewComponent implements OnInit, OnChanges {
   @Input() view: View;
   public data: DataPointQueryResult;
 
+  public pageLength = 0;
+  public pageIndex = 0;
+  public pageSize = 50;
+  public pageSizeOptions: [4, 7, 9];
+
+  public onPageChange(event: any) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+  }
+
   public loadView() {
     if (this.view) {
       this.queryService.query(this.view.searchCriteriaOptions?.criteria).subscribe(result => {
         this.data = result;
-        console.log(result)
       }, error => this.errorService.handle(error))
     }
   }

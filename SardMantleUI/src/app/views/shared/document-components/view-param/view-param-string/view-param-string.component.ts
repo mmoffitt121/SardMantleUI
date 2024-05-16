@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ViewStringComponent } from '../../view/view-string/view-string.component';
 
 @Component({
@@ -7,5 +7,5 @@ import { ViewStringComponent } from '../../view/view-string/view-string.componen
   styleUrls: ['./view-param-string.component.scss']
 })
 export class ViewParamStringComponent extends ViewStringComponent {
-
+  
 }

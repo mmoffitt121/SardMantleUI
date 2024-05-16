@@ -1,3 +1,30 @@
+.view-container {
+    display: grid;
+    grid-template-rows: min-content auto min-content;
+    height: 100%;
+}
+
+.card-view-header {
+    z-index: 20;
+}
+
+.viewable-card-list {
+    overflow: auto;
+}
+.viewable-card-margin-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.card-view-grid {
+    display: grid;
+    grid-template-columns: auto min-content;
+}
+
+.card-view-h {
+    margin: 0;
+}
+
 .viewable-card {
     margin: 5px;
     max-width: 1000px;
@@ -37,4 +64,8 @@
 
 .card-param {
     margin-bottom: 20px;
+}
+
+.paginator-container {
+    z-index: 20;;
 }

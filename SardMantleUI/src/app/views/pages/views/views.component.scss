@@ -9,8 +9,9 @@
 
 .views-list-container {
     margin: 10px;
+    height: calc(100vh - 104px);
     .views-list {
-        height: calc(100vh - 104px);
+        height: 100%;
         display: grid;
         grid-template-rows: min-content auto;
         
@@ -29,6 +30,12 @@
     }
 }
 
+.views-view-container-outer {
+    height: 100%;
+    height: calc(100vh - 104px);
+}
+
 .views-view-container { 
+    height: 100%;
     margin: 10px;
 }

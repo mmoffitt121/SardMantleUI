@@ -16,7 +16,7 @@
             </div>
         </mat-card>
     </div>
-    <div>
+    <div class="views-view-container-outer">
         <div class="views-view-container">
             <app-view-edit *ngIf="selectedView" [view]="selectedView" (close)="onEditorClose()" (delete)="onEditorDelete($event)" (save)="onEditorSave($event)" (change)="changes = $event" />
         </div>

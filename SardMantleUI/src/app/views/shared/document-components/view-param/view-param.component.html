@@ -1,1 +1,33 @@
-<app-view-param-string [parameterName]="parameter.typeParameterName" [parameterSummary]="parameter.typeParameterSummary" [value]="parameter.value" />
+<div [ngSwitch]="parameter.typeParameterTypeValue">
+    <app-view-param-string 
+        *ngSwitchDefault
+        [parameterName]="parameter.typeParameterName" 
+        [parameterSummary]="parameter.typeParameterSummary" 
+        [value]="parameter.value" 
+    />
+    <app-view-param-date 
+        *ngSwitchCase="'tim'"
+        [parameterName]="parameter.typeParameterName" 
+        [parameterSummary]="parameter.typeParameterSummary" 
+        [value]="parameter.value" 
+        [settingsString]="parameter.typeParameterSettings" 
+    />
+    <app-view-param-boolean 
+        *ngSwitchCase="'bit'"
+        [parameterName]="parameter.typeParameterName" 
+        [parameterSummary]="parameter.typeParameterSummary" 
+        [value]="parameter.value" 
+    />
+    <app-view-param-unit 
+        *ngSwitchCase="'uni'"
+        [parameterName]="parameter.typeParameterName" 
+        [parameterSummary]="parameter.typeParameterSummary" 
+        [value]="parameter.value" 
+    />
+    <app-view-param-data-point 
+        *ngSwitchCase="'dat'"
+        [parameterName]="parameter.typeParameterName" 
+        [parameterSummary]="parameter.typeParameterSummary" 
+        [value]="parameter.value" 
+    />
+</div>

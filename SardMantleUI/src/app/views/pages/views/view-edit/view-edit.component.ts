@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, ReplaySubject, takeUntil } from 'rxjs';
 import { DataPointSearchCriteria, SearchCriteriaOptions, View, ViewTypes } from 'src/app/models/pages/view';
 import { CalendarService } from 'src/app/services/calendar/calendar.service';
+import { DocumentTypeService } from 'src/app/services/document/document-type.service';
 import { DocumentFilterComponent } from 'src/app/views/document/document-filter/document-filter.component';
 import { DocumentTypeComponent } from 'src/app/views/document/document-type/document-type.component';
 import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
+import { EditLabelledSelectionListComponent } from 'src/app/views/shared/edit/edit-labelled-selection-list/edit-labelled-selection-list.component';
 import { FormDialogComponent } from 'src/app/views/shared/form-dialog/form-dialog.component';
 
 @Component({
@@ -22,6 +24,8 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
   private changes = new BehaviorSubject(false);
   public changes$ = this.changes.asObservable();
   @Output() change = new EventEmitter();
+
+  public documentTypes = [] as any[];
 
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
@@ -47,6 +51,7 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.updateView();
         this.view.name = result[0].value;
         this.view.description = result[1].value;
         this.changes.next(true);
@@ -72,7 +77,9 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.changes.next(true);
         this.view.searchCriteriaOptions!.criteria.typeIds = result.typeIds;
+        this.loadDocumentTypes();
       }
     });
   }
@@ -90,9 +97,107 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.changes.next(true);
         this.view.searchCriteriaOptions!.criteria.parameters = result.parameters;
         this.view.searchCriteriaOptions!.criteria.parameterSearchOptions = result.parameterSearchOptions;
       }
+    });
+  }
+
+  public loadDocumentTypes() {
+    this.documentTypeService.getDocumentTypesFull({dataPointTypeIds: this.view.searchCriteriaOptions?.criteria?.typeIds ?? undefined}).subscribe(result => {
+      this.documentTypes = result;
+    })
+  }
+
+  public selectDisplayParameters() {
+    let parameters = this.documentTypes.map(dt => {
+      return dt.typeParameters.map((p: any) => {
+        return {
+          value: p.id,
+          label: p.name + " (" + dt.name + ")"
+        }
+      })
+    }).flat();
+    let selected = this.view.searchCriteriaOptions?.criteria?.parameterReturnOptions?.filter(o => o.shouldReturn).map(o => o.typeParameterId);
+    const dialogRef = this.dialog.open(EditLabelledSelectionListComponent, {
+      width: '500px',
+      height: 'min(100vh, 600px)',
+      data: { 
+        title: "Parameters to Display", 
+        items: parameters,
+        selectedItems: selected ?? []
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && this.view.searchCriteriaOptions) {
+        this.changes.next(true);
+        this.view.searchCriteriaOptions.criteria.parameterReturnOptions = result.map((p: any) => ({typeParameterId: p, shouldReturn: true}));
+      }
+    });
+  }
+
+  public selectOrderByParameter() {
+    let parameters = this.documentTypes.map(dt => {
+      return dt.typeParameters.map((p: any) => {
+        return {
+          value: p.id,
+          label: p.name + " (" + dt.name + ")"
+        }
+      })
+    }).flat();
+    let selected = this.view.searchCriteriaOptions?.criteria?.parameterReturnOptions?.filter(o => o.shouldReturn).map(o => o.typeParameterId);
+    const dialogRef = this.dialog.open(EditLabelledSelectionListComponent, {
+      width: '500px',
+      height: 'min(100vh, 600px)',
+      data: { 
+        title: "Order By", 
+        items: parameters,
+        single: true,
+        selectedItems: selected ?? []
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.changes.next(true);
+      /*if (result) {
+        this.userService.put(data.id, result).subscribe(result => {
+          this.errorService.showSnackBar("User saved.");
+          this.load();
+        }, error => this.errorService.handle(error))
+      }*/
+    });
+  }
+
+  public selectUserFilterParameters() {
+    let parameters = this.documentTypes.map(dt => {
+      return dt.typeParameters.map((p: any) => {
+        return {
+          value: p.id,
+          label: p.name + " (" + dt.name + ")"
+        }
+      })
+    }).flat();
+    let selected = this.view.searchCriteriaOptions?.criteria?.parameterReturnOptions?.filter(o => o.shouldReturn).map(o => o.typeParameterId);
+    const dialogRef = this.dialog.open(EditLabelledSelectionListComponent, {
+      width: '500px',
+      height: 'min(100vh, 600px)',
+      data: { 
+        title: "Parameters to Display", 
+        items: parameters,
+        selectedItems: selected ?? []
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.changes.next(true);
+      /*if (result) {
+        this.userService.put(data.id, result).subscribe(result => {
+          this.errorService.showSnackBar("User saved.");
+          this.load();
+        }, error => this.errorService.handle(error))
+      }*/
     });
   }
 
@@ -121,7 +226,14 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
     this.close.emit();
   }
 
-  constructor(private dialog: MatDialog, private calendarService: CalendarService) {}
+  public updateView() {
+    let temp = this.view;
+    this.view = {} as View;
+    this.cdref.detectChanges();
+    this.view = temp;
+  }
+
+  constructor(private dialog: MatDialog, private calendarService: CalendarService, private documentTypeService: DocumentTypeService, private cdref: ChangeDetectorRef) {}
 
   ngOnDestroy(): void {
     this.destroyed$.next(true);
@@ -130,6 +242,7 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
 
   ngOnInit(): void {
     this.changes$.pipe(takeUntil(this.destroyed$)).subscribe(changes => {
+      this.updateView();
       this.change.emit(changes);
     })
     this.calendarService.ensureCalendarsLoaded();
@@ -143,6 +256,7 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
       if (this.view.searchCriteriaOptions.criteria == null) {
         this.view.searchCriteriaOptions.criteria = {} as DataPointSearchCriteria;
       }
+      this.loadDocumentTypes();
       this.changes.next(false);
     }
   }

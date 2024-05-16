@@ -180,6 +180,12 @@ import { ViewEditComponent } from './views/pages/views/view-edit/view-edit.compo
 import { EditSelectionComponent } from './views/shared/document-components/edit/edit-selection/edit-selection.component';
 import { ViewParamComponent } from './views/shared/document-components/view-param/view-param.component';
 import { ViewParamStringComponent } from './views/shared/document-components/view-param/view-param-string/view-param-string.component';
+import { EditLabelledSelectionListComponent } from './views/shared/edit/edit-labelled-selection-list/edit-labelled-selection-list.component';
+import { ViewParamDateComponent } from './views/shared/document-components/view-param/view-param-date/view-param-date.component';
+import { ViewParamUnitComponent } from './views/shared/document-components/view-param/view-param-unit/view-param-unit.component';
+import { ViewParamDataPointComponent } from './views/shared/document-components/view-param/view-param-data-point/view-param-data-point.component';
+import { ViewParamBooleanComponent } from './views/shared/document-components/view-param/view-param-boolean/view-param-boolean.component';
+import { DocumentPopupComponent } from './views/shared/document-components/document-popup/document-popup.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -323,6 +329,12 @@ export function tokenGetter() {
     EditSelectionComponent,
     ViewParamComponent,
     ViewParamStringComponent,
+    EditLabelledSelectionListComponent,
+    ViewParamDateComponent,
+    ViewParamUnitComponent,
+    ViewParamDataPointComponent,
+    ViewParamBooleanComponent,
+    DocumentPopupComponent,
     ],
   imports: [
     BrowserModule,

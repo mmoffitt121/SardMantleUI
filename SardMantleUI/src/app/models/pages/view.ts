@@ -17,6 +17,7 @@ export interface DataPointSearchCriteria {
     parameters: DataPointParameter[] | undefined;
     parameterReturnOptions: ParameterReturnOptions[] | undefined;
     parameterSearchOptions: ParameterSearchOptions[] | undefined;
+    orderByTypeParamId: number | undefined;
 }
 
 export interface DataPointParameter {

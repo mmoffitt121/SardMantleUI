@@ -11,6 +11,9 @@
     <button mat-icon-button (click)="onDelete()" *ngIf="document !== undefined && showEditControls && documentType?.id" requireRole [role]="'Library.Document.Type' + (documentType?.id ? ('.' + documentType?.id) : '')" matTooltip="Delete" [enabledDisplay]="'inline'">
         <mat-icon> delete </mat-icon>
     </button>
+    <button mat-icon-button (click)="onClose()" matTooltip="Close" *ngIf="showClose">
+        <mat-icon> close </mat-icon>
+    </button>
 </div>
 <h2 class="subtitled-title"> {{ title }} </h2>
 <h4 class="subtitle"> {{ subtitle }} </h4>

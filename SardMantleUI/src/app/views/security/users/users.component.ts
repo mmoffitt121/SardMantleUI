@@ -59,6 +59,7 @@ export class UsersComponent {
     let selectedRoles = data.libraryRoles.map(role => role.id);
     const dialogRef = this.dialog.open(EditSelectionListComponent, {
       width: '500px',
+      height: '600px',
       data: { 
         title: "Select Roles", 
         items: roles,

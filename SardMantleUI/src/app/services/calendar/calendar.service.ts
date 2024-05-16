@@ -406,6 +406,14 @@ export class CalendarService {
     dto.month = month;
     return this.fromDateTimeObject(dto, calendar);
   } 
+
+  public getCalendar(id: number): Calendar {
+    return this.calendars.find(c => c.id == id) ?? this.selectedCalendar;
+  }
+
+  public getFormatter(id: number, calendar: Calendar): Formatter {
+    return calendar.formatters.find(f => f.id == id) ?? calendar.formatters[0] ?? undefined;
+  } 
   
   constructor(private dataService: CalendarDataService, private urlService: UrlService) {
     this.loadCalendars();
