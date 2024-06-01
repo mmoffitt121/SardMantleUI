@@ -60,9 +60,14 @@ export class ViewsComponent implements OnInit {
       });
   
       dialogRef.afterClosed().subscribe(result => {
-        this.selectedView = undefined;
-        this.changes = false;
+        if (result) {
+          this.selectedView = undefined;
+          this.changes = false;
+        }
       });
+    } else {
+      this.selectedView = undefined;
+      this.changes = false;
     }
   }
 

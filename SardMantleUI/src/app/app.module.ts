@@ -186,6 +186,18 @@ import { ViewParamUnitComponent } from './views/shared/document-components/view-
 import { ViewParamDataPointComponent } from './views/shared/document-components/view-param/view-param-data-point/view-param-data-point.component';
 import { ViewParamBooleanComponent } from './views/shared/document-components/view-param/view-param-boolean/view-param-boolean.component';
 import { DocumentPopupComponent } from './views/shared/document-components/document-popup/document-popup.component';
+import { DocumentPresentationComponent } from './views/document/document-presentation/document-presentation.component';
+import { PresentationParamComponent } from './views/shared/document-components/presentation-param/presentation-param.component';
+import { PresentationParamStringComponent } from './views/shared/document-components/presentation-param/presentation-param-string/presentation-param-string.component';
+import { PresentationParamBooleanComponent } from './views/shared/document-components/presentation-param/presentation-param-boolean/presentation-param-boolean.component';
+import { PresentationParamDataPointComponent } from './views/shared/document-components/presentation-param/presentation-param-data-point/presentation-param-data-point.component';
+import { PresentationParamDateComponent } from './views/shared/document-components/presentation-param/presentation-param-date/presentation-param-date.component';
+import { PresentationParamUnitComponent } from './views/shared/document-components/presentation-param/presentation-param-unit/presentation-param-unit.component';
+import { PresentationParamsContainerComponent } from './views/shared/document-components/presentation-param/presentation-params-container/presentation-params-container.component';
+import { PresentationParamBaseComponent } from './views/shared/document-components/presentation-param/presentation-param-base/presentation-param-base.component';
+import { PresentationParamArticleComponent } from './views/shared/document-components/presentation-param/presentation-param-article/presentation-param-article.component';
+import { DocumentFormComponent } from './views/document/document-form/document-form.component';
+import { FormFieldComponent } from './views/shared/document-components/form-field/form-field.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -335,6 +347,18 @@ export function tokenGetter() {
     ViewParamDataPointComponent,
     ViewParamBooleanComponent,
     DocumentPopupComponent,
+    DocumentPresentationComponent,
+    PresentationParamComponent,
+    PresentationParamStringComponent,
+    PresentationParamBooleanComponent,
+    PresentationParamDataPointComponent,
+    PresentationParamDateComponent,
+    PresentationParamUnitComponent,
+    PresentationParamsContainerComponent,
+    PresentationParamBaseComponent,
+    PresentationParamArticleComponent,
+    DocumentFormComponent,
+    FormFieldComponent,
     ],
   imports: [
     BrowserModule,

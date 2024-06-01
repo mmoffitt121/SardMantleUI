@@ -16,11 +16,12 @@ import { ThemeService } from 'src/app/services/theme/theme.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UrlService } from 'src/app/services/url/url.service';
 import { UnitsService } from 'src/app/services/units/units.service';
 import { EditDatetimeComponent } from '../../shared/document-components/edit/edit-datetime/edit-datetime.component';
 import { CalendarService } from 'src/app/services/calendar/calendar.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-document-edit',
@@ -29,12 +30,16 @@ import { CalendarService } from 'src/app/services/calendar/calendar.service';
 })
 export class DocumentEditComponent implements AfterViewInit {
   public document: Document;
+  public selectedDocType: DocumentType | undefined;
   public documentType: DocumentType | undefined;
   public documentTypes: DocumentType[] = [];
 
   public addEditTitle: string = "Add Document";
 
+  private docTypeId: number;
+
   public editing = false;
+  public duplicating = false;
 
   private parameterComponents: any[] = [];
 
@@ -44,6 +49,7 @@ export class DocumentEditComponent implements AfterViewInit {
   @Output() cancel = new EventEmitter();
 
   @ViewChild('parameterContainer', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
+  @ViewChild('docTypeSelector', {}) docTypeSelector: EditDataPointComponent;
 
   private loadDocument() {
     this.container.clear();
@@ -131,10 +137,19 @@ export class DocumentEditComponent implements AfterViewInit {
     this.cdref.detectChanges();
   }
 
-  public saveDocument() {
+  public saveDocument(keepAdding: boolean) {
     this.documentService.putDocument(this.buildDocument()).subscribe(result => {
       this.errorService.showSnackBar(`${this.document.name} successfully saved.`);
-      this.router.navigate([this.urlService.getWorld(), 'document', 'view', result])
+      if (keepAdding) {
+        if (this.duplicating) {
+          this.router.navigate([this.urlService.getWorld(), 'document', 'duplicate', result])
+        } else {
+          this.editing = false;
+          this.setDocumentType(this.documentType?.id ?? -1);
+        }
+      } else {
+        this.router.navigate([this.urlService.getWorld(), 'document', 'view', result])
+      }
     }, error => {
       this.errorService.handle(error);
     })
@@ -215,6 +230,9 @@ export class DocumentEditComponent implements AfterViewInit {
     });
     this.document.parameters = params;
     this.document.name = this.nameControl.value;
+    if (this.duplicating) {
+      this.document.id = undefined;
+    }
     return(this.document);
   }
 
@@ -224,7 +242,7 @@ export class DocumentEditComponent implements AfterViewInit {
       this.documentTypeService.getDocumentType(this.document.typeId).subscribe(data => {
         this.documentType = data;
         this.loadDocument();
-        this.addEditTitle = "Editing " + this.documentType?.name;
+        this.setTitle();
       })
     })
   }
@@ -238,12 +256,33 @@ export class DocumentEditComponent implements AfterViewInit {
     this.documentTypeService.getDocumentType(id).subscribe(data => {
       this.documentType = data;
       this.loadDocument();
-      this.addEditTitle = "Adding " + this.documentType?.name;
+      this.setTitle();
     })
   }
 
+  public setDuplicating() {
+    this.duplicating = true;
+    this.setTitle();
+  }
+
+  public setTitle() {
+    if (this.duplicating) {
+      this.addEditTitle = "Duplicating " + this.documentType?.name;
+    } else if (this.editing) {
+      this.addEditTitle = "Editing " + this.documentType?.name;
+    } else {
+      this.addEditTitle = "Adding " + this.documentType?.name;
+    }
+  }
+
   public loadDocumentTypes() {
-    this.documentTypeService.getDocumentTypes({}).subscribe(data => this.documentTypes = data, error => this.errorService.handle(error));
+    this.documentTypeService.getDocumentTypes(this.docTypeId ? {dataPointTypeIds: [this.docTypeId]} : {}).subscribe(data => {
+      this.documentTypes = data;
+      if (this.docTypeId) {
+        this.selectedDocType = this.documentTypes.find(t => t.id == this.docTypeId) ?? undefined;
+        this.cdref.detectChanges();
+      }
+    }, error => this.errorService.handle(error));
   }
 
   public canSave() {
@@ -252,7 +291,12 @@ export class DocumentEditComponent implements AfterViewInit {
 
   public onCancel() {
     if (this.editing) {
-      this.router.navigate([this.urlService.getWorld(), 'document', 'view', this.document?.id])
+      if (this.document?.id) {
+        this.router.navigate([this.urlService.getWorld(), 'document', 'view', this.document?.id])
+      } else {
+        this.router.navigate([this.urlService.getWorld(), 'document'])
+      }
+      
     }
     else {
       this.cancel.emit();
@@ -268,7 +312,14 @@ export class DocumentEditComponent implements AfterViewInit {
     private router: Router,
     private urlService: UrlService,
     private unitService: UnitsService,
-    private calendarService: CalendarService) { }
+    private calendarService: CalendarService,
+    private route: ActivatedRoute) { 
+      this.route.params.pipe(take(1)).subscribe(params => {
+        if (params['docTypeId']) {
+          this.docTypeId = params['docTypeId']
+        }
+      });
+    }
 
   ngAfterViewInit(): void {
     this.loadDocumentTypes();

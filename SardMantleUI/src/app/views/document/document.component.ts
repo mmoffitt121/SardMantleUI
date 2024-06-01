@@ -143,12 +143,16 @@ export class DocumentComponent implements OnInit {
     this.route.params.subscribe(params => {
       let mode = this.router.url.split('/')[3];
       switch(mode) {
+        case 'duplicate':
         case 'edit':
           if (params['docId']) {
-            this.displayMode = mode;
+            this.displayMode = 'edit';
             this.cdref.detectChanges();
             this.documentEditComponent.setDocument(params['docId']);
             this.documentEditComponent.editing = true;
+            if (mode == 'duplicate') {
+              this.documentEditComponent.setDuplicating();
+            }
           }
           else {
             this.displayMode = 'search';

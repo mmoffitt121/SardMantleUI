@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -7,6 +7,8 @@ import { ErrorService } from 'src/app/services/error.service';
 import { MapLayerService } from 'src/app/services/map/map-layer.service';
 import { UrlService } from 'src/app/services/url/url.service';
 import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
+import { EditStringComponent } from 'src/app/views/shared/document-components/edit/edit-string/edit-string.component';
+import { EditSummaryComponent } from 'src/app/views/shared/document-components/edit/edit-summary/edit-summary.component';
 import { UploadFileComponent } from 'src/app/views/shared/document-components/file/upload-file/upload-file.component';
 
 @Component({
@@ -14,7 +16,7 @@ import { UploadFileComponent } from 'src/app/views/shared/document-components/fi
   templateUrl: './edit-map-layer.component.html',
   styleUrls: ['./edit-map-layer.component.scss']
 })
-export class EditMapLayerComponent implements OnInit {
+export class EditMapLayerComponent implements AfterViewInit {
   public mapLayer: MapLayer;
   public mapId: number;
   public iconLayer: boolean;
@@ -27,16 +29,16 @@ export class EditMapLayerComponent implements OnInit {
 
   public iconFile: any;
 
-  public name = new FormControl();
-  public summary = new FormControl();
+  @ViewChild('name', {static: false}) name: EditStringComponent;
+  @ViewChild('summary', {static: false}) summary: EditSummaryComponent;
 
   public persistentZoomLevels: any[] = [];
 
   public onSave() {   
     if (this.adding) {
       this.mapLayer = {
-        name: this.name.value,
-        summary: this.summary.value,
+        name: this.name.getValue(),
+        summary: this.summary.getValue(),
         mapId: this.mapId,
         isBaseLayer: false,
         isIconLayer: this.iconLayer,
@@ -56,8 +58,8 @@ export class EditMapLayerComponent implements OnInit {
       this.persistentZoomLevels.forEach(z => {
         zoomLevels.push({zoom: z, mapLayerId: this.mapLayer.id});
       })
-      this.mapLayer.name = this.name.value;
-      this.mapLayer.summary = this.summary.value;
+      this.mapLayer.name = this.name.getValue();
+      this.mapLayer.summary = this.summary.getValue();
       this.mapLayer.isBaseLayer = this.baseLayer;
       this.mapLayer.persistentZoomLevels = zoomLevels;
       this.mapLayerService.putMapLayer(this.mapLayer).subscribe(result => {
@@ -130,7 +132,8 @@ export class EditMapLayerComponent implements OnInit {
     private errorService: ErrorService,
     private dialog: MatDialog,
     private router: Router,
-    private urlService: UrlService
+    private urlService: UrlService,
+    private cdref: ChangeDetectorRef
   ) {
     this.mapLayer = data.layer;
     this.adding = data.adding;
@@ -140,7 +143,7 @@ export class EditMapLayerComponent implements OnInit {
     this.baseLayer = data.layer?.isBaseLayer;
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     if (!this.adding && !(this.mapLayer === undefined)) {
       this.name.setValue(this.mapLayer.name);
       this.summary.setValue(this.mapLayer.summary);
@@ -150,6 +153,7 @@ export class EditMapLayerComponent implements OnInit {
           this.persistentZoomLevels.push(z.zoom);
         })
       }
+      this.cdref.detectChanges();
     }
   }
 }

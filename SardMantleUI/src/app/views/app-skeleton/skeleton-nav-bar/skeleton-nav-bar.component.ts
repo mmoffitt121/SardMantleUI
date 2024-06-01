@@ -8,6 +8,9 @@ import { filter } from 'rxjs';
 import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
 import { ThemeSelectComponent } from '../../theme/theme-select/theme-select.component';
 import { MenuItemService } from 'src/app/services/menu-items/menu-item.service';
+import { WorldService } from 'src/app/services/world/world.service';
+import { World } from 'src/app/models/world/world';
+import { RecentWorldService } from 'src/app/services/world/recent-world.service';
 
 export const DISPLAY_EXPANDED = "DisplayGroupingExpanded";
 
@@ -22,8 +25,12 @@ export class SkeletonNavBarComponent {
   public loadingThemes = false;
   public inWorld = false;
   public displayExpanded = false;
+  private cachedLocation = "";
+  public world: any;
+  public loadingWorld = true;
 
   public menuOptions: MenuGrouping[];
+  public bottomBarMenuOptions: MenuOption[];
 
   @Input() display: string | undefined = undefined;
 
@@ -69,12 +76,37 @@ export class SkeletonNavBarComponent {
   }
 
   private updateState() {
+    if (!this.urlService.getWorld()) {
+      this.world = undefined;
+      this.loadingWorld = false;
+    } else if (this.urlService.getWorld() != this.cachedLocation) {
+      this.loadingWorld = true;
+      this.worldService.getWorlds({location: this.urlService.getWorld()}).subscribe(worlds => {
+        this.world = worlds[0];
+        this.loadingWorld = false;
+        this.recentWorldService.handleWorldNavigate(this.world);
+      });
+    }
     this.menuItemService.get().subscribe(data => {
       this.menuOptions = data;
       this.inWorld = this.urlService.getWorld() !== "";
       let newMenuOptions = [] as MenuGrouping[];
       let expandSettings = JSON.parse(localStorage.getItem(MENU_GROUPINGS_EXPANDED) ?? "{}");
-      data.forEach((grouping: any) => {
+      if (!this.urlService.getWorld()) {
+        let recentWorlds = this.recentWorldService.getRecentWorlds();
+        let recentWorldoptions = recentWorlds.map((w: World) => ({
+          isRoot: true,
+          route: w.location,
+          name: w.name
+        }));
+        let recentWorldGrouping = {
+          name: "Recent Worlds",
+          options: recentWorldoptions
+        }
+        data?.unshift(recentWorldGrouping)
+      }
+      this.bottomBarMenuOptions = [];
+      data?.forEach((grouping: any) => {
         let newGrouping = {
           name: grouping.name,
           fillHook: grouping.fillHook,
@@ -90,7 +122,12 @@ export class SkeletonNavBarComponent {
         });
 
         if (newGrouping.options.length > 0) {
-          newMenuOptions.push(newGrouping);
+          if (newGrouping.name === "Global") {
+            newGrouping.options.forEach(opt => this.bottomBarMenuOptions.push(opt));
+          } else {
+            newMenuOptions.push(newGrouping);
+          }
+          
         }
       });
 
@@ -110,6 +147,8 @@ export class SkeletonNavBarComponent {
     public cdref: ChangeDetectorRef,
     private dialog: MatDialog,
     private menuItemService: MenuItemService,
+    private worldService: WorldService,
+    private recentWorldService: RecentWorldService,
   ) { }
 
   ngOnInit() {

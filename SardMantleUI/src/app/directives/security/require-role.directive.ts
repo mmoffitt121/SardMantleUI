@@ -6,6 +6,9 @@ import { LoginService } from 'src/app/services/login/login.service';
   selector: '[requireRole]'
 })
 export class RequireRoleDirective implements OnInit, OnDestroy, OnChanges {
+  @Input() set requiredRole(role: string) {
+    this.role = role;
+  }
   @Input() role: string;
   @Input() enabledDisplay: string | undefined;
 

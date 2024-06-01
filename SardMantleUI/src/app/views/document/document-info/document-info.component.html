@@ -11,6 +11,24 @@
     <button mat-icon-button (click)="onDelete()" *ngIf="document !== undefined && showEditControls && documentType?.id" requireRole [role]="'Library.Document.Type' + (documentType?.id ? ('.' + documentType?.id) : '')" matTooltip="Delete" [enabledDisplay]="'inline'">
         <mat-icon> delete </mat-icon>
     </button>
+    <button mat-icon-button *ngIf="document !== undefined && showEditControls && documentType?.id" matTooltip="More" [matMenuTriggerFor]="more">
+        <mat-icon> more_vert </mat-icon>
+    </button>
+    <mat-menu #more="matMenu">
+        <button mat-menu-item>
+            <mat-icon> content_copy </mat-icon>
+            Duplicate
+        </button>
+        <button mat-menu-item>
+            <mat-icon> receipt_long </mat-icon>
+            Edit Type
+        </button>
+        <mat-divider />
+        <button mat-menu-item>
+            <mat-icon> print </mat-icon>
+            Print
+        </button>
+    </mat-menu>
     <button mat-icon-button (click)="onClose()" matTooltip="Close" *ngIf="showClose">
         <mat-icon> close </mat-icon>
     </button>

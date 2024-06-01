@@ -1,0 +1,27 @@
+p {
+    font-size: 12pt;
+    font-weight: normal;
+    text-align: right; 
+    word-wrap: break-word;
+}
+
+h4 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.param-value {
+    margin-top: auto;
+    margin-bottom: 5px;
+}
+
+.view-param-inner-container {
+    display: grid; 
+    grid-template-columns: 30% 70%; 
+    width: 100%;
+}
+
+mat-divider {
+    margin-bottom: 10px; 
+    background-color: var(--lib-secondary-text-color);
+}

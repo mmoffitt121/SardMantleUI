@@ -8,24 +8,28 @@
         </button>
         <mat-menu #viewTypeMenu="matMenu">
             <button mat-menu-item *ngFor="let type of viewTypes" (click)="selectViewType(type)">{{type}}</button>
-          </mat-menu>
+        </mat-menu>
         <button mat-button class="topbar-icon-button" matTooltip="Select Document Types" (click)="selectDocumentTypes()">
             <mat-icon>receipt_long</mat-icon>
         </button>
         <button mat-button class="topbar-icon-button" matTooltip="Change Query Options" (click)="configureFilter()">
             <mat-icon>search</mat-icon>
         </button>
-        <button mat-button class="topbar-icon-button" matTooltip="Change Which Parameters Appear" (click)="selectDisplayParameters()">
+        <button mat-button class="topbar-icon-button section-end" matTooltip="Change Which Parameters Appear" (click)="selectDisplayParameters()">
             <mat-icon>list</mat-icon>
         </button>
-        <button mat-button class="topbar-icon-button" matTooltip="Change Paramater to Order by" (click)="selectOrderByParameter()">
+        <button mat-button class="topbar-icon-button" matTooltip="Change Default Parameter to Order By" (click)="selectOrderByParameter()">
             <mat-icon>swap_vert</mat-icon>
         </button>
-        <button mat-button class="topbar-icon-button" matTooltip="Change Which Parameters The User Can Filter By" (click)="selectUserFilterParameters()">
-            <mat-icon>check_circle_outline</mat-icon>
+        <button mat-button class="topbar-icon-button" [matTooltip]="this.view.searchCriteriaOptions?.criteria?.orderByTypeParamDesc ? 'Descending' : 'Ascending'" (click)="toggleSortDirection()">
+            <mat-icon *ngIf="!this.view.searchCriteriaOptions?.criteria?.orderByTypeParamDesc">arrow_upward_alt</mat-icon>
+            <mat-icon *ngIf="this.view.searchCriteriaOptions?.criteria?.orderByTypeParamDesc">arrow_downward_alt</mat-icon>
         </button>
-        <button mat-button class="topbar-icon-button" matTooltip="Adjust Appearance">
-            <mat-icon>brush</mat-icon>
+        <button mat-button class="topbar-icon-button section-end" matTooltip="Change Parameter the User Can Order By" (click)="selectUserOrderByParameter()">
+            <mat-icon>sort</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="View Settings" (click)="openSettings()">
+            <mat-icon>settings</mat-icon>
         </button>
         <button mat-button class="topbar-icon-button" matTooltip="Close" style="float: right" (click)="onClose()">
             <mat-icon>close</mat-icon>

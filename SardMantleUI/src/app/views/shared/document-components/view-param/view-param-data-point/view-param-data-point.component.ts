@@ -13,7 +13,7 @@ export class ViewParamDataPointComponent extends ViewDataPointComponent implemen
   public popupDocument() {
     const ref = this.dialog.open(DocumentPopupComponent,  {
       width: 'min(100vw, 750px)',
-      height: 'min(100vh, 1000px)',
+      height: 'min(100vh, 900px)',
       data: { 
         id: this.value
       }

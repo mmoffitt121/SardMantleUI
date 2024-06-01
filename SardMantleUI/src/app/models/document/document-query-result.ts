@@ -1,6 +1,7 @@
 export interface DataPointQueryResult {
     count: number;
     results: QueriedDataPoint[];
+    types: any[];
 }
 
 export interface QueriedDataPoint {
@@ -17,7 +18,7 @@ export interface QueriedDataPoint {
 export interface QueriedDataPointParameter {
     typeParameterId: number;
     typeParameterName: string;
-    typeParamterSummary: string | undefined;
+    typeParameterSummary: string | undefined;
     typeParameterTypeValue: string;
     typeParameterSequence: number;
     dataPointTypeReferenceId: number;

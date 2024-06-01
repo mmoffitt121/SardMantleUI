@@ -12,7 +12,7 @@ export const searchableViewMenuItems = [
                 name: "General",
                 items: [
                     {
-                        name: "Gradient Type",
+                        name: "Show Filter Options",
                         key: "showFilterOptions",
                         value: undefined,
                         type: "select",

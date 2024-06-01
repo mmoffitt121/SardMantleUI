@@ -1,0 +1,15 @@
+<div class="view-param-container">
+    <div class="view-param-inner-container">
+        <div>
+            <h4 class="subtitled-title"> {{ parameter.typeParameterName }} </h4>
+            <h5 class="subtitle"> {{ parameter.typeParameterSummary }} </h5>
+        </div>
+        
+        <div class="param-value">
+            <mat-icon *ngIf="parameter.value == 'true'">check</mat-icon>
+            <mat-icon *ngIf="parameter.value == 'false'">close</mat-icon>
+        </div>
+        
+    </div>
+    <mat-divider></mat-divider>
+</div>

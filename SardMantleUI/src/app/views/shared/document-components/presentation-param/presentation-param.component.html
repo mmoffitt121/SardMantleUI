@@ -1,0 +1,8 @@
+<div [ngSwitch]="parameter.typeParameterTypeValue">
+    <app-presentation-param-string *ngSwitchDefault [parameter]="parameter" />
+    <app-presentation-param-article *ngSwitchCase="'doc'" [parameter]="parameter" />
+    <app-presentation-param-boolean *ngSwitchCase="'bit'" [parameter]="parameter" />
+    <app-presentation-param-data-point *ngSwitchCase="'dat'" [parameter]="parameter" />
+    <app-presentation-param-date *ngSwitchCase="'tim'" [parameter]="parameter" />
+    <app-presentation-param-unit *ngSwitchCase="'uni'" [parameter]="parameter" />
+</div>

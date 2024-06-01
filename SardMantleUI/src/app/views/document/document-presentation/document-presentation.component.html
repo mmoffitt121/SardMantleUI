@@ -1,0 +1,40 @@
+<div class="button-holder" > 
+    <button mat-icon-button (click)="navigateToSelf()" matTooltip="Open in Document View" *ngIf="showLinkToSelf">
+        <mat-icon> arrow_forward </mat-icon>
+    </button>
+    <button mat-icon-button (click)="add.emit(document)" matTooltip="Add" *ngIf="canAdd && showEditControls">
+        <mat-icon> library_add </mat-icon>
+    </button>
+    <button mat-icon-button (click)="onEdit()" *ngIf="document !== undefined && showEditControls && document?.typeId" requireRole [role]="'Library.Document.Type' + (document.typeId ? ('.' + document.typeId) : '')" matTooltip="Edit" [enabledDisplay]="'inline'">
+        <mat-icon> edit </mat-icon>
+    </button>
+    <button mat-icon-button (click)="onDelete()" *ngIf="document !== undefined && showEditControls && document?.typeId" requireRole [role]="'Library.Document.Type' + (document.typeId ? ('.' + document.typeId) : '')" matTooltip="Delete" [enabledDisplay]="'inline'">
+        <mat-icon> delete </mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="document !== undefined && showEditControls && document?.typeId" matTooltip="More" [matMenuTriggerFor]="more">
+        <mat-icon> more_vert </mat-icon>
+    </button>
+    <mat-menu #more="matMenu">
+        <button mat-menu-item (click)="onDuplicate()" requireRole [requiredRole]="'Library.Document.Type' + (document?.typeId ? ('.' + document?.typeId) : '')" enabledDisplay="flex">
+            <mat-icon> content_copy </mat-icon>
+            Duplicate
+        </button>
+        <button mat-menu-item (click)="onEditType()" requireRole requiredRole="Library.Setup.Types" enabledDisplay="flex">
+            <mat-icon> receipt_long </mat-icon>
+            Edit Type
+        </button>
+        <mat-divider />
+        <button mat-menu-item (click)="onExport()" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+            <mat-icon> download </mat-icon>
+            Export
+        </button>
+    </mat-menu>
+    <button mat-icon-button (click)="onClose()" matTooltip="Close" *ngIf="showClose">
+        <mat-icon> close </mat-icon>
+    </button>
+</div>
+<h2 class="subtitled-title"> {{ document?.name }} </h2>
+<h4 class="subtitle"> {{ document?.typeName }} </h4>
+<div style="margin: 10px" *ngIf="document && document.parameters">
+    <app-presentation-params-container [parameters]="document.parameters"/>
+</div>

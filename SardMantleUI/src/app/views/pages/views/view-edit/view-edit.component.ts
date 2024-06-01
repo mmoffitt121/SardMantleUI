@@ -1,12 +1,13 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, ReplaySubject, takeUntil } from 'rxjs';
-import { DataPointSearchCriteria, SearchCriteriaOptions, View, ViewTypes } from 'src/app/models/pages/view';
+import { DataPointSearchCriteria, DataPointTypeParameter, SearchCriteriaOptions, View, ViewTypes } from 'src/app/models/pages/view';
 import { CalendarService } from 'src/app/services/calendar/calendar.service';
 import { DocumentTypeService } from 'src/app/services/document/document-type.service';
 import { DocumentFilterComponent } from 'src/app/views/document/document-filter/document-filter.component';
 import { DocumentTypeComponent } from 'src/app/views/document/document-type/document-type.component';
 import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
+import { EditSettingsComponent } from 'src/app/views/shared/edit-settings/edit-settings.component';
 import { EditLabelledSelectionListComponent } from 'src/app/views/shared/edit/edit-labelled-selection-list/edit-labelled-selection-list.component';
 import { FormDialogComponent } from 'src/app/views/shared/form-dialog/form-dialog.component';
 
@@ -105,7 +106,7 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   public loadDocumentTypes() {
-    this.documentTypeService.getDocumentTypesFull({dataPointTypeIds: this.view.searchCriteriaOptions?.criteria?.typeIds ?? undefined}).subscribe(result => {
+    this.documentTypeService.getDocumentTypesFull({dataPointTypeIds: this.view.searchCriteriaOptions?.criteria?.typeIds ?? []}).subscribe(result => {
       this.documentTypes = result;
     })
   }
@@ -147,30 +148,33 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
         }
       })
     }).flat();
-    let selected = this.view.searchCriteriaOptions?.criteria?.parameterReturnOptions?.filter(o => o.shouldReturn).map(o => o.typeParameterId);
+    parameters.unshift({value: -1, label: "Name"})
     const dialogRef = this.dialog.open(EditLabelledSelectionListComponent, {
       width: '500px',
       height: 'min(100vh, 600px)',
       data: { 
-        title: "Order By", 
+        title: "Default Order By", 
         items: parameters,
         single: true,
-        selectedItems: selected ?? []
+        selectedItems: this.view.searchCriteriaOptions?.criteria.orderByTypeParam ? [this.view.searchCriteriaOptions?.criteria.orderByTypeParam.id] : [-1]
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.changes.next(true);
-      /*if (result) {
-        this.userService.put(data.id, result).subscribe(result => {
-          this.errorService.showSnackBar("User saved.");
-          this.load();
-        }, error => this.errorService.handle(error))
-      }*/
+      if (result && result[0]) {
+        let res = result[0]
+        this.changes.next(true);
+        this.view.searchCriteriaOptions!.criteria.orderByTypeParam = this.documentTypes.flatMap(dt => dt.typeParameters).find(p => p.id == res);
+      }
     });
   }
 
-  public selectUserFilterParameters() {
+  public toggleSortDirection() {
+    this.view.searchCriteriaOptions!.criteria.orderByTypeParamDesc = !this.view.searchCriteriaOptions?.criteria.orderByTypeParamDesc;
+    this.changes.next(true);
+  }
+
+  public selectUserOrderByParameter() {
     let parameters = this.documentTypes.map(dt => {
       return dt.typeParameters.map((p: any) => {
         return {
@@ -179,29 +183,46 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
         }
       })
     }).flat();
-    let selected = this.view.searchCriteriaOptions?.criteria?.parameterReturnOptions?.filter(o => o.shouldReturn).map(o => o.typeParameterId);
+    parameters.unshift({value: -1, label: "Name"})
     const dialogRef = this.dialog.open(EditLabelledSelectionListComponent, {
       width: '500px',
       height: 'min(100vh, 600px)',
       data: { 
-        title: "Parameters to Display", 
+        title: "Parameters User Can Order By", 
         items: parameters,
-        selectedItems: selected ?? []
+        selectedItems: this.view.searchCriteriaOptions?.userSortParameters?.map(p => p.id) ?? []
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.changes.next(true);
-      /*if (result) {
-        this.userService.put(data.id, result).subscribe(result => {
-          this.errorService.showSnackBar("User saved.");
-          this.load();
-        }, error => this.errorService.handle(error))
-      }*/
+      if (result) {
+        this.changes.next(true);
+        this.view.searchCriteriaOptions!.userSortParameters = this.documentTypes.flatMap(dt => dt.typeParameters).filter(p => result.includes(p.id));
+        if (result.find((p: any) => p == -1)) {
+          this.view.searchCriteriaOptions!.userSortParameters.unshift({id: -1, name: "Name", dataPointTypeId: -1, typeValue: "str", sequence: -1} as DataPointTypeParameter);
+        }
+      }
+    });
+  }
+
+  public openSettings() {
+    const dialogRef = this.dialog.open(EditSettingsComponent, {
+      width: '500px',
+      data: { 
+        title: "Confirm Deletion", 
+        content: `Are you sure you want to delete this view?`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.delete.emit(this.view);
+      }
     });
   }
 
   public onSave() {
+    this.view!.searchCriteriaOptions!.criteria.includeTypes = true;
     this.changes.next(false);
     this.save.emit(this.view);
   }

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -14,7 +14,7 @@ import { UploadFileComponent } from 'src/app/views/shared/document-components/fi
   templateUrl: './edit-location-type.component.html',
   styleUrls: ['./edit-location-type.component.scss']
 })
-export class EditLocationTypeComponent implements OnInit {
+export class EditLocationTypeComponent implements AfterViewInit {
   public title: string;
   public locationType: LocationType;
 
@@ -131,7 +131,8 @@ export class EditLocationTypeComponent implements OnInit {
     private imageService: ImageService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<EditLocationTypeComponent>, 
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private cdref: ChangeDetectorRef
   ) {
     if (data.adding) {
       this.title = "Add Location Type"
@@ -148,7 +149,7 @@ export class EditLocationTypeComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.mapService.getLocationTypes({}).subscribe(data => {
       this.locationTypes = data;
       this.parentType = this.locationTypes.find(l => l.id == this.locationType.parentTypeId);
@@ -166,5 +167,6 @@ export class EditLocationTypeComponent implements OnInit {
     this.labelFontSize.setValue(this.locationType.labelFontSize);
     this.labelFontColor.setValue(this.locationType.labelFontColor);
     this.iconSize.setValue(this.locationType.iconSize);
+    this.cdref.detectChanges();
   }
 }

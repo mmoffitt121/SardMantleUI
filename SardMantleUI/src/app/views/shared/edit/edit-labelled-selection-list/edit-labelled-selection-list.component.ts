@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 export interface SelectableItem {
@@ -27,8 +27,9 @@ export class EditLabelledSelectionListComponent {
   public onSave() {
     this.dialogRef.close(this.items.filter(item => item.selected).map(item => item.value));
   }
-
-  constructor(public dialogRef: MatDialogRef<EditLabelledSelectionListComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(public dialogRef: MatDialogRef<EditLabelledSelectionListComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private cdref: ChangeDetectorRef) {
+    
+   }
 
   ngOnInit(): void {
     this.title = this.data.title;
@@ -41,5 +42,6 @@ export class EditLabelledSelectionListComponent {
         selected: this.data.selectedItems.find((i: string) => i == item.value) ? true : false
       }
     });    
+    this.cdref.detectChanges();
   }
 }
