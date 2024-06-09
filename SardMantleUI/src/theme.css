@@ -763,23 +763,23 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 }
 
 .mdc-text-field--disabled .mdc-text-field__input {
-    color: rgba(255, 255, 255, 0.38)
+    color: var(--lib-text-color)
 }
 
 @media all {
     .mdc-text-field--disabled .mdc-text-field__input::placeholder {
-        color: rgba(255, 255, 255, 0.38)
+        color: var(--lib-text-color)
     }
 }
 
 @media all {
     .mdc-text-field--disabled .mdc-text-field__input:-ms-input-placeholder {
-        color: rgba(255, 255, 255, 0.38)
+        color: var(--lib-text-color)
     }
 }
 
 .mdc-text-field--disabled .mdc-floating-label {
-    color: rgba(255, 255, 255, 0.38)
+    color: var(--lib-text-color)
 }
 
 .mdc-text-field--disabled+.mdc-text-field-helper-line .mdc-text-field-helper-text {
@@ -814,7 +814,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 .mdc-text-field--disabled .mdc-notched-outline__leading,
 .mdc-text-field--disabled .mdc-notched-outline__notch,
 .mdc-text-field--disabled .mdc-notched-outline__trailing {
-    border-color: rgba(255, 255, 255, 0.06)
+    border-color: var(--lib-text-color)
 }
 
 @media screen and (forced-colors: active),
@@ -1094,10 +1094,11 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
-    top: 24px
+    top: 20px
 }
 
 .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+    top: 24px;
     --mat-mdc-form-field-label-transform: translateY(-34.75px) scale(var(--mat-mdc-form-field-floating-label-scale, 0.75));
     transform: var(--mat-mdc-form-field-label-transform)
 }

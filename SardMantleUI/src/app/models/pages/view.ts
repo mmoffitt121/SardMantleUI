@@ -5,11 +5,13 @@ export interface View {
     description: string;
     viewType: string;
     searchCriteriaOptions: SearchCriteriaOptions | undefined;
+    settings: any | undefined;
 }
 
 export interface SearchCriteriaOptions {
     criteria: DataPointSearchCriteria;
     userSortParameters: DataPointTypeParameter[] | undefined;
+    userFilterParameters: DataPointTypeParameter[] | undefined;
 }
 
 export interface DataPointSearchCriteria {
@@ -28,6 +30,11 @@ export interface DataPointSearchCriteria {
     orderByTypeParam: DataPointTypeParameter | undefined;
     orderByTypeParamDesc: boolean | undefined;
     includeTypes: boolean | undefined;
+    includeChildDataPoints: boolean | undefined;
+    includeRelevantDataPoints: boolean | undefined;
+    includeRelevantLocations: boolean | undefined;
+    includeParameters: boolean | undefined;
+    includeChildParameters: boolean | undefined;
 }
 
 export interface DataPointTypeParameter {

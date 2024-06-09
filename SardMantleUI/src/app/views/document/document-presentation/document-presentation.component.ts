@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild, ViewContainerRef, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild, ViewContainerRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { EditBoolComponent } from '../../shared/document-components/edit/edit-bool/edit-bool.component';
 import { Document } from 'src/app/models/document/document-types/document';
 import { DocumentType, DocumentTypeParameter } from 'src/app/models/document/document-types/document-type';
@@ -37,10 +37,8 @@ import { DocumentIOService } from 'src/app/services/document/document-io.service
   templateUrl: './document-presentation.component.html',
   styleUrls: ['./document-presentation.component.scss']
 })
-export class DocumentPresentationComponent {
+export class DocumentPresentationComponent implements OnInit, OnChanges {
   public document: QueriedDataPoint | undefined;
-  // TODO: public locations: Location[] | undefined;
-  // TODO: public relatedDocuments: Document[] | undefined;
 
   @Input() id: number = -1;
   @Input() showEditControls = true;
@@ -60,7 +58,7 @@ export class DocumentPresentationComponent {
       return;
     }
     
-    this.queryService.query({id} as DataPointSearchCriteria).subscribe(async data => {
+    this.queryService.query({id, includeChildDataPoints: true} as DataPointSearchCriteria).subscribe(async data => {
       this.document = data.results[0];
     })
   }
@@ -71,6 +69,7 @@ export class DocumentPresentationComponent {
   }
 
   public onEdit() {
+    this.onClose();
     this.router.navigate([this.urlService.getWorld(), 'document', 'edit', this.document?.id])
   }
 
@@ -96,6 +95,7 @@ export class DocumentPresentationComponent {
     this.documentService.deleteDocument(this.document?.id ?? -1).subscribe(result => {
       this.errorService.showSnackBar(`Delete successful.`);
       this.deleted.emit();
+      this.onClose();
     },
     error => {
       this.errorService.handle(error);
@@ -103,10 +103,12 @@ export class DocumentPresentationComponent {
   }
 
   public onDuplicate() {
+    this.onClose();
     this.router.navigate([this.urlService.getWorld(), 'document', 'duplicate', this.document?.id]);
   }
 
   public onEditType() {
+    this.onClose();
     this.router.navigate([this.urlService.getWorld(), 'document-type', 'edit', this.document?.typeId]);
   }
 
@@ -141,6 +143,9 @@ export class DocumentPresentationComponent {
     }
   }
 
-  ngAfterViewInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['id']) {
+      this.setDocument(this.id)
+    }
   }
 }

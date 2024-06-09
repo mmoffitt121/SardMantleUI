@@ -1,0 +1,18 @@
+<h4 class="param-header" *ngIf="showTitle && !smallLabel"> {{ parameter.typeParameterName }} </h4>
+<h5 class="param-summary" *ngIf="showSubtitle && !smallLabel"> {{ parameter.typeParameterSummary }} </h5>
+<div class="data-point-form-grid">
+    <mat-form-field appearance="outline" class="truncated-form-field" style="width: min(100%, 500px)">
+        <mat-label *ngIf="smallLabel">{{ parameter.typeParameterName }}</mat-label>
+        <input matInput [matAutocomplete]="autocomplete" [formControl]="displayControl" (input)="input($event)" (blur)="onUnfocus()" (focus)="focus()" />
+        <mat-autocomplete #autocomplete (optionSelected)="select($event)">
+            <mat-option *ngFor="let item of items" [value]="item">
+                <div style="display: flex">
+                    {{item.name}}
+                </div>
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+    <button mat-icon-button *ngIf="clearable && control.value" (click)="clear()">
+        <mat-icon> close </mat-icon>
+    </button>
+</div>

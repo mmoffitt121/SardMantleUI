@@ -23,6 +23,6 @@ export interface QueriedDataPointParameter {
     typeParameterSequence: number;
     dataPointTypeReferenceId: number;
     typeParameterSettings: string;
-    settings: any | undefined;
     value: any | undefined;
+    valueData: any | undefined;
 }

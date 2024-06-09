@@ -1,0 +1,54 @@
+.param-header {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.param-summary {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    color: var(--lib-secondary-text-color)
+}
+
+.truncated-form-field {
+    ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+    }
+    ::ng-deep .mat-mdc-form-field-infix {
+        padding: 10px;
+    }
+    ::ng-deep .mat-mdc-text-field-wrapper {
+        height: 41px;
+    }
+}
+
+.arrow-down {
+    margin-top: 7px;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    
+    border-top: 5px solid var(--lib-text-color);
+}
+
+.click-overlay {
+    left: 0;
+    top: 0;
+    pointer-events: auto;
+    cursor: pointer;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: block;
+    z-index: 1000;
+}
+
+.calendar-button {
+    position: relative; 
+    right: -1px; 
+    top: -5px;
+    pointer-events: auto;
+    cursor: pointer;
+}

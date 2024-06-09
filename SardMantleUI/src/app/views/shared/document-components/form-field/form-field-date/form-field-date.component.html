@@ -1,0 +1,28 @@
+<h4 class="param-header" *ngIf="showTitle && !smallLabel"> {{ parameter.typeParameterName }} </h4>
+<h5 class="param-summary" *ngIf="showSubtitle && !smallLabel"> {{ parameter.typeParameterSummary }} </h5>
+<h5 class="subtitle" style="display: flex;" *ngIf="displayFilterOptions && !smallLabel"> 
+    ({{ selectedFilterOption.name }})
+    <div [matMenuTriggerFor]="filterMenu">
+        <div class="arrow-down"></div>
+    </div>
+</h5>
+<mat-menu #filterMenu>
+    <button mat-menu-item *ngFor="let opt of filterOptions" (click)="setFilterOption(opt)">
+        <span>{{opt.name}}</span>
+    </button>
+</mat-menu>
+<mat-form-field appearance="outline" class="truncated-form-field fake-input" style="width: min(100%, 500px)">
+    <div class="click-overlay" (click)="open()"></div>
+    <mat-label *ngIf="smallLabel">{{ parameter.typeParameterName }}</mat-label>
+    <input matInput [formControl]="displayControl" [placeholder]="placeholder" (input)="validate($event)" (click)="$event.stopPropagation(); $event.stopImmediatePropagation(); $event.preventDefault(); open()" />
+    <div matSuffix class="calendar-button" (click)="open()">
+        <mat-icon matSuffix>date_range</mat-icon>
+    </div>
+    
+</mat-form-field>
+<h5 class="subtitle" style="display: flex; float: right; margin-top: 5px;" *ngIf="displayFilterOptions && smallLabel"> 
+    ({{ selectedFilterOption.name }})
+    <div [matMenuTriggerFor]="filterMenu">
+        <div class="arrow-down"></div>
+    </div>
+</h5>

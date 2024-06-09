@@ -1,1 +1,93 @@
-<p>list-view works!</p>
+<div class="view-container">
+    <mat-card class="card-view-header">
+        <mat-card-content class="card-view-grid">
+            <div style="display: flex;">
+                <button mat-icon-button class="topbar-icon-button" (click)="showSearch = !showSearch" *ngIf="view.settings?.showFilterOptions == 'true'">
+                    <mat-icon>search</mat-icon>
+                </button>
+                <h3 class="card-view-h">
+                    {{title}}
+                </h3>
+            </div>
+            
+            <div style="display: flex">
+                <button mat-icon-button class="topbar-icon-button" *ngIf="this.data?.types?.length && view.settings?.showAddDocumentButton == 'true'" [matMenuTriggerFor]="addMenu" (click)="maybeAdd()">
+                    <mat-icon>add</mat-icon>
+                </button>
+                <mat-menu #addMenu="matMenu">
+                    <button mat-menu-item *ngFor="let type of this.data?.types" (click)="add(type)">{{type.name}}</button>
+                </mat-menu>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <mat-drawer-container class="viewable-cards-container">
+        <mat-drawer  style="width: 1fr; height: 100%"
+            #sidenav 
+            position="start" 
+            mode="side" 
+            [disableClose]="true" 
+            [opened]="showSearch"
+            (closed)="showSearch = false"
+        >
+            <mat-card [ngClass]="'sidebar ' + (view.settings?.sidebarStyle ?? 'sidebar-full')">
+                <app-document-form [document]="searchDocument" [queryOptions]="searchDocumentQueryOptions" [showSubmit]="true" submitText="Search" (submit)="onSearch()" [showFilterOptions]="true" [compact]="true" />
+            </mat-card>
+        </mat-drawer>
+        <mat-drawer-content>
+            <mat-drawer-container class="viewable-cards-container">
+                <mat-drawer  style="width: 1fr; height: 100%"
+                    #sidenav 
+                    position="start" 
+                    mode="side" 
+                    [disableClose]="true" 
+                    [opened]="true"
+                >
+                    <mat-card [ngClass]="'search-container sidebar ' + (view.settings?.sidebarStyle ?? 'sidebar-full')">
+                        <div class="list-item-container">
+                            <button mat-button *ngFor="let card of data?.results" class="list-result-item" (click)="select(card.id)" [style]="'background-color: ' + (card.id == id ? 'var(--lib-primary-accent-color-selected)' : 'var(--lib-primary-accent-color)')">
+                                {{card.name}}
+                            </button>
+                        </div>
+                    </mat-card>
+                </mat-drawer>
+                <mat-drawer-content>
+                    <mat-card class="presentation-container" *ngIf="id">
+                        <mat-card-content>
+                            <app-document-presentation [id]="id" [showLinkToSelf]="true" [showClose]="true" [showClose]="false" [showLinkToSelf]="false" />
+                        </mat-card-content>
+                    </mat-card>
+                </mat-drawer-content>
+            </mat-drawer-container>
+        </mat-drawer-content>
+    </mat-drawer-container>
+    
+    <mat-card class="bottom-bar">
+        <div class="paginator-container">
+            <mat-paginator 
+                [length]="pageLength"
+                [pageIndex]="pageIndex"
+                [pageSize]="pageSize"
+                [pageSizeOptions]="[25, 50, 100]"
+                (page)="onPageChange($event)"
+                style="background-color: #00000000;"
+            ></mat-paginator>
+            <div class="sort-container">
+                <button mat-button matTooltip="Change View Type" class="sort-by-button" [matMenuTriggerFor]="orderMenu" *ngIf="this.view.searchCriteriaOptions?.userSortParameters?.length! > 1">
+                    {{view.searchCriteriaOptions?.criteria?.orderByTypeParam?.name ?? "Name"}}
+                </button>
+                <mat-menu #orderMenu="matMenu">
+                    <button mat-menu-item *ngFor="let sort of this.view.searchCriteriaOptions?.userSortParameters" (click)="setSort(sort)">{{sort.name}}</button>
+                </mat-menu>
+                <button 
+                    mat-icon-button 
+                    [matTooltip]="this.view.searchCriteriaOptions?.criteria?.orderByTypeParamDesc ? 'Descending' : 'Ascending'" 
+                    (click)="toggleSortDirection()"
+                    *ngIf="this.view.searchCriteriaOptions?.userSortParameters?.length"
+                >
+                    <mat-icon *ngIf="!this.view.searchCriteriaOptions?.criteria?.orderByTypeParamDesc">arrow_upward_alt</mat-icon>
+                    <mat-icon *ngIf="this.view.searchCriteriaOptions?.criteria?.orderByTypeParamDesc">arrow_downward_alt</mat-icon>
+                </button>
+            </div>
+        </div>
+    </mat-card>
+</div>

@@ -1,0 +1,23 @@
+<h4 class="param-header" *ngIf="showTitle && !smallLabel"> {{ parameter.typeParameterName }} </h4>
+<h5 class="param-summary" *ngIf="showSubtitle && !smallLabel"> {{ parameter.typeParameterSummary }} </h5>
+<h5 class="subtitle" style="display: flex;" *ngIf="displayFilterOptions && !smallLabel"> 
+    ({{ selectedFilterOption.name }})
+    <div [matMenuTriggerFor]="filterMenu">
+        <div class="arrow-down"></div>
+    </div>
+</h5>
+<mat-menu #filterMenu>
+    <button mat-menu-item *ngFor="let opt of filterOptions" (click)="setFilterOption(opt)">
+        <span>{{opt.name}}</span>
+    </button>
+</mat-menu>
+<mat-form-field appearance="outline" class="truncated-form-field" style="width: min(100%, 500px)">
+    <mat-label *ngIf="smallLabel">{{ parameter.typeParameterName }}</mat-label>
+    <input matInput [formControl]="control" [placeholder]="placeholder" (input)="validate($event)" />
+</mat-form-field>
+<h5 class="subtitle" style="display: flex; float: right; margin-top: 5px;" *ngIf="displayFilterOptions && smallLabel"> 
+    ({{ selectedFilterOption.name }})
+    <div [matMenuTriggerFor]="filterMenu">
+        <div class="arrow-down"></div>
+    </div>
+</h5>

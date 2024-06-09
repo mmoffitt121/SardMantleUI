@@ -291,7 +291,7 @@ export class CalendarService {
   }
 
   public getDefaultDate(): bigint {
-    return BigInt(localStorage.getItem(`${this.urlService.getWorld()}-${SAVED_TIME}`) ?? 0);
+    return BigInt(localStorage.getItem(`${this.urlService.getWorld()}-${SAVED_TIME}`) ?? 0n);
   }
 
   // -=-=-=-=-=-=-=-=-

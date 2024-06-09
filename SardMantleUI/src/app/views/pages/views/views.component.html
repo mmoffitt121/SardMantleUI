@@ -14,6 +14,16 @@
                     </mat-card-content>
                 </button>
             </div>
+            <mat-card-footer>
+                <mat-paginator 
+                    [length]="pageLength"
+                    [pageIndex]="pageIndex"
+                    [pageSize]="pageSize"
+                    (page)="onPageChange($event)"
+                    [hidePageSize]="true"
+                    style="background-color: #00000000;"
+                ></mat-paginator>
+            </mat-card-footer>
         </mat-card>
     </div>
     <div class="views-view-container-outer">

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { QueriedDataPointParameter } from 'src/app/models/document/document-query-result';
 
 @Component({
@@ -8,4 +9,5 @@ import { QueriedDataPointParameter } from 'src/app/models/document/document-quer
 })
 export class PresentationParamComponent {
   @Input() parameter: QueriedDataPointParameter;
+  @Input() dialogRef: MatDialogRef<any> | undefined = undefined;
 }

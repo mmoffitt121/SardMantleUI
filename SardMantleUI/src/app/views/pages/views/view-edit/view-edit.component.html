@@ -15,6 +15,9 @@
         <button mat-button class="topbar-icon-button" matTooltip="Change Query Options" (click)="configureFilter()">
             <mat-icon>search</mat-icon>
         </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Change Parameters the User Can Search" (click)="configureUserFilter()">
+            <mat-icon>manage_search</mat-icon>
+        </button>
         <button mat-button class="topbar-icon-button section-end" matTooltip="Change Which Parameters Appear" (click)="selectDisplayParameters()">
             <mat-icon>list</mat-icon>
         </button>
@@ -28,7 +31,10 @@
         <button mat-button class="topbar-icon-button section-end" matTooltip="Change Parameter the User Can Order By" (click)="selectUserOrderByParameter()">
             <mat-icon>sort</mat-icon>
         </button>
-        <button mat-button class="topbar-icon-button" matTooltip="View Settings" (click)="openSettings()">
+        <button mat-button class="topbar-icon-button" matTooltip="View Preview" (click)="displayPreview()">
+            <mat-icon>table_chart</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Settings" (click)="displaySettings()">
             <mat-icon>settings</mat-icon>
         </button>
         <button mat-button class="topbar-icon-button" matTooltip="Close" style="float: right" (click)="onClose()">
@@ -48,8 +54,14 @@
         </mat-icon>
     </mat-card>
     <div class="view-container">
-        <app-card-view *ngIf="view.viewType == 'Card'" [view]="view" />
-        <app-list-view *ngIf="view.viewType == 'List'" />
+        <app-card-view *ngIf="view.viewType == 'Card' && displayMode == 'View'" [view]="view" />
+        <app-list-view *ngIf="view.viewType == 'List' && displayMode == 'View'" [view]="view" />
+        <app-edit-settings 
+            *ngIf="displayMode == 'Settings'"
+            [settings]="settings" 
+            [data]="settingsData" 
+            [showSaveCancel]="false" 
+            (valueChange)="handleSettingChanged($event)" />
     </div>
     
 </div>

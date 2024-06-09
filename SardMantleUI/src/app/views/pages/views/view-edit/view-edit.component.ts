@@ -4,9 +4,12 @@ import { BehaviorSubject, ReplaySubject, takeUntil } from 'rxjs';
 import { DataPointSearchCriteria, DataPointTypeParameter, SearchCriteriaOptions, View, ViewTypes } from 'src/app/models/pages/view';
 import { CalendarService } from 'src/app/services/calendar/calendar.service';
 import { DocumentTypeService } from 'src/app/services/document/document-type.service';
+import { ViewEditorService } from 'src/app/services/pages/view-editor.service';
+import { ViewService } from 'src/app/services/pages/view.service';
 import { DocumentFilterComponent } from 'src/app/views/document/document-filter/document-filter.component';
 import { DocumentTypeComponent } from 'src/app/views/document/document-type/document-type.component';
 import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
+import { EditSettingsPopupComponent } from 'src/app/views/shared/edit-settings/edit-settings-popup/edit-settings-popup.component';
 import { EditSettingsComponent } from 'src/app/views/shared/edit-settings/edit-settings.component';
 import { EditLabelledSelectionListComponent } from 'src/app/views/shared/edit/edit-labelled-selection-list/edit-labelled-selection-list.component';
 import { FormDialogComponent } from 'src/app/views/shared/form-dialog/form-dialog.component';
@@ -31,6 +34,16 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   public viewTypes = ViewTypes;
+
+  // -=-=-=-=-=-
+  // States
+  //   View - Shows preview of view
+  //   Settings - Shows view settings
+  public displayMode: string = "View";
+
+  public settings: any;
+  public settingsData: any;
+  public settingsCategory: string;
 
   public editDetails() {
     const dialogRef = this.dialog.open(FormDialogComponent, {
@@ -63,6 +76,8 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
   public selectViewType(type: string) {
     this.changes.next(true);
     this.view.viewType = type;
+    this.configureViewOptions();
+    this.viewUpdated();
   }
 
   public selectDocumentTypes() {
@@ -99,8 +114,40 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.changes.next(true);
+        this.view.searchCriteriaOptions!.criteria.query = result.query;
         this.view.searchCriteriaOptions!.criteria.parameters = result.parameters;
         this.view.searchCriteriaOptions!.criteria.parameterSearchOptions = result.parameterSearchOptions;
+      }
+    });
+  }
+
+  public configureUserFilter() {
+    let parameters = this.documentTypes.map(dt => {
+      return dt.typeParameters.filter((tp: any) => tp.typeValue != 'doc').map((p: any) => {
+        return {
+          value: p.id,
+          label: p.name + " (" + dt.name + ")"
+        }
+      })
+    }).flat();
+    parameters.unshift({value: -1, label: "Name"})
+    const dialogRef = this.dialog.open(EditLabelledSelectionListComponent, {
+      width: '500px',
+      height: 'min(100vh, 600px)',
+      data: { 
+        title: "Parameters User Can Filter By", 
+        items: parameters,
+        selectedItems: this.view.searchCriteriaOptions?.userFilterParameters?.map(p => p.id) ?? []
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.changes.next(true);
+        this.view.searchCriteriaOptions!.userFilterParameters = this.documentTypes.flatMap(dt => dt.typeParameters).filter(p => result.includes(p.id));
+        if (result.find((p: any) => p == -1)) {
+          this.view.searchCriteriaOptions!.userFilterParameters.unshift({id: -1, name: "Name", dataPointTypeId: -1, typeValue: "str", sequence: -1} as DataPointTypeParameter);
+        }
       }
     });
   }
@@ -141,7 +188,7 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
 
   public selectOrderByParameter() {
     let parameters = this.documentTypes.map(dt => {
-      return dt.typeParameters.map((p: any) => {
+      return dt.typeParameters.filter((tp: any) => tp.typeValue != 'doc').map((p: any) => {
         return {
           value: p.id,
           label: p.name + " (" + dt.name + ")"
@@ -176,7 +223,7 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
 
   public selectUserOrderByParameter() {
     let parameters = this.documentTypes.map(dt => {
-      return dt.typeParameters.map((p: any) => {
+      return dt.typeParameters.filter((tp: any) => tp.typeValue != 'doc').map((p: any) => {
         return {
           value: p.id,
           label: p.name + " (" + dt.name + ")"
@@ -205,26 +252,39 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
     });
   }
 
-  public openSettings() {
-    const dialogRef = this.dialog.open(EditSettingsComponent, {
-      width: '500px',
-      data: { 
-        title: "Confirm Deletion", 
-        content: `Are you sure you want to delete this view?`
-      }
-    });
+  public displayPreview() {
+    this.displayMode = "View"
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.delete.emit(this.view);
-      }
-    });
+  public displaySettings() {
+    this.displayMode = "Settings"
   }
 
   public onSave() {
-    this.view!.searchCriteriaOptions!.criteria.includeTypes = true;
+    this.configureViewOptions();
     this.changes.next(false);
     this.save.emit(this.view);
+  }
+
+  private configureViewOptions() {
+    this.view!.searchCriteriaOptions!.criteria.includeTypes = true;
+    this.view!.searchCriteriaOptions!.criteria.includeChildDataPoints = true;
+    this.view!.searchCriteriaOptions!.criteria.includeRelevantLocations = false;
+    this.view!.searchCriteriaOptions!.criteria.includeRelevantDataPoints = false;
+    this.view!.searchCriteriaOptions!.criteria.includeParameters = true;
+    this.view!.searchCriteriaOptions!.criteria.includeChildParameters = false;
+
+    switch (this.view.viewType) {
+      case "Card":
+        break;
+      case "List":
+        this.view!.searchCriteriaOptions!.criteria.includeParameters = false;
+        this.view!.searchCriteriaOptions!.criteria.includeTypes = false;
+        this.view!.searchCriteriaOptions!.criteria.includeChildDataPoints = false;
+        break;
+      default:
+        break;
+    }
   }
 
   public onDelete() {
@@ -254,7 +314,25 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
     this.view = temp;
   }
 
-  constructor(private dialog: MatDialog, private calendarService: CalendarService, private documentTypeService: DocumentTypeService, private cdref: ChangeDetectorRef) {}
+  handleSettingChanged(data: any) {
+    this.view.settings = data;
+  }
+
+  public viewUpdated() {
+    this.displayMode = "View"
+    this.settings = this.editorService.getViewOptions(this.view.viewType);
+    this.settingsData = { ...this.editorService.getViewDefaults(this.view.viewType), ...this.view.settings };
+    if (this.view.searchCriteriaOptions == null) {
+      this.view.searchCriteriaOptions = {} as SearchCriteriaOptions;
+    }
+    if (this.view.searchCriteriaOptions.criteria == null) {
+      this.view.searchCriteriaOptions.criteria = {} as DataPointSearchCriteria;
+    }
+    this.loadDocumentTypes();
+    this.changes.next(false);
+  }
+
+  constructor(private dialog: MatDialog, private calendarService: CalendarService,  private editorService: ViewEditorService, private documentTypeService: DocumentTypeService, private cdref: ChangeDetectorRef) {}
 
   ngOnDestroy(): void {
     this.destroyed$.next(true);
@@ -271,14 +349,7 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['view']) {
-      if (this.view.searchCriteriaOptions == null) {
-        this.view.searchCriteriaOptions = {} as SearchCriteriaOptions;
-      }
-      if (this.view.searchCriteriaOptions.criteria == null) {
-        this.view.searchCriteriaOptions.criteria = {} as DataPointSearchCriteria;
-      }
-      this.loadDocumentTypes();
-      this.changes.next(false);
+      this.viewUpdated();
     }
   }
 }

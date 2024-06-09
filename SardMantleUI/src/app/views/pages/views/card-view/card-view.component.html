@@ -2,11 +2,11 @@
     <mat-card class="card-view-header">
         <mat-card-content class="card-view-grid">
             <div style="display: flex;">
-                <button mat-icon-button class="topbar-icon-button" (click)="showSearch = !showSearch">
+                <button mat-icon-button class="topbar-icon-button" (click)="showSearch = !showSearch" *ngIf="view.settings?.showFilterOptions == 'true'">
                     <mat-icon>search</mat-icon>
                 </button>
                 <h3 class="card-view-h">
-                    {{view.name}}
+                    {{title}}
                 </h3>
             </div>
             
@@ -27,7 +27,7 @@
                     <mat-icon *ngIf="!this.view.searchCriteriaOptions?.criteria?.orderByTypeParamDesc">arrow_upward_alt</mat-icon>
                     <mat-icon *ngIf="this.view.searchCriteriaOptions?.criteria?.orderByTypeParamDesc">arrow_downward_alt</mat-icon>
                 </button>
-                <button mat-icon-button class="topbar-icon-button" *ngIf="this.data?.types?.length" [matMenuTriggerFor]="addMenu" (click)="maybeAdd()">
+                <button mat-icon-button class="topbar-icon-button" *ngIf="this.data?.types?.length && view.settings?.showAddDocumentButton == 'true'" [matMenuTriggerFor]="addMenu" (click)="maybeAdd()">
                     <mat-icon>add</mat-icon>
                 </button>
                 <mat-menu #addMenu="matMenu">
@@ -35,10 +35,9 @@
                 </mat-menu>
             </div>
         </mat-card-content>
-        
     </mat-card>
     <mat-drawer-container class="viewable-cards-container">
-        <mat-drawer 
+        <mat-drawer  style="width: 1fr; height: 100%"
             #sidenav 
             position="start" 
             mode="side" 
@@ -46,57 +45,36 @@
             [opened]="showSearch"
             (closed)="showSearch = false"
         >
-            <mat-card class="sidebar">
-                <app-document-form />
+            <mat-card [ngClass]="'sidebar ' + (view.settings?.sidebarStyle ?? 'sidebar-full')">
+                <app-document-form [document]="searchDocument" [queryOptions]="searchDocumentQueryOptions" [showSubmit]="true" submitText="Search" (submit)="onSearch()" [showFilterOptions]="true" [compact]="true" />
             </mat-card>
         </mat-drawer>
-        <mat-drawer-content style="width: 1fr">
+        <mat-drawer-content>
             <div class="viewable-card-list">
                 <div class="viewable-card-margin-container">
-                    <mat-card *ngFor="let card of data?.results" class="viewable-card">
+                    <mat-card *ngFor="let card of data?.results; index as i" class="viewable-card" [ngStyle]="{'border-radius': view.settings?.cardBorderRadius ?? '5px'}">
                         <mat-card-header class="viewable-card-header">
                             <mat-card-title style="width: 100%"> 
                                 {{card.name}}
                             </mat-card-title>
-                            <div style="position: absolute; right: 10px;">
+                            <div style="position: absolute; right: 10px;" *ngIf="view.settings?.showExpandButton == 'true'">
                                 <button mat-icon-button (click)="popupDocument(card)">
                                     <mat-icon>open_in_full</mat-icon>
                                 </button>
                             </div>
                             <mat-card-subtitle> {{card.typeName}} </mat-card-subtitle>
                         </mat-card-header>
-                        <mat-card-content class="parameter-grid">
+                        <mat-card-content [class]="view.settings?.cardParameterColumns ?? 'parameter-grid'">
                             <app-view-param *ngFor="let param of card.parameters" [parameter]="param" class="card-param" />
+                        </mat-card-content>
+                        <mat-card-content>
+                            <app-presentation-param-article *ngFor="let param of articles[i]" [parameter]="param" />
                         </mat-card-content>
                     </mat-card>
                 </div>
             </div>
         </mat-drawer-content>
     </mat-drawer-container>
-    <div >
-        
-        
-        <!--<div class="viewable-card-list">
-            <div class="viewable-card-margin-container">
-                <mat-card *ngFor="let card of data?.results" class="viewable-card">
-                    <mat-card-header class="viewable-card-header">
-                        <mat-card-title style="width: 100%"> 
-                            {{card.name}}
-                        </mat-card-title>
-                        <div style="position: absolute; right: 10px;">
-                            <button mat-icon-button (click)="popupDocument(card)">
-                                <mat-icon>open_in_full</mat-icon>
-                            </button>
-                        </div>
-                        <mat-card-subtitle> {{card.typeName}} </mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content class="parameter-grid">
-                        <app-view-param *ngFor="let param of card.parameters" [parameter]="param" class="card-param" />
-                    </mat-card-content>
-                </mat-card>
-            </div>
-        </div>-->
-    </div>
     
     <mat-card class="paginator-container">
         <mat-paginator 

@@ -13,7 +13,8 @@
     .views-list {
         height: 100%;
         display: grid;
-        grid-template-rows: min-content auto;
+        grid-template-rows: min-content auto min-content;
+        z-index: 20;
         
         .view-items {
             max-height: 100%;

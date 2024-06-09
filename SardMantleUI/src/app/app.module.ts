@@ -198,6 +198,16 @@ import { PresentationParamBaseComponent } from './views/shared/document-componen
 import { PresentationParamArticleComponent } from './views/shared/document-components/presentation-param/presentation-param-article/presentation-param-article.component';
 import { DocumentFormComponent } from './views/document/document-form/document-form.component';
 import { FormFieldComponent } from './views/shared/document-components/form-field/form-field.component';
+import { FormFieldBasicComponent } from './views/shared/document-components/form-field/form-field-basic/form-field-basic.component';
+import { FormFieldArticleComponent } from './views/shared/document-components/form-field/form-field-article/form-field-article.component';
+import { FormFieldBooleanComponent } from './views/shared/document-components/form-field/form-field-boolean/form-field-boolean.component';
+import { FormFieldDataPointComponent } from './views/shared/document-components/form-field/form-field-data-point/form-field-data-point.component';
+import { FormFieldDateComponent } from './views/shared/document-components/form-field/form-field-date/form-field-date.component';
+import { FormFieldUnitComponent } from './views/shared/document-components/form-field/form-field-unit/form-field-unit.component';
+import { DestroyableComponent } from './views/shared/util/destroyable/destroyable.component';
+import { ViewParamArticleComponent } from './views/shared/document-components/view-param/view-param-article/view-param-article.component';
+import { EditSettingsPopupComponent } from './views/shared/edit-settings/edit-settings-popup/edit-settings-popup.component';
+import { PaginatableComponent } from './views/shared/util/paginatable/paginatable.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -359,6 +369,16 @@ export function tokenGetter() {
     PresentationParamArticleComponent,
     DocumentFormComponent,
     FormFieldComponent,
+    FormFieldBasicComponent,
+    FormFieldArticleComponent,
+    FormFieldBooleanComponent,
+    FormFieldDataPointComponent,
+    FormFieldDateComponent,
+    FormFieldUnitComponent,
+    DestroyableComponent,
+    ViewParamArticleComponent,
+    EditSettingsPopupComponent,
+    PaginatableComponent,
     ],
   imports: [
     BrowserModule,

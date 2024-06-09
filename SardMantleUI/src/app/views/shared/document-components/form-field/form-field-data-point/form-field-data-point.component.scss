@@ -1,0 +1,39 @@
+.param-header {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.param-summary {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    color: var(--lib-secondary-text-color)
+}
+
+.data-point-form-grid {
+    display: grid;
+    grid-template-columns: auto min-content;
+}
+
+.truncated-form-field {
+    ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+    }
+    ::ng-deep .mat-mdc-form-field-infix {
+        padding: 10px;
+    }
+    ::ng-deep .mat-mdc-text-field-wrapper {
+        height: 41px;
+    }
+}
+
+.arrow-down {
+    margin-top: 7px;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    
+    border-top: 5px solid var(--lib-text-color);
+}

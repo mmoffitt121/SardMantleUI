@@ -5,13 +5,15 @@ import { ViewService } from 'src/app/services/pages/view.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { View } from 'src/app/models/pages/view';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { ViewEditorService } from 'src/app/services/pages/view-editor.service';
+import { PaginatableComponent } from '../../shared/util/paginatable/paginatable.component';
 
 @Component({
   selector: 'app-views',
   templateUrl: './views.component.html',
   styleUrls: ['./views.component.scss']
 })
-export class ViewsComponent implements OnInit {
+export class ViewsComponent extends PaginatableComponent implements OnInit {
   public views: View[] = [];
 
   public selectedView: View | undefined;
@@ -42,7 +44,8 @@ export class ViewsComponent implements OnInit {
           name: result[0].value,
           description: result[1].value,
           viewType: "List",
-          searchCriteriaOptions: undefined
+          searchCriteriaOptions: undefined,
+          settings: this.editorService.getViewDefaults("List"),
         }
         this.viewService.put(view).subscribe(result => {
           this.errorService.showSnackBar("View succesfully created.");
@@ -110,12 +113,19 @@ export class ViewsComponent implements OnInit {
   }
 
   public loadViews() {
-    this.viewService.get([]).subscribe((result: any) => {this.views = result})
+    this.viewService.getCount({}).subscribe((result: any) => {this.pageLength = result;})
+    this.viewService.get({pageNumber: this.pageIndex, pageSize: this.pageSize, orderBy: "Name"}).subscribe((result: any) => {this.views = result;})
   }
 
-  constructor(private dialog: MatDialog, private viewService: ViewService, private errorService: ErrorService) {}
+  public override onPageChange(event: any): void {
+    super.onPageChange(event);
+    this.loadViews();
+  }
+
+  constructor(private dialog: MatDialog, private viewService: ViewService, private errorService: ErrorService, private editorService: ViewEditorService) { super(); }
 
   ngOnInit(): void {
+    this.pageSize = 50;
     this.loadViews();
   }
 }
