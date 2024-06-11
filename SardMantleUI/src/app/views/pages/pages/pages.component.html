@@ -1,1 +1,3 @@
-<app-settings-topbar pageName="Pages" [showAdd]="true" (add)="add()" />
+<app-settings-topbar *ngIf="!page" pageName="Pages" [showAdd]="true" (add)="add()" />
+<app-page-list *ngIf="!page" />
+<app-page-editor *ngIf="page" />

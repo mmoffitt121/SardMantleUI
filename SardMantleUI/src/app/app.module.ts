@@ -208,6 +208,7 @@ import { DestroyableComponent } from './views/shared/util/destroyable/destroyabl
 import { ViewParamArticleComponent } from './views/shared/document-components/view-param/view-param-article/view-param-article.component';
 import { EditSettingsPopupComponent } from './views/shared/edit-settings/edit-settings-popup/edit-settings-popup.component';
 import { PaginatableComponent } from './views/shared/util/paginatable/paginatable.component';
+import { PageListComponent } from './views/pages/pages/page-list/page-list.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -379,6 +380,7 @@ export function tokenGetter() {
     ViewParamArticleComponent,
     EditSettingsPopupComponent,
     PaginatableComponent,
+    PageListComponent,
     ],
   imports: [
     BrowserModule,
