@@ -31,11 +31,11 @@ export class FormFieldBooleanComponent extends FormFieldBasicComponent implement
         this.control.setValue(undefined);
         break;
     }
-
   }
 
   public override ngOnInit(): void {
     super.ngOnInit();
+    this.control.setValue(this.parameter.value)
     this.control.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(valueChange => {
       if (this.validate(valueChange)) {
         if (valueChange == undefined) {

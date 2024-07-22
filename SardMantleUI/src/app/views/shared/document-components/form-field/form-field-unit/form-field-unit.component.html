@@ -15,10 +15,10 @@
     <mat-form-field appearance="outline" class="truncated-form-field" style="width: min(100%, 500px)">
         <mat-label *ngIf="smallLabel">{{ parameter.typeParameterName }}</mat-label>
         <input matInput [formControl]="control" [placeholder]="placeholder" (input)="validate($event)" />
+        <p matSuffix>
+            {{unit?.symbol}}
+        </p>
     </mat-form-field>
-    <p style="overflow: hidden">
-        {{unit?.symbol}}
-    </p>
 </div>
 <h5 class="subtitle" style="display: flex; float: right; margin-top: 5px;" *ngIf="displayFilterOptions && smallLabel"> 
     ({{ selectedFilterOption.name }})

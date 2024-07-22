@@ -428,7 +428,7 @@ export class CalendarService {
   } 
 
   public getCalendarAndFormatter(settingsString: string) {
-    let settings = JSON.parse(settingsString);
+    let settings = JSON.parse(settingsString ? settingsString : "{}");
     let calendar;
     let formatter;
     if (settings.calendar) {
@@ -439,6 +439,9 @@ export class CalendarService {
     }
 
     if (!calendar) {
+      if (!this.calendars.length) {
+        return undefined;
+      }
       calendar = this.calendars[0];
     }
     if (!formatter) {

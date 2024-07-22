@@ -74,6 +74,7 @@
 .button-holder {
     margin-top: 5px;
     margin-left: 3px;
+    width: min-content;
     .button {
         margin: 5px;
     }
@@ -98,4 +99,12 @@
 
 .document-views-small {
     margin: 10px;
+}
+
+.edit-container {
+    justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
+    min-width: min(700px, calc(100% - 20px));
+    width: min-content
 }

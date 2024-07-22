@@ -54,11 +54,9 @@ export class DocumentListComponent implements OnInit {
       ...searchQuery
     }
     this.documentService.getDocuments(query).pipe(take(1)).subscribe(data => {
-      this.documents = data;
+      this.documents = data.results;
+      this.pageLength = data.count;
     });
-    this.documentService.getDocumentsCount(query).pipe(take(1)).subscribe (data => {
-      this.pageLength = data;
-    })
   }
 
   private clickTime = 0;

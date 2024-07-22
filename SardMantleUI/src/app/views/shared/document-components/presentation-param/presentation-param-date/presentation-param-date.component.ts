@@ -18,6 +18,9 @@ export class PresentationParamDateComponent extends PresentationParamBaseCompone
 
   public set() {
     let calendarAndFormatter = this.calendarService.getCalendarAndFormatter(this.parameter.typeParameterSettings);
+    if (!calendarAndFormatter) {
+      return;
+    }
     this.formattedValue = this.calendarService.format(this.parameter.value, calendarAndFormatter.calendar, calendarAndFormatter.formatter);
   }
 

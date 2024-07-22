@@ -77,9 +77,11 @@ export class FormFieldDataPointComponent extends FormFieldBasicComponent impleme
     super();
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
+  public override ngOnChanges(changes: SimpleChanges): void {
 
     if (changes['parameter']) {
+      this.selectedItem = this.parameter.valueData;
+      this.displayControl.setValue(this.selectedItem?.name)
       this.loadOptions();
     }
   }

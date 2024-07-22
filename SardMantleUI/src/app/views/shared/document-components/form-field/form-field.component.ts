@@ -9,7 +9,7 @@ import { ParameterSearchOptions } from 'src/app/models/pages/view';
 })
 export class FormFieldComponent {
   @Input() parameter: QueriedDataPointParameter;
-  @Input() queryOptions: ParameterSearchOptions;
+  @Input() queryOptions: ParameterSearchOptions | undefined;
   @Input() showFilterOptions: boolean = false;
 
   @Input() compact: boolean = false;

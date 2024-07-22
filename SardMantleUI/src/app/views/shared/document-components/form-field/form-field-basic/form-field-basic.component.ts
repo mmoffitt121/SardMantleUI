@@ -10,7 +10,7 @@ import { ParameterSearchOptions } from 'src/app/models/pages/view';
   templateUrl: './form-field-basic.component.html',
   styleUrls: ['./form-field-basic.component.scss']
 })
-export class FormFieldBasicComponent extends DestroyableComponent implements OnInit {
+export class FormFieldBasicComponent extends DestroyableComponent implements OnInit, OnChanges {
   @Input() parameter: QueriedDataPointParameter;
   @Input() queryOptions: ParameterSearchOptions | undefined;
   @Input() placeholder: string = ""
@@ -108,5 +108,11 @@ export class FormFieldBasicComponent extends DestroyableComponent implements OnI
         this.control.setValue(this.previousValue);
       }
     })
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['parameter']) {
+      this.control?.setValue(this.parameter.value);
+    }
   }
 }

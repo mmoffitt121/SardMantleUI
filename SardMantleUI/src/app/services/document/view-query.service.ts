@@ -10,7 +10,16 @@ import { environment } from 'src/environments/environment';
 })
 export class ViewQueryService {
   public query(data: DataPointSearchCriteria) {
-    return this.http.post<any>(environment.baseUrl + '/Library/DataPointQuery/Get', data);
+    return this.http.post<any>(environment.baseUrl + '/Library/DataPointQuery/Get', data).pipe(map(result => {
+      result.results.forEach((d: any) => {
+        d.parameters?.forEach((p: any) => {
+          if (p.typeParameterTypeValue == 'bit') {
+            p.value = (p.value != undefined) ? (p.value.toLowerCase() == "true") : (undefined)
+          }
+        });
+      });
+      return result;
+    }));
   }
 
   public getValueKeyFromTypeValue(typeValue: string) {

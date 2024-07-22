@@ -11,10 +11,9 @@
         <span>{{opt.name}}</span>
     </button>
 </mat-menu>
-<mat-form-field appearance="outline" class="truncated-form-field" style="width: min(100%, 500px)">
-    <mat-label *ngIf="smallLabel">{{ parameter.typeParameterName }}</mat-label>
-    <input matInput [formControl]="control" [placeholder]="placeholder" (input)="validate($event)" />
-    <mat-hint *ngIf="control.touched && (control.hasError('minlength') || control.hasError('required'))">
-        {{ control.hasError('required') ? 'Field is required.' : 'Field cannot be larger than 1000 characters.' }}
-    </mat-hint>
-</mat-form-field>
+<form [formGroup]="form">
+    <div class="NgxEditor__Wrapper">
+        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
+        <ngx-editor [editor]="editor" [(ngModel)]="htmlContent" (ngModelChange)="onChange()" [ngModelOptions]="{standalone: true}"> </ngx-editor>
+    </div>
+</form>

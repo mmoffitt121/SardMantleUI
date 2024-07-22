@@ -18,6 +18,7 @@ export class FormFieldDateComponent extends FormFieldBasicComponent implements O
   formatter: Formatter;
   timeZone: TimeZone;
   @Input() useBaseYear: boolean = false;
+  @Input() disabled: boolean = false;
 
   displayControl = new FormControl({value: "", disabled: true});
 
@@ -43,6 +44,9 @@ export class FormFieldDateComponent extends FormFieldBasicComponent implements O
   }
 
   public open() {
+    if (this.disabled) {
+      return;
+    }
     const dialogRef = this.dialog.open(CalendarPickerComponent, {
       width: '500px',
       height: '600px',
@@ -74,6 +78,12 @@ export class FormFieldDateComponent extends FormFieldBasicComponent implements O
 
   public set() {
     let calendarAndFormatter = this.calendarService.getCalendarAndFormatter(this.parameter.typeParameterSettings);
+    if (!calendarAndFormatter) {return;}
+    if (!calendarAndFormatter.calendar) {
+      this.disabled = true;
+      this.displayControl.setValue("");
+      return;
+    }
     this.calendar = calendarAndFormatter.calendar;
     this.formatter = calendarAndFormatter.formatter;
     this.displayControl.setValue(this.calendarService.format(this.parameter.value, calendarAndFormatter.calendar, calendarAndFormatter.formatter));
@@ -97,7 +107,7 @@ export class FormFieldDateComponent extends FormFieldBasicComponent implements O
     })
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public override ngOnChanges(changes: SimpleChanges): void {
     if (changes['parameter'] && this.calendarService.calendarsLoaded.value) {
       // If calendars aren't loaded, don't try to set. Instead, handle above when calendars are done loading.
       this.set();

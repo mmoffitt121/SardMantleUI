@@ -6,8 +6,8 @@
         </div>
         
         <div class="param-value">
-            <mat-icon *ngIf="parameter.value == 'true'">check</mat-icon>
-            <mat-icon *ngIf="parameter.value == 'false'">close</mat-icon>
+            <mat-icon *ngIf="parameter.value?.toString().toLowerCase() == 'true'">check</mat-icon>
+            <mat-icon *ngIf="parameter.value?.toString().toLowerCase() == 'false'">close</mat-icon>
         </div>
         
     </div>

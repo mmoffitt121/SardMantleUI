@@ -5,7 +5,7 @@ export interface DataPointQueryResult {
 }
 
 export interface QueriedDataPoint {
-    id: number;
+    id: number | undefined;
     name: string;
     settings: string | undefined;
     typeId: number;
