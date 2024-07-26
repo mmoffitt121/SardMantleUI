@@ -25,6 +25,7 @@ import { UsersComponent } from './views/security/users/users.component';
 import { PagesComponent } from './views/pages/pages/pages.component';
 import { MenusComponent } from './views/pages/menus/menus.component';
 import { ViewsComponent } from './views/pages/views/views.component';
+import { ImageManagerComponent } from './views/storage/image-manager/image-manager.component';
 
 const routes: Routes = [
   { path:'', redirectTo: 'home', pathMatch: 'full' },
@@ -72,6 +73,8 @@ const routes: Routes = [
     { path:'pages', component:PagesComponent },
     { path:'menus', component:MenusComponent },
     { path:'views', component:ViewsComponent },
+    { path:'images', component:ImageManagerComponent },
+    { path:'usage', component:ImageManagerComponent },
   ]}
 ];
 

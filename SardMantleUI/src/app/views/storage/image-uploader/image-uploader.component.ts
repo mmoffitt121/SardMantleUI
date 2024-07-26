@@ -1,0 +1,67 @@
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+@Component({
+  selector: 'app-image-uploader',
+  templateUrl: './image-uploader.component.html',
+  styleUrls: ['./image-uploader.component.scss']
+})
+export class ImageUploaderComponent {
+  public file: any;
+
+  public title: string;
+  public content: string;
+  public fileName: string;
+
+  public loading = false;
+
+  public tempUrl: string = "";
+
+  @Input() options: string = ".jpg, .jpeg, .png";
+
+  @Output() confirm = new EventEmitter();
+  @Output() cancel = new EventEmitter();
+
+  constructor(public dialogRef: MatDialogRef<ImageUploaderComponent>, 
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  ngOnInit(): void {
+    this.title = this.data.title;
+    this.content = this.data.content;
+    if (this.data.options) {
+      this.options = this.data.options
+    }
+  }
+
+  public cancelChoice() {
+    this.dialogRef.close(false);
+  }
+
+  public confirmChoice() {
+    this.dialogRef.close(this.file);
+  }
+  
+  public onFileSelected() {
+    this.loading = true;
+    const inputNode: any = document.querySelector('#file');
+    if (!inputNode.files[0]) {
+      return;
+    }
+    this.fileName = inputNode.files[0].name;
+  
+    if (typeof (FileReader) !== 'undefined') {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.file = e.target.result;
+      };
+      reader.readAsArrayBuffer(inputNode.files[0]);
+
+      const reader2 = new FileReader();
+      reader2.onload = (e: any) => {
+        this.tempUrl = e.target.result;
+      };
+      reader2.readAsDataURL(inputNode.files[0]);
+      this.loading = false;
+    }
+  }
+}

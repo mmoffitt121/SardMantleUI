@@ -209,6 +209,9 @@ import { ViewParamArticleComponent } from './views/shared/document-components/vi
 import { EditSettingsPopupComponent } from './views/shared/edit-settings/edit-settings-popup/edit-settings-popup.component';
 import { PaginatableComponent } from './views/shared/util/paginatable/paginatable.component';
 import { PageListComponent } from './views/pages/pages/page-list/page-list.component';
+import { ImageManagerComponent } from './views/storage/image-manager/image-manager.component';
+import { ImageUploaderComponent } from './views/storage/image-uploader/image-uploader.component';
+import { ImagePickerComponent } from './views/storage/image-picker/image-picker.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -381,6 +384,9 @@ export function tokenGetter() {
     EditSettingsPopupComponent,
     PaginatableComponent,
     PageListComponent,
+    ImageManagerComponent,
+    ImageUploaderComponent,
+    ImagePickerComponent,
     ],
   imports: [
     BrowserModule,

@@ -120,27 +120,6 @@ export class MapComponent implements OnInit {
     this.routedCenter = undefined;
     this.routedZoom = undefined;
 
-    /*const tilesOuter = L.tileLayer(environment.baseUrl + '/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.baseLayer?.id + "&worldLocation=" + this.urlService.getWorld(), {
-      maxZoom: 10,
-      minZoom: 0,
-      maxNativeZoom: 4,
-      minNativeZoom: 0,
-      noWrap: !this.mapData.loops
-    });
-    tilesOuter.addTo(this.map);
-
-    const tilesOuter2 = L.tileLayer(environment.baseUrl + '/Map/TileProvider/GetTile?z={z}&x={x}&y={y}&layerId=' + this.baseLayer?.id + "&worldLocation=" + this.urlService.getWorld(), {
-      maxZoom: 10,
-      minZoom: 5,
-      maxNativeZoom: 7,
-      minNativeZoom: 5,
-      noWrap: !this.mapData.loops
-    });
-    tilesOuter2.addTo(this.map);
-
-    let levels = this.baseLayer?.persistentZoomLevels && this.baseLayer?.persistentZoomLevels.length ? [0, ...this.baseLayer.persistentZoomLevels] : [0];
-    let ranges = [];*/
-
     if (this.baseLayer) {
       let zoomLevels: any = [];
       zoomLevels.push(this.mapData.minZoom);
