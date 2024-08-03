@@ -212,6 +212,8 @@ import { PageListComponent } from './views/pages/pages/page-list/page-list.compo
 import { ImageManagerComponent } from './views/storage/image-manager/image-manager.component';
 import { ImageUploaderComponent } from './views/storage/image-uploader/image-uploader.component';
 import { ImagePickerComponent } from './views/storage/image-picker/image-picker.component';
+import { ThumbnailViewComponent } from './views/shared/images/thumbnail-view/thumbnail-view.component';
+import { ImageViewerComponent } from './views/storage/image-viewer/image-viewer.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -387,6 +389,8 @@ export function tokenGetter() {
     ImageManagerComponent,
     ImageUploaderComponent,
     ImagePickerComponent,
+    ThumbnailViewComponent,
+    ImageViewerComponent,
     ],
   imports: [
     BrowserModule,

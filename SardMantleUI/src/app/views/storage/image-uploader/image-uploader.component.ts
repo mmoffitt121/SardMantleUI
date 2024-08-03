@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { take } from 'rxjs';
+import { ImageService } from 'src/app/services/image/image.service';
 
 @Component({
   selector: 'app-image-uploader',
@@ -14,6 +16,9 @@ export class ImageUploaderComponent {
   public fileName: string;
 
   public loading = false;
+  public saving = false;
+
+  public description: string = "";
 
   public tempUrl: string = "";
 
@@ -22,23 +27,21 @@ export class ImageUploaderComponent {
   @Output() confirm = new EventEmitter();
   @Output() cancel = new EventEmitter();
 
-  constructor(public dialogRef: MatDialogRef<ImageUploaderComponent>, 
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-  ngOnInit(): void {
-    this.title = this.data.title;
-    this.content = this.data.content;
-    if (this.data.options) {
-      this.options = this.data.options
-    }
-  }
 
   public cancelChoice() {
     this.dialogRef.close(false);
   }
 
   public confirmChoice() {
-    this.dialogRef.close(this.file);
+    this.saving = true;
+    if (!this.description) {
+      this.description = this.fileName;
+    }
+    this.imageService.postImage(this.file, this.fileName, this.description).pipe(take(1)).subscribe(result => {
+      this.saving = false;
+      this.dialogRef.close(this.file);
+    })
+    
   }
   
   public onFileSelected() {
@@ -62,6 +65,18 @@ export class ImageUploaderComponent {
       };
       reader2.readAsDataURL(inputNode.files[0]);
       this.loading = false;
+    }
+  }
+
+  constructor(public dialogRef: MatDialogRef<ImageUploaderComponent>, 
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private imageService: ImageService) { }
+
+  ngOnInit(): void {
+    this.title = this.data.title;
+    this.content = this.data.content;
+    if (this.data.options) {
+      this.options = this.data.options
     }
   }
 }

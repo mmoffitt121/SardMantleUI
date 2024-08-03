@@ -66,7 +66,7 @@ export class EditLocationTypeComponent implements AfterViewInit {
       this.mapService.putLocationType(this.locationType).subscribe(result => {
         this.errorService.showSnackBar("Location Type " + this.locationType.name + " successfully saved.");
         if (this.iconChanged) {
-          this.imageService.postImage(this.icon, this.locationType.id, 1).subscribe(result => {
+          this.imageService.postImage(this.icon, "something.png", "Location type " + this.locationType.name).subscribe(result => {
             this.dialogRef.close(true);
             this.errorService.showSnackBar("Map Icon successfully uploaded.");
           }, 

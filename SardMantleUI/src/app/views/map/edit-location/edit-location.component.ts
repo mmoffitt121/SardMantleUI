@@ -159,7 +159,7 @@ export class EditLocationComponent implements OnInit {
 
       this.mapService.putLocation(location).subscribe(result => {
         if (this.iconChanged) {
-          this.imageService.postImage(this.icon, this.selectedMapObject.id, 2).subscribe(result => {
+          this.imageService.postImage(this.icon, "something.png", "Location " + this.selectedMapObject.name).subscribe(result => {
             this.complete.emit();
             this.errorHandler.showSnackBar("Location Saved Successfully.");
           }, 

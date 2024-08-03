@@ -4,15 +4,16 @@
     </mat-card-title>
 </mat-card-header>
 <mat-card-content>
+    <app-edit-string [(model)]="description" parameterName="Description" placeholder="Image Description..."  />
     <img src={{tempUrl}} class="image-preview">
     <p>
         {{content}}
     </p>
-    <button type="button" mat-button (click)="fileInput.click()">Choose File</button>
+    <button type="button" mat-button (click)="fileInput.click()" [disabled]="saving">Choose File</button>
     {{fileName}}
     <input hidden (change)="onFileSelected()" #fileInput type="file" id="file" [accept]="options">
     <div class="bottom-corner-button-container">
-        <button type="button" class="bottom-corner-button" mat-button (click)="cancelChoice()">Cancel</button>
-        <button type="button" class="bottom-corner-button" mat-button (click)="confirmChoice()" color="primary">Save</button>
+        <button type="button" class="bottom-corner-button" mat-button (click)="cancelChoice()" [disabled]="saving">Cancel</button>
+        <button type="button" class="bottom-corner-button" mat-button (click)="confirmChoice()" [disabled]="saving" color="primary">Save</button>
     </div>
 </mat-card-content>

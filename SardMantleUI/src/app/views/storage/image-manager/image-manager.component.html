@@ -1,4 +1,4 @@
 <div class="screen-container">
     <app-settings-topbar pageName="Images" [showAdd]="true" (add)="uploadImage()" addRole="Library.Document.Type"/>
-    <app-image-picker />
+    <app-image-picker #picker (select)="selectImage($event)" />
 </div>

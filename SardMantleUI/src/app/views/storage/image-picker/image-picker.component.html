@@ -1,25 +1,11 @@
 <div style="margin: 30px;">
-    <app-search-bar  #searchBar (search)="search($event)" />
-    <div class="document-types-results">
-        <mat-card 
-            mat-list-item class="list-item" 
-        style="display: grid; grid-template-columns: auto 50px; margin: 3px; height: 200px;"
-        >
-            <!--<div style="margin: 10px; overflow: auto">
-                <div style="word-break: break-all; text-wrap:pretty">
-                    {{documentType.name}}
-                </div>
-                <div style="color: var(--lib-secondary-text-color); word-break: break-all; text-wrap:pretty; overflow: auto;">
-                    {{documentType.summary}}
-                </div>
-            </div>
-            <div>
-                <button mat-icon-button style="margin: 5px; margin-bottom: 0px" (click)="editDocumentType(documentType.id)" requireRole [role]="'Library.Document.Type'">
-                    <mat-icon>
-                        edit
-                    </mat-icon>
-                </button>
-            </div>-->
+    <app-search-bar #searchBar (search)="search($event)" />
+    <div class="image-card-container">
+        <mat-card *ngFor="let image of images" class="image-card" [matTooltip]="image.description">
+            <mat-card-content class="image-card-content">
+                <app-thumbnail-view [image]="image" (onClick)="onClick(image)" />
+            </mat-card-content>
+            <p class="description" *ngIf="query">{{image.description}}</p>
         </mat-card>
     </div>
 </div>
@@ -30,7 +16,7 @@
         [pageIndex]="pageIndex"
         [pageSize]="pageSize"
         [pageSizeOptions]="pageSizeOptions"
-        (page)="onPageChange($event)"
+        (page)="onPageChange($event); navigate()"
         style="background-color: #00000000;"
     ></mat-paginator>
 </mat-card>

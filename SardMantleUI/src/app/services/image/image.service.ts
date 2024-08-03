@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Map } from 'src/app/models/map/map';
 import { UrlService } from '../url/url.service';
 import { environment } from 'src/environments/environment';
+import { Image } from 'src/app/models/content/image';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,18 +14,26 @@ export class ImageService {
     return environment.baseUrl + '/Library/Image/GetImage?Id=' + id + '&Type=' + imageType + "&worldPath=" + this.urlService.getWorld();
   }
 
-  public getImage(id: number, imageType: number) {
-    let params = new HttpParams().set('Id', id).set('Type', imageType).set('worldPath', this.urlService.getWorld());
-    return this.http.get<any>(environment.baseUrl + '/Library/Image/GetImage', { params: params, observe: 'response', responseType: 'blob' as 'json' });
+  public getImages(criteria: any) {
+    return this.http.get<Image[]>(environment.baseUrl + '/Library/Image/GetImages', {params: criteria});
   }
 
-  public postImage(icon: File, id: number, imageType: number) {
+  public getImageCount(criteria: any) {
+    return this.http.get<number>(environment.baseUrl + '/Library/Image/GetImageCount', {params: criteria});
+  }
+
+  public image(id: string) {
+    return this.http.get(environment.baseUrl + '/Library/Image/image', { params: {id}, responseType: "blob" });
+  }
+
+  public thumbnail(id: string) {
+    return this.http.get(environment.baseUrl + '/Library/Image/thumbnail', { params: {id}, responseType: "blob" });
+  }
+
+  public postImage(image: File, fileName: string, description: string) {
     let formData = new FormData();
-    formData.append('id', id.toString());
-    formData.append('type', imageType.toString());
-    formData.append('data', new Blob([icon], { type: icon.type }), "name");
-    formData.append('url', this.getUrl(id, imageType));
-    formData.append('worldPath', this.urlService.getWorld());
+    formData.append('description', description);
+    formData.append('data', new Blob([image], { type: image.type }), fileName);
     return this.http.post(environment.baseUrl + '/Library/Image/PostImage', formData);
   }
 
