@@ -197,10 +197,13 @@ export class MapComponent implements OnInit {
     this.mapService.getLocations({id}).subscribe(data => {
       if (data && data.length > 0) {
         let l = data[0];
-        let zoom = l.zoomProminenceMin;
+        let zoom = l.zoomProminenceMin + 2;
         if (zoom === undefined || zoom < this.mapData.minZoom) {
           zoom = this.mapData.minZoom;
+        } else if (zoom > l.zoomProminenceMax) {
+          zoom = l.zoomProminenceMax;
         }
+        
         if (l.latitude && l.longitude) {
           this.map.setView([l.latitude, l.longitude], zoom);
         }
