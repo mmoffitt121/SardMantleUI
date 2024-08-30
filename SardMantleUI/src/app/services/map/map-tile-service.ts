@@ -1,9 +1,6 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
-import { Map } from 'src/app/models/map/map';
-import { MapLayer } from 'src/app/models/map/map-layer';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { MapTile } from 'src/app/models/map/map-tile';
-import { SignalRService } from '../signal-r/signal-r.service';
 import { UrlService } from '../url/url.service';
 import { environment } from 'src/environments/environment';
 
@@ -22,6 +19,7 @@ export class MapTileService {
 
   public postMapTile(
     icon: File, 
+    iconName: string,
     z: number, 
     x: number, 
     y: number, 
@@ -34,10 +32,10 @@ export class MapTileService {
     formData.append('x', x.toString());
     formData.append('y', y.toString());
     formData.append('layerId', layerId.toString());
-    formData.append('data', new Blob([icon], { type: icon.type }), "name");
+    formData.append('data', new Blob([icon], { type: icon.type }), iconName);
     if (replaceMode) formData.append('replaceMode', replaceMode);
     if (replaceRoot != null) formData.append('replaceRoot', replaceRoot.toString());
-    return this.http.post(environment.baseUrl + '/Map/TileProvider/UploadTile', formData, { reportProgress: true });
+    return this.http.post(environment.baseUrl + '/Map/TileProvider/UploadTile', formData, {});
   }
 
   public deleteMapTile(z: number, x: number, y: number, layerId: number) {

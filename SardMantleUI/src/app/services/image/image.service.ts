@@ -23,11 +23,11 @@ export class ImageService {
   }
 
   public image(id: string) {
-    return this.http.get(environment.baseUrl + '/Library/Image/image', { params: {id}, responseType: "blob" });
+    return this.http.get(environment.baseUrl + '/Library/Image/Image', { params: {id}, responseType: "blob" });
   }
 
   public thumbnail(id: string) {
-    return this.http.get(environment.baseUrl + '/Library/Image/thumbnail', { params: {id}, responseType: "blob" });
+    return this.http.get(environment.baseUrl + '/Library/Image/Thumbnail', { params: {id}, responseType: "blob" });
   }
 
   public postImage(image: File, fileName: string, description: string) {
@@ -35,6 +35,11 @@ export class ImageService {
     formData.append('description', description);
     formData.append('data', new Blob([image], { type: image.type }), fileName);
     return this.http.post(environment.baseUrl + '/Library/Image/PostImage', formData);
+  }
+
+  public deleteImage(id: string) {
+    console.log(id)
+    return this.http.delete(environment.baseUrl + '/Library/Image/DeleteImage', {params: {id}})
   }
 
   constructor(private http: HttpClient, private urlService: UrlService) { }

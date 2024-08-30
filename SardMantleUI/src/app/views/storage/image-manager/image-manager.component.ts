@@ -19,7 +19,7 @@ export class ImageManagerComponent {
       width: '500px',
       data: { 
         title: "Upload Image", 
-      }
+      },
     });
 
     dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
@@ -31,6 +31,12 @@ export class ImageManagerComponent {
     let dialogRef = this.dialog.open(ImageViewerComponent, {
       data: { 
         image: image, 
+      },
+    });
+
+    dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
+      if (result) {
+        this.picker.navigate();
       }
     });
   }

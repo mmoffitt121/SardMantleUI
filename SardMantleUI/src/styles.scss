@@ -9,6 +9,7 @@
     font-style: normal;
 }
 @import '~@angular/cdk/overlay-prebuilt.css';
+@import '~viewerjs/dist/viewer.css';
 
 /* --------------- */
 /* Variables       */
@@ -310,6 +311,14 @@ mat-icon {
     margin-top: 0px;
     margin-bottom: 5px;
     color: var(--lib-secondary-text-color);
+}
+
+.image-viewer-class {
+    mat-dialog-container {
+        --mdc-dialog-container-color: #00000000;
+        --mdc-dialog-container-elevation-shadow: none;
+    }
+    
 }
 
 /* --------------- */

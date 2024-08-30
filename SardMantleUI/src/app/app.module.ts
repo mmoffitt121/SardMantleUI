@@ -214,6 +214,14 @@ import { ImageUploaderComponent } from './views/storage/image-uploader/image-upl
 import { ImagePickerComponent } from './views/storage/image-picker/image-picker.component';
 import { ThumbnailViewComponent } from './views/shared/images/thumbnail-view/thumbnail-view.component';
 import { ImageViewerComponent } from './views/storage/image-viewer/image-viewer.component';
+import { NgxViewer2Module } from '@jaguards/ngx-viewer2';
+import { SecurePipe } from './pipes/secure.pipe';
+import { ThumbnailPipe } from './pipes/thumbnail.pipe';
+import { ImagePipe } from './pipes/image.pipe';
+import { TasksComponent } from './views/storage/tasks/tasks.component';
+import { FormFieldListComponent } from './views/shared/document-components/form-field/form-field-list/form-field-list.component';
+import { FormFieldListItemComponent } from './views/shared/document-components/form-field/form-field-list-item/form-field-list-item.component';
+import { RichtextPipe } from './pipes/richtext.pipe';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -391,6 +399,13 @@ export function tokenGetter() {
     ImagePickerComponent,
     ThumbnailViewComponent,
     ImageViewerComponent,
+    SecurePipe,
+    ThumbnailPipe,
+    ImagePipe,
+    TasksComponent,
+    FormFieldListComponent,
+    FormFieldListItemComponent,
+    RichtextPipe,
     ],
   imports: [
     BrowserModule,
@@ -436,7 +451,8 @@ export function tokenGetter() {
       }
     }),
     OverlayModule,
-    PortalModule
+    PortalModule,
+    NgxViewer2Module
   ],
   providers: [
     SharedService,
@@ -448,7 +464,7 @@ export function tokenGetter() {
     { 
       provide: MAT_COLOR_FORMATS, 
       useValue: NGX_MAT_COLOR_FORMATS 
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })

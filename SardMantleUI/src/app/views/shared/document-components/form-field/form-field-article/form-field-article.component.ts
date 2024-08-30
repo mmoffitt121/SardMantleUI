@@ -39,6 +39,7 @@ export class FormFieldArticleComponent extends FormFieldBasicComponent implement
 
   public onChange() {
     this.parameter.value = this.htmlContent;
+    this.valueChanged.emit(this.htmlContent)
   }
 
   override ngOnInit(): void {

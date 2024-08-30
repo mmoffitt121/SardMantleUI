@@ -33,6 +33,13 @@ export class FormFieldBooleanComponent extends FormFieldBasicComponent implement
     }
   }
 
+  public override validate($event: any) {
+    if ($event === true || $event === false) {
+      return super.validate($event);
+    }
+    return true;
+  }
+
   public override ngOnInit(): void {
     super.ngOnInit();
     this.control.setValue(this.parameter.value)

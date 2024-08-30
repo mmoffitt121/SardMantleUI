@@ -14,6 +14,7 @@ export class PresentationParamDateComponent extends PresentationParamBaseCompone
   public formatter: Formatter;
 
   public formattedValue: string;
+  public formattedValues: string[];
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   public set() {
@@ -21,7 +22,8 @@ export class PresentationParamDateComponent extends PresentationParamBaseCompone
     if (!calendarAndFormatter) {
       return;
     }
-    this.formattedValue = this.calendarService.format(this.parameter.value, calendarAndFormatter.calendar, calendarAndFormatter.formatter);
+    this.formattedValue = this.calendarService.format(this.parameter.value, calendarAndFormatter!.calendar, calendarAndFormatter!.formatter);
+    this.formattedValues = this.parameter.values?.map(val => this.calendarService.format(val, calendarAndFormatter!.calendar, calendarAndFormatter!.formatter)) ?? [];
   }
 
   constructor(public calendarService: CalendarService) {

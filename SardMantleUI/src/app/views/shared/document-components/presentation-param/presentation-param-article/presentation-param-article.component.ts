@@ -1,6 +1,7 @@
 import { Component, Inject, Optional } from '@angular/core';
 import { PresentationParamBaseComponent } from '../presentation-param-base/presentation-param-base.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { RichtextPipe } from 'src/app/pipes/richtext.pipe';
 
 @Component({
   selector: 'app-presentation-param-article',

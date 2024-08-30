@@ -7,7 +7,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./upload-file.component.scss']
 })
 export class UploadFileComponent {
-  public file: any;
+  public file: File;
 
   public title: string;
   public content: string;
@@ -33,7 +33,7 @@ export class UploadFileComponent {
   }
 
   public confirmChoice() {
-    this.dialogRef.close(this.file);
+    this.dialogRef.close({file: this.file, fileName: this.fileName});
   }
   
   public onFileSelected() {
@@ -44,6 +44,7 @@ export class UploadFileComponent {
       const reader = new FileReader();
   
       reader.onload = (e: any) => {
+        console.log(e.target)
         this.file = e.target.result;
       };
   

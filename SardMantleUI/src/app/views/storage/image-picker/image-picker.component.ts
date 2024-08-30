@@ -1,9 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Optional, Output } from '@angular/core';
 import { PaginatableComponent } from '../../shared/util/paginatable/paginatable.component';
 import { ImageService } from 'src/app/services/image/image.service';
 import { take } from 'rxjs';
 import { Image } from 'src/app/models/content/image';
 import { environment } from 'src/environments/environment';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Dialog } from '@angular/cdk/dialog';
+import { ImageUploaderComponent } from '../image-uploader/image-uploader.component';
 
 @Component({
   selector: 'app-image-picker',
@@ -15,6 +18,8 @@ export class ImagePickerComponent extends PaginatableComponent implements OnInit
   public baseUrl = environment.baseUrl;
   public query = "";
   @Output() select = new EventEmitter();
+  @Input() previewImages =  true;
+  @Input() topbar = true;
   public search(query: any) {
     this.query = query;
     let criteria = {pageNumber: this.pageIndex, pageSize: this.pageSize, query};
@@ -31,18 +36,33 @@ export class ImagePickerComponent extends PaginatableComponent implements OnInit
   }
 
   public onClick(image: Image) {
+    if (this.dialogRef) {
+      this.dialogRef.close(image.id)
+    }
     this.select.emit(image)
   }
 
-  public getPageCriteria() {
-    /*return {
-      pageSize: this.pageSize,
-      pageNumber: this.pageIndex + 1,
-      query: this.searchBar?.getValue() ?? ''
-    }*/
+  public add() {
+    if (this.dialogRef) {
+      let dialogRef = this.dialog.open(ImageUploaderComponent, {
+        width: '500px',
+        data: { 
+          title: "Upload Image", 
+        },
+      });
+  
+      dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
+        this.dialogRef.close(result);
+      })
+    }
   }
 
-  constructor(private imageService: ImageService) {
+  constructor (
+    private imageService: ImageService, 
+    @Optional() public dialogRef: MatDialogRef<ImagePickerComponent>, 
+    private dialog: MatDialog,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
+  ) {
     super();
   }
 

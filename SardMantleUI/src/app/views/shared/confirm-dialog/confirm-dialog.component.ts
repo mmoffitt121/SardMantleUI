@@ -9,6 +9,11 @@ import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/materia
 export class ConfirmDialogComponent implements OnInit {
   public title: string;
   public content: string;
+  public showCancel = true;
+  public lines = [];
+
+  confirmText = "Confirm";
+  cancelText = "Cancel";
 
   @Output() confirm = new EventEmitter();
   @Output() cancel = new EventEmitter();
@@ -18,6 +23,14 @@ export class ConfirmDialogComponent implements OnInit {
   ngOnInit(): void {
     this.title = this.data.title;
     this.content = this.data.content;
+    if (this.data.showCancel === false) {
+      this.showCancel = false;
+    }
+    if (this.data.lines) {
+      this.lines = this.data.lines;
+    }
+    this.confirmText = this.data.confirmText ?? this.confirmText;
+    this.cancelText = this.data.cancelText ?? this.cancelText;
   }
 
   public cancelChoice() {

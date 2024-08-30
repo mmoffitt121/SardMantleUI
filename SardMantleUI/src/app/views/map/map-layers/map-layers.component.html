@@ -11,7 +11,7 @@
     <mat-card *ngFor="let layer of iconLayers" class="layer-item">
         <div style="display: grid; grid-template-columns: auto 50px 50px; height: 50px;">
             <div>
-                <img class="card-image" [src]="layer.safeURL" *ngIf="layer.safeURL" />
+                <img class="card-image" [src]="layer.iconURL | image | async" *ngIf="layer.iconURL" />
                 <p class="label-over"> {{ layer.name | valueShorten: 25:1 }} </p>
             </div>
             <button mat-icon-button matTooltip="Edit Layer" class="carded-button" (click)="handleEdit(layer)" requireRole [role]="'Library.Map'">
@@ -38,7 +38,7 @@
     <mat-card *ngFor="let layer of mapLayers" class="layer-item">
         <div style="display: grid; grid-template-columns: auto 50px 50px; height: 50px;">
             <div>
-                <img class="card-image" [src]="layer.safeURL" *ngIf="layer.safeURL" />
+                <img class="card-image" [src]="layer.iconURL | image | async" *ngIf="layer.iconURL" />
                 <p class="label-over"> {{ layer.name | valueShorten: 25:1 }} </p>
             </div>
             <div *ngIf="!loginService.userHasAnyOfRoles(['Administrator', 'Editor'])"></div>
@@ -57,7 +57,7 @@
     <mat-card class="layer-item">
         <div style="display: grid; grid-template-columns: auto 50px 50px; height: 50px;">
             <div>
-                <img class="card-image" [src]="baseLayer.safeURL" *ngIf="baseLayer.safeURL" />
+                <img class="card-image" [src]="baseLayer.iconURL | image | async" *ngIf="baseLayer.iconURL" />
                 <p class="label-over"> {{ baseLayer.name | valueShorten: 25:1 }} </p>
             </div>
             <button mat-icon-button matTooltip="Edit Layer" class="carded-button" (click)="handleEdit(baseLayer)" requireRole [role]="'Library.Map'">

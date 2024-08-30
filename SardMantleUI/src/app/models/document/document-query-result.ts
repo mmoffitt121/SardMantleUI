@@ -25,4 +25,7 @@ export interface QueriedDataPointParameter {
     typeParameterSettings: string;
     value: any | undefined;
     valueData: any | undefined;
+    values: any[] | undefined;
+    valuesData: any[] | undefined;
+    isMultiple: boolean;
 }

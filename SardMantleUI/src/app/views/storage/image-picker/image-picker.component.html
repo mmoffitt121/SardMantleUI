@@ -1,22 +1,38 @@
-<div style="margin: 30px;">
-    <app-search-bar #searchBar (search)="search($event)" />
-    <div class="image-card-container">
-        <mat-card *ngFor="let image of images" class="image-card" [matTooltip]="image.description">
-            <mat-card-content class="image-card-content">
-                <app-thumbnail-view [image]="image" (onClick)="onClick(image)" />
-            </mat-card-content>
-            <p class="description" *ngIf="query">{{image.description}}</p>
-        </mat-card>
+<div [class]="topbar ? 'image-picker' : 'image-picker-embedded'">
+    <div style="height: 200px;" *ngIf="topbar">
+        <div style="display: grid; grid-template-columns: auto min-content;">
+            <h2>
+                Images
+            </h2>
+            <button mat-icon-button matTooltip="Add Image" style="margin-top: 15px;" (click)="add()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+        <div style="display: grid; grid-template-columns: auto min-content;">
+            <app-search-bar #searchBar (search)="search($event)" />
+            
+        </div>
+    </div>
+    <div class="image-card-outer-container">
+        <div class="image-card-container">
+            <mat-card *ngFor="let image of images" class="image-card" [matTooltip]="image.description">
+                <mat-card-content class="image-card-content">
+                    <app-thumbnail-view [image]="image" (onClick)="onClick(image)" />
+                </mat-card-content>
+                <p class="description" *ngIf="query">{{image.description}}</p>
+            </mat-card>
+        </div>
+    </div>
+    
+    <div class="paginator-container">
+        <mat-paginator 
+            [hidePageSize]="true" 
+            [length]="pageLength"
+            [pageIndex]="pageIndex"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="onPageChange($event); navigate()"
+            style="background-color: #00000000;"
+        ></mat-paginator>
     </div>
 </div>
-<mat-card class="paginator-container">
-    <mat-paginator 
-        [hidePageSize]="true" 
-        [length]="pageLength"
-        [pageIndex]="pageIndex"
-        [pageSize]="pageSize"
-        [pageSizeOptions]="pageSizeOptions"
-        (page)="onPageChange($event); navigate()"
-        style="background-color: #00000000;"
-    ></mat-paginator>
-</mat-card>

@@ -20,18 +20,17 @@
         <app-search-bar (search)="onSearch($event)" [disabled]="loading"></app-search-bar>
     </div>
     <div class="map-card-container" *ngIf="!loading">
-        <mat-card class="map-card" *ngFor="let map of maps" (mouseover)="map.selected=true" (mouseout)="map.selected=false" (click)="onSelect(map)">
-            <mat-icon *ngIf="map.url === null" class="icon-over"> map </mat-icon>
-            <div class="image">
-                <img [src]="map.url" *ngIf="map.url != null"/>
-            </div>
-            <div class="label-over">
-                <p> {{ map.name | valueShorten: 18:1 }} </p>
-            </div>
-            <mat-card class="select-overlay" *ngIf="map.selected">
-                <mat-icon class="icon-over" style="top: calc(50% - 12px);">arrow_forward</mat-icon>
+        <div *ngFor="let map of maps" class="map-card" (mouseover)="map.selected=true" (mouseout)="map.selected=false">
+            <mat-card (click)="onSelect(map)" style="width: 154px; height: 154px;">
+                <mat-icon *ngIf="map.iconId === null" class="icon-over"> map </mat-icon>
+                <div class="image">
+                    <img [src]="map.iconId | thumbnail | async"  *ngIf="map.iconId != null"/>
+                </div>
+                <div class="label-over">
+                    <p> {{ map.name | valueShorten: 18:1 }} </p>
+                </div>
             </mat-card>
-        </mat-card>
+        </div>
     </div>
     <mat-progress-spinner *ngIf="loading" class="info-loading" mode="indeterminate" style="margin-left: auto; margin-right: auto; margin-top: 100px; margin-bottom: 100px"></mat-progress-spinner>
     <mat-paginator 

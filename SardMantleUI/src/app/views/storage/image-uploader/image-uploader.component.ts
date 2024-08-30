@@ -37,11 +37,10 @@ export class ImageUploaderComponent {
     if (!this.description) {
       this.description = this.fileName;
     }
-    this.imageService.postImage(this.file, this.fileName, this.description).pipe(take(1)).subscribe(result => {
+    this.imageService.postImage(this.file, this.fileName, this.description).pipe(take(1)).subscribe((result: any) => {
       this.saving = false;
-      this.dialogRef.close(this.file);
+      this.dialogRef.close(result.id);
     })
-    
   }
   
   public onFileSelected() {

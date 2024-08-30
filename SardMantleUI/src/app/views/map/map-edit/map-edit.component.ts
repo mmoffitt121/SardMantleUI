@@ -14,6 +14,7 @@ import { MapLayerService } from 'src/app/services/map/map-layer.service';
 })
 export class MapEditComponent {
   private id: number;
+  private iconId: string | null;
 
   @Input() adding = false;
 
@@ -81,6 +82,7 @@ export class MapEditComponent {
     this.minZoom.setValue(map.minZoom);
     this.maxZoom.setValue(map.maxZoom);
     this.isDefault.setValue(map.isDefault);
+    this.iconId = map.iconId;
     this.cdref.detectChanges();
   }
 
@@ -99,7 +101,7 @@ export class MapEditComponent {
       defaultY: 0.0,
       minZoom: 0,
       maxZoom: 10,
-      isDefault: this.isDefault.value
+      isDefault: this.isDefault.value,
     } as Map
   }
 
@@ -120,6 +122,7 @@ export class MapEditComponent {
       minZoom: this.minZoom.value,
       maxZoom: this.maxZoom.value,
       isDefault: this.isDefault.value,
+      iconId: this.iconId
     } as Map
   }
 
@@ -127,18 +130,6 @@ export class MapEditComponent {
     if (this.isValid()) {
       if (this.adding) {
         this.mapService.postMap(this.buildMapForAdd()).subscribe(response => {
-          this.mapLayerService.postMapLayer({name: "Base Layer", summary: "The foundation layer of this map.", mapId: response, isBaseLayer: true, isIconLayer: false}).subscribe(response => {
-            this.errorService.showSnackBar("Map successfully created.");
-          },
-          error => {
-            this.errorService.showSnackBar("The map was successfully created, but there was a problem creating the base layer.");
-          });
-          this.mapLayerService.postMapLayer({name: "Default Icon Layer", summary: "The default icon layer of this map.", mapId: response, isBaseLayer: true, isIconLayer: true}).subscribe(response => {
-          },
-          error => {
-            this.errorService.showSnackBar("The map was successfully created, but there was a problem creating the base icon layer.");
-          });
-          
           this.save.emit(response);
         }, 
         error => {

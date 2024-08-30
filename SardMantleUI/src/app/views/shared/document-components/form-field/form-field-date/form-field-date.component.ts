@@ -73,6 +73,7 @@ export class FormFieldDateComponent extends FormFieldBasicComponent implements O
         this.parameter.value = undefined;
       }
       this.updateDisplay();
+      this.valueChanged.emit(this.parameter.value);
     });
   }
 
@@ -87,6 +88,7 @@ export class FormFieldDateComponent extends FormFieldBasicComponent implements O
     this.calendar = calendarAndFormatter.calendar;
     this.formatter = calendarAndFormatter.formatter;
     this.displayControl.setValue(this.calendarService.format(this.parameter.value, calendarAndFormatter.calendar, calendarAndFormatter.formatter));
+    this.valueChanged.emit(this.parameter.value);
   }
 
   public override registerFilterOptions(): void {

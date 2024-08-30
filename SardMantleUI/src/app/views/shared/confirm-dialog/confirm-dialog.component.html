@@ -3,8 +3,9 @@
 </mat-card-header>
 <mat-card-content>
     <p>{{content}}</p>
+    <p *ngFor="let line of lines">{{line}}</p>
 </mat-card-content>
 <mat-dialog-actions style="float: right">
-    <button mat-button (click)="cancelChoice()">Cancel</button>
-    <button mat-button (click)="confirmChoice()" color="primary">Confirm</button>
+    <button mat-button (click)="cancelChoice()" *ngIf="showCancel">{{cancelText}}</button>
+    <button mat-button (click)="confirmChoice()" color="primary">{{confirmText}}</button>
 </mat-dialog-actions>

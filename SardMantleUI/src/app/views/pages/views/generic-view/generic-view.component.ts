@@ -109,7 +109,10 @@ export class GenericViewComponent extends DestroyableComponent implements OnInit
       dataPointTypeReferenceId: fp.dataPointTypeReferenceId,
       typeParameterSettings: fp.settings,
       value: undefined,
-      valueData: undefined
+      valueData: undefined,
+      values: undefined,
+      valuesData: undefined,
+      isMultiple: false,
     })) ?? []
 
     this.searchDocument = {

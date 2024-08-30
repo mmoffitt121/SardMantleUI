@@ -1,7 +1,7 @@
 <div #container class="view-param-container">
     <h4 class="subtitled-title"> {{ parameter.typeParameterName }} </h4>
     <h5 class="subtitle"> {{ parameter.typeParameterSummary }} </h5>
-    <mat-accordion *ngIf="parameter.valueData">
+    <mat-accordion *ngIf="parameter.valueData && !parameter.isMultiple">
         <mat-expansion-panel>
             <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
                 <mat-panel-title>
@@ -11,6 +11,24 @@
             <ng-template matExpansionPanelContent>
                 <app-document-presentation
                     [id]="parameter.valueData.id ?? -1" 
+                    [showEditControls]="false"
+                    [showLinkToSelf]="true" 
+                    style="margin-left: 0px;" 
+                    [dialogRef]="dialogRef"
+                />
+            </ng-template>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion *ngIf="parameter.valuesData && parameter.isMultiple">
+        <mat-expansion-panel *ngFor="let valueData of parameter.valuesData">
+            <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
+                <mat-panel-title>
+                    {{valueData.name}}
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ng-template matExpansionPanelContent>
+                <app-document-presentation
+                    [id]="valueData.id ?? -1" 
                     [showEditControls]="false"
                     [showLinkToSelf]="true" 
                     style="margin-left: 0px;" 

@@ -15,11 +15,13 @@ export class PresentationParamUnitComponent extends PresentationParamBaseCompone
   public baseUnit: Unit | undefined;
 
   public displayValue: string | undefined;
+  public displayValues: string[] | undefined
 
   public setUnit(unit: Unit) {
     this.unit = unit;
     this.baseUnit = unit;
     this.displayValue = this.parameter.value;
+    this.displayValues = this.parameter.values;
   }
 
   public changeUnit(unit: Unit) {
@@ -28,6 +30,13 @@ export class PresentationParamUnitComponent extends PresentationParamBaseCompone
       return;
     }
     this.displayValue = (parseFloat(this.parameter.value) / this.baseUnit.amountPerParent * this.unit.amountPerParent).toString()
+    this.displayValues = [];
+    this.parameter.values?.forEach(value => {
+      if (!this.baseUnit || !this.unit) {
+        return;
+      }
+      this.displayValues?.push((parseFloat(value) / this.baseUnit.amountPerParent * this.unit.amountPerParent).toString())
+    })
   }
 
   public loadUnits() {

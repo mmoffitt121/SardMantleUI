@@ -17,5 +17,5 @@ export interface Map extends Selectable {
     minZoom: number;
     maxZoom: number;
     isDefault: boolean;
-    url: SafeUrl | null;
+    iconId: string | null;
 }

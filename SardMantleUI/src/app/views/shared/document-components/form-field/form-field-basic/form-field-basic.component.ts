@@ -17,7 +17,7 @@ export class FormFieldBasicComponent extends DestroyableComponent implements OnI
   control: FormControl;
   previousValue: string = "";
 
-  @Input() smallLabel = false
+  @Input() smallLabel = false;
 
   @Input() showTitle = true;
   @Input() showSubtitle = true;
@@ -27,6 +27,8 @@ export class FormFieldBasicComponent extends DestroyableComponent implements OnI
     { filterMode: 0, name: "Equals"},
   ];
   @Input() public selectedFilterOption = { filterMode: 0, name: "Equals"};
+
+  @Output() valueChanged = new EventEmitter();
 
   // Array of callables that return type boolean
   public filters: any[] = [];
@@ -39,6 +41,10 @@ export class FormFieldBasicComponent extends DestroyableComponent implements OnI
         valid = false;
       }
     })
+
+    if (valid) {
+      this.valueChanged.emit(value);
+    }
     return valid;
   }
 

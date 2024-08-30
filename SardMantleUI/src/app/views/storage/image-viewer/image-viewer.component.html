@@ -1,3 +1,14 @@
-<div>
-    <img [src]="src" class="imageDisplay" />
+
+<div style="display: grid; grid-template-columns: auto min-content; max-height: 100vh; max-width: 80vw; overflow: hidden">
+    <img [src]="src" style="max-height: calc(100vh - 10px); max-width: calc(80vw - 75px); border-radius: 5px;" *ngIf="!loading" ngxViewer2 [viewerOptions]="viewerOptions" />
+    <div>
+        <div style="margin: 5px; padding: 5px">
+            <button mat-icon-button (click)="info()">
+                <mat-icon>info</mat-icon>
+            </button>
+            <button mat-icon-button style="margin-top: 5px;" (click)="delete()">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </div>
 </div>

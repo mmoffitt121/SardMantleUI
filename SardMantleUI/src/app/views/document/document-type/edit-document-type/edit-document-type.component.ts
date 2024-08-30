@@ -50,7 +50,8 @@ export class EditDocumentTypeComponent {
       typeValue: typeValue,
       selected: false,
       dataPointTypeReferenceId: -1,
-      settings: null
+      settings: null,
+      isMultiple: false,
     };
 
     this.documentType.typeParameters = (this.documentType.typeParameters ?? []).concat(param);

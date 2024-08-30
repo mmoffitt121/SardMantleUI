@@ -29,19 +29,19 @@
                             </div>
                             <div>
                                 <mat-card class="map-card-over" style="z-index: 1000; position: absolute; " *ngIf="mapIconHovered" requireRole [role]="'Library.Map'">
-                                    <mat-icon>edit</mat-icon>
+                                    <mat-icon style="position: relative; left: 60px; top: 60px;">edit</mat-icon>
                                 </mat-card>
                                 <img 
                                     class="map-card" 
-                                    [src]="mapData.url" 
-                                    *ngIf="!(mapData.url === null || mapData.url === '')" 
+                                    [src]="mapData.iconId | thumbnail | async" 
+                                    *ngIf="!(mapData.iconId === null || mapData.iconId === '')" 
                                     (mouseover)="mapIconHovered=true" 
                                     (mouseout)="mapIconHovered=false"
                                     (click)="editMapIcon()"
                                 />
                                 <mat-card 
                                     class="map-card" 
-                                    *ngIf="(mapData.url === null || mapData.url === '')" 
+                                    *ngIf="(mapData.iconId === null || mapData.iconId === '')" 
                                     (mouseover)="mapIconHovered=true" 
                                     (mouseout)="mapIconHovered=false"
                                     (click)="editMapIcon()"

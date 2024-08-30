@@ -1,32 +1,24 @@
-import { HttpClient } from '@angular/common/http';
 import { Location as RouteLocation } from '@angular/common';
 import { MapService } from '../../services/map/map.service';
 import { FormControl, Validators } from '@angular/forms';
 import { dataMarker, DataMarker } from 'src/app/models/leaflet/leaflet-extensions/data-marker/data-marker';
 import { ViewLocationComponent } from './view-location/view-location.component';
 import { Component, OnInit, ViewChild, EventEmitter, Output, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs';
 import * as L from 'leaflet';
 import 'leaflet-draw';
-import { MatSidenavModule, MatDrawer, MatDrawerContainer, MatDrawerToggleResult } from '@angular/material/sidenav';
+import { MatDrawer, } from '@angular/material/sidenav';
 import { MatSelect } from '@angular/material/select';
-import { MatOptionSelectionChange } from '@angular/material/core';
-import { MapIconMaps } from 'src/app/models/map/map-icon-maps/map-icon-maps';
-import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 import { EditLocationComponent } from './edit-location/edit-location.component';
-import { Area, Subregion, Region, Subcontinent, Continent, CelestialObject } from '../../models/map/location-data-types/area-data-types'; 
 import { Location, LocationType } from '../../models/map/location-data-types/location-data-types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Map as MapData } from 'src/app/models/map/map';
 import { MatDialog } from '@angular/material/dialog';
-import { MapEditComponent } from './map-edit/map-edit.component';
 import { MapSelectComponent } from './map-select/map-select.component';
 import { MapEditWindowComponent } from './map-edit/map-edit-window/map-edit-window.component';
 import { ErrorService } from 'src/app/services/error.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MapAddWindowComponent } from './map-edit/map-add-window/map-add-window.component';
-import { UploadFileComponent } from '../shared/document-components/file/upload-file/upload-file.component';
 import { MapLayersComponent } from './map-layers/map-layers.component';
 import { MapLayer } from 'src/app/models/map/map-layer';
 import { MapLayerService } from 'src/app/services/map/map-layer.service';
@@ -39,6 +31,7 @@ import { RegionService } from 'src/app/services/map/region.service';
 import { environment } from 'src/environments/environment';
 import { LoginService } from 'src/app/services/login/login.service';
 import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
+import { ImagePickerComponent } from '../storage/image-picker/image-picker.component';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -642,54 +635,26 @@ export class MapComponent implements OnInit {
         this.addMap();
       }
       else if (result != null && result > 0) {
-        this.loadMap(result);
+        this.router.navigate([this.urlService.getWorld(), 'map', result]);
       }
     });
   }
 
   public loadMapIcon() {
-    this.mapService.getMapIcon(this.mapData.id).subscribe(icon => {
-      if (icon.body != null) {
-        this.mapData.url = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(icon.body));
-      }
-      else {
-        this.mapLayerService.getMapLayers({mapId: this.mapData.id, baseLayer: true, isIconLayer: false}).subscribe(data => {
-          if (data.length > 0) {
-            let layerId = data[0].id;
-            this.mapTileService.getMapTile(0, 0, 0, layerId).subscribe(data => {
-              if (data.body.size > 0) {
-                this.mapData.url = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(data.body));
-              }
-              else {
-                this.mapData.url = null;
-              }
-            })
-          }
-          else {
-            this.mapData.url = null;
-          }
-        })
-      }
-    });
   }
 
   public editMapIcon() {
-    if (!this.loginService.userHasAnyOfRoles(['Administrator', 'Editor'])) {
-      return;
-    }
-    const dialogRef = this.dialog.open(UploadFileComponent, {
-      width: '525px',
+    const dialogRef = this.dialog.open(ImagePickerComponent, {
+      width: 'min(100vw, 700px)',
+      height: 'min(100vh, 700px)',
       data: { title: "Upload File" }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.mapService.postMapIcon(result, this.mapData.id).subscribe(result => {
-          this.errorService.showSnackBar("Map Icon successfully uploaded.");
-          this.loadMap(this.mapData.id);
-        }, 
-        error => {
-          this.errorService.handle(error);
+        this.mapData.iconId = result;
+        this.mapService.putMap(this.mapData).pipe(take(1)).subscribe(result => {
+          this.errorService.showSnackBar("Map icon saved successfully.");
         });
       }
     });
