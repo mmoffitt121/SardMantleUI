@@ -12,6 +12,7 @@ import { MapLayer } from 'src/app/models/map/map-layer';
 import { MatDialog } from '@angular/material/dialog';
 import { UploadFileComponent } from '../../shared/document-components/file/upload-file/upload-file.component';
 import { ImageService } from 'src/app/services/image/image.service';
+import { ImagePickerComponent } from '../../storage/image-picker/image-picker.component';
 
 @Component({
   selector: 'app-edit-location',
@@ -45,7 +46,7 @@ export class EditLocationComponent implements OnInit {
   public layers: MapLayer[];
 
   public iconChanged = false;
-  public icon: any;
+  public icon: string | undefined;
 
   @Output() complete = new EventEmitter();
   @Output() cancel = new EventEmitter();
@@ -87,6 +88,7 @@ export class EditLocationComponent implements OnInit {
         this.iconSize.setValue(this.selectedMapObject.iconSize);
         this.markerLat = this.selectedMapObject.latitude;
         this.markerLng = this.selectedMapObject.longitude;
+        this.icon = this.selectedMapObject.iconURL;
         this.mapService.getLocationTypes({}).subscribe(data => {
           this.locationTypes = data;
           this.locationType = data.find((lt: LocationType) => lt.id == this.selectedMapObject.locationTypeId);
@@ -154,24 +156,13 @@ export class EditLocationComponent implements OnInit {
         layerId: this.layer?.id,
         labelFontColor: this.labelFontColor.value,
         labelFontSize: this.labelFontSize.value,
-        iconSize: this.iconSize.value
+        iconSize: this.iconSize.value,
+        iconURL: this.icon
       } as Location
 
       this.mapService.putLocation(location).subscribe(result => {
-        if (this.iconChanged) {
-          this.imageService.postImage(this.icon, "something.png", "Location " + this.selectedMapObject.name).subscribe(result => {
-            this.complete.emit();
-            this.errorHandler.showSnackBar("Location Saved Successfully.");
-          }, 
-          error => {
-            this.errorHandler.handle(error);
-          });
-        }
-        else {
-          this.errorHandler.showSnackBar("Location Saved Successfully.");
-          this.complete.emit();
-        }
-        
+        this.errorHandler.showSnackBar("Location Saved Successfully.");
+        this.complete.emit();
       },
       error => {
         this.errorHandler.handle(error);
@@ -189,7 +180,8 @@ export class EditLocationComponent implements OnInit {
         layerId: this.layer?.id,
         labelFontColor: this.labelFontColor.value,
         labelFontSize: this.labelFontSize.value,
-        iconSize: this.iconSize.value
+        iconSize: this.iconSize.value,
+        iconURL: this.icon
       } as Location
 
       this.mapService.postLocation(location).subscribe(result => {
@@ -222,9 +214,10 @@ export class EditLocationComponent implements OnInit {
   }
 
   public onChangeIcon() {
-    const dialogRef = this.dialog.open(UploadFileComponent, {
-      width: '400px',
-      data: { title: "Upload Icon" }
+    const dialogRef = this.dialog.open(ImagePickerComponent, {
+      width: 'min(100vw, 700px)',
+      height: 'min(100vh, 700px)',
+      data: { title: "Upload File" }
     });
 
     dialogRef.afterClosed().subscribe(result => {

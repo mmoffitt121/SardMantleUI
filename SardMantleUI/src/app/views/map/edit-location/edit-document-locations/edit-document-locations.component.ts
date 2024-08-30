@@ -1,6 +1,7 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { DataPointQueryResult, QueriedDataPoint } from 'src/app/models/document/document-query-result';
 import { Document } from 'src/app/models/document/document-types/document';
 import { Location } from 'src/app/models/map/location-data-types/location-data-types';
 import { DocumentLocationService } from 'src/app/services/document/document-location.service';
@@ -17,7 +18,7 @@ export class EditDocumentLocationsComponent {
   public title: string;
   public content: string;
   public location: Location;
-  public documents: any[];
+  public documents: DataPointQueryResult;
 
   @ViewChild('editDataPointComponent') editDataPointComponent: EditDataPointComponent;
 
@@ -41,13 +42,13 @@ export class EditDocumentLocationsComponent {
     this.adding = false;
   }
 
-  public editDocument(doc: Document) {
+  public editDocument(doc: QueriedDataPoint) {
     this.router.navigate([this.urlService.getWorld(), 'document', doc.typeId, doc.id]);
     this.dialogRef.close();
   }
 
-  public removeLink(doc: Document) {
-    this.documentLocationService.deleteDataPointLocation({dataPointId: doc.id, locationId: this.location.id}).subscribe(result => {
+  public removeLink(doc: QueriedDataPoint) {
+    this.documentLocationService.deleteDataPointLocation({dataPointId: doc.id, locationId: this.location.id, isPrimary: false}).subscribe(result => {
       this.errorService.showSnackBar("Link successfully removed.");
       this.loadDocumentLocations();
     },
@@ -55,7 +56,7 @@ export class EditDocumentLocationsComponent {
   }
 
   public save() {
-    this.documentLocationService.postDataPointLocation({dataPointId: this.editDataPointComponent.getValue(), locationId: this.location.id}).subscribe(result => {
+    this.documentLocationService.postDataPointLocation({dataPointId: this.editDataPointComponent.getValue(), locationId: this.location.id, isPrimary: false}).subscribe(result => {
       this.errorService.showSnackBar("Link successfully added.");
       this.loadDocumentLocations();
       this.adding = false;
@@ -63,8 +64,17 @@ export class EditDocumentLocationsComponent {
     error => this.errorService.handle(error))
   }
 
+  public makePrimary(doc: QueriedDataPoint) {
+    this.documentLocationService.postDataPointLocation({dataPointId: doc.id, locationId: this.location.id, isPrimary: true}).subscribe(result => {
+      this.errorService.showSnackBar("Link successfully made primary.");
+      this.loadDocumentLocations();
+      this.adding = false;
+    },
+    error => this.errorService.handle(error));
+  }
+
   public addDocument() {
-    this.router.navigate([this.urlService.getWorld(), 'document']);
+    this.router.navigate([this.urlService.getWorld(), 'document', 'add']);
     this.dialogRef.close();
   }
 

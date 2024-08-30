@@ -8,6 +8,7 @@ import { ImageService } from 'src/app/services/image/image.service';
 import { MapService } from 'src/app/services/map/map.service';
 import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
 import { UploadFileComponent } from 'src/app/views/shared/document-components/file/upload-file/upload-file.component';
+import { ImagePickerComponent } from 'src/app/views/storage/image-picker/image-picker.component';
 
 @Component({
   selector: 'app-edit-location-type',
@@ -33,8 +34,8 @@ export class EditLocationTypeComponent implements AfterViewInit {
 
   public parentType: LocationType | undefined;
 
-  public iconChanged = false;
-  public icon: any;
+  public iconChanged: boolean;
+  public icon: string | undefined;
 
   public setParentLocationType(data: any) {
     this.parentType = data;
@@ -52,6 +53,7 @@ export class EditLocationTypeComponent implements AfterViewInit {
     this.locationType.labelFontSize = this.labelFontSize.value;
     this.locationType.labelFontColor = this.labelFontColor.value;
     this.locationType.iconSize = this.iconSize.value;
+    this.locationType.iconURL = this.icon;
 
     if (this.data.adding) {
       this.mapService.postLocationType(this.locationType).subscribe(result => {
@@ -65,18 +67,7 @@ export class EditLocationTypeComponent implements AfterViewInit {
     else {
       this.mapService.putLocationType(this.locationType).subscribe(result => {
         this.errorService.showSnackBar("Location Type " + this.locationType.name + " successfully saved.");
-        if (this.iconChanged) {
-          this.imageService.postImage(this.icon, "something.png", "Location type " + this.locationType.name).subscribe(result => {
-            this.dialogRef.close(true);
-            this.errorService.showSnackBar("Map Icon successfully uploaded.");
-          }, 
-          error => {
-            this.errorService.handle(error);
-          });
-        }
-        else {
-          this.dialogRef.close(true);
-        }
+        this.dialogRef.close(true);
       },
       error => {
         this.errorService.handle(error);
@@ -108,13 +99,15 @@ export class EditLocationTypeComponent implements AfterViewInit {
   }
 
   public onChangeIcon() {
-    const dialogRef = this.dialog.open(UploadFileComponent, {
-      width: '400px',
-      data: { title: "Upload Icon" }
+    const dialogRef = this.dialog.open(ImagePickerComponent, {
+      width: 'min(100vw, 700px)',
+      height: 'min(100vh, 700px)',
+      data: { title: "Upload File" }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        console.log(result)
         this.icon = result;
         this.iconChanged = true;
       }
@@ -167,6 +160,7 @@ export class EditLocationTypeComponent implements AfterViewInit {
     this.labelFontSize.setValue(this.locationType.labelFontSize);
     this.labelFontColor.setValue(this.locationType.labelFontColor);
     this.iconSize.setValue(this.locationType.iconSize);
+    this.icon = this.locationType.iconURL;
     this.cdref.detectChanges();
   }
 }

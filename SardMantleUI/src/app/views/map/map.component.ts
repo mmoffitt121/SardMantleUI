@@ -413,7 +413,7 @@ export class MapComponent implements OnInit {
       // Set Icon
       if (marker.usesIcon) {
         if (marker.iconURL) {
-          iconHTML = `<div><img style='width: ` + (marker.iconSize ?? 32) + `px; margin-top: -50%;' src='` + marker.iconURL + `'</div>`;
+          iconHTML = `<div><img style='width: ` + (marker.iconSize ?? 32) + `px; margin-top: -50%;' src='` + this.mapService.getIconUrl(marker.iconURL) + `'</div>`;
         } 
         else {
           iconHTML = dotHTML;

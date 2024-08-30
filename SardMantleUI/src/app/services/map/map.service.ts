@@ -98,5 +98,10 @@ export class MapService {
     return this.http.delete(environment.baseUrl + '/Library/LocationType/DeleteLocationType', { params: params });
   }
 
+  public getIconUrl(id: string) {
+    console.log(id)
+    return "https://localhost:7094/Library/Image/Icon?id=" + id + "&world=adminadmin";
+  }
+
   constructor(private http: HttpClient) { }
 }

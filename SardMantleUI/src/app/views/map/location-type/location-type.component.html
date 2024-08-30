@@ -14,7 +14,7 @@
         <div *ngFor="let locationType of locationTypesFiltered" class="location-type-item">
             <mat-checkbox class="location-type-item-checkbox" [checked]="locationType.selected" (change)="select(locationType)"></mat-checkbox>
             <mat-card class="location-type-item-card">
-                <img [src]="locationType.iconURL"  *ngIf="locationType.iconURL"/> 
+                <img [src]="locationType.iconURL | thumbnail | async"   *ngIf="locationType.iconURL"/> 
                 <div *ngIf="!locationType.iconURL" class="image-placeholder"> 
                     <mat-icon> location_on </mat-icon>
                 </div>

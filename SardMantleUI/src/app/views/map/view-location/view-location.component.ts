@@ -11,6 +11,9 @@ import { RegionService } from 'src/app/services/map/region.service';
 import { Region } from 'src/app/models/map/region';
 import { FormControl } from '@angular/forms';
 import { LoginService } from 'src/app/services/login/login.service';
+import { DocumentService } from 'src/app/services/document/document.service';
+import { take } from 'rxjs';
+import { DataPointQueryResult } from 'src/app/models/document/document-query-result';
 
 @Component({
   selector: 'app-view-location',
@@ -24,6 +27,7 @@ export class ViewLocationComponent implements OnInit {
   public dataTypeName: string | undefined;
 
   public dataPoints: any[];
+  public queryResult: DataPointQueryResult;
 
   public regions: Region[];
   public selectedRegion: Region;
@@ -43,6 +47,7 @@ export class ViewLocationComponent implements OnInit {
   @Output() showEdit = new EventEmitter();
   @Output() hideEdit = new EventEmitter();
   @Output() saveRegion = new EventEmitter();
+  @Output() close = new EventEmitter();
 
   public editMapObject() {
     this.editBegin.emit();
@@ -108,10 +113,9 @@ export class ViewLocationComponent implements OnInit {
         }
 
         this.loadRegions();
-        
-        this.documentLocationService.getDataPointsFromLocationId({id: model.id}).subscribe(data => {
-          this.dataPoints = data;
-        }, error => this.errorHandler.handle(error));
+        this.documentService.getDocuments({locationIds: [model.id]}).pipe(take(1)).subscribe(result => {
+          this.queryResult = result;
+        }, error => this.errorHandler.handle(error))
       }
       else {
         this.errorHandler.showSnackBar("Location not found.");
@@ -221,11 +225,16 @@ export class ViewLocationComponent implements OnInit {
     });
   }
 
+  public closePanel() {
+    this.close.emit();
+  }
+
   constructor(
     private mapService: MapService, 
     public dialog: MatDialog, 
     private errorHandler: ErrorService,
     private documentLocationService: DocumentLocationService,
+    private documentService: DocumentService,
     private regionService: RegionService,
     private cdref: ChangeDetectorRef,
     public loginService: LoginService
