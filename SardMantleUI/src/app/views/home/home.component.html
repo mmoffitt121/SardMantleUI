@@ -3,6 +3,11 @@
         <h1>
             {{world?.name}}
         </h1>
+        <mat-card>
+            <button mat-button (click)='export()'>
+                export
+            </button>
+        </mat-card>
         <div>
             <mat-card class="dp-card" *ngFor="let d of fullWidth">
                 <mat-card-content>

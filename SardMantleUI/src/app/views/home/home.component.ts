@@ -7,6 +7,8 @@ import { WorldService } from 'src/app/services/world/world.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
 import { Document } from 'src/app/models/document/document-types/document';
 import { DocumentService } from 'src/app/services/document/document.service';
+import { SettingJsonService } from 'src/app/services/settings/setting-json.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -42,6 +44,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  public export() {
+    this.settingService.export().pipe(take(1)).subscribe();
+  }
+
   constructor(
     public router: Router, 
     public activatedRoute: ActivatedRoute, 
@@ -49,7 +55,8 @@ export class HomeComponent implements OnInit {
     private worldService: WorldService, 
     private errorService: ErrorService,
     private themeService: ThemeService,
-    private documentService: DocumentService) { }
+    private documentService: DocumentService,
+    private settingService: SettingJsonService) { }
   ngOnInit(): void {
     this.worldService.getWorlds({location: this.urlService.getWorld()}).subscribe(data => {
       if (data && data.length > 0) {

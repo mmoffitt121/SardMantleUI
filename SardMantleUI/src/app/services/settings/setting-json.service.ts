@@ -28,5 +28,9 @@ export class SettingJsonService {
     return this.http.delete(environment.baseUrl + '/Library/SettingJSON/Delete', { params: params });
   }
 
+  public export() {
+    return this.http.post(environment.baseUrl + '/Library/Export/Export', {});
+  }
+
   constructor(private http: HttpClient) { }
 }
