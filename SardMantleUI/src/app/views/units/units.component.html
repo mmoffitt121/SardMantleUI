@@ -10,12 +10,12 @@
     </div>
     <div style="display: flex">
       <div style="margin-right: 10px; display: flex;">
-        <button mat-icon-button class="icon-button" matTooltip="Add" *ngIf="(pageMode === 'units' || pageMode === 'measurables' || pageMode === 'calendars') && loginService.userHasAnyOfRoles(['Administrator', 'Editor'])" (click)="doAdd()">
+        <button mat-icon-button class="icon-button" matTooltip="Add" *ngIf="(pageMode === 'units' || pageMode === 'measurables' || pageMode === 'calendars')"  requireRole [role]="'Library.Setup.Units'" (click)="doAdd()">
           <mat-icon> add </mat-icon>
         </button>
       </div>
       
-      <mat-button-toggle-group name="pageMode" [value]="pageMode" >
+      <mat-button-toggle-group name="pageMode" [value]="pageMode" class="toggle-group" >
         <mat-button-toggle value="units" matTooltip="Units" (click)="setPageMode('units', 'Units')">
           <mat-icon> design_services </mat-icon>
         </mat-button-toggle>

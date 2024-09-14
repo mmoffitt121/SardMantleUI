@@ -1,4 +1,4 @@
-<mat-card style="height: calc(100vh - 20px);">
+<mat-card class="edit-document-container">
     <mat-card-header style="margin-bottom: 30px;">
         <mat-card-title style="word-break: break-all; text-wrap: pretty">
             {{ addEditTitle | valueShorten: 100:1 }}
@@ -7,17 +7,20 @@
             {{ documentType?.summary }}
         </mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content style="overflow: auto;">
-        <div *ngIf="!editing">
-            <app-edit-data-point [parameterName]="'Document Type'" [items]="documentTypes" (selected)="setDocumentType($event.id)" />
+    <mat-card-content>
+        <app-edit-data-point *ngIf="!editing" [parameterName]="'Document Type'" [selectedItem]="selectedDocType" [items]="documentTypes" (selected)="setDocumentType($event.id)" [clear]="false" #docTypeSelector />
+        <div style="margin-bottom: 38px;">
+            <app-form-field-basic [parameter]="nameParam" />
         </div>
-        <div class="common-attributes-container">
-            <app-edit-string [parameterName]="'Name'" [control]="nameControl"></app-edit-string>
-        </div>
-        <ng-template #parameterContainer></ng-template>
+        <mat-divider *ngIf="document" style="margin-bottom: 38px;" />
+        <app-document-form [document]="document" />
+    </mat-card-content>    
+    <mat-card-footer>
         <div class="button-holder">
             <button mat-button (click)="onCancel()"> Cancel </button>
-            <button mat-button (click)="saveDocument()" color="primary" [disabled]="canSave()"> Save </button> 
+            <button mat-button (click)="saveDocument(true)" color="primary" [disabled]="canSave()" *ngIf="!editing && !duplicating"> Save and Add Another </button> 
+            <button mat-button (click)="saveDocument(true)" color="primary" [disabled]="canSave()" *ngIf="duplicating"> Save and Duplicate </button> 
+            <button mat-button (click)="saveDocument(false)" color="primary" [disabled]="canSave()"> Save </button> 
         </div>
-    </mat-card-content>    
+    </mat-card-footer>
 </mat-card>

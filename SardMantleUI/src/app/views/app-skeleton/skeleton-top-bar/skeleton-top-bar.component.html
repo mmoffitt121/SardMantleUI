@@ -7,18 +7,7 @@
     <div></div>
     <div style="display: flex;">
         <mat-menu #menu="matMenu">
-            <div style="padding: 10px; display: flex">
-                <h3 style="margin: 0px; margin-top: 10px">Themes</h3>
-                <button mat-icon-button style="margin-left: 50px;" (click)="openThemeManager()" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
-                    <mat-icon> settings </mat-icon> 
-                </button>
-            </div>
-            <div *ngFor="let theme of themes" [style]="'display: flex;'" (click)="selectTheme(theme)">
-                <div class="theme-circle" [style]="'background-color: ' + theme.backgroundColor">
-                    <div class="theme-circle" [style]="'background-color: ' + theme.primaryAccentColor"> </div>
-                </div>
-                <button mat-menu-item>{{theme.name}}</button>
-            </div>
+
         </mat-menu>
         <button mat-button class="topbar-button" color="primary" (click)="navigateRegister()" *ngIf="!userLoggedIn">Register</button>
         <button mat-button class="topbar-button" (click)="navigateLogIn()" *ngIf="!userLoggedIn">Log In</button>

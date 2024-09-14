@@ -1,6 +1,6 @@
 <div style="display: grid; grid-template-columns: auto 55px;">
     <h3>Locations</h3>
-    <button mat-icon-button matTooltip="Add Location" (click)="addLocation()" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+    <button mat-icon-button matTooltip="Add Location" (click)="addLocation()" requireRole [role]="'Library.Location'">
         <mat-icon> add </mat-icon>
     </button>
 </div>

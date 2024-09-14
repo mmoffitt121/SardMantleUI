@@ -26,7 +26,9 @@ export class LoginComponent {
           localStorage.setItem("userId", data.id);
           localStorage.setItem("roles", data.roles);
           this.router.navigate(["home"]);
-        })
+          this.loginService.loggedIn();
+        });
+
       }
       else {
         this.errorService.showSnackBar("Login unsuccessful.");

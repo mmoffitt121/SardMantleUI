@@ -11,6 +11,34 @@ export const themeFonts = [
     {id: "Verdana", name: "Verdana"}, 
 ]
 
+export const themeOutlineTypes = [
+    {id: "none", name: "None"},
+    {id: "dotted", name: "Dotted"},
+    {id: "dashed", name: "Dashed"},
+    {id: "solid", name: "Solid"},
+    {id: "double", name: "Double"},
+    {id: "groove", name: "Groove"},
+    {id: "ridge", name: "Ridge"},
+    {id: "inset", name: "Inset"},
+    {id: "outset", name: "Outset"},
+]
+
+export const themeLinearGradientDirections = [
+    {id: "to top", name: "Top"},
+    {id: "to bottom", name: "Bottom"},
+    {id: "to right", name: "Right"},
+    {id: "to left", name: "Left"},
+    {id: "to top right", name: "Top Right"},
+    {id: "to top left", name: "Top Left"},
+    {id: "to bottom right", name: "Bottom Right"},
+    {id: "to bottom left", name: "Bottom Left"},
+]
+
+export const themeGradientType = [
+    {id: "", name: "None"}, 
+    {id: "linear-gradient", name: "Linear"},
+]
+
 export const themeMenuItems = [
     {
         name: "General",
@@ -41,13 +69,6 @@ export const themeMenuItems = [
                         name: "Primary UI Color Selected",
                         description: "The primary color for cards, panels, and popups when they've been selected.",
                         key: "--lib-primary-color-selected",
-                        value: undefined,
-                        type: "color",
-                    },
-                    {
-                        name: "Background Color",
-                        description: "",
-                        key: "--lib-background-color",
                         value: undefined,
                         type: "color",
                     },
@@ -130,14 +151,148 @@ export const themeMenuItems = [
                     },
                 ]
             },
+            
         ]
+    },
+    {
+        name: "Outlines",
+        icon: "check_box_outline_blank",
+        children: [
+            {
+                name: "Card Outlines",
+                items: [
+                    {
+                        name: "Style",
+                        key: "--lib-primary-outline-style",
+                        value: undefined,
+                        type: "select",
+                        options: themeOutlineTypes,
+                    },
+                    {
+                        name: "Color",
+                        key: "--lib-primary-outline-color",
+                        value: undefined,
+                        type: "color",
+                    },
+                    {
+                        name: "Width",
+                        key: "--lib-primary-outline-width",
+                        value: undefined,
+                    },
+                ]
+            },
+            {
+                name: "Item Outlines",
+                items: [
+                    {
+                        name: "Style",
+                        key: "--lib-item-outline-style",
+                        value: undefined,
+                        type: "select",
+                        options: themeOutlineTypes,
+                    },
+                    {
+                        name: "Color",
+                        key: "--lib-item-outline-color",
+                        value: undefined,
+                        type: "color",
+                    },
+                    {
+                        name: "Width",
+                        key: "--lib-item-outline-width",
+                        value: undefined,
+                    },
+                ]
+            },
+        ],
+    },
+    {
+        name: "Background",
+        icon: "wallpaper",
+        children: [
+            {
+                name: "Background",
+                items: [
+                    {
+                        name: "Background Color",
+                        description: "",
+                        key: "--lib-background-color",
+                        value: undefined,
+                        type: "color",
+                    },
+                ]
+            },
+            {
+                name: "Background Gradient",
+                items: [
+                    {
+                        name: "Gradient Type",
+                        key: "--lib-background-gradient-type",
+                        value: undefined,
+                        type: "select",
+                        options: themeGradientType,
+                    },
+                    {
+                        name: "Gradient Direction",
+                        key: "--lib-background-gradient-direction",
+                        value: undefined,
+                        type: "select",
+                        options: themeLinearGradientDirections,
+                    },
+                    {
+                        name: "Gradient Color",
+                        description: "The color to fade to in the gradient.",
+                        key: "--lib-background-gradient-color",
+                        value: undefined,
+                        type: "color",
+                    },
+                ]
+            },
+            {
+                name: "Sidebar",
+                items: [
+                    {
+                        name: "Background Color",
+                        description: "",
+                        key: "--lib-sidebar-color",
+                        value: undefined,
+                        type: "color",
+                    },
+                ]
+            },
+            {
+                name: "Sidebar Gradient",
+                items: [
+                    {
+                        name: "Gradient Type",
+                        key: "--lib-sidebar-gradient-type",
+                        value: undefined,
+                        type: "select",
+                        options: themeGradientType,
+                    },
+                    {
+                        name: "Gradient Direction",
+                        key: "--lib-sidebar-gradient-direction",
+                        value: undefined,
+                        type: "select",
+                        options: themeLinearGradientDirections,
+                    },
+                    {
+                        name: "Gradient Color",
+                        description: "The color to fade to in the gradient.",
+                        key: "--lib-sidebar-gradient-color",
+                        value: undefined,
+                        type: "color",
+                    },
+                ]
+            },
+        ],
     },
 ]
 
 export const defaultTheme = {
     "name": "New Theme",
     "key": "",
-    "--lib-background-color": "#302222",
     "--lib-primary-color": "#4f3b3b",
     "--lib-primary-color-selected": "#5a4c4b",
     "--lib-primary-font": "IM Fell English",
@@ -152,4 +307,22 @@ export const defaultTheme = {
     "--lib-primary-accent-color-selected": "#735f59",
     "--lib-field-overlay-color": "#0e0807",
     "--lib-destructive-action-color": "#770000",
+
+    "--lib-primary-outline-style": "none",
+    "--lib-primary-outline-color": "",
+    "--lib-primary-outline-width": "1px",
+    "--lib-item-outline-style": "none",
+    "--lib-item-outline-color": "",
+    "--lib-item-outline-width": "1px",
+
+    "--lib-background-gradient": "none",
+    "--lib-background-color": "#302222",
+    "--lib-background-gradient-type": "",
+    "--lib-background-gradient-direction": "to bottom",
+    "--lib-background-gradient-color": "#5a4c4b",
+    "--lib-sidebar-gradient": "none",
+    "--lib-sidebar-color": "#302222",
+    "--lib-sidebar-gradient-type": "",
+    "--lib-sidebar-gradient-direction": "to bottom",
+    "--lib-sidebar-gradient-color": "#5a4c4b",
 }

@@ -2,6 +2,10 @@ import { Injectable, OnInit } from '@angular/core';
 import { CalendarDataService } from './calendar-data.service';
 import { Calendar, Era, EraDefinition, Formatter, TimeZone, Week } from 'src/app/models/units/calendar';
 import { DateTimeObject } from 'src/app/models/timeline/time';
+import { UrlService } from '../url/url.service';
+import { BehaviorSubject } from 'rxjs';
+
+export const SAVED_TIME = "SavedTime"
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +16,19 @@ export class CalendarService {
   public selectedFormatter: Formatter;
   public selectedTimeZone: TimeZone;
 
+  public calendarsLoaded = new BehaviorSubject<boolean>(false);
+  public $calendarsLoaded = this.calendarsLoaded.asObservable();
+
   public loadCalendars() {
+    this.calendarsLoaded.next(false);
     this.dataService.get({}).subscribe(data => {
       this.calendars = data;
+      this.calendarsLoaded.next(true);
     });
+  }
+
+  public ensureCalendarsLoaded() {
+    // Do nothing, as all this needs to do is make sure the class is loaded.
   }
 
   // -=-=-=-=-=-=-=-=-
@@ -149,7 +162,7 @@ export class CalendarService {
   public getBaseYear(dateTime: bigint, calendar: Calendar) {
     let daysPerYear = BigInt(this.getDaysPerYear(calendar));
     
-    let day = dateTime / BigInt(calendar.unitTimePerDay);
+    let day = BigInt(dateTime) / BigInt(calendar.unitTimePerDay);
     return day / daysPerYear;
   }
 
@@ -270,10 +283,28 @@ export class CalendarService {
   }
 
   // -=-=-=-=-=-=-=-=-
+  // Defaults
+  // -=-=-=-=-=-=-=-=-
+
+  public saveDefaultDate(time: bigint) {
+    localStorage.setItem(`${this.urlService.getWorld()}-${SAVED_TIME}`, String(time));
+  }
+
+  public getDefaultDate(): bigint {
+    return BigInt(localStorage.getItem(`${this.urlService.getWorld()}-${SAVED_TIME}`) ?? 0n);
+  }
+
+  // -=-=-=-=-=-=-=-=-
   // Format
   // -=-=-=-=-=-=-=-=-
 
-  public format(time: bigint, calendar?: Calendar, formatter?: Formatter, useBaseYear?: boolean) {
+  public format(time?: bigint | string, calendar?: Calendar, formatter?: Formatter, useBaseYear?: boolean) {
+    if (time == undefined) {
+      return "";
+    }
+
+    let bigIntTime = BigInt(time);
+
     if (!formatter) {
       if (calendar) {
         formatter = calendar.formatters[0];
@@ -289,7 +320,7 @@ export class CalendarService {
       calendar = this.selectedCalendar;
     }
 
-    return this.parseFormattedDate(this.toDateTimeObject(time, calendar), calendar, formatter, useBaseYear);
+    return this.parseFormattedDate(this.toDateTimeObject(bigIntTime, calendar), calendar, formatter, useBaseYear);
   }
 
   private parseFormattedDate(dto: DateTimeObject, calendar: Calendar, formatter: Formatter, useBaseYear?: boolean) {
@@ -387,8 +418,40 @@ export class CalendarService {
     dto.month = month;
     return this.fromDateTimeObject(dto, calendar);
   } 
+
+  public getCalendar(id: number): Calendar {
+    return this.calendars.find(c => c.id == id) ?? this.selectedCalendar;
+  }
+
+  public getFormatter(id: number, calendar: Calendar): Formatter {
+    return calendar.formatters.find(f => f.id == id) ?? calendar.formatters[0] ?? undefined;
+  } 
+
+  public getCalendarAndFormatter(settingsString: string) {
+    let settings = JSON.parse(settingsString ? settingsString : "{}");
+    let calendar;
+    let formatter;
+    if (settings.calendar) {
+      calendar = this.getCalendar(settings.calendar);
+      if (settings.formatter) {
+        formatter = this.getFormatter(settings.formatter, calendar);
+      }
+    }
+
+    if (!calendar) {
+      if (!this.calendars.length) {
+        return undefined;
+      }
+      calendar = this.calendars[0];
+    }
+    if (!formatter) {
+      formatter = calendar.formatters[0];
+    }
+
+    return {calendar, formatter};
+  }
   
-  constructor(private dataService: CalendarDataService) {
+  constructor(private dataService: CalendarDataService, private urlService: UrlService) {
     this.loadCalendars();
   }
 }

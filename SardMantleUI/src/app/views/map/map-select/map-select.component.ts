@@ -37,31 +37,6 @@ export class MapSelectComponent {
     this.mapService.getMaps({ pageNumber: this.pageIndex, pageSize: this.pageSize, query: this.query }).subscribe(data => {
       this.maps = data;
       this.loading = false;
-      this.maps.forEach(map => {
-        this.mapService.getMapIcon(map.id).subscribe(icon => {
-          if (icon.body != null) {
-            map.url = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(icon.body));
-          }
-          else {
-            this.mapLayerService.getMapLayers({mapId: map.id, baseLayer: true, isIconLayer: false}).subscribe(data => {
-              if (data.length > 0) {
-                let layerId = data[0].id;
-                this.mapTileService.getMapTile(0, 0, 0, layerId).subscribe(data => {
-                  if (data.body.size > 0) {
-                    map.url = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(data.body));
-                  }
-                  else {
-                    map.url = null;
-                  }
-                })
-              }
-              else {
-                map.url = null;
-              }
-            })
-          }
-        });
-      })
     },
     error => {
       this.errorHandler.handle(error);

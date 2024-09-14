@@ -1,0 +1,29 @@
+<div class="view-param-container">
+    <div class="view-param-inner-container">
+        <div>
+            <h4 class="subtitled-title" [matTooltip]="parameter.typeParameterSummary ?? ''"> {{ parameter.typeParameterName }} </h4>
+            <h5 class="subtitle"> {{ parameter.typeParameterSummary }} </h5>
+        </div>
+        <div class="param-value" *ngIf="!parameter.isMultiple">
+            {{displayValue}} {{displayValue != undefined ? unit?.symbol : ""}}
+            <div [matMenuTriggerFor]="unitMenu" (click)="loadUnits()" *ngIf="this.unit && this.displayValue != undefined">
+                <div class="arrow-down"></div>
+            </div>
+        </div>
+        <div  *ngIf="parameter.isMultiple">
+            <div class="param-value" *ngFor="let dv of displayValues">
+                {{dv}} {{dv != undefined ? unit?.symbol : ""}}
+                <div [matMenuTriggerFor]="unitMenu" (click)="loadUnits()" *ngIf="this.unit && dv != undefined">
+                    <div class="arrow-down"></div>
+                </div>
+            </div>
+        </div>
+        
+        <mat-menu #unitMenu>
+            <button mat-menu-item *ngFor="let unit of units" (click)="changeUnit(unit)">
+                <span>{{unit.name}} ({{unit.symbol}})</span>
+            </button>
+        </mat-menu>
+    </div>
+    <mat-divider></mat-divider>
+</div>

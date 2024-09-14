@@ -1,6 +1,5 @@
 import { Component, Inject, Output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { DocumentType } from 'src/app/models/document/document-types/document-type';
 import { DocumentTypeService } from 'src/app/services/document/document-type.service';
 import { ErrorService } from 'src/app/services/error.service';

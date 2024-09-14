@@ -40,27 +40,6 @@ export class MapLayersComponent implements OnChanges {
       if (toSelect) {
         toSelect.selected = true;
       }
-      this.loadIcons();
-    })
-  }
-
-  public loadIcons() {
-    this.allLayers.forEach(l => {
-      this.mapLayerService.getMapLayerIcon(l.id).subscribe(icon => {
-        if (icon.body != null) {
-          l.safeURL = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(icon.body));
-        }
-        else {
-          this.mapTileService.getMapTile(0, 0, 0, l.id).subscribe(tile => {
-            if (tile.body.size > 0) {
-              l.safeURL = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(tile.body));
-            }
-            else {
-              l.safeURL = undefined;
-            }
-          })
-        }
-      });
     })
   }
 

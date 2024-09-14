@@ -1,0 +1,86 @@
+<h4 class="param-header" *ngIf="showTitle && !smallLabel"> {{ parameter.typeParameterName }} </h4>
+<h5 class="param-summary" *ngIf="showSubtitle && !smallLabel"> {{ parameter.typeParameterSummary }} </h5>
+<h5 class="subtitle" style="display: flex;" *ngIf="displayFilterOptions && !smallLabel"> 
+    ({{ selectedFilterOption.name }})
+    <div [matMenuTriggerFor]="filterMenu">
+        <div class="arrow-down"></div>
+    </div>
+</h5>
+<mat-menu #filterMenu>
+    <button mat-menu-item *ngFor="let opt of filterOptions" (click)="setFilterOption(opt)">
+        <span>{{opt.name}}</span>
+    </button>
+</mat-menu>
+<div *ngFor="let param of parameters; index as i">
+    <div [ngSwitch]="param.typeParameterTypeValue" class="form-field">
+        <app-form-field-basic 
+            *ngSwitchDefault 
+            [parameter]="param" 
+            [displayFilterOptions]="showFilterOptions" 
+            [queryOptions]="queryOptions" 
+            [smallLabel]="false" 
+            [showTitle]="false" 
+            [showSubtitle]="false" 
+            (valueChanged)="onValueChange($event, i)" 
+        />
+        <app-form-field-article 
+            *ngSwitchCase="'doc'" 
+            [parameter]="param" 
+            [displayFilterOptions]="showFilterOptions" 
+            [queryOptions]="queryOptions" 
+            [smallLabel]="false" 
+            [showTitle]="false" 
+            [showSubtitle]="false" 
+            (valueChanged)="onValueChange($event, i)"  
+        />
+        <app-form-field-boolean 
+            *ngSwitchCase="'bit'" 
+            [parameter]="param" 
+            [displayFilterOptions]="showFilterOptions" 
+            [queryOptions]="queryOptions" 
+            [smallLabel]="false" 
+            [showTitle]="false" 
+            [showSubtitle]="false" 
+            (valueChanged)="onValueChange($event, i)"  
+        />
+        <app-form-field-data-point 
+            *ngSwitchCase="'dat'" 
+            [parameter]="param" 
+            [displayFilterOptions]="showFilterOptions" 
+            [queryOptions]="queryOptions" 
+            [smallLabel]="false" 
+            [clearable]="false" 
+            [showTitle]="false" 
+            [showSubtitle]="false" 
+            (valueChanged)="onValueChange($event, i)"  
+        />
+        <app-form-field-date 
+            *ngSwitchCase="'tim'" 
+            [parameter]="param" 
+            [displayFilterOptions]="showFilterOptions" 
+            [queryOptions]="queryOptions" 
+            [smallLabel]="false" 
+            [showTitle]="false" 
+            [showSubtitle]="false" 
+            (valueChanged)="onValueChange($event, i)"  
+        />
+        <app-form-field-unit 
+            *ngSwitchCase="'uni'" 
+            [parameter]="param" 
+            [displayFilterOptions]="showFilterOptions" 
+            [queryOptions]="queryOptions" 
+            [smallLabel]="false" 
+            [showTitle]="false" 
+            [showSubtitle]="false" 
+            (valueChanged)="onValueChange($event, i)"  
+        />
+        <div>
+            <button mat-icon-button (click)="remove(param)">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
+<button mat-icon-button (click)="add()">
+    <mat-icon>add</mat-icon>
+</button>

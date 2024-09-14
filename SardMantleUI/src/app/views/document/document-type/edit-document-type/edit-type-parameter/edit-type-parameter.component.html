@@ -15,6 +15,13 @@
         (valueChanged)="onSummaryChanged($event)"
     >
     </app-edit-summary>
+    <app-edit-bool
+        #multiComponent
+        parameterName="List"
+        parameterSummary="Whether or not this is a list of values, or just one."
+        (valueChanged)="onMultipleChanged($event)"
+    >
+    </app-edit-bool>
     <app-edit-type-parameter-data-point #dataPointComponent />
     <app-edit-type-parameter-unit #unitComponent />
     <app-edit-type-parameter-time #timeComponent />

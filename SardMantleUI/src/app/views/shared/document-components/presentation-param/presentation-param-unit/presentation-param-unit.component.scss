@@ -1,0 +1,40 @@
+p {
+    font-size: 12pt;
+    font-weight: normal;
+    text-align: right; 
+    word-wrap: break-word;
+}
+
+h4 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.view-param-inner-container {
+    display: grid; 
+    grid-template-columns: auto max-content; 
+    width: 100%;
+}
+
+.param-value {
+    margin-top: auto;
+    margin-bottom: 5px;
+    display: flex;
+}
+
+mat-divider {
+    margin-bottom: 10px; 
+    background-color: var(--lib-secondary-text-color);
+}
+
+.arrow-down {
+    margin-top: 7px;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    
+    border-top: 5px solid var(--lib-text-color);
+  }

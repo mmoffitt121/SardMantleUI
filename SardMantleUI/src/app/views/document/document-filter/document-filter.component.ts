@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Output, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, ViewChild, ChangeDetectorRef, Inject, Optional, AfterViewInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DocumentType } from 'src/app/models/document/document-types/document-type';
 import { DocumentTypeService } from 'src/app/services/document/document-type.service';
@@ -40,6 +40,9 @@ export class DocumentFilterComponent implements OnInit {
 
   public typeMultiSelect = false;
 
+  public showSwitcher = true;
+  public confirmMessage = "Search";
+
   public toggleMultiSelect() {
     this.typeMultiSelect = !this.typeMultiSelect;
     if (!this.typeMultiSelect) {
@@ -75,7 +78,7 @@ export class DocumentFilterComponent implements OnInit {
     let criteria = {
       pageSize: this.pageSize,
       pageNumber: this.pageIndex + 1,
-      query: this.typesSearchBar?.getValue() ?? ''
+      query: this.typesSearchBar?.getValue() ?? '',
     };
 
     this.documentTypeService.getDocumentTypes(criteria).subscribe(data => {
@@ -109,6 +112,12 @@ export class DocumentFilterComponent implements OnInit {
       this.cdref.detectChanges();
       this.searchableParams.sort((a, b) => a.name.localeCompare(b.name));
       this.editParams?.setTypeParameters(this.searchableParams);
+      if (this.data?.criteria.parameters && this.editParams) {
+        this.editParams.setParameters(this.data.criteria.parameters);
+      }
+      if (this.data?.criteria.parameterSearchOptions && this.editParams) {
+        this.editParams.setParameterSearchOptions(this.data.criteria.parameterSearchOptions);
+      }
     })
   }
 
@@ -123,6 +132,21 @@ export class DocumentFilterComponent implements OnInit {
       parameterSearchOptions: this.editParams?.getParameterSearchOptions(),
       typeIds: typeIds
     });
+  }
+
+  public onConfirm() {
+    let typeIds: any[] = [];
+    this.selectedTypes.forEach(type => {
+      typeIds.push(type.id);
+    })
+    if (this.dialogRef) {
+      this.dialogRef.close({
+        query: this.documentControl.value ?? '',
+        parameters: this.editParams?.getParameterList(),
+        parameterSearchOptions: this.editParams?.getParameterSearchOptions(),
+        typeIds: typeIds
+      });
+    }
   }
 
   public onPageChange(data: any) {
@@ -141,8 +165,28 @@ export class DocumentFilterComponent implements OnInit {
     private router: Router, 
     private urlService: UrlService, 
     private errorService: ErrorService,
-    private cdref: ChangeDetectorRef
-  ) { }
+    private cdref: ChangeDetectorRef,
+    @Optional() public dialogRef: MatDialogRef<DocumentFilterComponent>, @Optional() @Inject(MAT_DIALOG_DATA) public data: any
+  ) { 
+    if (data) {
+      this.showSwitcher = data.showSwitcher ?? this.showSwitcher;
+      this.confirmMessage = data.confirmMessage ?? this.confirmMessage;
+      if (data.pageMode) {
+        this.setPageMode(data.pageMode);
+      }
+      if (data.criteria) {
+        if (data.criteria.query) this.documentControl.setValue(data.criteria.query);
+
+        if (data.criteria.typeIds){
+          this.selectedTypes = data.criteria.typeIds.map((typeId: number) => {return {id: typeId}});
+          if (this.selectedTypes.length > 1) {
+            this.typeMultiSelect = true;
+          }
+          this.loadParameters();
+        } 
+      }
+    }
+  }
 
   public ngOnInit() {
     this.filterDocumentTypes();

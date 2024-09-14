@@ -8,6 +8,7 @@ import { EditSummaryComponent } from 'src/app/views/shared/document-components/e
 import { EditTypeParameterDataPointComponent } from './edit-type-parameter-data-point/edit-type-parameter-data-point.component';
 import { EditTypeParameterUnitComponent } from './edit-type-parameter-unit/edit-type-parameter-unit.component';
 import { EditTypeParameterTimeComponent } from './edit-type-parameter-time/edit-type-parameter-time.component';
+import { EditBoolComponent } from 'src/app/views/shared/document-components/edit/edit-bool/edit-bool.component';
 
 @Component({
   selector: 'app-edit-type-parameter',
@@ -18,8 +19,11 @@ export class EditTypeParameterComponent {
   @ViewChild('titleComponent') titleComponent: EditStringComponent;
   @ViewChild('summaryComponent') summaryComponent: EditSummaryComponent;
   @ViewChild('dataPointComponent') dataPointComponent: EditTypeParameterDataPointComponent;
+  @ViewChild('multiComponent') multiComponent: EditBoolComponent;
   @ViewChild('unitComponent') unitComponent: EditTypeParameterUnitComponent;
   @ViewChild('timeComponent') timeComponent: EditTypeParameterTimeComponent;
+
+  public settings: any;
 
   @Output() delete = new EventEmitter();
 
@@ -33,14 +37,21 @@ export class EditTypeParameterComponent {
     this.parameter.summary = event;
   }
 
+  public onMultipleChanged(event: any) {
+    this.parameter.isMultiple = event;
+  }
+
   public setValues(p: DocumentTypeParameter) {
     this.parameter = p;
     this.titleComponent.setValue(p.name);
     this.summaryComponent.setValue(p.summary);
+    this.multiComponent.setValue(p.isMultiple ?? false);
 
     this.dataPointComponent.setValues(p);
     this.unitComponent.setValues(p);
     this.timeComponent.setValues(p);
+
+    this.settings = p.settings ? JSON.parse(p.settings) : {}
   }
 
   public confirmDeleteObject() {

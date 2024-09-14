@@ -4,4 +4,5 @@
     border-radius:4px;
     margin-bottom:3px;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+    border: var(--lib-item-outline-width) var(--lib-item-outline-style) var(--lib-item-outline-color);
 }

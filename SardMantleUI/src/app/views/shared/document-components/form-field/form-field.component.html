@@ -1,0 +1,11 @@
+<div [ngSwitch]="parameter.typeParameterTypeValue" class="form-field" *ngIf="!parameter.isMultiple">
+    <app-form-field-basic *ngSwitchDefault [parameter]="parameter" [displayFilterOptions]="showFilterOptions" [queryOptions]="queryOptions" [smallLabel]="compact" [showTitle]="showTitle" [showSubtitle]="showSubtitle" />
+    <app-form-field-article *ngSwitchCase="'doc'" [parameter]="parameter" [displayFilterOptions]="showFilterOptions" [queryOptions]="queryOptions" [smallLabel]="compact" [showTitle]="showTitle" [showSubtitle]="showSubtitle" />
+    <app-form-field-boolean *ngSwitchCase="'bit'" [parameter]="parameter" [displayFilterOptions]="showFilterOptions" [queryOptions]="queryOptions" [smallLabel]="compact" [showTitle]="showTitle" [showSubtitle]="showSubtitle" />
+    <app-form-field-data-point *ngSwitchCase="'dat'" [parameter]="parameter" [displayFilterOptions]="showFilterOptions" [queryOptions]="queryOptions" [smallLabel]="compact" [clearable]="true" [showTitle]="showTitle" [showSubtitle]="showSubtitle" />
+    <app-form-field-date *ngSwitchCase="'tim'" [parameter]="parameter" [displayFilterOptions]="showFilterOptions" [queryOptions]="queryOptions" [smallLabel]="compact" [showTitle]="showTitle" [showSubtitle]="showSubtitle" />
+    <app-form-field-unit *ngSwitchCase="'uni'" [parameter]="parameter" [displayFilterOptions]="showFilterOptions" [queryOptions]="queryOptions" [smallLabel]="compact" [showTitle]="showTitle" [showSubtitle]="showSubtitle" />
+</div>
+<div class="form-field" *ngIf="parameter.isMultiple">
+    <app-form-field-list [parameter]="parameter" [displayFilterOptions]="showFilterOptions" [queryOptions]="queryOptions" [smallLabel]="compact" [showTitle]="showTitle" [showSubtitle]="showSubtitle" />
+</div>

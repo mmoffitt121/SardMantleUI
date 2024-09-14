@@ -1,34 +1,57 @@
-
-<div *ngIf="skeletonService.labels">
-    <div *ngFor="let grouping of menuOptions">
-        <button mat-menu-item class="menu-item-header" (click)="setGroupingExpanded(grouping, !grouping.expanded)">
-            <h4 class="group-header">
-                {{grouping.name}}
-            </h4>
-        </button>
-        <div *ngIf="grouping.expanded">
-            <div *ngFor="let option of grouping.options" style="display: flex;" (click)="navigate(option)">
-                <button mat-menu-item class="menu-item-content">
-                    <mat-icon> {{option.icon}} </mat-icon>
-                    {{option.name}}
-                </button>
+<div style="display: grid; grid-template-rows: min-content auto min-content; height: 100%" *ngIf="skeletonService.labels">
+    <div>
+        <div style="cursor: pointer; padding-left: 5px; margin: 5px;" *ngIf="world?.name || loadingWorld">
+            <h2>
+                {{world?.name}}
+            </h2>
+        </div>
+    </div>
+    <div>
+        <div *ngFor="let grouping of menuOptions">
+            <button mat-menu-item class="menu-item-header" (click)="setGroupingExpanded(grouping, !grouping.expanded)" *ngIf="grouping.options?.length">
+                <h4 class="group-header">
+                    {{grouping.name}}
+                </h4>
+            </button>
+            <div *ngIf="grouping.expanded">
+                <div *ngFor="let option of grouping.options" style="display: grid;">
+                    <button mat-menu-item class="menu-item-content" (click)="navigate(option)" *ngIf="option.options?.length || option.route">
+                        <mat-icon *ngIf="option.icon"> {{option.icon}} </mat-icon>
+                        {{option.name}}
+                    </button>
+                    <div *ngIf="option.expanded">
+                        <div *ngFor="let option2 of option.options" style="display: flex;">
+                            <button mat-menu-item class="menu-item-content" (click)="navigate(option2)" style="margin-left: 15px;" *ngIf="option2.options?.length || option2.route">
+                                <mat-icon *ngIf="option2.icon"> {{option2.icon}} </mat-icon>
+                                {{option2.name}}
+                            </button>
+                            <div *ngIf="option2.expanded">
+                                <div *ngFor="let option3 of option2.options" style="display: flex;">
+                                    <button mat-menu-item class="menu-item-content" (click)="navigate(option3)" style="margin-left: 15px;">
+                                        <mat-icon *ngIf="option3.icon"> {{option3.icon}} </mat-icon>
+                                        {{option3.name}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <button mat-menu-item class="menu-item-header" (click)="setDisplayExpanded()">
-        <h4 class="group-header">
-            Display
-        </h4>
-    </button>
-    <button mat-menu-item class="menu-item-content" (click)="this.selectTheme()" *ngIf="displayExpanded && inWorld">
-        <mat-icon> brush </mat-icon>
-        Select Theme
-    </button>
-    <button mat-menu-item class="menu-item-content" (click)="this.toggleLabels()" *ngIf="displayExpanded">
-        <mat-icon> chevron_left </mat-icon>
-        Show less
-    </button>
+    <div class="bottom-bar">
+        <button mat-icon-button (click)="this.toggleLabels()" *ngIf="displayExpanded" matTooltip="Show Less">
+            <mat-icon> chevron_left </mat-icon>
+        </button>
+        <button mat-icon-button (click)="this.selectTheme()" *ngIf="displayExpanded && inWorld" matTooltip="Select Theme">
+            <mat-icon> brush </mat-icon>
+        </button>
+        <button mat-icon-button *ngFor="let option of bottomBarMenuOptions" [matTooltip]="option.name" (click)="navigate(option)">
+            <mat-icon>{{option.icon}}</mat-icon>
+        </button>
+    </div>
 </div>
+
 <div *ngIf="!skeletonService.labels">
     <div *ngFor="let grouping of menuOptions">
         <div *ngFor="let option of grouping.options" style="display: flex;" (click)="navigate(option)">
@@ -38,7 +61,7 @@
         </div>
     </div>
     <div style="display: flex;" >
-        <button mat-menu-item class="menu-item-content" style="justify-content: right;" (click)="this.toggleLabels()" class="small-button">
+        <button mat-menu-item class="menu-item-content" (click)="this.toggleLabels()" class="small-button">
             <mat-icon style="margin-right: 0px; margin-left: 0px; padding-right: 0px; padding-left: 0px;"> chevron_right </mat-icon>
         </button>
     </div>

@@ -14,6 +14,8 @@ export class EditSettingsComponent implements OnInit {
   @Output() cancel = new EventEmitter();
   @Output() valueChange = new EventEmitter();
 
+  @Input() showSaveCancel = true;
+
   public select(category: any) {
     this.category = category;
   }

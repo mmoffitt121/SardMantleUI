@@ -36,6 +36,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatTreeModule } from '@angular/material/tree';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -159,6 +160,74 @@ import { EditSettingsFieldsComponent } from './views/shared/edit-settings/edit-s
 import { EditSettingsSidebarComponent } from './views/shared/edit-settings/edit-settings-sidebar/edit-settings-sidebar.component';
 import { EditSettingComponent } from './views/shared/edit-settings/edit-setting/edit-setting.component';
 import { ThemeManageSelectComponent } from './views/theme/theme-manage/theme-manage-select/theme-manage-select.component';
+import { RolesComponent } from './views/security/roles/roles.component';
+import { UsersComponent } from './views/security/users/users.component';
+import { SettingsTopbarComponent } from './views/shared/settings-topbar/settings-topbar.component';
+import { EditSelectionListComponent } from './views/shared/edit/edit-selection-list/edit-selection-list.component';
+import { EditSelectionTreeComponent } from './views/shared/edit/edit-selection-tree/edit-selection-tree.component';
+import { FormDialogComponent } from './views/shared/form-dialog/form-dialog.component';
+import { SelectUserComponent } from './views/shared/edit/select-user/select-user.component';
+import { MenusComponent } from './views/pages/menus/menus.component';
+import { PagesComponent } from './views/pages/pages/pages.component';
+import { ViewsComponent } from './views/pages/views/views.component';
+import { PageEditorComponent } from './views/pages/pages/page-editor/page-editor.component';
+import { RequireRoleDirective } from './directives/security/require-role.directive';
+import { CardViewComponent } from './views/pages/views/card-view/card-view.component';
+import { GenericViewComponent } from './views/pages/views/generic-view/generic-view.component';
+import { QueryEditorComponent } from './views/shared/edit/query-editor/query-editor.component';
+import { ListViewComponent } from './views/pages/views/list-view/list-view.component';
+import { ViewEditComponent } from './views/pages/views/view-edit/view-edit.component';
+import { EditSelectionComponent } from './views/shared/document-components/edit/edit-selection/edit-selection.component';
+import { ViewParamComponent } from './views/shared/document-components/view-param/view-param.component';
+import { ViewParamStringComponent } from './views/shared/document-components/view-param/view-param-string/view-param-string.component';
+import { EditLabelledSelectionListComponent } from './views/shared/edit/edit-labelled-selection-list/edit-labelled-selection-list.component';
+import { ViewParamDateComponent } from './views/shared/document-components/view-param/view-param-date/view-param-date.component';
+import { ViewParamUnitComponent } from './views/shared/document-components/view-param/view-param-unit/view-param-unit.component';
+import { ViewParamDataPointComponent } from './views/shared/document-components/view-param/view-param-data-point/view-param-data-point.component';
+import { ViewParamBooleanComponent } from './views/shared/document-components/view-param/view-param-boolean/view-param-boolean.component';
+import { DocumentPopupComponent } from './views/shared/document-components/document-popup/document-popup.component';
+import { DocumentPresentationComponent } from './views/document/document-presentation/document-presentation.component';
+import { PresentationParamComponent } from './views/shared/document-components/presentation-param/presentation-param.component';
+import { PresentationParamStringComponent } from './views/shared/document-components/presentation-param/presentation-param-string/presentation-param-string.component';
+import { PresentationParamBooleanComponent } from './views/shared/document-components/presentation-param/presentation-param-boolean/presentation-param-boolean.component';
+import { PresentationParamDataPointComponent } from './views/shared/document-components/presentation-param/presentation-param-data-point/presentation-param-data-point.component';
+import { PresentationParamDateComponent } from './views/shared/document-components/presentation-param/presentation-param-date/presentation-param-date.component';
+import { PresentationParamUnitComponent } from './views/shared/document-components/presentation-param/presentation-param-unit/presentation-param-unit.component';
+import { PresentationParamsContainerComponent } from './views/shared/document-components/presentation-param/presentation-params-container/presentation-params-container.component';
+import { PresentationParamBaseComponent } from './views/shared/document-components/presentation-param/presentation-param-base/presentation-param-base.component';
+import { PresentationParamArticleComponent } from './views/shared/document-components/presentation-param/presentation-param-article/presentation-param-article.component';
+import { DocumentFormComponent } from './views/document/document-form/document-form.component';
+import { FormFieldComponent } from './views/shared/document-components/form-field/form-field.component';
+import { FormFieldBasicComponent } from './views/shared/document-components/form-field/form-field-basic/form-field-basic.component';
+import { FormFieldArticleComponent } from './views/shared/document-components/form-field/form-field-article/form-field-article.component';
+import { FormFieldBooleanComponent } from './views/shared/document-components/form-field/form-field-boolean/form-field-boolean.component';
+import { FormFieldDataPointComponent } from './views/shared/document-components/form-field/form-field-data-point/form-field-data-point.component';
+import { FormFieldDateComponent } from './views/shared/document-components/form-field/form-field-date/form-field-date.component';
+import { FormFieldUnitComponent } from './views/shared/document-components/form-field/form-field-unit/form-field-unit.component';
+import { DestroyableComponent } from './views/shared/util/destroyable/destroyable.component';
+import { ViewParamArticleComponent } from './views/shared/document-components/view-param/view-param-article/view-param-article.component';
+import { EditSettingsPopupComponent } from './views/shared/edit-settings/edit-settings-popup/edit-settings-popup.component';
+import { PaginatableComponent } from './views/shared/util/paginatable/paginatable.component';
+import { PageListComponent } from './views/pages/pages/page-list/page-list.component';
+import { ImageManagerComponent } from './views/storage/image-manager/image-manager.component';
+import { ImageUploaderComponent } from './views/storage/image-uploader/image-uploader.component';
+import { ImagePickerComponent } from './views/storage/image-picker/image-picker.component';
+import { ThumbnailViewComponent } from './views/shared/images/thumbnail-view/thumbnail-view.component';
+import { ImageViewerComponent } from './views/storage/image-viewer/image-viewer.component';
+import { NgxViewer2Module } from '@jaguards/ngx-viewer2';
+import { SecurePipe } from './pipes/secure.pipe';
+import { ThumbnailPipe } from './pipes/thumbnail.pipe';
+import { ImagePipe } from './pipes/image.pipe';
+import { TasksComponent } from './views/storage/tasks/tasks.component';
+import { FormFieldListComponent } from './views/shared/document-components/form-field/form-field-list/form-field-list.component';
+import { FormFieldListItemComponent } from './views/shared/document-components/form-field/form-field-list-item/form-field-list-item.component';
+import { RichtextPipe } from './pipes/richtext.pipe';
+import { WorldImportComponent } from './views/administration/world-import/world-import.component';
+import { PageViewComponent } from './views/pages/pages/page-view/page-view.component';
+import { PageViewElementComponent } from './views/pages/pages/page-view/page-view-element/page-view-element.component';
+import { PageSettingsComponent } from './views/pages/pages/page-settings/page-settings.component';
+import { FormComponent } from './views/shared/form/form.component';
+import { PageElementSettingsComponent } from './views/pages/pages/page-settings/page-element-settings/page-element-settings.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -282,6 +351,73 @@ export function tokenGetter() {
     EditSettingsSidebarComponent,
     EditSettingComponent,
     ThemeManageSelectComponent,
+    RolesComponent,
+    UsersComponent,
+    SettingsTopbarComponent,
+    EditSelectionListComponent,
+    EditSelectionTreeComponent,
+    FormDialogComponent,
+    SelectUserComponent,
+    MenusComponent,
+    PagesComponent,
+    ViewsComponent,
+    PageEditorComponent,
+    RequireRoleDirective,
+    CardViewComponent,
+    GenericViewComponent,
+    QueryEditorComponent,
+    ListViewComponent,
+    ViewEditComponent,
+    EditSelectionComponent,
+    ViewParamComponent,
+    ViewParamStringComponent,
+    EditLabelledSelectionListComponent,
+    ViewParamDateComponent,
+    ViewParamUnitComponent,
+    ViewParamDataPointComponent,
+    ViewParamBooleanComponent,
+    DocumentPopupComponent,
+    DocumentPresentationComponent,
+    PresentationParamComponent,
+    PresentationParamStringComponent,
+    PresentationParamBooleanComponent,
+    PresentationParamDataPointComponent,
+    PresentationParamDateComponent,
+    PresentationParamUnitComponent,
+    PresentationParamsContainerComponent,
+    PresentationParamBaseComponent,
+    PresentationParamArticleComponent,
+    DocumentFormComponent,
+    FormFieldComponent,
+    FormFieldBasicComponent,
+    FormFieldArticleComponent,
+    FormFieldBooleanComponent,
+    FormFieldDataPointComponent,
+    FormFieldDateComponent,
+    FormFieldUnitComponent,
+    DestroyableComponent,
+    ViewParamArticleComponent,
+    EditSettingsPopupComponent,
+    PaginatableComponent,
+    PageListComponent,
+    ImageManagerComponent,
+    ImageUploaderComponent,
+    ImagePickerComponent,
+    ThumbnailViewComponent,
+    ImageViewerComponent,
+    SecurePipe,
+    ThumbnailPipe,
+    ImagePipe,
+    TasksComponent,
+    FormFieldListComponent,
+    FormFieldListItemComponent,
+    RichtextPipe,
+    WorldImportComponent,
+    PageViewComponent,
+    PageViewElementComponent,
+    PageSettingsComponent,
+    FormComponent,
+    PageElementSettingsComponent,
     ],
   imports: [
     BrowserModule,
@@ -314,6 +450,7 @@ export function tokenGetter() {
     MatToolbarModule,
     MatTableModule,
     MatSliderModule,
+    MatTreeModule,
     DragDropModule,
     BrowserAnimationsModule,
     NgxEditorModule,
@@ -326,7 +463,8 @@ export function tokenGetter() {
       }
     }),
     OverlayModule,
-    PortalModule
+    PortalModule,
+    NgxViewer2Module
   ],
   providers: [
     SharedService,
@@ -338,7 +476,7 @@ export function tokenGetter() {
     { 
       provide: MAT_COLOR_FORMATS, 
       useValue: NGX_MAT_COLOR_FORMATS 
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })

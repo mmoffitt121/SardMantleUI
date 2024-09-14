@@ -1,6 +1,6 @@
 
-<div class="document-screen-container">
-    <div class="button-holder-wrapper">
+<mat-drawer-container style="height: 100%">
+    <mat-drawer mode="side" opened class="button-holder-wrapper">
         <div class="button-holder">
             <button mat-icon-button class="button" (click)="skeletonService.toggleSidebar()">
                 <mat-icon> menu </mat-icon>
@@ -14,26 +14,28 @@
             <button mat-icon-button class="button" (click)="setDisplayMode('view')" *ngIf="!wideScreen">
                 <mat-icon> description </mat-icon>
             </button>
-            <button mat-icon-button class="button" (click)="setDisplayMode('add')" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+            <button mat-icon-button class="button" (click)="setDisplayMode('add')" requireRole [role]="'Library.Document'">
                 <mat-icon> add </mat-icon>
             </button>
         </div>
-    </div>
-    <div class="document-views" *ngIf="displayMode === 'search' || displayMode === 'results' || displayMode === 'view'">
-        <div [hidden]="displayMode !== 'search' && !canSeeFullSearch()">
-            <app-document-filter #documentFilterComponent (search)="onSearch($event)" />
+    </mat-drawer>
+    <mat-drawer-content style="overflow: auto; height: 100%">
+        <div class="document-views" *ngIf="displayMode === 'search' || displayMode === 'results' || displayMode === 'view'">
+            <div [hidden]="displayMode !== 'search' && !canSeeFullSearch()">
+                <app-document-filter #documentFilterComponent (search)="onSearch($event)" />
+            </div>
+            <div [hidden]="displayMode !== 'results' && !canSeeFullSearch()">
+                <app-document-list #documentListComponent (select)="loadDocument($event)" (doubleSelect)="pushDocument($event)" />
+            </div>
+            <div [hidden]="displayMode !== 'view' && !canSeeFullSearch()">
+                <app-document-view #documentViewComponent (deleted)="onSearch(searchCriteria); clearDocument();" />
+            </div>
         </div>
-        <div [hidden]="displayMode !== 'results' && !canSeeFullSearch()">
-            <app-document-list #documentListComponent (select)="loadDocument($event)" (doubleSelect)="pushDocument($event)" />
+        <div *ngIf="(displayMode === 'edit' || displayMode === 'add')" class="document-views-small edit-container">
+            <app-document-edit #documentEditComponent (cancel)="setDisplayMode('search')" (save)="setDisplayMode('search'); loadDocument($event)" />
         </div>
-        <div [hidden]="displayMode !== 'view' && !canSeeFullSearch()">
-            <app-document-view #documentViewComponent (deleted)="onSearch(searchCriteria); clearDocument();" />
-        </div>
-    </div>
-    <div *ngIf="(displayMode === 'edit' || displayMode === 'add') && loginService.userHasAnyOfRoles(['Administrator', 'Editor'])" class="document-views-small">
-        <app-document-edit #documentEditComponent (cancel)="setDisplayMode('search')" (save)="setDisplayMode('search'); loadDocument($event)"/>
-    </div>
-</div>
+    </mat-drawer-content>
+</mat-drawer-container>
     
 
         

@@ -1,43 +1,31 @@
 <div class="view-location-container">
     <div style="margin-top: 15px; margin-bottom: 15px">
         <div class="button-holder">
-            <button mat-icon-button (click)="editMapObjectDocuments()" matTooltip="Edit Location Documents" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+            <button mat-icon-button (click)="editMapObjectDocuments()" matTooltip="Edit Location Documents" requireRole [role]="'Library.Map'" [enabledDisplay]="'inline'">
                 <mat-icon>description</mat-icon>
             </button>
-            <button mat-icon-button (click)="editMapObject()" matTooltip="Edit Location" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+            <button mat-icon-button (click)="editMapObject()" matTooltip="Edit Location" requireRole [role]="'Library.Location'" [enabledDisplay]="'inline'">
                 <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button (click)="confirmDeleteObject()" matTooltip="Delete Location" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+            <button mat-icon-button (click)="confirmDeleteObject()" matTooltip="Delete Location" requireRole [role]="'Library.Location'" [enabledDisplay]="'inline'">
                 <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button (click)="closePanel()" matTooltip="Close">
+                <mat-icon>close</mat-icon>
             </button>
         </div>
         <h3 class="subtitled-title">{{selectedMapObject.name}}</h3>
         <h5 class="subtitle">{{locationType?.name}}</h5>
     </div>
-    <div class="column-content">
-        <div>
-            <mat-card>
-                <mat-card-header>Heiarchy</mat-card-header>
-                <mat-card-content class="tree-view">
-                    <app-view-heiarchy #viewHeiarchy (navigate)="handleNavigate($event)"></app-view-heiarchy>
-                </mat-card-content>
-            </mat-card>
-        </div>
-    </div>
     <mat-accordion [multi]="true" style="margin-top: 10px">
-        <mat-expansion-panel *ngFor="let dp of dataPoints">
+        <mat-expansion-panel *ngFor="let dp of queryResult?.results; index as i" [expanded]="i == 0" (opened)="title.classList.add('expanded-header')" (closed)="title.classList.remove('expanded-header')">
             <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
-                <mat-panel-title>
+                <mat-panel-title #title>
                     {{dp.name}}
                 </mat-panel-title>
             </mat-expansion-panel-header>
             <ng-template matExpansionPanelContent>
-                <app-document-info 
-                    [autoLoadId]="dp.id" 
-                    [showEditControls]="false"
-                    [showLinkToSelf]="true" 
-                    style="margin-left: 0px;" 
-                />
+                <app-document-presentation [id]="dp.id ?? -1" [showLinkToSelf]="true" [showEditControls]="false" />
             </ng-template>
         </mat-expansion-panel>
     </mat-accordion>
@@ -54,7 +42,7 @@
                         <mat-card-content>
                             {{region.name}}
                             <div class="button-holder">
-                                <button mat-icon-button (click)="onEditRegion(region)" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+                                <button mat-icon-button (click)="onEditRegion(region)" requireRole [role]="'Library.Location'">
                                     <mat-icon>edit</mat-icon>
                                 </button>
                                 <button mat-icon-button (click)="onCheckRegion(region)" class="carded-button">
@@ -65,7 +53,7 @@
                         </mat-card-content>
                     </mat-card>
                 </div>
-                <button mat-button style="background-color: var(--lib-primary-accent-color)" (click)="onAddRegion()" style="width: 100%; margin-bottom: 10px;" *ngIf="!editingRegion && loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+                <button mat-button style="background-color: var(--lib-primary-accent-color)" (click)="onAddRegion()" style="width: 100%; margin-bottom: 10px;" *ngIf="!editingRegion" requireRole [role]="'Library.Location'">
                     <mat-icon style="margin-left: auto; margin-right: auto; margin-top: 3px; margin-bottom: 3px;">add</mat-icon>
                 </button>
                 <app-edit-string *ngIf="editingRegion" [parameterName]="'Region Name'" [control]="regionName"/>
@@ -81,7 +69,18 @@
         </mat-expansion-panel>
     </mat-accordion>
     <div class="column-content">
-        <p class="coord-display">Latitude:  {{ selectedMapObject.latitude | number: '.4-4' }}</p>
-        <p class="coord-display">Longitude: {{ selectedMapObject.longitude | number: '.4-4' }}</p>
+        <div>
+            <mat-card>
+                <mat-card-header>Heiarchy</mat-card-header>
+                <mat-card-content class="tree-view">
+                    <app-view-heiarchy #viewHeiarchy (navigate)="handleNavigate($event)"></app-view-heiarchy>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div>
+            <p class="coord-display">Latitude:  {{ selectedMapObject.latitude | number: '.4-4' }}</p>
+            <p class="coord-display">Longitude: {{ selectedMapObject.longitude | number: '.4-4' }}</p>
+        </div>
+        
     </div>
 </div>

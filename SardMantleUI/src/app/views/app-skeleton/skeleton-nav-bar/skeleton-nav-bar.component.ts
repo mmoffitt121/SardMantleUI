@@ -3,10 +3,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login/login.service';
 import { UrlService } from 'src/app/services/url/url.service';
-import { MENU_GROUPINGS_EXPANDED, MenuGrouping, MenuOption, navMenuOptions } from 'src/app/models/navigation/menu-option';
+import { MENU_GROUPINGS_EXPANDED, MenuGrouping, MenuOption } from 'src/app/models/navigation/menu-option';
 import { filter } from 'rxjs';
 import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
 import { ThemeSelectComponent } from '../../theme/theme-select/theme-select.component';
+import { MenuItemService } from 'src/app/services/menu-items/menu-item.service';
+import { WorldService } from 'src/app/services/world/world.service';
+import { World } from 'src/app/models/world/world';
+import { RecentWorldService } from 'src/app/services/world/recent-world.service';
 
 export const DISPLAY_EXPANDED = "DisplayGroupingExpanded";
 
@@ -21,54 +25,27 @@ export class SkeletonNavBarComponent {
   public loadingThemes = false;
   public inWorld = false;
   public displayExpanded = false;
+  private cachedLocation = "";
+  public world: any;
+  public loadingWorld = true;
 
   public menuOptions: MenuGrouping[];
+  public bottomBarMenuOptions: MenuOption[];
 
   @Input() display: string | undefined = undefined;
 
   public navigate(option: MenuOption) {
-    if (option.isRoot) {
-      this.router.navigate([option.route]);
-    }
+    if (option.options?.length) {
+      this.setGroupingExpanded(option, !option.expanded);
+    } 
     else {
-      this.router.navigate([this.urlService.getWorld(), option.route]);
+      if (option.isRoot) {
+        this.router.navigate([option.route]);
+      }
+      else {
+        this.router.navigate([this.urlService.getWorld(), option.route]);
+      }
     }
-  }
-  public navigateLogIn() {
-    this.router.navigate(['login']);
-  }
-  public navigateRegister() {
-    this.router.navigate(['register']);
-  }
-  public navigateHome() {
-    this.router.navigate([this.urlService.getWorld(), 'home']);
-  }
-  public navigateMap() {
-    this.router.navigate([this.urlService.getWorld(), 'map']);
-  }
-  public navigateDocuments() {
-    this.router.navigate([this.urlService.getWorld(), 'document']);
-  }
-  public navigateTimeline() {
-    this.router.navigate([this.urlService.getWorld(), 'timeline']);
-  }
-  public navigateUnits() {
-    this.router.navigate([this.urlService.getWorld(), 'units']);
-  }
-  public navigateLibraryHome() {
-    this.router.navigate(['home']);
-  }
-  public navigateUserSettings() {
-    this.router.navigate(['user-settings']);
-  }
-  public navigateWorldManager() {
-    this.router.navigate(['world-manager']);
-  }
-  public navigateWorldBrowser() {
-    this.router.navigate(['world-browser']);
-  }
-  public navigateAdministration() {
-    this.router.navigate(['administration']);
   }
   public userIsAdmin() {
     return localStorage.getItem('roles')?.split(',').includes("Administrator");
@@ -99,33 +76,67 @@ export class SkeletonNavBarComponent {
   }
 
   private updateState() {
-    this.inWorld = this.urlService.getWorld() !== "";
-    let newMenuOptions = [] as MenuGrouping[];
-    let expandSettings = JSON.parse(localStorage.getItem(MENU_GROUPINGS_EXPANDED) ?? "{}");
-    navMenuOptions.forEach(grouping => {
-      let newGrouping = {
-        name: grouping.name,
-        fillHook: grouping.fillHook,
-        expanded: (expandSettings[grouping.name] !== undefined ? expandSettings[grouping.name] : grouping.expanded),
-        options: []
-      } as MenuGrouping;
+    if (!this.urlService.getWorld()) {
+      this.world = undefined;
+      this.loadingWorld = false;
+    } else if (this.urlService.getWorld() != this.cachedLocation) {
+      this.loadingWorld = true;
+      this.worldService.getWorlds({location: this.urlService.getWorld()}).subscribe(worlds => {
+        this.world = worlds[0];
+        this.loadingWorld = false;
+        this.recentWorldService.handleWorldNavigate(this.world);
+      });
+    }
+    this.menuItemService.get().subscribe(data => {
+      this.menuOptions = data;
+      this.inWorld = this.urlService.getWorld() !== "";
+      let newMenuOptions = [] as MenuGrouping[];
+      let expandSettings = JSON.parse(localStorage.getItem(MENU_GROUPINGS_EXPANDED) ?? "{}");
+      if (!this.urlService.getWorld()) {
+        let recentWorlds = this.recentWorldService.getRecentWorlds();
+        let recentWorldoptions = recentWorlds.map((w: World) => ({
+          isRoot: true,
+          route: w.location,
+          name: w.name
+        }));
+        let recentWorldGrouping = {
+          name: "Recent Worlds",
+          options: recentWorldoptions
+        }
+        data?.unshift(recentWorldGrouping)
+      }
+      this.bottomBarMenuOptions = [];
+      data?.forEach((grouping: any) => {
+        let newGrouping = {
+          name: grouping.name,
+          fillHook: grouping.fillHook,
+          expanded: (expandSettings[grouping.name] !== undefined ? expandSettings[grouping.name] : grouping.expanded),
+          options: []
+        } as MenuGrouping;
 
-      grouping.options.forEach(option => {
-        if ((option.isRoot || this.inWorld) && this.loginService.userHasAnyOfRoles(option.roles)) {
-          newGrouping.options.push(option);
+        grouping.options.forEach((option: any) => {
+          option.expanded = (expandSettings[option.name] !== undefined ? expandSettings[option.name] : option.expanded);
+          if ((option.isRoot || this.inWorld) && this.loginService.userHasAnyOfRoles(option.roles)) {
+            newGrouping.options.push(option);
+          }
+        });
+
+        if (newGrouping.options.length > 0) {
+          if (newGrouping.name === "Global") {
+            newGrouping.options.forEach(opt => this.bottomBarMenuOptions.push(opt));
+          } else {
+            newMenuOptions.push(newGrouping);
+          }
+          
         }
       });
 
-      if (newGrouping.options.length > 0) {
-        newMenuOptions.push(newGrouping);
+      if (expandSettings[DISPLAY_EXPANDED] !== undefined) {
+        this.displayExpanded = expandSettings[DISPLAY_EXPANDED];
       }
+
+      this.menuOptions = newMenuOptions;
     });
-
-    if (expandSettings[DISPLAY_EXPANDED] !== undefined) {
-      this.displayExpanded = expandSettings[DISPLAY_EXPANDED];
-    }
-
-    this.menuOptions = newMenuOptions;
   }
 
   constructor (
@@ -134,7 +145,10 @@ export class SkeletonNavBarComponent {
     private urlService: UrlService,
     public skeletonService: SkeletonService,
     public cdref: ChangeDetectorRef,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private menuItemService: MenuItemService,
+    private worldService: WorldService,
+    private recentWorldService: RecentWorldService,
   ) { }
 
   ngOnInit() {

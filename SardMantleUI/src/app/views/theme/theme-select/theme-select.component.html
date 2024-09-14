@@ -4,7 +4,7 @@
             Select Theme
         </h2>
         <div style="margin: 15px; display: flex;">
-            <button mat-icon-button (click)="openThemeManager();" *ngIf="userLoggedIn">
+            <button mat-icon-button (click)="openThemeManager();" requireRole [role]="'Library.Setup.Settings'">
                 <mat-icon>palette</mat-icon>
             </button>
             <button mat-icon-button (click)="dialogRef.close();">
@@ -16,7 +16,7 @@
     <div *ngIf="themes.length">
         <button mat-menu-item *ngFor="let theme of themes" (click)="selectTheme(theme)" [style]="'background-color: ' + theme.setting['--lib-background-color'] + ';'">
             <div style="display: grid; grid-template-columns: 300px min-content;">
-                <p [style]="'font-family: ' + theme.setting['--lib-primary-font'] ">
+                <p [style]="'font-family: ' + theme.setting['--lib-primary-font'] " [style.color]="theme.setting['--lib-text-color']">
                     {{theme.setting.name}}
                 </p>
                 <div class="theme-circle" [style]="'background-color: ' + theme.setting['--lib-primary-color']">

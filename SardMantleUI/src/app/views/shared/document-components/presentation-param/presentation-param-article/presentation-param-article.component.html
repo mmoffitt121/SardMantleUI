@@ -1,0 +1,23 @@
+<div [ngClass]="windowed ? 'windowed-article' : 'inline-article'"  style="max-width: 100% !important; overflow: auto;">
+    <div style="float: right">
+        <button mat-icon-button *ngIf="windowRef" (click)="windowRef.close()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <h4 class="subtitled-title"> {{ parameter.typeParameterName }} </h4>
+    <h5 class="subtitle"> {{ parameter.typeParameterSummary }} </h5>
+    <div [innerHTML]="parameter.value" class="view-article" *ngIf="!parameter.isMultiple"></div>
+    <div [innerHTML]="parameter.value" class="view-article" *ngIf="parameter.isMultiple && (parameter.values?.length ?? 0) == 1"></div>
+    <mat-accordion *ngIf="parameter.isMultiple && ((parameter.values?.length ?? 0) > 1)">
+        <mat-expansion-panel *ngFor="let value of parameter.values; index as i"  [expanded]="i == 0">
+            <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
+                <mat-panel-title>
+                    {{value | richtext}}
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ng-template matExpansionPanelContent>
+                <div [innerHTML]="value" class="view-article"></div>
+            </ng-template>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>

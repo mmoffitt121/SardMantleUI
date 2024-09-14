@@ -24,8 +24,5 @@ export class GlobalHomeComponent {
   }
 
   ngOnInit(): void {
-    this.serverInfoService.getServerInfo().pipe(take(1)).subscribe(data => {
-      this.version = data.version;
-    })
   }
 }

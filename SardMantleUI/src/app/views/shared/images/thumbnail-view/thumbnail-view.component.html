@@ -1,0 +1,5 @@
+<img [src]="imageToShow | secure | async"
+     [alt]="image.description"
+     *ngIf="!loading"
+     style="max-width: 150px; max-height: 150px; cursor: pointer;"
+     (click)="onClick.emit()">

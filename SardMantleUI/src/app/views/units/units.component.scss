@@ -1,6 +1,5 @@
 .screen-container {
     overflow-y: auto;
-    background-color: var(--lib-background-color);
     position: absolute;
     top: 0;
     left: 0;
@@ -21,6 +20,10 @@
     background-color: var(--lib-primary-color);
     z-index: 100;
     margin-bottom: 20px;
+    height: 45px;
+    border-left: var(--lib-primary-outline-width) var(--lib-primary-outline-style) var(--lib-primary-outline-color) !important;
+    border-bottom: var(--lib-primary-outline-width) var(--lib-primary-outline-style) var(--lib-primary-outline-color) !important;
+    border-right: var(--lib-primary-outline-width) var(--lib-primary-outline-style) var(--lib-primary-outline-color) !important;
 }
 
 .icon-button {

@@ -23,5 +23,5 @@ export class ViewDatetimeComponent {
     this.formattedValue = this.calendarService.format(this.value, this.calendar, this.formatter);
   }
 
-  constructor(private calendarService: CalendarService) {}
+  constructor(public calendarService: CalendarService) {}
 }
