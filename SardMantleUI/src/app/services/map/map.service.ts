@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Map } from 'src/app/models/map/map';
 import { environment } from 'src/environments/environment';
 
@@ -99,8 +100,8 @@ export class MapService {
   }
 
   public getIconUrl(id: string) {
-    return "https://localhost:7094/Library/Image/Icon?id=" + id + "&world=adminadmin";
+    return environment.baseUrl + "/Library/Image/Icon?id=" + id + "&world=" + this.router.url.replace("/", "").substring(0, this.router.url.indexOf("/", 1) - 1)
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 }
