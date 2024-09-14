@@ -1,6 +1,6 @@
 <div style="display: grid; grid-template-columns: auto 55px;">
     <h3>Location Types</h3>
-    <button mat-icon-button matTooltip="Add Location Type" (click)="addLocationType()" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+    <button mat-icon-button matTooltip="Add Location Type" (click)="addLocationType()" requireRole [role]="'Library.Location'">
         <mat-icon> add </mat-icon>
     </button>
 </div>
@@ -14,12 +14,12 @@
         <div *ngFor="let locationType of locationTypesFiltered" class="location-type-item">
             <mat-checkbox class="location-type-item-checkbox" [checked]="locationType.selected" (change)="select(locationType)"></mat-checkbox>
             <mat-card class="location-type-item-card">
-                <img [src]="locationType.iconURL"  *ngIf="locationType.iconURL"/> 
+                <img [src]="locationType.iconURL | thumbnail | async"   *ngIf="locationType.iconURL"/> 
                 <div *ngIf="!locationType.iconURL" class="image-placeholder"> 
                     <mat-icon> location_on </mat-icon>
                 </div>
                 <h5>{{locationType.name}}</h5>
-                <button mat-icon-button (click)="editLocationType(locationType)" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+                <button mat-icon-button (click)="editLocationType(locationType)" requireRole [role]="'Library.Location'">
                     <mat-icon> edit </mat-icon>
                 </button>
             </mat-card>

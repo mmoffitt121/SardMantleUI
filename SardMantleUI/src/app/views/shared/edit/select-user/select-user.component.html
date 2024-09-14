@@ -1,0 +1,24 @@
+<mat-card class="edit-selection-user-container">
+    <mat-card-header style="display: grid; grid-template-columns: auto min-content;">
+      <mat-card-title>
+        {{title}}
+      </mat-card-title>
+      <button mat-icon-button (click)="onCancel()" matTooltip="Close">
+          <mat-icon>
+              close
+          </mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-content class="user-container">
+        <mat-card style="background-color: var(--lib-primary-accent-color); margin-bottom: 5px;" *ngFor="let user of users">
+            <mat-card-content style="display: grid; grid-template-columns: auto min-content; padding: 5px;">
+                <div style="margin: 10px;">
+                    {{user.userName}}
+                </div>
+                <button mat-icon-button (click)="onAdd(user)">
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
+            </mat-card-content>
+        </mat-card>
+    </mat-card-content>
+  </mat-card>

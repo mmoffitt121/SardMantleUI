@@ -25,6 +25,7 @@ export class UploadMapTilesComponent implements OnInit {
   public map: Map
   public mapLayer: MapLayer;
   public newTile: any;
+  public newTileName: string;
   public currentUrl: any;
 
   public uploadProgress = 0;
@@ -38,7 +39,8 @@ export class UploadMapTilesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.newTile = result;
+        this.newTile = result.file;
+        this.newTileName = result.fileName;
       }
     });
   }
@@ -53,6 +55,7 @@ export class UploadMapTilesComponent implements OnInit {
 
   this.mapTileService.postMapTile(
     this.newTile, 
+    this.newTileName,
     this.mapTile.z, 
     this.mapTile.x, 
     this.mapTile.y, 

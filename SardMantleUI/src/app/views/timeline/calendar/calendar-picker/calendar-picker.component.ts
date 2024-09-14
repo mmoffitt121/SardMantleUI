@@ -23,6 +23,9 @@ export class CalendarPickerComponent implements OnInit {
   public eraToChangeTime: bigint;
 
   public select(date: bigint | undefined) {
+    if (date != undefined) {
+      this.calendarService.saveDefaultDate(date);
+    }
     this.refreshView();
     let result = {
       dateTime: date,
@@ -71,7 +74,7 @@ export class CalendarPickerComponent implements OnInit {
     this.calendar = data.calendar;
     this.format = data.formatter;
     this.timeZone = data.timeZone;
-    this.dateTime = data.dateTime ?? 0n;
+    this.dateTime = data.dateTime ?? calendarService.getDefaultDate();
     this.displayMode = data.displayMode ?? "day";
     this.useBaseYear = data.useBaseYear ?? false;
     this.editTime = data.editTime ?? true;

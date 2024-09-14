@@ -1,0 +1,146 @@
+.view-container {
+    display: grid;
+    grid-template-rows: min-content 1fr min-content;
+    height: 100%;
+}
+
+.card-view-header {
+    z-index: 20;
+    min-height: 58px;
+}
+
+.topbar-button {
+    margin-top: 0px;
+    margin-bottom: -10px;
+    min-width: 150px;
+    min-height: 35px;
+    height: 35px;
+    border-radius: 0px;
+    justify-content: left;
+    background-color: var(--lib-primary-color);
+    box-shadow: none;;
+}
+
+.topbar-icon-button {
+    margin: 0;
+}
+
+.viewable-cards-container {
+    width: 100%;
+    background-color: #00000000;
+    background-image: none;
+}
+
+mat-drawer {
+    background-color: #00000000;
+    background-image: none;
+}
+
+.viewable-card-list {
+    overflow: auto;
+}
+
+.viewable-card-margin-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.card-view-grid {
+    display: grid;
+    grid-template-columns: auto min-content;
+    padding: 8px;
+}
+
+.card-view-h {
+    margin: 0; 
+    margin-top: 8px;
+    margin-left: 5px;
+}
+
+.sidebar {
+    overflow: auto;
+    width: 300px;
+}
+
+.sidebar-full {
+    margin-right: 5px;
+    margin-left: 5px;
+    height: 100%;
+    border-radius: 0;
+    border-top: none !important;
+    border-bottom: none !important;
+    padding: 10px;
+}
+
+.sidebar-card {
+    margin: 10px;
+    height: calc(100% - 20px);
+    padding: 10px;
+}
+
+.viewable-card {
+    margin: 18px;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1000px;
+}
+
+.viewable-card-header {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+    .parameter-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 600px) {
+    .parameter-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 900px) {
+    .parameter-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media (min-width: 1200px) {
+    .parameter-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+.parameter-grid-1 {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.parameter-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.parameter-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.parameter-grid-4 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.card-param {
+    margin-bottom: 20px;
+}
+
+.paginator-container {
+    z-index: 20;;
+}

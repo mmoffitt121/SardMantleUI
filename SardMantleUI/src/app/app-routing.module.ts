@@ -20,6 +20,13 @@ import { UnitsComponent } from './views/units/units.component';
 import { CalendarComponent } from './views/timeline/calendar/calendar.component';
 import { DocumentTypeComponent } from './views/document/document-type/document-type.component';
 import { ThemeManageComponent } from './views/theme/theme-manage/theme-manage.component';
+import { RolesComponent } from './views/security/roles/roles.component';
+import { UsersComponent } from './views/security/users/users.component';
+import { PagesComponent } from './views/pages/pages/pages.component';
+import { MenusComponent } from './views/pages/menus/menus.component';
+import { ViewsComponent } from './views/pages/views/views.component';
+import { ImageManagerComponent } from './views/storage/image-manager/image-manager.component';
+import { TasksComponent } from './views/storage/tasks/tasks.component';
 
 const routes: Routes = [
   { path:'', redirectTo: 'home', pathMatch: 'full' },
@@ -50,13 +57,26 @@ const routes: Routes = [
     { path:'document/results', component:DocumentComponent },
     { path:'document/view', component:DocumentComponent },
     { path:'document/view/:docId', component:DocumentComponent },
-    { path:'document/add', component:DocumentComponent, canActivate: [AuthGuard] },
-    { path:'document/edit', component:DocumentComponent, canActivate: [AuthGuard] },
-    { path:'document/edit/:docId', component:DocumentComponent, canActivate: [AuthGuard] },
+    { path:'document/view/:docId', component:DocumentComponent },
+    { path:'document/view/:docId', component:DocumentComponent },
+    { path:'document/view/:docId', component:DocumentComponent },
+    { path:'document/add', component:DocumentComponent },
+    { path:'document/add/:docTypeId', component:DocumentComponent },
+    { path:'document/edit', component:DocumentComponent },
+    { path:'document/edit/:docId', component:DocumentComponent },
+    { path:'document/duplicate/:docId', component:DocumentComponent },
     { path:'document-type', component:DocumentTypeComponent },
-    { path:'document-type/edit/:id', component:EditDocumentTypeComponent, canActivate: [AuthGuard] },
-    { path:'theme', component:ThemeManageComponent, canActivate: [AuthGuard] },
-    { path:'theme/:id', component:ThemeManageComponent, canActivate: [AuthGuard] },
+    { path:'document-type/edit/:id', component:EditDocumentTypeComponent },
+    { path:'theme', component:ThemeManageComponent },
+    { path:'theme/:id', component:ThemeManageComponent },
+    { path:'roles', component:RolesComponent },
+    { path:'users', component:UsersComponent },
+    { path:'pages', component:PagesComponent },
+    { path:'menus', component:MenusComponent },
+    { path:'views', component:ViewsComponent },
+    { path:'images', component:ImageManagerComponent },
+    { path:'usage', component:ImageManagerComponent },
+    { path:'tasks', component:TasksComponent },
   ]}
 ];
 

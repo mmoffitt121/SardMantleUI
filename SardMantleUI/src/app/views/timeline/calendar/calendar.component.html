@@ -10,7 +10,7 @@
     </div>
     <div style="display: flex">
       <div style="margin-right: 10px; display: flex;">
-        <button mat-icon-button class="icon-button" matTooltip="Add" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])" (click)="doAdd()">
+        <button mat-icon-button class="icon-button" matTooltip="Add"  requireRole [role]="'Library.Setup.Calendars'" (click)="doAdd()">
           <mat-icon> add </mat-icon>
         </button>
       </div>

@@ -1,19 +1,5 @@
 <div class="screen-container">
-    <mat-card class="top-actions-container">
-        <div style="display: flex">
-            <button mat-icon-button (click)="skeletonService.toggleSidebar()" style="margin-top: 5px; margin-right: 15px;">
-                <mat-icon>
-                    menu
-                </mat-icon>
-            </button>
-            <h2 style="margin-top: 10px; margin-bottom: 0px;">Document Types</h2>
-        </div>
-        <button mat-icon-button (click)="addDocumentType()" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])" style="margin-top: 5px;">
-            <mat-icon>
-                add
-            </mat-icon>
-        </button>
-    </mat-card>
+    <app-settings-topbar pageName="Document Types" [showAdd]="true" (add)="addDocumentType()" addRole="Library.Document.Type"/>
     <div style="margin: 30px;">
         <app-search-bar  #searchBar (search)="loadDocumentTypes(getPageCriteria())" />
         <div class="document-types-results">
@@ -21,7 +7,7 @@
                 mat-list-item class="list-item" 
                 *ngFor="let documentType of documentTypes" 
                 (click)="selectDocumentType($event)"
-                style="display: grid; grid-template-columns: auto 50px; margin: 3px; height: 200px;"
+            style="display: grid; grid-template-columns: auto 50px; margin: 3px; height: 200px;"
             >
                 <div style="margin: 10px; overflow: auto">
                     <div style="word-break: break-all; text-wrap:pretty">
@@ -32,7 +18,7 @@
                     </div>
                 </div>
                 <div>
-                    <button mat-icon-button style="margin: 5px; margin-bottom: 0px" (click)="editDocumentType(documentType.id)" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+                    <button mat-icon-button style="margin: 5px; margin-bottom: 0px" (click)="editDocumentType(documentType.id)" requireRole [role]="'Library.Document.Type'">
                         <mat-icon>
                             edit
                         </mat-icon>

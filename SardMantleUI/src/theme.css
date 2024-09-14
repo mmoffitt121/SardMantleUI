@@ -489,6 +489,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
     --mat-card-subtitle-text-size: 14px;
     --mat-card-subtitle-text-tracking: 0.0071428571em;
     --mat-card-subtitle-text-weight: 500;
+    border: var(--lib-primary-outline-width) var(--lib-primary-outline-style) var(--lib-primary-outline-color) !important
 }
 
 .mat-mdc-progress-bar {
@@ -762,23 +763,23 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 }
 
 .mdc-text-field--disabled .mdc-text-field__input {
-    color: rgba(255, 255, 255, 0.38)
+    color: var(--lib-text-color)
 }
 
 @media all {
     .mdc-text-field--disabled .mdc-text-field__input::placeholder {
-        color: rgba(255, 255, 255, 0.38)
+        color: var(--lib-text-color)
     }
 }
 
 @media all {
     .mdc-text-field--disabled .mdc-text-field__input:-ms-input-placeholder {
-        color: rgba(255, 255, 255, 0.38)
+        color: var(--lib-text-color)
     }
 }
 
 .mdc-text-field--disabled .mdc-floating-label {
-    color: rgba(255, 255, 255, 0.38)
+    color: var(--lib-text-color)
 }
 
 .mdc-text-field--disabled+.mdc-text-field-helper-line .mdc-text-field-helper-text {
@@ -813,7 +814,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 .mdc-text-field--disabled .mdc-notched-outline__leading,
 .mdc-text-field--disabled .mdc-notched-outline__notch,
 .mdc-text-field--disabled .mdc-notched-outline__trailing {
-    border-color: rgba(255, 255, 255, 0.06)
+    border-color: var(--lib-text-color)
 }
 
 @media screen and (forced-colors: active),
@@ -1093,10 +1094,11 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
-    top: 24px
+    top: 20px
 }
 
 .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+    top: 24px;
     --mat-mdc-form-field-label-transform: translateY(-34.75px) scale(var(--mat-mdc-form-field-floating-label-scale, 0.75));
     transform: var(--mat-mdc-form-field-label-transform)
 }
@@ -1920,7 +1922,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 .mat-warn .mdc-list-item__end {
     --mdc-radio-disabled-selected-icon-color: #fff;
     --mdc-radio-disabled-unselected-icon-color: #fff;
-    --mdc-radio-unselected-hover-icon-color: #eeeeee;
+    --mdc-radio-unselected-hover-icon-color: #f10909;
     --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
     --mdc-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
     --mdc-radio-selected-focus-icon-color: #f44336;
@@ -1932,27 +1934,27 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 .mat-mdc-list-option {
     --mdc-checkbox-disabled-selected-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-disabled-unselected-icon-color: var(--lib-submit-accent-color);
-    --mdc-checkbox-selected-checkmark-color: var(--lib-text-color);
+    --mdc-checkbox-selected-checkmark-color: var(--lib-submit-text-accent-color);
     --mdc-checkbox-selected-focus-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-hover-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-pressed-icon-color: var(--lib-submit-accent-color);
-    --mdc-checkbox-unselected-focus-icon-color: #eeeeee;
-    --mdc-checkbox-unselected-hover-icon-color: #eeeeee;
-    --mdc-checkbox-unselected-icon-color: rgba(255, 255, 255, 0.54);
-    --mdc-checkbox-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
+    --mdc-checkbox-unselected-focus-icon-color: #f10909;
+    --mdc-checkbox-unselected-hover-icon-color: #f10909;
+    --mdc-checkbox-unselected-icon-color: #f10909;
+    --mdc-checkbox-unselected-pressed-icon-color: #f10909;
     --mdc-checkbox-selected-focus-state-layer-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-hover-state-layer-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-pressed-state-layer-color: var(--lib-submit-accent-color);
-    --mdc-checkbox-unselected-focus-state-layer-color: white;
-    --mdc-checkbox-unselected-hover-state-layer-color: white;
-    --mdc-checkbox-unselected-pressed-state-layer-color: white
+    --mdc-checkbox-unselected-focus-state-layer-color: #f10909;
+    --mdc-checkbox-unselected-hover-state-layer-color: #f10909;
+    --mdc-checkbox-unselected-pressed-state-layer-color: #f10909
 }
 
 .mat-mdc-list-option.mat-accent {
     --mdc-checkbox-disabled-selected-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-disabled-unselected-icon-color: var(--lib-submit-accent-color);
-    --mdc-checkbox-selected-checkmark-color: var(--lib-text-color);
+    --mdc-checkbox-selected-checkmark-color: var(--lib-submit-text-accent-color);
     --mdc-checkbox-selected-focus-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-hover-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-icon-color: var(--lib-submit-accent-color);
@@ -2137,7 +2139,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
     --mdc-tab-indicator-active-indicator-color: var(--lib-submit-accent-color);
     --mat-tab-header-disabled-ripple-color: rgba(255, 255, 255, 0.5);
     --mat-tab-header-pagination-icon-color: #fff;
-    --mat-tab-header-inactive-label-text-color: rgba(255, 255, 255, 0.6);
+    --mat-tab-header-inactive-label-text-color: var(--lib-secondary-text-color);
     --mat-tab-header-active-label-text-color: var(--lib-submit-accent-color);
     --mat-tab-header-active-ripple-color: var(--lib-submit-accent-color);
     --mat-tab-header-inactive-ripple-color: var(--lib-submit-accent-color);
@@ -2154,7 +2156,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
     --mdc-tab-indicator-active-indicator-color: #b0bec5;
     --mat-tab-header-disabled-ripple-color: rgba(255, 255, 255, 0.5);
     --mat-tab-header-pagination-icon-color: #fff;
-    --mat-tab-header-inactive-label-text-color: rgba(255, 255, 255, 0.6);
+    --mat-tab-header-inactive-label-text-color: var(--lib-secondary-text-color);
     --mat-tab-header-active-label-text-color: #b0bec5;
     --mat-tab-header-active-ripple-color: #b0bec5;
     --mat-tab-header-inactive-ripple-color: #b0bec5;
@@ -2171,7 +2173,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
     --mdc-tab-indicator-active-indicator-color: #f44336;
     --mat-tab-header-disabled-ripple-color: rgba(255, 255, 255, 0.5);
     --mat-tab-header-pagination-icon-color: #fff;
-    --mat-tab-header-inactive-label-text-color: rgba(255, 255, 255, 0.6);
+    --mat-tab-header-inactive-label-text-color: var(--lib-secondary-text-color);
     --mat-tab-header-active-label-text-color: #f44336;
     --mat-tab-header-active-ripple-color: #f44336;
     --mat-tab-header-inactive-ripple-color: #f44336;
@@ -2216,7 +2218,7 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 html {
     --mdc-checkbox-disabled-selected-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-disabled-unselected-icon-color: var(--lib-submit-accent-color);
-    --mdc-checkbox-selected-checkmark-color: var(--lib-text-color);
+    --mdc-checkbox-selected-checkmark-color: var(--lib-submit-text-accent-color);
     --mdc-checkbox-selected-focus-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-hover-icon-color: var(--lib-submit-accent-color);
     --mdc-checkbox-selected-icon-color: var(--lib-submit-accent-color);
@@ -2730,7 +2732,7 @@ html {
 }
 
 .mat-mdc-table {
-    background: var(--lib-primary-accent-color)
+    background: var(--lib-primary-color)
 }
 
 .mat-mdc-table .mdc-data-table__row {
@@ -3373,7 +3375,8 @@ html {
 
 .mat-expansion-panel {
     background: #424242;
-    color: #fff
+    color: #fff;
+    border: var(--lib-primary-outline-width) var(--lib-primary-outline-style) var(--lib-primary-outline-color) !important;
 }
 
 .mat-expansion-panel:not([class*=mat-elevation-z]) {
@@ -3469,12 +3472,14 @@ html {
 
 .mat-drawer-container {
     background-color: var(--lib-background-color);
+    background-image: var(--lib-background-gradient);
     color: var(--lib-text-color);
     font-family: var(--lib-primary-font);
 }
 
 .mat-drawer {
-    background-color: var(--lib-background-color);
+    background-color: var(--lib-sidebar-color, --lib-background-color);
+    background-image:  var(--lib-sidebar-gradient);
     color: var(--lib-text-color);
     font-family: var(--lib-primary-font);
 }

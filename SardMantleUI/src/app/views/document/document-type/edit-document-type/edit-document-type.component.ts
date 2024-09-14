@@ -45,15 +45,16 @@ export class EditDocumentTypeComponent {
       dataPointTypeId: this.documentType.id,
       id: null,
       name: "New " + (this.iconMap.nameMap.get(typeValue) ? this.iconMap.nameMap.get(typeValue) as string : "") + " Parameter",
-      sequence: this.documentType.typeParameters.length,
+      sequence: this.documentType.typeParameters?.length,
       summary: "",
       typeValue: typeValue,
       selected: false,
       dataPointTypeReferenceId: -1,
-      settings: null
+      settings: null,
+      isMultiple: false,
     };
 
-    this.documentType.typeParameters = this.documentType.typeParameters.concat(param);
+    this.documentType.typeParameters = (this.documentType.typeParameters ?? []).concat(param);
   }
 
   delete() {
@@ -159,6 +160,7 @@ export class EditDocumentTypeComponent {
     this.route.params.subscribe(params => this.id = params['id'])
     this.typeService.getDocumentType(this.id).subscribe(data => {
       this.documentType = data;
+      this.documentType.typeParameters.sort((a, b) => a.sequence - b.sequence)
 
       if (this.id == -1) {
         this.title = "Add Document Type";

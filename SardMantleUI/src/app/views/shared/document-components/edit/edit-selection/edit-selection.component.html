@@ -1,0 +1,19 @@
+<div [ngClass]="{'form-thin': thin}">
+    <h4 class="subtitled-title"> {{ title }} </h4> 
+    <h5 class="subtitle"> {{ description }} </h5>
+    <mat-form-field class="settings-field" style="width: 100%;" appearance="outline">
+        <div style="display: grid; grid-template-columns: auto min-content">
+            <input matInput [matAutocomplete]="autocomplete" [formControl]="formControl" (input)="onInput($event)"/>
+            <button mat-icon-button *ngIf="model && canClear" (click)="clearSelection()">
+                <mat-icon> close </mat-icon>
+            </button>
+        </div>
+        <mat-autocomplete #autocomplete (optionSelected)="handleSelectionChange($event.option.value)">
+            <mat-option *ngFor="let item of filteredItems" [value]="item[keyIdentifier]">
+                <div style="display: flex">
+                    {{item[nameIdentifier]}}
+                </div>
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</div>

@@ -2,25 +2,31 @@
     <mat-drawer #sideDrawer mode="over" position="end" class="map-sidebar" [disableClose]="true">
         <div [ngStyle]="{display: !viewingObject ? 'block' : 'none'}">
             <mat-accordion [multi]="true" class="map-sidebar-accordion">
-                <h3>
-                    Map Settings
-                </h3>
-                <mat-expansion-panel>
+                <div style="display: grid; grid-template-columns: auto min-content;">
+                    <h3>
+                        Map Menu
+                    </h3>
+                    <button mat-icon-button (click)="viewCancel()" matTooltip="Close" style="margin: 10px; margin-top: 20px;">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                
+                <mat-expansion-panel [expanded]="true">
                     <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
                         <mat-panel-title>
                             Map
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <ng-template matExpansionPanelContent>
-                        <div style="display: grid; grid-template-columns: auto 160px;">
+                        <div style="display: grid; grid-template-columns: auto 160px;" *ngIf="mapData">
                             <div style="display: grid; grid-template-columns: auto 60px;">
                                 <div>
                                     <h3 class="subtitled-title"> {{ mapData.name }} </h3>
                                     <h4 class="subtitle"> {{ mapData.summary }} </h4>
                                     <button mat-button style="margin-left: 10px; margin-top: 30px;" (click)="changeMap()"> Change Map </button>
                                 </div>
-                                <div *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
-                                    <button mat-icon-button style="margin: 10px" matTooltip="Edit Map Settings" (click)="editMap()">
+                                <div>
+                                    <button mat-icon-button style="margin: 10px" matTooltip="Edit Map Settings" (click)="editMap()" requireRole [role]="'Library.Map'">
                                         <mat-icon>
                                             edit
                                         </mat-icon>
@@ -28,20 +34,20 @@
                                 </div>
                             </div>
                             <div>
-                                <mat-card class="map-card-over" style="z-index: 1000; position: absolute; " *ngIf="mapIconHovered && loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
-                                    <mat-icon>edit</mat-icon>
+                                <mat-card class="map-card-over" style="z-index: 1000; position: absolute; " *ngIf="mapIconHovered" requireRole [role]="'Library.Map'">
+                                    <mat-icon style="position: relative; left: 60px; top: 60px;">edit</mat-icon>
                                 </mat-card>
                                 <img 
                                     class="map-card" 
-                                    [src]="mapData.url" 
-                                    *ngIf="!(mapData.url === null || mapData.url === '')" 
+                                    [src]="mapData.iconId | thumbnail | async" 
+                                    *ngIf="!(mapData.iconId === null || mapData.iconId === '')" 
                                     (mouseover)="mapIconHovered=true" 
                                     (mouseout)="mapIconHovered=false"
                                     (click)="editMapIcon()"
                                 />
                                 <mat-card 
                                     class="map-card" 
-                                    *ngIf="(mapData.url === null || mapData.url === '')" 
+                                    *ngIf="(mapData.iconId === null || mapData.iconId === '')" 
                                     (mouseover)="mapIconHovered=true" 
                                     (mouseout)="mapIconHovered=false"
                                     (click)="editMapIcon()"
@@ -50,7 +56,7 @@
                                 </mat-card>
                             </div>
                         </div>
-                        <mat-card style="margin-top: 10px; background-color: var(--lib-background-color)"  *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])">
+                        <mat-card style="margin-top: 10px; background-color: var(--lib-background-color)" requireRole [role]="'Library.Map'" *ngIf="mapData">
                             <mat-card-header>
                                 <mat-card-content style="width: 100%; font-size: 15px;">
                                     <p>Loops: {{ mapData.loops ? "Yes" : "No" }}</p>
@@ -116,6 +122,7 @@
                 (showEdit)="showEdit()"
                 (hideEdit)="hideEdit()"
                 (saveRegion)="saveRegion()"
+                (close)="viewCancel()"
             />
             <app-edit-location *ngIf="editingObject || addingObject" (complete)="addEditComplete()" (cancel)="addEditCancel()" [mapId]="mapData.id" #locationEditor [editing]="editingObject">
             </app-edit-location>
@@ -139,7 +146,7 @@
         </div>
         <div class="map-overlay-buttons-container-right">
             <button mat-raised-button (click)="openMapSettings()" class="map-overlay-button"><mat-icon>map</mat-icon></button>
-            <button mat-raised-button (click)="openAddLocation()" class="map-overlay-button" *ngIf="loginService.userHasAnyOfRoles(['Administrator', 'Editor'])"><mat-icon>add</mat-icon></button>
+            <button mat-raised-button (click)="openAddLocation()" class="map-overlay-button" requireRole [role]="'Library.Map'"><mat-icon>add</mat-icon></button>
         </div>
     </mat-drawer-content>
 </mat-drawer-container>

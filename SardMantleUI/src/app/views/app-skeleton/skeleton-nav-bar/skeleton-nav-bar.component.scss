@@ -27,3 +27,11 @@
     padding-right: 0px; 
     padding-left: 0px; 
 }
+
+.bottom-bar {
+    height: min-content;
+    padding: 5px;
+    display: flex;
+    justify-content: right;
+    width: 1fr
+}

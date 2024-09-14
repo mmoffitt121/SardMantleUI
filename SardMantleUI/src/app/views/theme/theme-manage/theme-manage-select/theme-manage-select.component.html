@@ -1,19 +1,27 @@
 <mat-card 
     *ngFor="let theme of themes" 
     [style.background-color]="theme['--lib-primary-color']" 
+    [style.font-family]="theme['--lib-primary-font']"
     style="margin: 5px; max-width: 700px; margin-right: auto; margin-left: auto;"
 >
-    <mat-card-content style="display: grid; grid-template-columns: auto min-content min-content; grid-gap: 10px;">
+    <mat-card-content style="display: grid; grid-template-columns: auto min-content min-content; grid-gap: 10px;" [style.color]="theme['--lib-text-color']">
         {{theme.name}}
         <div style="display: flex">
-            <button mat-icon-button color="primary" (click)="this.edit.emit(theme)">
-                <mat-icon> edit </mat-icon>
+            <button mat-icon-button (click)="this.edit.emit(theme)" requireRole [role]="'Library.Setup.Settings'" [style.color]="theme['--lib-text-color']">
+                <mat-icon [style.color]="theme['--lib-text-color']"> edit </mat-icon>
             </button>
-            <button mat-icon-button color="primary" (click)="this.delete.emit(theme)">
-                <mat-icon> delete </mat-icon>
+            <button mat-icon-button (click)="this.delete.emit(theme)" requireRole [role]="'Library.Setup.Settings'" [style.color]="theme['--lib-text-color']">
+                <mat-icon [style.color]="theme['--lib-text-color']"> delete </mat-icon>
             </button>
         </div>
-        <button mat-button color="primary" (click)="selectTheme(theme)">
+        <button 
+            mat-button 
+            color="primary" 
+            (click)="selectTheme(theme)" 
+            [style.background-color]="theme['--lib-submit-accent-color']" 
+            [style.color]="theme['--lib-submit-text-accent-color']"
+            [style.font-family]="theme['--lib-primary-font']"
+        >
             Select
         </button>
     </mat-card-content>

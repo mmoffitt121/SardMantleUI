@@ -1,0 +1,23 @@
+<div class="top-actions-container">
+    <div style="display: flex">
+      <button mat-icon-button (click)="skeletonService.toggleSidebar()" style="margin-top: 5px; margin-right: 15px;">
+        <mat-icon>
+            menu
+        </mat-icon>
+      </button>
+      <h2 style="margin-top: 10px; margin-bottom: 0px;">{{pageName}}</h2>
+    </div>
+    <div style="display: flex">
+      <div style="display: flex;">
+        <button mat-icon-button class="icon-button" matTooltip="Add" *ngIf="showAdd" (click)="doAdd()" requireRole [role]="addRole">
+          <mat-icon> add </mat-icon>
+        </button>
+      </div>
+      
+      <mat-button-toggle-group name="pageMode" [value]="pageMode" class="toggle-group" *ngIf="toggleGroupOptions?.length" >
+        <mat-button-toggle [value]="option.value" [matTooltip]="option.name" (click)="setPageMode(option)" *ngFor="let option of toggleGroupOptions">
+          <mat-icon> {{option.icon}} </mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </div>

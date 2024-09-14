@@ -1,0 +1,22 @@
+<div class="view-param-container">
+    <div class="view-param-inner-container">
+        <div>
+            <h4 class="subtitled-title"> {{ parameter.typeParameterName }} </h4>
+            <h5 class="subtitle"> {{ parameter.typeParameterSummary }} </h5>
+        </div>
+        
+        <div class="param-value" *ngIf="!parameter.isMultiple">
+            <mat-icon *ngIf="parameter.value?.toString().toLowerCase() == 'true'">check</mat-icon>
+            <mat-icon *ngIf="parameter.value?.toString().toLowerCase() == 'false'">close</mat-icon>
+        </div>
+
+        <div class="param-value" *ngIf="parameter.isMultiple">
+            <div *ngFor="let value of parameter.values">
+                <mat-icon *ngIf="value.toString().toLowerCase() == 'true'">check</mat-icon>
+                <mat-icon *ngIf="value.toString().toLowerCase() == 'false'">close</mat-icon>
+            </div>
+        </div>
+        
+    </div>
+    <mat-divider></mat-divider>
+</div>

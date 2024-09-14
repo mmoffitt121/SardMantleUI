@@ -23,25 +23,6 @@ export class HomeComponent implements OnInit {
   public documents: Document[];
 
   public loadDocuments() {
-    this.documentService.getFeatured().subscribe((data: any) => {
-      this.documents = data;
-      let i = 0;
-      this.fullWidth = [];
-      this.halfWidth = [];
-      this.thirdWidth = [];
-      this.documents.forEach(d => {
-        if (i < 1) {
-          this.fullWidth.push(d);
-        }
-        else if (i < 3) {
-          this.halfWidth.push(d);
-        }
-        else {
-          this.thirdWidth.push(d);
-        }
-        i++;
-      })
-    });
   }
 
   public export() {

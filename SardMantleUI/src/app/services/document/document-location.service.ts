@@ -23,7 +23,7 @@ export class DocumentLocationService {
   }
 
   public postDataPointLocation(data: any) {
-    return this.http.post(environment.baseUrl + '/Library/DataPointLocation/PostDataPointLocation', data);
+    return this.http.post(environment.baseUrl + '/Library/DataPointLocation/PutDataPointLocation', data);
   }
 
   public deleteDataPointLocation(data: any) {

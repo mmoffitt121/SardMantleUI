@@ -1,0 +1,20 @@
+.inline-article {
+    margin: 0;
+}
+
+.windowed-article {
+    margin: 15px;
+}
+
+p {
+    font-size: var(--data-point-value-font-size);
+    margin-top: -10px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.view-article {
+    font-size: 16px;
+    font-weight: normal;
+}

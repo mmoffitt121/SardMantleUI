@@ -10,4 +10,5 @@ export class EditSettingsFieldsComponent {
   @Output() save = new EventEmitter();
   @Output() cancel = new EventEmitter();
   @Output() valueChange = new EventEmitter();
+  @Input() showSaveCancel = true;
 }

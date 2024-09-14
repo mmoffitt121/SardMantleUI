@@ -1,0 +1,20 @@
+h4 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.view-param-inner-container {
+    display: grid; 
+    grid-template-columns: auto max-content; 
+    width: 100%;
+}
+
+.param-value {
+    margin-top: auto;
+    margin-bottom: 5px;
+}
+
+mat-divider {
+    margin-bottom: 10px; 
+    background-color: var(--lib-secondary-text-color);
+}

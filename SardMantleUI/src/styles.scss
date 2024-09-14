@@ -9,6 +9,7 @@
     font-style: normal;
 }
 @import '~@angular/cdk/overlay-prebuilt.css';
+@import '~viewerjs/dist/viewer.css';
 
 /* --------------- */
 /* Variables       */
@@ -28,7 +29,6 @@
     --lib-primary-accent-color: rgb(102, 83, 82);
     --lib-primary-accent-color-disabled: rgb(66, 52, 52);
     --lib-primary-accent-color-selected: rgb(155, 95, 89);
-    --lib-background-color: rgb(218, 197, 192);
     --lib-background-color: rgb(48, 34, 34);
     --lib-field-overlay-color: rgba(46, 28, 27, 0.25);
     --lib-field-overlay-color: rgba(14, 8, 7, 0.5);
@@ -80,6 +80,16 @@ body {
     font-family: var(--lib-primary-font);
     background-color: var(--lib-background-color);
     color: var(--lib-text-color);
+}
+
+/* ------------------- */
+/* Utility             */
+/* ------------------- */
+
+.inherited-size {
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
 /* ------------------- */
@@ -311,6 +321,22 @@ mat-icon {
     margin-top: 0px;
     margin-bottom: 5px;
     color: var(--lib-secondary-text-color);
+}
+
+.image-viewer-class {
+    mat-dialog-container {
+        --mdc-dialog-container-color: #00000000;
+        --mdc-dialog-container-elevation-shadow: none;
+    }
+    
+}
+
+.mat-mdc-header-cell {
+    color: var(--lib-text-color);
+}
+
+.mat-mdc-cell {
+    color: var(--lib-text-color);
 }
 
 /* --------------- */

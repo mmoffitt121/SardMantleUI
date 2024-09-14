@@ -81,7 +81,7 @@ export class EditDataPointComponent implements OnChanges, OnInit {
       };
       if (this.worldOverride === undefined) {
         this.documentService.getDocuments(criteria).subscribe(data => {
-          this.items = data;
+          this.items = data.results;
           this.handleFilterChange();
         })
       }

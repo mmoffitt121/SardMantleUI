@@ -1,0 +1,67 @@
+<div class="editor-container">
+    <mat-card class="topbar">
+        <button mat-button class="topbar-button" matTooltip="Edit View Details" (click)="editDetails()">
+            {{view.name}}
+        </button>
+        <button mat-button class="topbar-button" matTooltip="Change View Type" [matMenuTriggerFor]="viewTypeMenu">
+            {{view.viewType}}
+        </button>
+        <mat-menu #viewTypeMenu="matMenu">
+            <button mat-menu-item *ngFor="let type of viewTypes" (click)="selectViewType(type)">{{type}}</button>
+        </mat-menu>
+        <button mat-button class="topbar-icon-button" matTooltip="Select Document Types" (click)="selectDocumentTypes()">
+            <mat-icon>receipt_long</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Change Query Options" (click)="configureFilter()">
+            <mat-icon>search</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Change Parameters the User Can Search" (click)="configureUserFilter()">
+            <mat-icon>manage_search</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button section-end" matTooltip="Change Which Parameters Appear" (click)="selectDisplayParameters()">
+            <mat-icon>list</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Change Default Parameter to Order By" (click)="selectOrderByParameter()">
+            <mat-icon>swap_vert</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" [matTooltip]="this.view.searchCriteriaOptions?.criteria?.orderByTypeParamDesc ? 'Descending' : 'Ascending'" (click)="toggleSortDirection()">
+            <mat-icon *ngIf="!this.view.searchCriteriaOptions?.criteria?.orderByTypeParamDesc">arrow_upward_alt</mat-icon>
+            <mat-icon *ngIf="this.view.searchCriteriaOptions?.criteria?.orderByTypeParamDesc">arrow_downward_alt</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button section-end" matTooltip="Change Parameter the User Can Order By" (click)="selectUserOrderByParameter()">
+            <mat-icon>sort</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="View Preview" (click)="displayPreview()">
+            <mat-icon>table_chart</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Settings" (click)="displaySettings()">
+            <mat-icon>settings</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Close" style="float: right" (click)="onClose()">
+            <mat-icon>close</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Delete" style="float: right" (click)="onDelete()">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Save" style="float: right" (click)="onSave()">
+            <mat-icon>save</mat-icon>
+        </button>
+        <mat-icon class="topbar-icon" style="float: right" *ngIf="!(changes$ | async)">
+            check
+        </mat-icon>
+        <mat-icon class="topbar-icon" style="float: right" *ngIf="(changes$ | async)">
+            description
+        </mat-icon>
+    </mat-card>
+    <div class="view-container">
+        <app-card-view *ngIf="view.viewType == 'Card' && displayMode == 'View'" [view]="view" />
+        <app-list-view *ngIf="view.viewType == 'List' && displayMode == 'View'" [view]="view" />
+        <app-edit-settings 
+            *ngIf="displayMode == 'Settings'"
+            [settings]="settings" 
+            [data]="settingsData" 
+            [showSaveCancel]="false" 
+            (valueChange)="handleSettingChanged($event)" />
+    </div>
+    
+</div>

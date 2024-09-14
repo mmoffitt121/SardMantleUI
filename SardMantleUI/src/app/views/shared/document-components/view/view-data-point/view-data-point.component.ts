@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Document } from 'src/app/models/document/document-types/document';
-import { DocumentType } from 'src/app/models/document/document-types/document-type';
 import { DocumentTypeService } from 'src/app/services/document/document-type.service';
 import { DocumentService } from 'src/app/services/document/document.service';
 
@@ -10,10 +10,11 @@ import { DocumentService } from 'src/app/services/document/document.service';
   styleUrls: ['./view-data-point.component.scss']
 })
 export class ViewDataPointComponent {
-  public parameterName: string = 'Parameter Name';
-  public parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?';
+  @Input() parameterName: string = 'Parameter Name';
+  @Input() parameterSummary: string = 'This is a summary of this particular parameter. Pretty cool right?';
   @Input() document: Document | undefined;
   @Input() viewDivider = true;
+  @Input() dialogRef: MatDialogRef<any> | undefined = undefined;
 
   public setValue(value: number) {
     if (value === undefined) return;
@@ -26,5 +27,5 @@ export class ViewDataPointComponent {
     this.document = value;
   }
 
-  constructor (private documentService: DocumentService, private typeService: DocumentTypeService) { }
+  constructor (private documentService: DocumentService, private typeService: DocumentTypeService, public dialog: MatDialog) { }
 }

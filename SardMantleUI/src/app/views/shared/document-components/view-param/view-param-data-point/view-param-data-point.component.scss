@@ -1,0 +1,20 @@
+.parameter-title {
+    color: var(--lib-secondary-text-color);
+    font-size: 10pt;
+    text-wrap: wrap;
+    word-break: break-all;
+    padding: 0;
+}
+
+.parameter-value-container {
+    margin-right: 20px;
+    margin-top: 5px;
+    cursor: pointer;
+    background-color: var(--lib-primary-accent-color);
+}
+
+.parameter-value-content {
+    padding: 5px;
+    text-wrap: wrap;
+    word-break: break-all;
+}

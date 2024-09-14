@@ -7,11 +7,14 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./upload-file.component.scss']
 })
 export class UploadFileComponent {
-  public file: any;
+  public file: File;
+  public files: File[] = [];
 
   public title: string;
   public content: string;
   public fileName: string;
+  public fileNames: string[] = [];
+  public multiple: boolean;
 
   @Input() options: string = ".jpg, .jpeg, .png";
 
@@ -26,6 +29,7 @@ export class UploadFileComponent {
     if (this.data.options) {
       this.options = this.data.options
     }
+    this.multiple = this.data.multiple ?? false;
   }
 
   public cancelChoice() {
@@ -33,21 +37,30 @@ export class UploadFileComponent {
   }
 
   public confirmChoice() {
-    this.dialogRef.close(this.file);
+    this.dialogRef.close({file: this.file, fileName: this.fileName, files: this.files, fileNames: this.fileNames});
   }
   
   public onFileSelected() {
     const inputNode: any = document.querySelector('#file');
-    this.fileName = inputNode.files[0].name;
-  
-    if (typeof (FileReader) !== 'undefined') {
-      const reader = new FileReader();
-  
-      reader.onload = (e: any) => {
-        this.file = e.target.result;
-      };
-  
-      reader.readAsArrayBuffer(inputNode.files[0]);
+
+    this.fileName = "";
+    this.fileNames = [];
+    for (let i = 0; i < inputNode.files.length; i++) {  
+      this.fileName += inputNode.files[i].name + " ";
+      this.fileNames.push(inputNode.files[i].name);
+      if (typeof (FileReader) !== 'undefined') {
+        const reader = new FileReader();
+    
+        reader.onload = (e: any) => {
+          if (this.multiple) {
+            this.files.push(e.target.result);
+          } else {
+            this.file = e.target.result;
+          }
+        };
+    
+        reader.readAsArrayBuffer(inputNode.files[i]);
+      }
     }
   }
 }

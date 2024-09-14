@@ -1,0 +1,9 @@
+.page-item {
+    background-color: var(--lib-primary-accent-color);
+    padding: 10px;
+    display: grid;
+    grid-template-columns: auto min-content;
+    cursor: pointer;
+    border: var(--lib-item-outline-width) var(--lib-item-outline-style) var(--lib-item-outline-color);
+    margin-bottom: 5px;
+}

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -8,13 +8,14 @@ import { ImageService } from 'src/app/services/image/image.service';
 import { MapService } from 'src/app/services/map/map.service';
 import { ConfirmDialogComponent } from 'src/app/views/shared/confirm-dialog/confirm-dialog.component';
 import { UploadFileComponent } from 'src/app/views/shared/document-components/file/upload-file/upload-file.component';
+import { ImagePickerComponent } from 'src/app/views/storage/image-picker/image-picker.component';
 
 @Component({
   selector: 'app-edit-location-type',
   templateUrl: './edit-location-type.component.html',
   styleUrls: ['./edit-location-type.component.scss']
 })
-export class EditLocationTypeComponent implements OnInit {
+export class EditLocationTypeComponent implements AfterViewInit {
   public title: string;
   public locationType: LocationType;
 
@@ -33,8 +34,8 @@ export class EditLocationTypeComponent implements OnInit {
 
   public parentType: LocationType | undefined;
 
-  public iconChanged = false;
-  public icon: any;
+  public iconChanged: boolean;
+  public icon: string | undefined;
 
   public setParentLocationType(data: any) {
     this.parentType = data;
@@ -52,6 +53,7 @@ export class EditLocationTypeComponent implements OnInit {
     this.locationType.labelFontSize = this.labelFontSize.value;
     this.locationType.labelFontColor = this.labelFontColor.value;
     this.locationType.iconSize = this.iconSize.value;
+    this.locationType.iconURL = this.icon;
 
     if (this.data.adding) {
       this.mapService.postLocationType(this.locationType).subscribe(result => {
@@ -65,18 +67,7 @@ export class EditLocationTypeComponent implements OnInit {
     else {
       this.mapService.putLocationType(this.locationType).subscribe(result => {
         this.errorService.showSnackBar("Location Type " + this.locationType.name + " successfully saved.");
-        if (this.iconChanged) {
-          this.imageService.postImage(this.icon, this.locationType.id, 1).subscribe(result => {
-            this.dialogRef.close(true);
-            this.errorService.showSnackBar("Map Icon successfully uploaded.");
-          }, 
-          error => {
-            this.errorService.handle(error);
-          });
-        }
-        else {
-          this.dialogRef.close(true);
-        }
+        this.dialogRef.close(true);
       },
       error => {
         this.errorService.handle(error);
@@ -108,9 +99,10 @@ export class EditLocationTypeComponent implements OnInit {
   }
 
   public onChangeIcon() {
-    const dialogRef = this.dialog.open(UploadFileComponent, {
-      width: '400px',
-      data: { title: "Upload Icon" }
+    const dialogRef = this.dialog.open(ImagePickerComponent, {
+      width: 'min(100vw, 700px)',
+      height: 'min(100vh, 700px)',
+      data: { title: "Upload File" }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -131,7 +123,8 @@ export class EditLocationTypeComponent implements OnInit {
     private imageService: ImageService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<EditLocationTypeComponent>, 
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private cdref: ChangeDetectorRef
   ) {
     if (data.adding) {
       this.title = "Add Location Type"
@@ -148,7 +141,7 @@ export class EditLocationTypeComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.mapService.getLocationTypes({}).subscribe(data => {
       this.locationTypes = data;
       this.parentType = this.locationTypes.find(l => l.id == this.locationType.parentTypeId);
@@ -166,5 +159,7 @@ export class EditLocationTypeComponent implements OnInit {
     this.labelFontSize.setValue(this.locationType.labelFontSize);
     this.labelFontColor.setValue(this.locationType.labelFontColor);
     this.iconSize.setValue(this.locationType.iconSize);
+    this.icon = this.locationType.iconURL;
+    this.cdref.detectChanges();
   }
 }

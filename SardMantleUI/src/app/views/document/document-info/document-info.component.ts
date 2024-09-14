@@ -22,7 +22,7 @@ import { Router } from '@angular/router';
 import { DocumentLocationService } from 'src/app/services/document/document-location.service';
 import { ViewLocationParamComponent } from '../../shared/document-components/view/view-location-param/view-location-param.component';
 import { LoginService } from 'src/app/services/login/login.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { ErrorService } from 'src/app/services/error.service';
 import { ViewDatetimeComponent } from '../../shared/document-components/view/view-datetime/view-datetime.component';
@@ -47,6 +47,8 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
   @Input() autoLoadId: number = -1;
   @Input() showEditControls = true;
   @Input() showLinkToSelf = false;
+  @Input() showClose = false;
+  @Input() dialogRef: MatDialogRef<any> | undefined = undefined;
 
   @Output() add = new EventEmitter();
   @Output() edit = new EventEmitter();
@@ -123,6 +125,7 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
       }
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterName = p.name;
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterSummary = p.summary;
+      this.parameterComponents[this.parameterComponents.length - 1].instance.dialogRef = this.dialogRef;
     });
 
     this.locations?.forEach(l => {
@@ -136,6 +139,7 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterName = "";
       this.parameterComponents[this.parameterComponents.length - 1].instance.parameterSummary = "";
       this.parameterComponents[this.parameterComponents.length - 1].instance.viewDivider = false;
+      this.parameterComponents[this.parameterComponents.length - 1].instance.dialogRef = this.dialogRef;
     })
 
     this.cdref.detectChanges();
@@ -189,6 +193,7 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
   }
 
   public navigateToSelf() {
+    this.onClose();
     this.router.navigate([this.urlService.getWorld(), 'document', 'view', this.document?.id])
   }
 
@@ -230,6 +235,10 @@ export class DocumentInfoComponent implements OnInit, AfterViewInit {
     this.locations = undefined;
     this.relatedDocuments = undefined;
     this.loadDocument();
+  }
+
+  public onClose() {
+    this.dialogRef?.close();
   }
 
   constructor(private cdref: ChangeDetectorRef, 

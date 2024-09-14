@@ -1,0 +1,18 @@
+<div style="display: grid; grid-template-rows: auto min-content; max-width: 100%;">
+    <mat-action-list>
+        <button mat-list-item *ngFor="let page of pages" class="page-item" (click)="onSelect(page)">
+            <div>
+                {{page.name}}
+            </div>
+        </button>
+    </mat-action-list>
+    <mat-paginator 
+        [length]="pageLength"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        (page)="onPageChange($event)"
+        [hidePageSize]="true"
+        style="background-color: #00000000;"
+    ></mat-paginator>
+</div>
+

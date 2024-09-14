@@ -1,0 +1,15 @@
+.parameter-title {
+    color: var(--lib-secondary-text-color);
+    font-size: 10pt;
+    text-wrap: wrap;
+    word-break: break-all;
+}
+
+.article-icon-card {
+    width: min-content;
+    height: min-content;
+    margin-right: 20px;
+    margin-top: 5px;
+    cursor: pointer;
+    background-color: var(--lib-primary-accent-color);
+}

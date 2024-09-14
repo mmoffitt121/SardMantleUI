@@ -1,0 +1,42 @@
+.view-container {
+    display: grid;
+    grid-template-columns: min(300px, 100%) 1fr;
+    height: calc(100vh - 80px);
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+}
+
+.views-list-container {
+    margin: 10px;
+    height: calc(100vh - 104px);
+    .views-list {
+        height: 100%;
+        display: grid;
+        grid-template-rows: min-content auto min-content;
+        z-index: 20;
+        
+        .view-items {
+            max-height: 100%;
+            padding: 10px;
+            overflow: auto;
+            .view-item {
+                margin-top: 2px;
+                margin-bottom: 2px;
+                width: 100%;
+                justify-content: left;
+                background-color: var(--lib-primary-accent-color)
+            }
+        }
+    }
+}
+
+.views-view-container-outer {
+    height: 100%;
+    height: calc(100vh - 104px);
+}
+
+.views-view-container { 
+    height: 100%;
+    margin: 10px;
+}
