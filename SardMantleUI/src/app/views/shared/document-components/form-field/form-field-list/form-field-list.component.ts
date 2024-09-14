@@ -13,7 +13,6 @@ export class FormFieldListComponent extends FormFieldBasicComponent implements O
 
   public add() {
     this.parameters.push(this.getNew("", undefined))
-    console.log(this.parameters)
   }
 
   public remove(parameter: QueriedDataPointParameter) {

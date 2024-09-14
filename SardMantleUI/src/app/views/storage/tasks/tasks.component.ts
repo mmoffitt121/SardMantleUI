@@ -26,7 +26,7 @@ export class TasksComponent extends DestroyableComponent implements OnInit  {
   constructor(private taskService: TaskService) { super(); }
 
   ngOnInit(): void {
-    timer(0, 5).pipe(takeUntil(this.destroyed$)).subscribe(x => {
+    timer(0, 3000).pipe(takeUntil(this.destroyed$)).subscribe(x => {
       this.loadTasks();
     })
   }

@@ -58,7 +58,6 @@ export class EditMapLayerComponent implements AfterViewInit {
     }
     else {
       let zoomLevels: any = [];
-      console.log(this.persistentZoomLevels)
       this.zoomLevelsParameter.values?.forEach(z => {
         zoomLevels.push({zoom: Number(z), mapLayerId: this.mapLayer.id});
       })

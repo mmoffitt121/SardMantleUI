@@ -8,10 +8,10 @@
         {{theme.name}}
         <div style="display: flex">
             <button mat-icon-button (click)="this.edit.emit(theme)" requireRole [role]="'Library.Setup.Settings'" [style.color]="theme['--lib-text-color']">
-                <mat-icon> edit </mat-icon>
+                <mat-icon [style.color]="theme['--lib-text-color']"> edit </mat-icon>
             </button>
             <button mat-icon-button (click)="this.delete.emit(theme)" requireRole [role]="'Library.Setup.Settings'" [style.color]="theme['--lib-text-color']">
-                <mat-icon> delete </mat-icon>
+                <mat-icon [style.color]="theme['--lib-text-color']"> delete </mat-icon>
             </button>
         </div>
         <button 

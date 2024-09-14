@@ -107,7 +107,6 @@ export class EditLocationTypeComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result)
         this.icon = result;
         this.iconChanged = true;
       }

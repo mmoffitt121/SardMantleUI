@@ -38,7 +38,6 @@ export class ImageService {
   }
 
   public deleteImage(id: string) {
-    console.log(id)
     return this.http.delete(environment.baseUrl + '/Library/Image/DeleteImage', {params: {id}})
   }
 

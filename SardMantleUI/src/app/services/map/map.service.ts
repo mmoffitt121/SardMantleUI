@@ -99,7 +99,6 @@ export class MapService {
   }
 
   public getIconUrl(id: string) {
-    console.log(id)
     return "https://localhost:7094/Library/Image/Icon?id=" + id + "&world=adminadmin";
   }
 

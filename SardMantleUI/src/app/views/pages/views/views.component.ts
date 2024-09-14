@@ -114,7 +114,7 @@ export class ViewsComponent extends PaginatableComponent implements OnInit {
 
   public loadViews() {
     this.viewService.getCount({}).subscribe((result: any) => {this.pageLength = result;})
-    this.viewService.get({pageNumber: this.pageIndex, pageSize: this.pageSize, orderBy: "Name"}).subscribe((result: any) => {this.views = result;})
+    this.viewService.get({pageNumber: this.pageIndex+1, pageSize: this.pageSize, orderBy: "Name"}).subscribe((result: any) => {this.views = result;})
   }
 
   public override onPageChange(event: any): void {

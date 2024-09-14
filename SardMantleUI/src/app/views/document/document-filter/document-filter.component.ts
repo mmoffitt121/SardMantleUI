@@ -78,7 +78,7 @@ export class DocumentFilterComponent implements OnInit {
     let criteria = {
       pageSize: this.pageSize,
       pageNumber: this.pageIndex + 1,
-      query: this.typesSearchBar?.getValue() ?? ''
+      query: this.typesSearchBar?.getValue() ?? '',
     };
 
     this.documentTypeService.getDocumentTypes(criteria).subscribe(data => {

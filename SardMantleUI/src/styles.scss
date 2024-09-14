@@ -83,6 +83,16 @@ body {
 }
 
 /* ------------------- */
+/* Utility             */
+/* ------------------- */
+
+.inherited-size {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* ------------------- */
 /* Material Components */
 /* ------------------- */
 
@@ -319,6 +329,14 @@ mat-icon {
         --mdc-dialog-container-elevation-shadow: none;
     }
     
+}
+
+.mat-mdc-header-cell {
+    color: var(--lib-text-color);
+}
+
+.mat-mdc-cell {
+    color: var(--lib-text-color);
 }
 
 /* --------------- */

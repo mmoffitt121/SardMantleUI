@@ -26,7 +26,6 @@ export class WorldManagerComponent {
   public selectWorld(world: World) {
     this.addingDataPoint = false;
     this.selectedWorld = world;
-    this.documentService.getFeaturedFromWorld(this.selectedWorld.location).subscribe((result: any) => { this.featured = result; });
   }
 
   public openCreateMenu() {

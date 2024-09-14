@@ -222,6 +222,12 @@ import { TasksComponent } from './views/storage/tasks/tasks.component';
 import { FormFieldListComponent } from './views/shared/document-components/form-field/form-field-list/form-field-list.component';
 import { FormFieldListItemComponent } from './views/shared/document-components/form-field/form-field-list-item/form-field-list-item.component';
 import { RichtextPipe } from './pipes/richtext.pipe';
+import { WorldImportComponent } from './views/administration/world-import/world-import.component';
+import { PageViewComponent } from './views/pages/pages/page-view/page-view.component';
+import { PageViewElementComponent } from './views/pages/pages/page-view/page-view-element/page-view-element.component';
+import { PageSettingsComponent } from './views/pages/pages/page-settings/page-settings.component';
+import { FormComponent } from './views/shared/form/form.component';
+import { PageElementSettingsComponent } from './views/pages/pages/page-settings/page-element-settings/page-element-settings.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -406,6 +412,12 @@ export function tokenGetter() {
     FormFieldListComponent,
     FormFieldListItemComponent,
     RichtextPipe,
+    WorldImportComponent,
+    PageViewComponent,
+    PageViewElementComponent,
+    PageSettingsComponent,
+    FormComponent,
+    PageElementSettingsComponent,
     ],
   imports: [
     BrowserModule,

@@ -7,7 +7,7 @@ export interface Page {
 }
 
 export interface PageElement {
-    objectType: number;
+    objectType: string;
     objectSettings: any;
     children: PageElement[];
 }

@@ -8,9 +8,7 @@ export class RichtextPipe implements PipeTransform {
 
   transform(value: string, ...args: unknown[]): string {
     const result = value.split(this.regex)
-    console.log(result)
     if (result && result.length) {
-      console.log(result)
       return result.find(r => r) ?? ""
     }
     return "";

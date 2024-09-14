@@ -151,8 +151,15 @@ export const themeMenuItems = [
                     },
                 ]
             },
+            
+        ]
+    },
+    {
+        name: "Outlines",
+        icon: "check_box_outline_blank",
+        children: [
             {
-                name: "Outline",
+                name: "Card Outlines",
                 items: [
                     {
                         name: "Style",
@@ -174,7 +181,30 @@ export const themeMenuItems = [
                     },
                 ]
             },
-        ]
+            {
+                name: "Item Outlines",
+                items: [
+                    {
+                        name: "Style",
+                        key: "--lib-item-outline-style",
+                        value: undefined,
+                        type: "select",
+                        options: themeOutlineTypes,
+                    },
+                    {
+                        name: "Color",
+                        key: "--lib-item-outline-color",
+                        value: undefined,
+                        type: "color",
+                    },
+                    {
+                        name: "Width",
+                        key: "--lib-item-outline-width",
+                        value: undefined,
+                    },
+                ]
+            },
+        ],
     },
     {
         name: "Background",
@@ -277,9 +307,13 @@ export const defaultTheme = {
     "--lib-primary-accent-color-selected": "#735f59",
     "--lib-field-overlay-color": "#0e0807",
     "--lib-destructive-action-color": "#770000",
-    "--lib-primary-outline-style": "",
+
+    "--lib-primary-outline-style": "none",
     "--lib-primary-outline-color": "",
-    "--lib-primary-outline-width": "1",
+    "--lib-primary-outline-width": "1px",
+    "--lib-item-outline-style": "none",
+    "--lib-item-outline-color": "",
+    "--lib-item-outline-width": "1px",
 
     "--lib-background-gradient": "none",
     "--lib-background-color": "#302222",
