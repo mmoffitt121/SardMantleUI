@@ -14,7 +14,7 @@
     <app-edit-string [parameterName]="'Layer Name'" [required]="true" #name></app-edit-string>
     <app-edit-summary [parameterName]="'Layer Summary'" #summary></app-edit-summary>
     <mat-divider *ngIf="!adding && !mapLayer.isIconLayer" />
-    <app-form-field-list [parameter]="zoomLevelsParameter" />
+    <app-form-field-list *ngIf="!adding && !mapLayer.isIconLayer" [parameter]="zoomLevelsParameter" />
     <mat-divider />
     <div class="button-option-holder">
         <div *ngIf="!adding" class="button-option">

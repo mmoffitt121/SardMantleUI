@@ -1382,27 +1382,27 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mdc-list-item--disabled .mdc-list-item__primary-text {
-    color: var(--mdc-theme-on-surface, #fff)
+    color: var(--lib-text-color)
 }
 
 .mdc-list-item--disabled .mdc-list-item__secondary-text {
-    color: var(--mdc-theme-on-surface, #fff)
+    color: var(--lib-text-color)
 }
 
 .mdc-list-item--disabled .mdc-list-item__overline-text {
-    color: var(--mdc-theme-on-surface, #fff)
+    color: var(--lib-text-color)
 }
 
 .mdc-list-item--disabled.mdc-list-item--with-leading-icon .mdc-list-item__start {
-    color: var(--mdc-theme-on-surface, #fff)
+    color: var(--lib-text-color)
 }
 
 .mdc-list-item--disabled.mdc-list-item--with-trailing-icon .mdc-list-item__end {
-    color: var(--mdc-theme-on-surface, #fff)
+    color: var(--lib-text-color)
 }
 
 .mdc-list-item--disabled.mdc-list-item--with-trailing-meta .mdc-list-item__end {
-    color: var(--mdc-theme-on-surface, #fff)
+    color: var(--lib-text-color)
 }
 
 .mdc-list-item--selected .mdc-list-item__primary-text,

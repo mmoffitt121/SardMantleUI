@@ -357,12 +357,16 @@ mat-icon {
 }
 
 .NgxEditor__MenuItem {
-    color: var(--lib-submit-accent-color);
+    color: var(--lib-text-color);
     background-color: var(--lib-primary-accent-color);
 }
 
 .NgxEditor__Seperator {
     border-left: 3px solid var(--lib-primary-accent-color) !important;
+}
+
+.NgxEditor__Dropdown--Text {
+    color: var(--lib-text-color)
 }
 
 .NgxEditor {

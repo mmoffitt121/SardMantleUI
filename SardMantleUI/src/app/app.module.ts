@@ -228,6 +228,7 @@ import { PageViewElementComponent } from './views/pages/pages/page-view/page-vie
 import { PageSettingsComponent } from './views/pages/pages/page-settings/page-settings.component';
 import { FormComponent } from './views/shared/form/form.component';
 import { PageElementSettingsComponent } from './views/pages/pages/page-settings/page-element-settings/page-element-settings.component';
+import { SkeletonNavBarItemComponent } from './views/app-skeleton/skeleton-nav-bar/skeleton-nav-bar-item/skeleton-nav-bar-item.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -418,6 +419,7 @@ export function tokenGetter() {
     PageSettingsComponent,
     FormComponent,
     PageElementSettingsComponent,
+    SkeletonNavBarItemComponent,
     ],
   imports: [
     BrowserModule,

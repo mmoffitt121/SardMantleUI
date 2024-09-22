@@ -144,7 +144,7 @@ export class EditMapLayerComponent implements AfterViewInit {
       typeParameterSettings: "",
       value: undefined,
       valueData: undefined,
-      values: this.mapLayer.persistentZoomLevels ? this.mapLayer.persistentZoomLevels.map(zl => zl.zoom) : [],
+      values: this.mapLayer?.persistentZoomLevels ? this.mapLayer.persistentZoomLevels.map(zl => zl.zoom) : [],
       valuesData: undefined,
       isMultiple: true,
     };

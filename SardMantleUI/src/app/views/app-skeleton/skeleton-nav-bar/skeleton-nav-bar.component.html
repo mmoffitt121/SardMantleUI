@@ -52,12 +52,10 @@
     </div>
 </div>
 
-<div *ngIf="!skeletonService.labels">
+<div *ngIf="!skeletonService.labels" style="overflow: hidden">
     <div *ngFor="let grouping of menuOptions">
-        <div *ngFor="let option of grouping.options" style="display: flex;" (click)="navigate(option)">
-            <button mat-menu-item class="small-button">
-                <mat-icon style="margin-right: 0px; margin-left: 0px; padding-right: 0px; padding-left: 0px;"> {{option.icon}} </mat-icon>
-            </button>
+        <div *ngFor="let option of grouping.options" style="display: flex;">
+            <app-skeleton-nav-bar-item [option]="option" (navigate)="navigate($event)" />
         </div>
     </div>
     <div style="display: flex;" >

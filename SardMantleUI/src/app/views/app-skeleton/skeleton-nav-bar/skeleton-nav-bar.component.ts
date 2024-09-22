@@ -24,7 +24,7 @@ export class SkeletonNavBarComponent {
   public username: string | undefined;
   public loadingThemes = false;
   public inWorld = false;
-  public displayExpanded = false;
+  public displayExpanded = true;
   private cachedLocation = "";
   public world: any;
   public loadingWorld = true;
@@ -132,7 +132,7 @@ export class SkeletonNavBarComponent {
       });
 
       if (expandSettings[DISPLAY_EXPANDED] !== undefined) {
-        this.displayExpanded = expandSettings[DISPLAY_EXPANDED];
+        this.displayExpanded = expandSettings[DISPLAY_EXPANDED] ?? true;
       }
 
       this.menuOptions = newMenuOptions;
