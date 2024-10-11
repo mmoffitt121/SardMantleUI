@@ -1,8 +1,11 @@
-<div [ngSwitch]="parameter.typeParameterTypeValue">
-    <app-presentation-param-string *ngSwitchDefault [parameter]="parameter" [dialogRef]="dialogRef" />
-    <app-presentation-param-article *ngSwitchCase="'doc'" [parameter]="parameter" [dialogRef]="dialogRef" />
-    <app-presentation-param-boolean *ngSwitchCase="'bit'" [parameter]="parameter" [dialogRef]="dialogRef" />
-    <app-presentation-param-data-point *ngSwitchCase="'dat'" [parameter]="parameter" [dialogRef]="dialogRef" />
-    <app-presentation-param-date *ngSwitchCase="'tim'" [parameter]="parameter" [dialogRef]="dialogRef" />
-    <app-presentation-param-unit *ngSwitchCase="'uni'" [parameter]="parameter" [dialogRef]="dialogRef" />
+<div [ngSwitch]="parameter.typeParameterTypeValue" style="width: 100%;">
+    <div *ngSwitchDefault [ngSwitch]="parameter.typeParameterSubType" style="width: 100%;">
+        <app-presentation-param-string *ngSwitchDefault [parameter]="parameter" [dialogRef]="dialogRef" style="width: 100%;" />
+        <app-presentation-param-image *ngSwitchCase="'img'" [parameter]="parameter" [dialogRef]="dialogRef" style="width: 100%;" />
+    </div>
+    <app-presentation-param-article *ngSwitchCase="'doc'" [parameter]="parameter" [dialogRef]="dialogRef" style="width: 100%;" />
+    <app-presentation-param-boolean *ngSwitchCase="'bit'" [parameter]="parameter" [dialogRef]="dialogRef" style="width: 100%;" />
+    <app-presentation-param-data-point *ngSwitchCase="'dat'" [parameter]="parameter" [dialogRef]="dialogRef" style="width: 100%;" />
+    <app-presentation-param-date *ngSwitchCase="'tim'" [parameter]="parameter" [dialogRef]="dialogRef" style="width: 100%;" />
+    <app-presentation-param-unit *ngSwitchCase="'uni'" [parameter]="parameter" [dialogRef]="dialogRef" style="width: 100%;" />
 </div>

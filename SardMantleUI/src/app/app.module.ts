@@ -229,6 +229,9 @@ import { PageSettingsComponent } from './views/pages/pages/page-settings/page-se
 import { FormComponent } from './views/shared/form/form.component';
 import { PageElementSettingsComponent } from './views/pages/pages/page-settings/page-element-settings/page-element-settings.component';
 import { SkeletonNavBarItemComponent } from './views/app-skeleton/skeleton-nav-bar/skeleton-nav-bar-item/skeleton-nav-bar-item.component';
+import { WorldSetupComponent } from './views/world-setup/world-setup.component';
+import { FormFieldImageComponent } from './views/shared/document-components/form-field/form-field-image/form-field-image.component';
+import { PresentationParamImageComponent } from './views/shared/document-components/presentation-param/presentation-param-image/presentation-param-image.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -420,6 +423,9 @@ export function tokenGetter() {
     FormComponent,
     PageElementSettingsComponent,
     SkeletonNavBarItemComponent,
+    WorldSetupComponent,
+    FormFieldImageComponent,
+    PresentationParamImageComponent,
     ],
   imports: [
     BrowserModule,

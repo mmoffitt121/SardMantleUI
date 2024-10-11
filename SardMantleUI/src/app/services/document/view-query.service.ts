@@ -76,7 +76,7 @@ export class ViewQueryService {
     let parameters = qdp?.parameters.map(p => {
       let newParam = { dataPointId: qdp.id, dataPointTypeParameterId: p.typeParameterId } as any
       newParam[this.getValueKeyFromTypeValue(p.typeParameterTypeValue)] = this.convertValue(p.value, p.typeParameterTypeValue);
-      if (isNaN(newParam[this.getValueKeyFromTypeValue(p.typeParameterTypeValue)])) {
+      if (!(newParam[this.getValueKeyFromTypeValue(p.typeParameterTypeValue)])) {
         newParam[this.getValueKeyFromTypeValue(p.typeParameterTypeValue)] = undefined;
       }
       return newParam;

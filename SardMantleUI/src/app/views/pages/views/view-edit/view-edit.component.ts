@@ -123,7 +123,7 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
 
   public configureUserFilter() {
     let parameters = this.documentTypes.map(dt => {
-      return dt.typeParameters.filter((tp: any) => tp.typeValue != 'doc').map((p: any) => {
+      return dt.typeParameters.filter((tp: any) => tp.typeValue != 'doc' && !tp.subType).map((p: any) => {
         return {
           value: p.id,
           label: p.name + " (" + dt.name + ")"

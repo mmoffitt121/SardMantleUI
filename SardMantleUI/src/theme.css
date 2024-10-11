@@ -236,11 +236,11 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 }
 
 .mat-accent .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
-    color: var(--mdc-theme-secondary, #b0bec5)
+    color: var(--lib-text-color, #b0bec5)
 }
 
 .mat-warn .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
-    color: var(--mdc-theme-error, #f44336)
+    color: var(--lib-text-color, #b0bec5)
 }
 
 .mat-mdc-optgroup-label {
@@ -1783,27 +1783,27 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mdc-list-item--disabled .mdc-list-item__primary-text {
-    color: var(--mdc-theme-on-surface, #fff)
+    color: var(--lib-text-color)
 }
 
 .mdc-list-item--disabled .mdc-list-item__secondary-text {
-    color: var(--mdc-theme-on-surface, #fff)
+    color: var(--lib-text-color)
 }
 
 .mdc-list-item--disabled .mdc-list-item__overline-text {
-    color: var(--mdc-theme-on-surface, #fff)
+    color: var(--lib-text-color)
 }
 
 .mdc-list-item--disabled.mdc-list-item--with-leading-icon .mdc-list-item__start {
-    color: var(--mdc-theme-on-surface, #fff)
+    color: var(--lib-text-color)
 }
 
 .mdc-list-item--disabled.mdc-list-item--with-trailing-icon .mdc-list-item__end {
-    color: var(--mdc-theme-on-surface, #fff)
+    color: var(--lib-text-color)
 }
 
 .mdc-list-item--disabled.mdc-list-item--with-trailing-meta .mdc-list-item__end {
-    color: var(--mdc-theme-on-surface, #fff)
+    color: var(--lib-text-color)
 }
 
 .mdc-list-item--selected .mdc-list-item__primary-text,
@@ -1873,22 +1873,22 @@ select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) optio
 }
 
 .mat-mdc-list-base {
-    --mdc-list-list-item-label-text-color: var(--lib-text-color);
+    --mdc-list-list-item-label-text-color: var(--lib-text-color) !important;
     --mdc-list-list-item-supporting-text-color: rgba(255, 255, 255, 0.7);
     --mdc-list-list-item-leading-icon-color: rgba(255, 255, 255, 0.5);
     --mdc-list-list-item-trailing-supporting-text-color: rgba(255, 255, 255, 0.5);
     --mdc-list-list-item-trailing-icon-color: rgba(255, 255, 255, 0.5);
-    --mdc-list-list-item-selected-trailing-icon-color: rgba(255, 255, 255, 0.5);
-    --mdc-list-list-item-disabled-label-text-color: var(--lib-text-color);
-    --mdc-list-list-item-disabled-leading-icon-color: var(--lib-text-color);
-    --mdc-list-list-item-disabled-trailing-icon-color: var(--lib-text-color);
-    --mdc-list-list-item-hover-label-text-color: var(--lib-text-color);
+    --mdc-list-list-item-selected-trailing-icon-color: var(--lib-submit-text-accent-color) !important;
+    --mdc-list-list-item-disabled-label-text-color: var(--lib-text-color) !important;
+    --mdc-list-list-item-disabled-leading-icon-color: var(--lib-text-color) !important;
+    --mdc-list-list-item-disabled-trailing-icon-color: var(--lib-text-color) !important;
+    --mdc-list-list-item-hover-label-text-color: var(--lib-text-color) !important;
     --mdc-list-list-item-hover-leading-icon-color: rgba(255, 255, 255, 0.5);
     --mdc-list-list-item-hover-trailing-icon-color: rgba(255, 255, 255, 0.5);
-    --mdc-list-list-item-focus-label-text-color: var(--lib-text-color);
-    --mdc-list-list-item-hover-state-layer-color: var(--lib-text-color);
+    --mdc-list-list-item-focus-label-text-color: var(--lib-text-color) !important;
+    --mdc-list-list-item-hover-state-layer-color: var(--lib-text-color) !important;
     --mdc-list-list-item-hover-state-layer-opacity: 0.08;
-    --mdc-list-list-item-focus-state-layer-color: var(--lib-text-color);
+    --mdc-list-list-item-focus-state-layer-color: var(--lib-text-color) !important;
     --mdc-list-list-item-focus-state-layer-opacity: 0.24
 }
 
@@ -3728,7 +3728,7 @@ html {
 
 .mat-tree-node,
 .mat-nested-tree-node {
-    color: #fff
+    color: var(--lib-text-color)
 }
 
 .mat-tree-node {

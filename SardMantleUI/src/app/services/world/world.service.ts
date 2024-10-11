@@ -11,6 +11,10 @@ export class WorldService {
     return this.http.get<any>(environment.baseUrl + '/Library/World/GetWorlds', { params: criteria });
   }
 
+  public getWorld(location: string) {
+    return this.http.get<any>(environment.baseUrl + '/Library/World/GetWorld', { params: { location } });
+  }
+
   public getWorldCount(criteria: any) {
     return this.http.get<any>(environment.baseUrl + '/Library/World/GetWorldCount', { params: criteria });
   }
@@ -20,7 +24,7 @@ export class WorldService {
   }
 
   public putWorld(world: World) {
-    return this.http.put(environment.baseUrl + '/Library/World/PutWorld', world);
+    return this.http.put(environment.baseUrl + '/Library/World/UpdateWorld', world);
   }
   constructor(private http: HttpClient) { }
 }

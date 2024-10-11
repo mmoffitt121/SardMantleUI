@@ -1,28 +1,26 @@
 export class DocumentIconMaps {
-    public iconMap = new Map<string | null, string>([
-        [null, "question_mark"],
-        ["int", "looks_one"],
-        ["dub", "percent"],
-        ["str", "format_quote"],
-        ["sum", "summarize"],
-        ["doc", "description"],
-        ["img", "image"],
-        ["dat", "dataset"],
+    public iconMap = new Map<string, string>([
         ["bit", "check_box"],
+        ["dat", "dataset"],
+        ["doc", "description"],
+        ["dub", "percent"],
+        ["int", "looks_one"],
+        ["str", "format_quote"],
+        ["str.img", "image"],
+        ["sum", "summarize"],
+        ["tim", "schedule"],
         ["uni", "design_services"],
-        ["tim", "schedule"]
     ])
-    public nameMap = new Map<string | null, string>([
-        [null, "Unknown"],
-        ["int", "Number"],
+    public nameMap = new Map<string, string>([
+        ["doc", "Article"],
+        ["bit", "Checkbox"],
+        ["tim", "Date/Time"],
         ["dub", "Decimal Number"],
+        ["dat", "Document"],
+        ["str.img", "Image"],
+        ["int", "Number"],
         ["str", "String"],
         ["sum", "Summary"],
-        ["doc", "Article"],
-        ["img", "Image"],
-        ["dat", "Document"],
-        ["bit", "Checkbox"],
-        ["uni", "Unit"],
-        ["tim", "Date/Time"]
+        ["uni", "Unit"]
     ])
 }

@@ -31,6 +31,7 @@ export class FormFieldListComponent extends FormFieldBasicComponent implements O
       typeParameterName: this.parameter.typeParameterName,
       typeParameterSummary: this.parameter.typeParameterSummary,
       typeParameterTypeValue: this.parameter.typeParameterTypeValue,
+      typeParameterSubType: this.parameter.typeParameterSubType,
       typeParameterSequence: this.parameter.typeParameterSequence,
       dataPointTypeReferenceId: this.parameter.dataPointTypeReferenceId,
       typeParameterSettings: this.parameter.typeParameterSettings,

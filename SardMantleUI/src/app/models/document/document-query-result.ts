@@ -20,6 +20,7 @@ export interface QueriedDataPointParameter {
     typeParameterName: string;
     typeParameterSummary: string | undefined;
     typeParameterTypeValue: string;
+    typeParameterSubType?: string | undefined;
     typeParameterSequence: number;
     dataPointTypeReferenceId: number;
     typeParameterSettings: string;

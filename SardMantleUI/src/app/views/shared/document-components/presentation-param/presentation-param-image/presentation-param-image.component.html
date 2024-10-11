@@ -1,0 +1,26 @@
+<h4 class="param-header"> {{ parameter.typeParameterName }} </h4>
+<h5 class="param-summary"> {{ parameter.typeParameterSummary }} </h5>
+<div class="gallery-background" *ngIf="parameter.isMultiple">
+    <div class="image-card-container" (click)="onClick(val)" *ngFor="let val of parameter.values">
+        <mat-card class="image-card" matTooltip="Image">
+            <mat-card-content class="image-card-content">
+                <app-thumbnail-view *ngIf="val" [id]="val" />
+                <p *ngIf="!parameter.value">
+                    No Image Set
+                </p>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+<div class="gallery-background" *ngIf="!parameter.isMultiple">
+    <div class="image-card-container" (click)="onClick(parameter.value)">
+        <mat-card class="image-card" matTooltip="Image">
+            <mat-card-content class="image-card-content">
+                <app-thumbnail-view *ngIf="parameter.value" [id]="parameter.value" />
+                <p *ngIf="!parameter.value">
+                    No Image Set
+                </p>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

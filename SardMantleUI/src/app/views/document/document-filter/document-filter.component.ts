@@ -104,7 +104,7 @@ export class DocumentFilterComponent implements OnInit {
       this.searchableParams = [];
       data?.forEach((type: DocumentType) => {
         type.typeParameters?.forEach((p: any) => {
-          if (p.typeValue !== 'doc') {
+          if (p.typeValue !== 'doc' && p.subType !== 'img') {
             this.searchableParams.push(p);
           }
         });

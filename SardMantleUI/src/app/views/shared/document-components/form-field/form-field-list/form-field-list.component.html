@@ -13,16 +13,28 @@
 </mat-menu>
 <div *ngFor="let param of parameters; index as i">
     <div [ngSwitch]="param.typeParameterTypeValue" class="form-field">
-        <app-form-field-basic 
-            *ngSwitchDefault 
-            [parameter]="param" 
-            [displayFilterOptions]="showFilterOptions" 
-            [queryOptions]="queryOptions" 
-            [smallLabel]="false" 
-            [showTitle]="false" 
-            [showSubtitle]="false" 
-            (valueChanged)="onValueChange($event, i)" 
-        />
+        <div *ngSwitchDefault >
+            <app-form-field-basic 
+                *ngIf="!param.typeParameterSubType"
+                [parameter]="param" 
+                [displayFilterOptions]="showFilterOptions" 
+                [queryOptions]="queryOptions" 
+                [smallLabel]="false" 
+                [showTitle]="false" 
+                [showSubtitle]="false" 
+                (valueChanged)="onValueChange($event, i)" 
+            />
+            <app-form-field-image
+                *ngIf="param.typeParameterSubType == 'img'"
+                [parameter]="param" 
+                [displayFilterOptions]="showFilterOptions" 
+                [queryOptions]="queryOptions" 
+                [smallLabel]="false" 
+                [showTitle]="false" 
+                [showSubtitle]="false" 
+                (valueChanged)="onValueChange($event, i)" 
+            />
+        </div>
         <app-form-field-article 
             *ngSwitchCase="'doc'" 
             [parameter]="param" 

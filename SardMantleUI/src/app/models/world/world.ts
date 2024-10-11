@@ -9,4 +9,5 @@ export interface World extends Selectable {
     summary: string;
     createdDate: Date;
     iconUrl: SafeUrl | null;
+    iconId: string | undefined;
 }

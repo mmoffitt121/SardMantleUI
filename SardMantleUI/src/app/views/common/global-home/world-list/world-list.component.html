@@ -1,8 +1,8 @@
 <div class="world-list-container">
     <mat-card class="world-list-item" *ngFor="let world of worlds" (mouseover)="world.selected=true" (mouseout)="world.selected=false" (click)="onSelect(world)">
-        <mat-icon *ngIf="world.iconUrl == null" class="icon-over"> public </mat-icon>
+        <mat-icon *ngIf="world.iconId == null" class="icon-over"> public </mat-icon>
         <div class="image">
-            <img [src]="world.iconUrl" *ngIf="world.iconUrl != null"/>
+            <img [src]="url + '/Library/Image/Icon?id=' + world.iconId + '&world=' + world.location" *ngIf="world.iconId"/>
         </div>
         <div class="label-over">
             <p> {{ world.name | valueShorten: 18:1 }} </p>

@@ -30,7 +30,6 @@ export class PageElementSettingsComponent extends DestroyableComponent {
         let key = objType?.settings[i-1].key ?? "";
         this.settings[key] = items[i].value;
       }
-      console.log(this.settings)
 
       if (items[0].value != this.currentLayout) {
         this.currentLayout = items[0].value;

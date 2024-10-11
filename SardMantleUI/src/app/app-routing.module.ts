@@ -27,6 +27,7 @@ import { MenusComponent } from './views/pages/menus/menus.component';
 import { ViewsComponent } from './views/pages/views/views.component';
 import { ImageManagerComponent } from './views/storage/image-manager/image-manager.component';
 import { TasksComponent } from './views/storage/tasks/tasks.component';
+import { WorldSetupComponent } from './views/world-setup/world-setup.component';
 
 const routes: Routes = [
   { path:'', redirectTo: 'home', pathMatch: 'full' },
@@ -77,6 +78,7 @@ const routes: Routes = [
     { path:'images', component:ImageManagerComponent },
     { path:'usage', component:ImageManagerComponent },
     { path:'tasks', component:TasksComponent },
+    { path:'worldsettings', component:WorldSetupComponent },
   ]}
 ];
 

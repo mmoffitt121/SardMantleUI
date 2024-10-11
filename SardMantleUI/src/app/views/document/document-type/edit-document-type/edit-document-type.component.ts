@@ -29,6 +29,8 @@ export class EditDocumentTypeComponent {
 
   public iconMap = new DocumentIconMaps();
 
+  public keys: string[];
+
   @ViewChild('editPropertiesComponent') editPropertiesComponent: EditDocumentTypePropertiesComponent;
   @ViewChild('editParameterComponent') editParameterComponent: EditTypeParameterComponent;
 
@@ -47,7 +49,8 @@ export class EditDocumentTypeComponent {
       name: "New " + (this.iconMap.nameMap.get(typeValue) ? this.iconMap.nameMap.get(typeValue) as string : "") + " Parameter",
       sequence: this.documentType.typeParameters?.length,
       summary: "",
-      typeValue: typeValue,
+      typeValue: typeValue.split('.')[0],
+      subType: typeValue.split('.')[1],
       selected: false,
       dataPointTypeReferenceId: -1,
       settings: null,
@@ -172,5 +175,7 @@ export class EditDocumentTypeComponent {
         this.editPropertiesComponent.setValues(this.documentType);
       }
     })
+
+    this.keys = Array.from(this.iconMap.nameMap.keys());
   }
 }

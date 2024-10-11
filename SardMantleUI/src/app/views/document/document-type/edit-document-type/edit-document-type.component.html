@@ -34,9 +34,9 @@
                             </mat-card-subtitle>
                             <div>
                                 <mat-icon style="margin-bottom: -5px">
-                                    {{ iconMap.iconMap.get(parameter.typeValue) }}
+                                    {{ iconMap.iconMap.get(parameter.typeValue + (parameter.subType ? '.' + parameter.subType : "")) }}
                                 </mat-icon>
-                                {{ iconMap.nameMap.get(parameter.typeValue) }}
+                                {{ iconMap.nameMap.get(parameter.typeValue + (parameter.subType ? '.' + parameter.subType : "")) }}
                             </div>
                         </mat-card>
                     </div>
@@ -47,59 +47,11 @@
                     </mat-icon>
                 </button>
                 <mat-menu #addParameterMenu class="parameter-menu">
-                    <button mat-menu-item class="parameter-menu-item" (click)="add('doc')">
+                    <button mat-menu-item class="parameter-menu-item" (click)="add(key ?? '')" *ngFor="let key of keys">
                         <mat-icon>
-                            {{ iconMap.iconMap.get('doc') }}
+                            {{ iconMap.iconMap.get(key) }}
                         </mat-icon>
-                        {{ iconMap.nameMap.get('doc') }}
-                    </button>
-                    <button mat-menu-item class="parameter-menu-item" (click)="add('bit')">
-                        <mat-icon>
-                            {{ iconMap.iconMap.get('bit') }}
-                        </mat-icon>
-                        {{ iconMap.nameMap.get('bit') }}
-                    </button>
-                    <button mat-menu-item class="parameter-menu-item" (click)="add('dub')">
-                        <mat-icon>
-                            {{ iconMap.iconMap.get('dub') }}
-                        </mat-icon>
-                        {{ iconMap.nameMap.get('dub') }}
-                    </button>
-                    <button mat-menu-item class="parameter-menu-item" (click)="add('dat')">
-                        <mat-icon>
-                            {{ iconMap.iconMap.get('dat') }}
-                        </mat-icon>
-                        {{ iconMap.nameMap.get('dat') }}
-                    </button>
-                    <button mat-menu-item class="parameter-menu-item" (click)="add('int')">
-                        <mat-icon>
-                            {{ iconMap.iconMap.get('int') }}
-                        </mat-icon>
-                        {{ iconMap.nameMap.get('int') }}
-                    </button>
-                    <button mat-menu-item class="parameter-menu-item" (click)="add('str')">
-                        <mat-icon>
-                            {{ iconMap.iconMap.get('str') }}
-                        </mat-icon>
-                        {{ iconMap.nameMap.get('str') }}
-                    </button>
-                    <button mat-menu-item class="parameter-menu-item" (click)="add('sum')">
-                        <mat-icon>
-                            {{ iconMap.iconMap.get('sum') }}
-                        </mat-icon>
-                        {{ iconMap.nameMap.get('sum') }}
-                    </button>
-                    <button mat-menu-item class="parameter-menu-item" (click)="add('uni')">
-                        <mat-icon>
-                            {{ iconMap.iconMap.get('uni') }}
-                        </mat-icon>
-                        {{ iconMap.nameMap.get('uni') }}
-                    </button>
-                    <button mat-menu-item class="parameter-menu-item" (click)="add('tim')">
-                        <mat-icon>
-                            {{ iconMap.iconMap.get('tim') }}
-                        </mat-icon>
-                        {{ iconMap.nameMap.get('tim') }}
+                        {{ iconMap.nameMap.get(key) }}
                     </button>
                 </mat-menu>
             </mat-card-content>

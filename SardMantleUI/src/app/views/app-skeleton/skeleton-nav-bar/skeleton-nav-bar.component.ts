@@ -43,7 +43,7 @@ export class SkeletonNavBarComponent {
         this.router.navigate([option.route]);
       }
       else {
-        this.router.navigate([this.urlService.getWorld(), option.route]);
+        this.router.navigate([this.urlService.getWorld(), ...option.route.split('/')]);
       }
     }
   }

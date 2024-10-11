@@ -1,5 +1,8 @@
 <div [ngSwitch]="parameter.typeParameterTypeValue" class="form-field" *ngIf="!parameter.isMultiple">
-    <app-form-field-basic *ngSwitchDefault [parameter]="parameter" [displayFilterOptions]="showFilterOptions" [queryOptions]="queryOptions" [smallLabel]="compact" [showTitle]="showTitle" [showSubtitle]="showSubtitle" />
+    <div *ngSwitchDefault [ngSwitch]="parameter.typeParameterSubType">
+        <app-form-field-basic *ngSwitchDefault [parameter]="parameter" [displayFilterOptions]="showFilterOptions" [queryOptions]="queryOptions" [smallLabel]="compact" [showTitle]="showTitle" [showSubtitle]="showSubtitle" />
+        <app-form-field-image *ngSwitchCase="'img'" [parameter]="parameter" [displayFilterOptions]="showFilterOptions" [queryOptions]="queryOptions" [smallLabel]="compact" [showTitle]="showTitle" [showSubtitle]="showSubtitle" />
+    </div>
     <app-form-field-article *ngSwitchCase="'doc'" [parameter]="parameter" [displayFilterOptions]="showFilterOptions" [queryOptions]="queryOptions" [smallLabel]="compact" [showTitle]="showTitle" [showSubtitle]="showSubtitle" />
     <app-form-field-boolean *ngSwitchCase="'bit'" [parameter]="parameter" [displayFilterOptions]="showFilterOptions" [queryOptions]="queryOptions" [smallLabel]="compact" [showTitle]="showTitle" [showSubtitle]="showSubtitle" />
     <app-form-field-data-point *ngSwitchCase="'dat'" [parameter]="parameter" [displayFilterOptions]="showFilterOptions" [queryOptions]="queryOptions" [smallLabel]="compact" [clearable]="true" [showTitle]="showTitle" [showSubtitle]="showSubtitle" />

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { DocumentTypeParameter } from 'src/app/models/document/document-types/document-type';
 import { Unit } from 'src/app/models/units/unit';
 import { DocumentTypeService } from 'src/app/services/document/document-type.service';

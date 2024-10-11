@@ -35,6 +35,6 @@
 </div>
 <h2 class="subtitled-title"> {{ document?.name }} </h2>
 <h4 class="subtitle"> {{ document?.typeName }} </h4>
-<div style="margin: 10px" *ngIf="document && document.parameters">
-    <app-presentation-params-container [parameters]="document.parameters" [dialogRef]="dialogRef" />
+<div style="margin: 10px; width: calc(100%-20px);" *ngIf="document && document.parameters">
+    <app-presentation-params-container style="width: 100%;" [parameters]="document.parameters" [dialogRef]="dialogRef" />
 </div>

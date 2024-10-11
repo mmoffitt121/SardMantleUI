@@ -1,2 +1,2 @@
-<app-form-field *ngFor="let param of document?.parameters; index as i" [parameter]="param" [queryOptions]="queryOptions ? queryOptions[0] : undefined" [showFilterOptions]="showFilterOptions && param.typeParameterId != -1" [compact]="compact" />
+<app-form-field *ngFor="let param of document?.parameters; index as i" [parameter]="param" [queryOptions]="queryOptions ? queryOptions[i] : undefined" [showFilterOptions]="showFilterOptions && param.typeParameterId != -1" [compact]="compact" />
 <button mat-button color="primary" class="submit-buttom" *ngIf="showSubmit" (click)="submit.emit()"> {{submitText}} </button>
