@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import { Page, PageCriteria, PageElement } from 'src/app/models/pages/page';
 import { environment } from 'src/environments/environment';
 
@@ -8,7 +9,12 @@ import { environment } from 'src/environments/environment';
 })
 export class PageService {
   public get(data: PageCriteria) {
-    return this.http.get<any>(environment.baseUrl + '/Library/Page/GetPages', { params: data as any });
+    return this.http.get<Page[]>(environment.baseUrl + '/Library/Page/GetPages', { params: data as any }).pipe(map(result => {
+      result.forEach(i => {
+        this.denormalizeObjectTypes(i.root);
+      })
+      return result;
+    }));
   }
 
   public getCount(data: PageCriteria) {
@@ -20,16 +26,28 @@ export class PageService {
   }
 
   public put(data: any) {
+    data.pageData = undefined;
     this.normalizeObjectTypes(data.root);
     data.settings = JSON.stringify(data.settings);
     return this.http.put(environment.baseUrl + '/Library/Page/PutPage', data);
   }
 
   private normalizeObjectTypes(elem: PageElement) {
-    elem.objectType = elem?.objectType?.replace(" ", '');
-    elem.children?.forEach(child => {
-      this.normalizeObjectTypes(child);
-    })
+    if (elem) {
+      elem.objectType = elem?.objectType?.replace(" ", '');
+      elem.children?.forEach(child => {
+        this.normalizeObjectTypes(child);
+      })
+    }
+  }
+
+  private denormalizeObjectTypes(elem: PageElement) {
+    if (elem) {
+      elem.objectType = elem?.objectType?.replace(/([A-Z])/g, ' $1').trim();
+      elem.children?.forEach(child => {
+        this.normalizeObjectTypes(child);
+      })
+    }
   }
 
   public delete(id: string) {

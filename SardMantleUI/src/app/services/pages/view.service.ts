@@ -4,7 +4,7 @@ import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export interface ViewCriteria {
-  ids?: number[] | undefined;
+  ids?: string[] | undefined;
   orderBy?: string | undefined;
   descending?: string | undefined;
   pageNumber?: number | undefined;

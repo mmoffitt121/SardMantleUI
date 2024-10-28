@@ -27,6 +27,10 @@ export class PageSettingsComponent extends DestroyableComponent implements OnIni
     }
   }
 
+  changeElement() {
+
+  }
+
   private setItems() {
     this.items = [];
       this.items.push({

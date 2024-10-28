@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Page } from 'src/app/models/pages/page';
 import { PageService } from './page.service';
 import { BehaviorSubject, take } from 'rxjs';
+import { PageViewElementComponent } from 'src/app/views/pages/pages/page-view/page-view-element/page-view-element.component';
 
 export interface PageObjectType {
   name: string,
@@ -20,7 +21,11 @@ export interface ElementSetting {
   providedIn: 'root'
 })
 export class PageEditorService {
-  public pageObjectTypes = new BehaviorSubject<PageObjectType[]>([]);
+  public pageObjectTypes = new BehaviorSubject<PageObjectType[]>([]); 
+
+  public select(viewElement: PageViewElementComponent) {
+
+  }
 
   constructor(private pageService: PageService) { 
     this.pageService.getPageObjects().pipe(take(1)).subscribe(result => {

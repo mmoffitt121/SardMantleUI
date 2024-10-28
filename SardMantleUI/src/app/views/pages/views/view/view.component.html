@@ -1,0 +1,19 @@
+<app-card-view *ngIf="!editing && view && view?.viewType == 'Card'" [view]="view" />
+<app-list-view *ngIf="!editing && view && view?.viewType == 'List'" [view]="view" />
+<mat-card *ngIf="editing" class="inherited-size">
+    <mat-card style="display: grid; grid-template-columns: auto min-content; padding: 10px; margin: 20px; background-color: var(--lib-primary-accent-color);">
+        <h4>{{view?.name}} (View)</h4>
+        <div style="display: flex; margin-top: 10px;">
+            <button mat-icon-button matTooltip="Edit View" (click)="edit()">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Page Element Settings" (click)="delete()">
+                <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Page Element Settings" (click)="editSettings()">
+                <mat-icon>settings</mat-icon>
+            </button>
+        </div>
+        
+    </mat-card>
+</mat-card>

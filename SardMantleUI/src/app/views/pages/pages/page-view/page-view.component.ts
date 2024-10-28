@@ -8,4 +8,5 @@ import { Page } from 'src/app/models/pages/page';
 })
 export class PageViewComponent {
   @Input() page: Page | undefined;
+  @Input() editing = false;
 }

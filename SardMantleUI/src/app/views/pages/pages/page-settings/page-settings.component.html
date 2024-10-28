@@ -1,2 +1,2 @@
 <app-form [items]="items" *ngIf="items" (change)="change($event)" />
-<app-page-element-settings *ngIf="page.root" [pageElement]="page.root" />
+<app-page-element-settings *ngIf="page.root" [pageElement]="page.root" (change)="changeElement()" />

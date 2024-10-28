@@ -5,6 +5,10 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class UrlService {
+  public navigate(segments: string[]) {
+    this.router.navigate([this.getWorld(), ...segments]);
+  }
+
     public getWorld() {
         let worldLocation = this.router.url.replace("/", "").substring(0, this.router.url.indexOf("/", 1) - 1);
 

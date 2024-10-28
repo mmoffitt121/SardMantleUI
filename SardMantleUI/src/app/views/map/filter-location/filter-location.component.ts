@@ -21,7 +21,7 @@ export class FilterLocationComponent {
 
   public onFilter(event: any) {
     this.query = event ?? "";
-    this.mapService.getLocations({pageNumber: this.pageIndex, pageSize: this.pageSize, query: this.query}).subscribe(data => {
+    this.mapService.getLocations({pageNumber: this.pageIndex + 1, pageSize: this.pageSize, query: this.query}).subscribe(data => {
       this.locations = data;
     })
     this.mapService.getLocationsCount({query: this.query}).subscribe(data => {

@@ -58,7 +58,6 @@ export class PagesComponent extends DestroyableComponent {
           name: result[0].value,
           description: result[1].value,
           path: result[2].value,
-          pageData: undefined
         }
         this.pageService.put(page).subscribe(result => {
           this.errorService.showSnackBar("Page succesfully created.");
@@ -85,6 +84,12 @@ export class PagesComponent extends DestroyableComponent {
 
   public togglePreview() {
     this.preview = !this.preview
+  }
+
+  public save() {
+    this.pageService.put(this.page).subscribe(result => {
+      this.errorService.showSnackBar("Page succesfully saved.");
+    }, error => this.errorService.handle(error))
   }
 
   constructor (

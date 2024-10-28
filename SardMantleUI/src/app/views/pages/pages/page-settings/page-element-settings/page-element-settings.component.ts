@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { takeUntil } from 'rxjs';
 import { PageElement } from 'src/app/models/pages/page';
 import { PageEditorService, PageObjectType } from 'src/app/services/pages/page-editor.service';
@@ -12,6 +12,7 @@ import { DestroyableComponent } from 'src/app/views/shared/util/destroyable/dest
 })
 export class PageElementSettingsComponent extends DestroyableComponent {
   @Input() pageElement: PageElement;
+  @Output() change = new EventEmitter();
 
   public items: FormItem[] | undefined;
 
@@ -21,22 +22,26 @@ export class PageElementSettingsComponent extends DestroyableComponent {
 
   private currentLayout: string;
 
-  change(items: any[]) {
+  onChange(items: any[]) {
     if (items.length) {
       this.pageElement.objectType = items[0].value
       this.settings = {}
       let objType = this.pageOptions.find(po => po.name == items[0].value)
-      for (let i = 1; i < items.length; i++) {
-        let key = objType?.settings[i-1].key ?? "";
-        this.settings[key] = items[i].value;
-      }
 
       if (items[0].value != this.currentLayout) {
         this.currentLayout = items[0].value;
         this.setItems();
+      } else {
+        for (let i = 1; i < items.length; i++) {
+          let key = objType?.settings[i-1].key ?? "";
+          this.settings[key] = items[i].value;
+        }
       }
 
+      this.pageElement.objectSettings = JSON.stringify(this.settings);
+
       this.cdref.detectChanges();
+      this.change.emit();
     }
   }
 
@@ -57,7 +62,7 @@ export class PageElementSettingsComponent extends DestroyableComponent {
       options?.forEach(option => {
         this.items?.push({
           name: option.key,
-          value: option.value,
+          value: this.settings[option.key] ?? option.value,
           required: true,
           options: option.possibleValues?.map(val => ({
             name: val,

@@ -5,7 +5,7 @@
     display: flex;
     flex-wrap: nowrap;
     overflow: auto;
-    width: calc(100% - 20px);
+    max-width: calc(100% - 20px);
     flex-shrink: 0;
 }
 
