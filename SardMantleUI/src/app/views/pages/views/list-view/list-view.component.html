@@ -2,6 +2,9 @@
     <mat-card class="card-view-header">
         <mat-card-content class="card-view-grid">
             <div style="display: flex;">
+                <button mat-icon-button class="topbar-icon-button" (click)="skeletonService.toggleSidebar()" *ngIf="isRoot">
+                    <mat-icon>menu</mat-icon>
+                </button>
                 <button mat-icon-button class="topbar-icon-button" (click)="showSearch = !showSearch" *ngIf="view.settings?.showFilterOptions == 'true'">
                     <mat-icon>search</mat-icon>
                 </button>
@@ -50,7 +53,7 @@
                         </div>
                     </mat-card>
                 </mat-drawer>
-                <mat-drawer-content>
+                <mat-drawer-content style="margin-left: 310px;">
                     <mat-card class="presentation-container" *ngIf="id">
                         <mat-card-content>
                             <app-document-presentation [id]="id" [showLinkToSelf]="true" [showClose]="true" [showClose]="false" [showLinkToSelf]="false" />
@@ -72,7 +75,7 @@
                 style="background-color: #00000000;"
             ></mat-paginator>
             <div class="sort-container">
-                <button mat-button matTooltip="Change View Type" class="sort-by-button" [matMenuTriggerFor]="orderMenu" *ngIf="this.view.searchCriteriaOptions?.userSortParameters?.length! > 1">
+                <button mat-button matTooltip="Order by" class="sort-by-button" [matMenuTriggerFor]="orderMenu" *ngIf="this.view.searchCriteriaOptions?.userSortParameters?.length! > 1">
                     {{view.searchCriteriaOptions?.criteria?.orderByTypeParam?.name ?? "Name"}}
                 </button>
                 <mat-menu #orderMenu="matMenu">

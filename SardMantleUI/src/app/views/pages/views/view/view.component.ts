@@ -16,6 +16,8 @@ export class ViewComponent implements OnChanges {
   @Input() editing = false;
   public settingsObject: any;
 
+  @Input() isRoot = false;
+
   public edit() {
     this.urlService.navigate(['views']);
   }
@@ -44,6 +46,8 @@ export class ViewComponent implements OnChanges {
             this.view = undefined;
           }
         });
+      } else {
+        this.view = undefined;
       }
     }
   }

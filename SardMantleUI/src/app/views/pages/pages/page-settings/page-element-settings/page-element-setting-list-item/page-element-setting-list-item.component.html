@@ -1,0 +1,13 @@
+<mat-card mat-button style="background-color: var(--lib-primary-color);">
+    <mat-card-content style="display: grid; grid-template-columns: auto min-content;">
+        {{settings ? settings['Element Name'] : "Element"}}
+        <div style="display: flex">
+            <button mat-icon-button (click)="editClicked()">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteClicked()">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </mat-card-content>
+</mat-card>

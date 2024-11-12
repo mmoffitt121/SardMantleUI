@@ -1,0 +1,51 @@
+.top-actions-container {
+    padding: 10px;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 100;
+    margin-bottom: 20px;
+    height: 45px;
+}
+
+.top-actions-container-background {
+
+}
+
+.top-actions-container-rectangular {
+    background-color: var(--lib-primary-color);
+    border-left: var(--lib-primary-outline-width) var(--lib-primary-outline-style) var(--lib-primary-outline-color);
+    border-bottom: var(--lib-primary-outline-width) var(--lib-primary-outline-style) var(--lib-primary-outline-color);
+    border-right: var(--lib-primary-outline-width) var(--lib-primary-outline-style) var(--lib-primary-outline-color);
+}
+
+.top-actions-container-rounded { 
+    background-color: var(--lib-primary-color);
+    border-radius: 0 0 30px 30px;
+    border-left: var(--lib-primary-outline-width) var(--lib-primary-outline-style) var(--lib-primary-outline-color);
+    border-bottom: var(--lib-primary-outline-width) var(--lib-primary-outline-style) var(--lib-primary-outline-color);
+    border-right: var(--lib-primary-outline-width) var(--lib-primary-outline-style) var(--lib-primary-outline-color);
+}
+
+.container-justify-left {
+    display: grid;
+    grid-template-columns: min-content auto;
+}
+
+.container-justify-center {
+    display: grid;
+    grid-template-columns: 50px auto 50px;
+}
+
+.container-justify-right {
+    display: grid;
+    grid-template-columns: min-content auto 10px;
+}
+
+.justify-center {
+    text-align: center;
+}
+
+.justify-right {
+    text-align: right;
+}

@@ -53,11 +53,8 @@ export class EditDataPointComponent implements OnChanges, OnInit {
   }
 
   public setDataPointId(valueId: number) {
-    this.documentService.getDocument(valueId).subscribe(data => {
-      if (data == null) {
-        return;
-      }
-      this.selectedItem = data;
+    this.documentService.getDocuments({id: valueId}).subscribe(data => {
+      this.selectedItem = data.results[0];
       this.model = this.selectedItem?.id;
       this.modelChange.emit(this.model);
       this.formControl.setValue(this.selectedItem?.name);
@@ -91,7 +88,6 @@ export class EditDataPointComponent implements OnChanges, OnInit {
           this.handleFilterChange();
         })
       }
-      
     }
   }
 
@@ -160,6 +156,8 @@ export class EditDataPointComponent implements OnChanges, OnInit {
     }
     if (this.items && this.items.length && this.model != null) {
       this.handleSelectionChange({option: {value: this.model}});
+    } else if (this.model != null) {
+      this.setDataPointId(this.model);
     }
   }
 

@@ -31,14 +31,8 @@
                 <mat-icon *ngIf="preview">visibility</mat-icon>
                 <mat-icon *ngIf="!preview">visibility_off</mat-icon>
             </button>
-            <button mat-icon-button matTooltip="Layout" matTooltipPosition="right" (click)="toggleSidePanel(LAYOUT)" *ngIf="page">
-                <mat-icon>dashboard</mat-icon>
-            </button>
-            <button mat-icon-button matTooltip="Views" matTooltipPosition="right" (click)="toggleSidePanel(VIEWS)" *ngIf="page">
-                <mat-icon>table_chart</mat-icon>
-            </button>
-            <button mat-icon-button matTooltip="Appearance" matTooltipPosition="right" (click)="toggleSidePanel(APPEARANCE)" *ngIf="page">
-                <mat-icon>brush</mat-icon>
+            <button mat-icon-button matTooltip="Header" matTooltipPosition="right" (click)="toggleSidePanel(HEADER)" *ngIf="page">
+                <mat-icon>title</mat-icon>
             </button>
             <button mat-icon-button matTooltip="Settings" matTooltipPosition="right" (click)="toggleSidePanel(SETTINGS)" *ngIf="page">
                 <mat-icon>settings</mat-icon>
@@ -58,6 +52,10 @@
                     <h3>{{pageMode.value}}</h3>
                     <app-page-list *ngSwitchCase="SELECT_PAGE" (select)="loadPage($event)" />
                     <app-page-settings *ngSwitchCase="SETTINGS" [page]="page!" />
+                    <div *ngSwitchCase="ELEMENT">
+                        <app-page-element-settings *ngIf="selectedElement" />
+                    </div>
+                    <app-page-header-settings *ngSwitchCase="HEADER" [page]="page!" />
                 </mat-drawer>
                 <mat-drawer-content style="margin: 0; padding: 0; border-style: solid; border-width: 8px; height: calc(100% - 16px); max-height: calc(100% - 10px);">
                     <app-page-view [page]="page" *ngIf="page" class="inherited-size" [editing]="!preview" />

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ErrorService } from 'src/app/services/error.service';
 import { LoginService } from 'src/app/services/login/login.service';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { FormDialogComponent } from '../../shared/form-dialog/form-dialog.component';
 
 @Component({
   selector: 'app-user-administration',
@@ -69,6 +70,35 @@ export class UserAdministrationComponent implements OnInit {
       this.errorService.handle(error);
       this.saving = false;
     })
+  }
+
+  public resetPassword(user: any) {
+    console.log(user)
+    const dialogRef = this.dialog.open(FormDialogComponent, {
+      width: '500px',
+      data: { 
+        title: `Reset Password for user ${user.userName}`, 
+        items: [{
+          name: "Password",
+          value: "",
+          required: true,
+        }]
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.saving = true;
+      if (result) {
+        this.loginService.resetPassword({userName: user.userName, password: result[0].value}).subscribe(result => {
+          this.errorService.showSnackBar("Password changed.");
+          this.loadUsers();
+          this.saving = false;
+        }, error => {
+          this.errorService.handle(error);
+          this.saving = false;
+        })
+      }
+    });
   }
 
   public loadUsers() {

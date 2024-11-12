@@ -1,0 +1,8 @@
+<div [class]="topbarClasses">
+    <button mat-icon-button (click)="skeletonService.toggleSidebar()" style="margin-top: 5px; margin-right: 15px;">
+        <mat-icon>
+            menu
+        </mat-icon>
+    </button>
+    <h2 style="margin-top: 10px; margin-bottom: 0px;" [class]="headerTextClasses" *ngIf="showTitle">{{page.name}}</h2>
+</div>

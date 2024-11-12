@@ -42,6 +42,9 @@ export class LoginService implements OnDestroy {
   public deleteUser(username: string) {
     return this.http.delete<any>(environment.baseUrl + '/Library/Account/DeleteUser', {params: {username}})
   }
+  public resetPassword(data: any) {
+    return this.http.post<any>(environment.baseUrl + '/Library/Account/ResetPassword', data);
+  }
   public assignRole(username: string, roleName: string) {
     let params = new HttpParams().set('username', username).set('roleName', roleName);
     return this.http.post(environment.baseUrl + '/Library/Role/AssignRole', {username, roleName})

@@ -1,0 +1,14 @@
+<div [class]="passthroughSettings?.bypassMargins ? 'fill-absolute' : 'fill-absolute-margins'">
+    <div class="fill-absolute directory-left">
+        <mat-card class="fill-absolute" style="position: absolute">
+            <mat-card-content style="overflow: auto;">
+                <button mat-button *ngFor="let item of element?.children" class="directory-item" (click)="select(item)">
+                    {{getElementName(item)}}
+                </button>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="fill-absolute directory-right">
+        <app-page-view-element *ngIf="selectedItem" [element]="selectedItem" [passthroughSettings]="{bypassMargins: true}" /> 
+    </div>
+</div>

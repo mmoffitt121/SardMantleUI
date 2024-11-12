@@ -9,6 +9,7 @@ import { DocumentTypeService } from 'src/app/services/document/document-type.ser
 import { DocumentService } from 'src/app/services/document/document.service';
 import { ViewQueryService } from 'src/app/services/document/view-query.service';
 import { ErrorService } from 'src/app/services/error.service';
+import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
 import { UrlService } from 'src/app/services/url/url.service';
 import { DocumentPopupComponent } from 'src/app/views/shared/document-components/document-popup/document-popup.component';
 import { DestroyableComponent } from 'src/app/views/shared/util/destroyable/destroyable.component';
@@ -25,6 +26,7 @@ export class GenericViewComponent extends DestroyableComponent implements OnInit
   public title: string;
 
   @Input() previewMode: boolean = true;
+  @Input() isRoot: boolean = false;
 
   public pageLength = 0;
   public pageIndex = 0;
@@ -159,6 +161,7 @@ export class GenericViewComponent extends DestroyableComponent implements OnInit
     private router: Router, 
     private urlService: UrlService,
     private viewQueryService: ViewQueryService,
+    public skeletonService: SkeletonService
   ) { super(); }
 
   public ngOnInit(): void {

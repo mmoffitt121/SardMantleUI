@@ -235,6 +235,14 @@ import { PresentationParamImageComponent } from './views/shared/document-compone
 import { ViewComponent } from './views/pages/views/view/view.component';
 import { PageViewElementTabgroupComponent } from './views/pages/pages/page-view/page-view-element/page-view-element-tabgroup/page-view-element-tabgroup.component';
 import { PageViewElementEditorComponent } from './views/pages/pages/page-view/page-view-element/page-view-element-editor/page-view-element-editor.component';
+import { PageElementSettingListItemComponent } from './views/pages/pages/page-settings/page-element-settings/page-element-setting-list-item/page-element-setting-list-item.component';
+import { PageHeaderSettingsComponent } from './views/pages/pages/page-settings/page-header-settings/page-header-settings.component';
+import { PageViewTopbarComponent } from './views/pages/pages/page-view/page-view-topbar/page-view-topbar.component';
+import { PageViewElementSplitcontainerComponent } from './views/pages/pages/page-view/page-view-element/page-view-element-splitcontainer/page-view-element-splitcontainer.component';
+import { PageViewElementDocumentComponent } from './views/pages/pages/page-view/page-view-element/page-view-element-document/page-view-element-document.component';
+import { PageViewElementDirectoryComponent } from './views/pages/pages/page-view/page-view-element/page-view-element-directory/page-view-element-directory.component';
+import { PageViewElementBaseComponent } from './views/pages/pages/page-view/page-view-element/page-view-element-base/page-view-element-base.component';
+import { MapViewComponent } from './views/pages/views/map-view/map-view.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -432,6 +440,14 @@ export function tokenGetter() {
     ViewComponent,
     PageViewElementTabgroupComponent,
     PageViewElementEditorComponent,
+    PageElementSettingListItemComponent,
+    PageHeaderSettingsComponent,
+    PageViewTopbarComponent,
+    PageViewElementSplitcontainerComponent,
+    PageViewElementDocumentComponent,
+    PageViewElementDirectoryComponent,
+    PageViewElementBaseComponent,
+    MapViewComponent,
     ],
   imports: [
     BrowserModule,

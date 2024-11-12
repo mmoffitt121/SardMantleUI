@@ -1,8 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { take } from 'rxjs';
+import { take, takeUntil } from 'rxjs';
 import { Page, PageCriteria } from 'src/app/models/pages/page';
 import { ErrorService } from 'src/app/services/error.service';
+import { PageEditorService } from 'src/app/services/pages/page-editor.service';
 import { PageService } from 'src/app/services/pages/page.service';
+import { DestroyableComponent } from 'src/app/views/shared/util/destroyable/destroyable.component';
 import { PaginatableComponent } from 'src/app/views/shared/util/paginatable/paginatable.component';
 
 @Component({
@@ -10,12 +12,18 @@ import { PaginatableComponent } from 'src/app/views/shared/util/paginatable/pagi
   templateUrl: './page-list.component.html',
   styleUrls: ['./page-list.component.scss']
 })
-export class PageListComponent extends PaginatableComponent implements OnInit {
+export class PageListComponent extends DestroyableComponent implements OnInit {
   public pages: Page[];
   @Output() select = new EventEmitter();
 
-  public override onPageChange(event: any): void {
-    super.onPageChange(event);
+  public pageLength = 0;
+  public pageIndex = 0;
+  public pageSize = 50;
+  public pageSizeOptions: [4, 7, 9];
+
+  public onPageChange(event: any) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
     this.loadPages();
   }
 
@@ -38,11 +46,14 @@ export class PageListComponent extends PaginatableComponent implements OnInit {
 
   constructor(
     private pageService: PageService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private service: PageEditorService
   ) { super(); }
 
   public ngOnInit(): void {
     this.pageSize = 25;
     this.loadPages();
+
+    this.service.saved.pipe(takeUntil(this.destroyed$)).subscribe(saved => this.loadPages());
   }
 }

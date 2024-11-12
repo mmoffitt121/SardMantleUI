@@ -56,6 +56,7 @@
     <div class="view-container">
         <app-card-view *ngIf="view.viewType == 'Card' && displayMode == 'View'" [view]="view" />
         <app-list-view *ngIf="view.viewType == 'List' && displayMode == 'View'" [view]="view" />
+        <app-map-view *ngIf="view.viewType == 'Map' && displayMode == 'View'" [view]="view" class="fill-absolute" style="top: 65px; bottom: 13px; right: 10px; left: 300px"  />
         <app-edit-settings 
             *ngIf="displayMode == 'Settings'"
             [settings]="settings" 

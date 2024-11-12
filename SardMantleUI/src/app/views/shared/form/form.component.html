@@ -7,6 +7,13 @@
     <div *ngFor="let item of items">
         <app-edit-string [(model)]="item.value" [parameterName]="item.name" [parameterSummary]="item.description" (modelChange)="onChange()" *ngIf="!item.type && !item.options?.length" />
         <app-edit-selection (modelChange)="onChange()" *ngIf="!item.type && item.options?.length" [title]="item.name" [description]="item.description" [items]="item.options" keyIdentifier="value" nameIdentifier="name" [model]="item" />
+        <app-edit-data-point 
+            *ngIf="item.type == 'document'"
+            [automaticallyLoadAllDataPoints]="true" 
+            [(model)]="item.intValue"
+            (selected)="setIntValue(item, $event.id)"
+            [clear]="false"
+        />
         <mat-divider *ngIf="item.type == 'divider'" style="margin-bottom: 10px;" />
     </div>
 </div>

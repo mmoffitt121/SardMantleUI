@@ -1,10 +1,7 @@
 <div class="fill-absolute">
-    <mat-tab-group class="fill-absolute" *ngIf="element?.children?.length">
-        <mat-tab *ngFor="let item of element?.children" [label]="item.objectType">
+    <mat-tab-group *ngIf="element?.children?.length" style="height: 100%;">
+        <mat-tab *ngFor="let item of element?.children" [label]="getElementName(item)" style="height: 100%;">
             <app-page-view-element [element]="item" />    
         </mat-tab>
     </mat-tab-group>
-    <div *ngIf="!element?.children?.length" style="padding: 20px;">
-        {{settingsObject["Element Name"]}}
-    </div>
 </div>

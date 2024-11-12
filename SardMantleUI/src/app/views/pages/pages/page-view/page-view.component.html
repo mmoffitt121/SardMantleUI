@@ -1,1 +1,7 @@
-<app-page-view-element [element]="page?.root" class="inherited-size" [editing]="editing" />
+<div [style]="topbarStyle">
+    <app-page-view-topbar *ngIf="page" [page]="page" (showTopbar)="showTopbar($event)" />
+</div>
+
+<div class="fill-absolute" [style]="elementStyle">
+    <app-page-view-element [element]="page?.root" class="inherited-size" [isRoot]="true" />
+</div>

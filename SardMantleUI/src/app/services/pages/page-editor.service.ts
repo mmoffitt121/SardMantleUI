@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Page } from 'src/app/models/pages/page';
+import { Page, PageElement } from 'src/app/models/pages/page';
 import { PageService } from './page.service';
-import { BehaviorSubject, take } from 'rxjs';
+import { BehaviorSubject, Subject, take } from 'rxjs';
 import { PageViewElementComponent } from 'src/app/views/pages/pages/page-view/page-view-element/page-view-element.component';
 
 export interface PageObjectType {
@@ -9,12 +9,17 @@ export interface PageObjectType {
   settings: ElementSetting[]
 }
 
+export interface NameIdPair {
+  id: string;
+  name: string;
+}
+
 export interface ElementSetting {
   type: number,
   key: string,
   value: string,
   configurable: boolean,
-  possibleValues: string[] | undefined
+  possibleValues: NameIdPair[] | undefined
 }
 
 @Injectable({
@@ -23,8 +28,25 @@ export interface ElementSetting {
 export class PageEditorService {
   public pageObjectTypes = new BehaviorSubject<PageObjectType[]>([]); 
 
-  public select(viewElement: PageViewElementComponent) {
+  public selected = new BehaviorSubject<PageElement | undefined>(undefined);
+  public editing = new BehaviorSubject<boolean>(false);
+  public styleUpdate = new Subject<void>();
+  public saved = new Subject<void>();
 
+  public select(viewElement: PageElement | undefined) {
+    this.selected.next(viewElement);
+  }
+
+  public setEditing(editing: boolean) {
+    this.editing.next(editing);
+  }
+
+  public updateStyle() {
+    this.styleUpdate.next();
+  }
+
+  public save() {
+    this.saved.next();
   }
 
   constructor(private pageService: PageService) { 

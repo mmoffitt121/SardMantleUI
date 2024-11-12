@@ -37,7 +37,7 @@ export class EditSelectionComponent implements OnInit {
 
   public handleSelectionChange(selected: any) {
     if (this.items === undefined) return;
-    this.formControl.setValue(selected);
+    this.formControl.setValue(this.items.filter(i => i.value == selected)[0]?.name);
     this.handleFilterChange();
     this.model[this.keyIdentifier] = selected;
     this.modelChange.emit(this.model);

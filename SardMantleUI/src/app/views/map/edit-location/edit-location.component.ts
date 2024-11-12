@@ -13,6 +13,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { UploadFileComponent } from '../../shared/document-components/file/upload-file/upload-file.component';
 import { ImageService } from 'src/app/services/image/image.service';
 import { ImagePickerComponent } from '../../storage/image-picker/image-picker.component';
+import { WorldService } from 'src/app/services/world/world.service';
+import { UrlService } from 'src/app/services/url/url.service';
 
 @Component({
   selector: 'app-edit-location',
@@ -21,6 +23,9 @@ import { ImagePickerComponent } from '../../storage/image-picker/image-picker.co
   providers: [ MapService ]
 })
 export class EditLocationComponent implements OnInit {
+  private SAVED_LOCATION_TYPE = 'SavedLocationType';
+  private SAVED_LAYER = 'SavedLayer'
+
   @Input() mapId: number;
 
   public selectedMapObject = {} as Location;
@@ -237,7 +242,8 @@ export class EditLocationComponent implements OnInit {
     private errorHandler: ErrorService,
     private mapLayerService: MapLayerService,
     private dialog: MatDialog,
-    private imageService: ImageService) { }
+    private imageService: ImageService,
+    private urlService: UrlService) { }
 
   ngOnInit(): void {
     this.selectedMapObject = { name: "" } as Location;
@@ -250,7 +256,8 @@ export class EditLocationComponent implements OnInit {
         },
         error => {
           console.error(error);
-        })
+        });
+        //localStorage.getItem(`${this.urlService.getWorld()}-${this.SAVED_LOCATION_TYPE}`)
       },
       error => {
         console.error(error);

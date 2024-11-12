@@ -4,6 +4,7 @@ export interface FormItem {
   name: string,
   description: string,
   value: string,
+  intValue: number
   required: boolean,
   options: FormItemOption[],
   type: string | undefined
@@ -30,6 +31,9 @@ export class FormComponent {
   public onChange() {
     let valid = true
     this.items.forEach(item => {
+      if (Number(item.value)) {
+        item.intValue = Number(item.value)
+      }
       if (item.required && (!item.value || item.value == "")) {
         valid = false;
         return;
@@ -41,6 +45,11 @@ export class FormComponent {
     if (valid) {
       this.change.emit(this.items);
     }
+  }
+
+  public setIntValue(item: FormItem, value: number) {
+    item.value = String(value);
+    this.onChange();
   }
 
   constructor() { }

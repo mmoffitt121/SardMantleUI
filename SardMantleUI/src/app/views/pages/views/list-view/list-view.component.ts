@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GenericViewComponent } from '../generic-view/generic-view.component';
+import { MatDrawer } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-list-view',

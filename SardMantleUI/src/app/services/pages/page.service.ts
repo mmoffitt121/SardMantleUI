@@ -44,8 +44,11 @@ export class PageService {
   private denormalizeObjectTypes(elem: PageElement) {
     if (elem) {
       elem.objectType = elem?.objectType?.replace(/([A-Z])/g, ' $1').trim();
+      if (!elem.children) {
+        elem.children = [];
+      }
       elem.children?.forEach(child => {
-        this.normalizeObjectTypes(child);
+        this.denormalizeObjectTypes(child);
       })
     }
   }

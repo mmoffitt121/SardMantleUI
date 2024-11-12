@@ -11,85 +11,87 @@
         <span>{{opt.name}}</span>
     </button>
 </mat-menu>
-<div *ngFor="let param of parameters; index as i">
-    <div [ngSwitch]="param.typeParameterTypeValue" class="form-field">
-        <div *ngSwitchDefault >
-            <app-form-field-basic 
-                *ngIf="!param.typeParameterSubType"
+<div cdkDropList (cdkDropListDropped)="drop($event)">
+    <div *ngFor="let param of parameters; index as i" cdkDrag>
+        <div [ngSwitch]="param.typeParameterTypeValue" class="form-field">
+            <div *ngSwitchDefault >
+                <app-form-field-basic 
+                    *ngIf="!param.typeParameterSubType"
+                    [parameter]="param" 
+                    [displayFilterOptions]="showFilterOptions" 
+                    [queryOptions]="queryOptions" 
+                    [smallLabel]="false" 
+                    [showTitle]="false" 
+                    [showSubtitle]="false" 
+                    (valueChanged)="onValueChange($event, i)" 
+                />
+                <app-form-field-image
+                    *ngIf="param.typeParameterSubType == 'img'"
+                    [parameter]="param" 
+                    [displayFilterOptions]="showFilterOptions" 
+                    [queryOptions]="queryOptions" 
+                    [smallLabel]="false" 
+                    [showTitle]="false" 
+                    [showSubtitle]="false" 
+                    (valueChanged)="onValueChange($event, i)" 
+                />
+            </div>
+            <app-form-field-article 
+                *ngSwitchCase="'doc'" 
                 [parameter]="param" 
                 [displayFilterOptions]="showFilterOptions" 
                 [queryOptions]="queryOptions" 
                 [smallLabel]="false" 
                 [showTitle]="false" 
                 [showSubtitle]="false" 
-                (valueChanged)="onValueChange($event, i)" 
+                (valueChanged)="onValueChange($event, i)"  
             />
-            <app-form-field-image
-                *ngIf="param.typeParameterSubType == 'img'"
+            <app-form-field-boolean 
+                *ngSwitchCase="'bit'" 
                 [parameter]="param" 
                 [displayFilterOptions]="showFilterOptions" 
                 [queryOptions]="queryOptions" 
                 [smallLabel]="false" 
                 [showTitle]="false" 
                 [showSubtitle]="false" 
-                (valueChanged)="onValueChange($event, i)" 
+                (valueChanged)="onValueChange($event, i)"  
             />
-        </div>
-        <app-form-field-article 
-            *ngSwitchCase="'doc'" 
-            [parameter]="param" 
-            [displayFilterOptions]="showFilterOptions" 
-            [queryOptions]="queryOptions" 
-            [smallLabel]="false" 
-            [showTitle]="false" 
-            [showSubtitle]="false" 
-            (valueChanged)="onValueChange($event, i)"  
-        />
-        <app-form-field-boolean 
-            *ngSwitchCase="'bit'" 
-            [parameter]="param" 
-            [displayFilterOptions]="showFilterOptions" 
-            [queryOptions]="queryOptions" 
-            [smallLabel]="false" 
-            [showTitle]="false" 
-            [showSubtitle]="false" 
-            (valueChanged)="onValueChange($event, i)"  
-        />
-        <app-form-field-data-point 
-            *ngSwitchCase="'dat'" 
-            [parameter]="param" 
-            [displayFilterOptions]="showFilterOptions" 
-            [queryOptions]="queryOptions" 
-            [smallLabel]="false" 
-            [clearable]="false" 
-            [showTitle]="false" 
-            [showSubtitle]="false" 
-            (valueChanged)="onValueChange($event, i)"  
-        />
-        <app-form-field-date 
-            *ngSwitchCase="'tim'" 
-            [parameter]="param" 
-            [displayFilterOptions]="showFilterOptions" 
-            [queryOptions]="queryOptions" 
-            [smallLabel]="false" 
-            [showTitle]="false" 
-            [showSubtitle]="false" 
-            (valueChanged)="onValueChange($event, i)"  
-        />
-        <app-form-field-unit 
-            *ngSwitchCase="'uni'" 
-            [parameter]="param" 
-            [displayFilterOptions]="showFilterOptions" 
-            [queryOptions]="queryOptions" 
-            [smallLabel]="false" 
-            [showTitle]="false" 
-            [showSubtitle]="false" 
-            (valueChanged)="onValueChange($event, i)"  
-        />
-        <div>
-            <button mat-icon-button (click)="remove(param)">
-                <mat-icon>close</mat-icon>
-            </button>
+            <app-form-field-data-point 
+                *ngSwitchCase="'dat'" 
+                [parameter]="param" 
+                [displayFilterOptions]="showFilterOptions" 
+                [queryOptions]="queryOptions" 
+                [smallLabel]="false" 
+                [clearable]="false" 
+                [showTitle]="false" 
+                [showSubtitle]="false" 
+                (valueChanged)="onValueChange($event, i)"  
+            />
+            <app-form-field-date 
+                *ngSwitchCase="'tim'" 
+                [parameter]="param" 
+                [displayFilterOptions]="showFilterOptions" 
+                [queryOptions]="queryOptions" 
+                [smallLabel]="false" 
+                [showTitle]="false" 
+                [showSubtitle]="false" 
+                (valueChanged)="onValueChange($event, i)"  
+            />
+            <app-form-field-unit 
+                *ngSwitchCase="'uni'" 
+                [parameter]="param" 
+                [displayFilterOptions]="showFilterOptions" 
+                [queryOptions]="queryOptions" 
+                [smallLabel]="false" 
+                [showTitle]="false" 
+                [showSubtitle]="false" 
+                (valueChanged)="onValueChange($event, i)"  
+            />
+            <div>
+                <button mat-icon-button (click)="remove(param)">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
         </div>
     </div>
 </div>

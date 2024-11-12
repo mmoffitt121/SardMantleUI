@@ -1,0 +1,29 @@
+.edit-selection-tree-container {
+    height: 100%;
+    display: grid;
+    grid-template-rows: 50px calc(100% - 100px) 50px;
+  }
+  
+  .tree-container {
+    padding: 10px;
+    overflow: auto;
+  }
+  
+  .selection-tree {
+    background-color: var(--lib-primary-color);
+  }
+  
+  .selection-tree-invisible {
+    display: none;
+  }
+  
+  .selection-tree ul,
+  .selection-tree li {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+  }
+  
+  .selection-tree .mat-nested-tree-node div[role=group] {
+    padding-left: 20px;
+  }

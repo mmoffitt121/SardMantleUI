@@ -34,7 +34,7 @@ export class MapSelectComponent {
     this.mapService.getMapCount({ query: this.query }).subscribe(data => {
       this.length = data;
     });
-    this.mapService.getMaps({ pageNumber: this.pageIndex, pageSize: this.pageSize, query: this.query }).subscribe(data => {
+    this.mapService.getMaps({ pageNumber: this.pageIndex + 1, pageSize: this.pageSize, query: this.query }).subscribe(data => {
       this.maps = data;
       this.loading = false;
     },

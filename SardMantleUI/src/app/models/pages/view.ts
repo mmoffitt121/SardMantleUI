@@ -65,6 +65,7 @@ export interface ParameterSearchOptions {
 }
 
 export const ViewTypes = [
+    "Card",
     "List",
-    "Card"
+    "Map",
 ]

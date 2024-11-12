@@ -1,3 +1,4 @@
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { takeUntil } from 'rxjs';
 import { PageElement } from 'src/app/models/pages/page';
@@ -11,7 +12,7 @@ import { DestroyableComponent } from 'src/app/views/shared/util/destroyable/dest
   styleUrls: ['./page-element-settings.component.scss']
 })
 export class PageElementSettingsComponent extends DestroyableComponent {
-  @Input() pageElement: PageElement;
+  public pageElement: PageElement;
   @Output() change = new EventEmitter();
 
   public items: FormItem[] | undefined;
@@ -47,29 +48,53 @@ export class PageElementSettingsComponent extends DestroyableComponent {
 
   private setItems() {
     this.items = [];
-      this.settings = this.pageElement.objectSettings ? JSON.parse(this.pageElement.objectSettings) : {};
 
-      const layoutOptions = this.pageOptions.map(o => ({name: o.name, value: o.name}));
-      const value = this.pageElement.objectType?.toString() ?? "";
-      this.items.push({
-        name: "Layout",
-        value: value,
-        required: true,
-        options: layoutOptions,
-      } as FormItem);
+    if (!this.pageElement) {
+      return;
+    }
 
-      let options = this.pageOptions?.find(po => po.name == this.pageElement.objectType)?.settings
-      options?.forEach(option => {
-        this.items?.push({
-          name: option.key,
-          value: this.settings[option.key] ?? option.value,
-          required: true,
-          options: option.possibleValues?.map(val => ({
-            name: val,
-            value: val,
-          })) ?? []
-        } as FormItem)
-      });
+    this.settings = this.pageElement.objectSettings ? JSON.parse(this.pageElement.objectSettings) : {};
+
+    const layoutOptions = this.pageOptions.map(o => ({name: o.name, value: o.name}));
+    const value = this.pageElement.objectType?.toString() ?? "";
+    this.items.push({
+      name: "Layout",
+      value: value,
+      options: layoutOptions,
+    } as FormItem);
+
+    let options = this.pageOptions?.find(po => po.name == this.pageElement.objectType)?.settings
+    console.log(options, this.settings)
+    options?.forEach(option => {
+      this.items?.push({
+        name: option.key,
+        value: this.settings[option.key] ?? option.value,
+        intValue: Number(this.settings[option.key] ?? option.value),
+        type: (option.type == 101 ? 'document' : undefined),
+        options: option.possibleValues?.map(val => ({
+          name: val.name,
+          value: val.id,
+        })) ?? []
+      } as FormItem)
+    });
+
+    console.log(this.items)
+  }
+
+  public add() {
+    this.pageElement.children.push({
+      objectType: "View",
+      objectSettings: "{\"Element Name\":\"View\",\"View\":\"\"}",
+      children: [],
+    })
+  }
+
+  public delete(element: PageElement) {
+    this.pageElement.children.splice(this.pageElement.children.indexOf(element), 1);
+  }
+
+  drop(event: any) {
+    moveItemInArray(this.pageElement.children, event.previousIndex, event.currentIndex);
   }
 
   ngOnInit(): void {
@@ -77,6 +102,13 @@ export class PageElementSettingsComponent extends DestroyableComponent {
       this.pageOptions = pageOptions;
       this.setItems();
     });
+
+    this.pageEditorService.selected.pipe(takeUntil(this.destroyed$)).subscribe(selected => {
+      if (selected) {
+        this.pageElement = selected;
+        this.setItems();
+      }
+    })
   }
 
   constructor(private pageEditorService: PageEditorService, private cdref: ChangeDetectorRef) {

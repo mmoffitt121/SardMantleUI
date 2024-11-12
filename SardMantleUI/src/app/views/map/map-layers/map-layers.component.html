@@ -17,7 +17,6 @@
             <button mat-icon-button matTooltip="Edit Layer" class="carded-button" (click)="handleEdit(layer)" requireRole [role]="'Library.Map'">
                 <mat-icon> edit </mat-icon>
             </button>
-            <div  *ngIf="!loginService.userHasAnyOfRoles(['Administrator', 'Editor'])"></div>
             <button mat-icon-button (click)="onCheck(layer)" class="carded-button">
                 <mat-icon *ngIf="layer.selected"> check_circle </mat-icon>
                 <mat-icon *ngIf="!layer.selected"> radio_button_unchecked </mat-icon>
@@ -41,7 +40,6 @@
                 <img class="card-image" [src]="layer.iconURL | image | async" *ngIf="layer.iconURL" />
                 <p class="label-over"> {{ layer.name | valueShorten: 25:1 }} </p>
             </div>
-            <div *ngIf="!loginService.userHasAnyOfRoles(['Administrator', 'Editor'])"></div>
             <button mat-icon-button matTooltip="Edit Layer" class="carded-button" (click)="handleEdit(layer)" requireRole [role]="'Library.Map'">
                 <mat-icon> edit </mat-icon>
             </button>
@@ -63,7 +61,6 @@
             <button mat-icon-button matTooltip="Edit Layer" class="carded-button" (click)="handleEdit(baseLayer)" requireRole [role]="'Library.Map'">
                 <mat-icon> edit </mat-icon>
             </button>
-            <div  *ngIf="!loginService.userHasAnyOfRoles(['Administrator', 'Editor'])"></div>
             <button mat-icon-button class="carded-button" disabled>
                 <mat-icon> check_circle </mat-icon>
             </button>

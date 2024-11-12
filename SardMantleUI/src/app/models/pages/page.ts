@@ -4,6 +4,7 @@ export interface Page {
     description: string;
     path: string;
     root: PageElement;
+    headerSettings: string;
 }
 
 export interface PageElement {
@@ -19,4 +20,5 @@ export interface PageCriteria {
     descending: boolean | undefined;
     pageNumber: number | undefined;
     pageSize: number | undefined;
+    path: string | undefined;
 }

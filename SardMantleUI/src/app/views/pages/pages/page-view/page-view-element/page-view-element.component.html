@@ -1,17 +1,13 @@
-<div class="fill-absolute" [style]="editing ? 'display: grid; grid-template-rows: 50px auto; border-style: dashed; border-width: 3px; color: ' + (selected ? 'var(--lib-submit-text-accent-color)' : 'var(--lib-text-color)') : ''">
+<div class="fill-absolute" [style]="editing ? 'display: grid; grid-template-rows: 50px auto; border-style: dashed; border-width: 3px; margin: 10px; color: ' + (selected ? 'var(--lib-submit-text-accent-color)' : 'var(--lib-text-color)') : ''">
     <div *ngIf="editing" style="display: grid; grid-template-columns: auto min-content; padding: 10px; cursor: pointer; color: var(--lib-text-color)" (click)="select()">
-        <h4 style="margin-top: 10px;">settingsObject["Element Name"]</h4>
-        <div style="display: flex; margin-top: 0px;">
-            <button mat-icon-button matTooltip="Page Element Settings" (click)="delete()">
-                <mat-icon>delete</mat-icon>
-            </button>
-        </div>
+        <h4 style="margin-top: 10px;">{{settings ? settings["Element Name"] : "Element"}}</h4>
     </div>
-    <div [ngSwitch]="element?.objectType" class="fill-absolute" [style]="editing ? 'top: 50px; color: var(--lib-text-color)' : 'color: var(--lib-text-color)'">
-        <app-page-view-element *ngSwitchCase="'Root'" class="inherited-size"></app-page-view-element>
-        <app-view *ngSwitchCase="'View'" class="inherited-size" [settings]="element?.objectSettings" [editing]="editing" />
-        <div *ngSwitchCase="'Grid'" class="inherited-size"></div>
-        <div *ngSwitchCase="'Split Container'" class="inherited-size"></div>
-        <app-page-view-element-tabgroup *ngSwitchCase="'Tab Group'" class="inherited-size" [element]="element" [settings]="element?.objectSettings" [editing]="editing" />
+    <div [ngSwitch]="element?.objectType" [class]="'fill-absolute'" [style]="editing ? 'top: 50px; color: var(--lib-text-color)' : 'color: var(--lib-text-color)'">
+        <app-page-view-element *ngSwitchCase="'Root'" class="inherited-size" [passthroughSettings]="passthroughSettings"></app-page-view-element>
+        <app-view *ngSwitchCase="'View'" class="inherited-size" [settings]="element?.objectSettings" [editing]="editing" [isRoot]="isRoot" />
+        <app-page-view-element-splitcontainer *ngSwitchCase="'Split Container'" [element]="element" [settings]="element?.objectSettings" class="inherited-size" [passthroughSettings]="passthroughSettings"></app-page-view-element-splitcontainer>
+        <app-page-view-element-tabgroup *ngSwitchCase="'Tab Group'" class="inherited-size" [element]="element" [settings]="element?.objectSettings" [editing]="editing" [passthroughSettings]="passthroughSettings" />
+        <app-page-view-element-document *ngSwitchCase="'Document'" class="inherited-size" [element]="element" [settings]="element?.objectSettings" [passthroughSettings]="passthroughSettings" />
+        <app-page-view-element-directory *ngSwitchCase="'Directory'" class="inherited-size" [element]="element" [settings]="element?.objectSettings" [passthroughSettings]="passthroughSettings" />
     </div>
 </div>

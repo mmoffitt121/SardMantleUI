@@ -1,0 +1,4 @@
+<div class="fill-absolute">
+    <app-page-view-element *ngIf="element && element.children && element.children[0]" [element]="element.children[0]" [class]="'fill-absolute hl-margined ' + (settingsObject && settingsObject['Orientation'] == 'Horizontal' ? 'horizontal-left' : 'vertical-top')" />  
+    <app-page-view-element *ngIf="element && element.children && element.children[1]" [element]="element.children[1]" [class]="'fill-absolute hl-margined ' + (settingsObject && settingsObject['Orientation'] == 'Horizontal' ? 'horizontal-right' : 'vertical-bottom')" />  
+</div>

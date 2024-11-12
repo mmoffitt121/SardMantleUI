@@ -1,0 +1,22 @@
+.hl-margined {
+    top: 10px;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+}
+
+.horizontal-left {
+    bottom: calc(50% + 5px);
+}
+
+.horizontal-right {
+    top: calc(50% + 5px);
+}
+
+.vertical-top {
+    right: calc(50% + 5px);
+}
+
+.vertical-bottom {
+    left: calc(50% + 5px);
+}

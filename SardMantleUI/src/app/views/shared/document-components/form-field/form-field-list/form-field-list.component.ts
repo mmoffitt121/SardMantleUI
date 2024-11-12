@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormFieldBasicComponent } from '../form-field-basic/form-field-basic.component';
 import { QueriedDataPointParameter } from 'src/app/models/document/document-query-result';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-form-field-list',
@@ -47,6 +48,11 @@ export class FormFieldListComponent extends FormFieldBasicComponent implements O
     if (this.parameter.values) {
       this.parameter.values[index] = value;
     }
+  }
+
+  drop(event: any) {
+    moveItemInArray(this.parameters, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.parameter.values ?? [], event.previousIndex, event.currentIndex);
   }
 
   override ngOnInit(): void {

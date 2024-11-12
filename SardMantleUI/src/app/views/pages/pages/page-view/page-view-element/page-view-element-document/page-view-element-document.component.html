@@ -1,0 +1,5 @@
+<div  [class]="passthroughSettings?.bypassMargins ? 'fill-absolute' : 'fill-absolute-margins'" style="overflow: auto;">
+    <mat-card class="document-presentation-card" style="margin-right: auto; margin-left: auto;">
+        <app-document-presentation [id]="settingsObject['Document']" [showLinkToSelf]="false" [showClose]="false" />
+    </mat-card>
+</div>
