@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, ReplaySubject, takeUntil } from 'rxjs';
-import { DataPointSearchCriteria, DataPointTypeParameter, SearchCriteriaOptions, View, ViewTypes } from 'src/app/models/pages/view';
+import { DataPointSearchCriteria, DataPointTypeParameter, SearchCriteriaOptions, View, ViewTypes, ViewTypeSettings } from 'src/app/models/pages/view';
 import { CalendarService } from 'src/app/services/calendar/calendar.service';
 import { DocumentTypeService } from 'src/app/services/document/document-type.service';
 import { ViewEditorService } from 'src/app/services/pages/view-editor.service';
@@ -13,6 +13,7 @@ import { EditSettingsPopupComponent } from 'src/app/views/shared/edit-settings/e
 import { EditSettingsComponent } from 'src/app/views/shared/edit-settings/edit-settings.component';
 import { EditLabelledSelectionListComponent } from 'src/app/views/shared/edit/edit-labelled-selection-list/edit-labelled-selection-list.component';
 import { FormDialogComponent } from 'src/app/views/shared/form-dialog/form-dialog.component';
+import { EditSearchbinsComponent } from './edit-searchbins/edit-searchbins.component';
 
 @Component({
   selector: 'app-view-edit',
@@ -34,6 +35,7 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   public viewTypes = ViewTypes;
+  public viewTypeSettings = ViewTypeSettings;
 
   // -=-=-=-=-=-
   // States
@@ -175,6 +177,24 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
         title: "Parameters to Display", 
         items: parameters,
         selectedItems: selected ?? []
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && this.view.searchCriteriaOptions) {
+        this.changes.next(true);
+        this.view.searchCriteriaOptions.criteria.parameterReturnOptions = result.map((p: any) => ({typeParameterId: p, shouldReturn: true}));
+      }
+    });
+  }
+
+  public manageSearchBins() {
+    const dialogRef = this.dialog.open(EditSearchbinsComponent, {
+      width: 'min(100vw, 800px)',
+      height: 'min(100vh, 600px)',
+      data: { 
+        view: this.view,
+        types: this.documentTypes
       }
     });
 

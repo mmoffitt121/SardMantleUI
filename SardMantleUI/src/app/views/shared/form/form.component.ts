@@ -7,7 +7,8 @@ export interface FormItem {
   intValue: number
   required: boolean,
   options: FormItemOption[],
-  type: string | undefined
+  type: string | undefined,
+  settings?: any
 }
 
 export interface FormItemOption {
@@ -25,6 +26,9 @@ export class FormComponent {
   @Input() items: FormItem[];
 
   @Output() change = new EventEmitter();
+  @Output() valueChange = new EventEmitter();
+
+  @Input() thin: boolean = false;
 
   public valid: boolean;
 
@@ -44,7 +48,16 @@ export class FormComponent {
 
     if (valid) {
       this.change.emit(this.items);
+      this.valueChange.emit(this.items);
     }
+  }
+
+  public Number(val: string) {
+    return Number(val);
+  }
+
+  public BigInt(val: string) {
+    return (val && val != 'undefined') ? BigInt(val) : undefined;
   }
 
   public setIntValue(item: FormItem, value: number) {

@@ -12,6 +12,8 @@ export class EditDatetimeComponent implements OnInit {
   @Input() public calendar: Calendar;
   @Input() formatter: Formatter;
   @Input() timeZone: TimeZone;
+  @Input() calendarId: number | undefined;
+  @Input() formatterId: number | undefined;
   @Input() useBaseYear: boolean = false;
   @Input() parameterName: string = '';
   @Input() parameterSummary: string = '';
@@ -25,7 +27,7 @@ export class EditDatetimeComponent implements OnInit {
   ];
   @Input() public selectedFilterOption = { filterMode: 0, name: "Equals"};
 
-  @Input() model: bigint;
+  @Input() model?: bigint;
   @Output() modelChange = new EventEmitter<bigint>();
 
   @Input() formatterIndex = 0;
@@ -70,9 +72,10 @@ export class EditDatetimeComponent implements OnInit {
   constructor(public calendarService: CalendarService) {}
 
   ngOnInit() {
-    this.calendar = this.calendar ?? this.calendarService.selectedCalendar;
-    this.formatter = this.formatter ?? this.calendarService.selectedFormatter;
+    this.calendar = this.calendar ?? this.calendarService.selectedCalendar ?? this.calendarService.getCalendarAndFormatter('{}')?.calendar;
+    this.formatter = this.formatter ?? this.calendarService.selectedFormatter ?? this.calendarService.getCalendarAndFormatter('{}')?.formatter;
     this.timeZone = this.timeZone ?? this.calendarService.selectedTimeZone;
+
     this.updateDisplay();
   }
 }

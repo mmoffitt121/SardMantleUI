@@ -53,7 +53,7 @@ export class EditBoolComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.control.setValue(this.control.value ?? false);
+    this.control.setValue(this.control.value ?? this.default);
     this.control.valueChanges.subscribe(value => {
       this.valueChanged.emit(value)
       this.selectedFilterOption = value ? { filterMode: 7, name: "True" } : { filterMode: 8, name: "False" }

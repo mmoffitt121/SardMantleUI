@@ -1,6 +1,6 @@
 <div style="display: grid; grid-template-rows: min-content auto min-content; height: 100%" *ngIf="skeletonService.labels">
     <div>
-        <div style="cursor: pointer; padding-left: 5px; margin: 5px;" *ngIf="world?.name || loadingWorld">
+        <div style="cursor: pointer; padding-left: 5px; margin: 5px;" *ngIf="world?.name || loadingWorld" (click)="navigateHome()">
             <h2>
                 {{world?.name}}
             </h2>

@@ -1,28 +1,2 @@
 <div>
-    <div class="container">
-        <h1>
-            {{world?.name}}
-        </h1>
-        <div>
-            <mat-card class="dp-card" *ngFor="let d of fullWidth">
-                <mat-card-content>
-                    <app-document-info [autoLoadId]="d.id ?? -1" [showEditControls]="false"/>
-                </mat-card-content>
-            </mat-card>
-        </div>
-        <div style="display: grid; grid-template-columns: 50% 50%;">
-            <mat-card class="dp-card" *ngFor="let d of halfWidth">
-                <mat-card-content>
-                    <app-document-info [autoLoadId]="d.id ?? -1" [showEditControls]="false"/>
-                </mat-card-content>
-            </mat-card>
-        </div>
-        <div style="display: grid; grid-template-columns: 33% 33% 33%;">
-            <mat-card class="dp-card" *ngFor="let d of thirdWidth">
-                <mat-card-content>
-                    <app-document-info [autoLoadId]="d.id ?? -1" [showEditControls]="false"/>
-                </mat-card-content>
-            </mat-card>
-        </div>
-    </div>
 </div>

@@ -64,21 +64,18 @@ export class PageElementSettingsComponent extends DestroyableComponent {
     } as FormItem);
 
     let options = this.pageOptions?.find(po => po.name == this.pageElement.objectType)?.settings
-    console.log(options, this.settings)
     options?.forEach(option => {
       this.items?.push({
         name: option.key,
         value: this.settings[option.key] ?? option.value,
         intValue: Number(this.settings[option.key] ?? option.value),
-        type: (option.type == 101 ? 'document' : undefined),
+        type: (option.type == 101 ? 'dat' : undefined),
         options: option.possibleValues?.map(val => ({
           name: val.name,
           value: val.id,
         })) ?? []
       } as FormItem)
     });
-
-    console.log(this.items)
   }
 
   public add() {

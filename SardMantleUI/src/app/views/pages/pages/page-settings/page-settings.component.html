@@ -1,1 +1,4 @@
 <app-form [items]="items" *ngIf="items" (change)="change($event)" />
+<div style="padding-right: 10px; padding-left: 10px;" (click)="setDefault()">
+    <button mat-button style="width: 100%">Set page as default</button>
+</div>

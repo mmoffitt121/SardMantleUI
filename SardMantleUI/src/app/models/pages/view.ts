@@ -14,6 +14,14 @@ export interface SearchCriteriaOptions {
     userFilterParameters: DataPointTypeParameter[] | undefined;
 }
 
+export interface SearchBinCriteria {
+    name: string;
+    value: string;
+    typeValue: string;
+    parameters: number[];
+    filterMode: number;
+}
+
 export interface DataPointSearchCriteria {
     id: number;
     stringId: string;
@@ -29,6 +37,7 @@ export interface DataPointSearchCriteria {
     parameterSearchOptions: ParameterSearchOptions[] | undefined;
     orderByTypeParam: DataPointTypeParameter | undefined;
     orderByTypeParamDesc: boolean | undefined;
+    searchBinCriteria?: SearchBinCriteria[] | undefined;
     includeTypes: boolean | undefined;
     includeChildDataPoints: boolean | undefined;
     includeRelevantDataPoints: boolean | undefined;
@@ -68,4 +77,44 @@ export const ViewTypes = [
     "Card",
     "List",
     "Map",
+    "Timeline - Horizontal",
+    "Timeline - Vertical",
 ]
+
+export const ViewTypeSettings = new Map([
+    [
+        "Card", 
+        {
+            querySettings: true,
+            mapSettings: false,
+        }
+    ],
+    [
+        "List", 
+        {
+            querySettings: true,
+            mapSettings: false,
+        }
+    ],
+    [
+        "Map", 
+        {
+            querySettings: false,
+            mapSettings: true,
+        }
+    ],
+    [
+        "Timeline - Horizontal", 
+        {
+            querySettings: true,
+            mapSettings: false,
+        }
+    ],
+    [
+        "Timeline - Vertical", 
+        {
+            querySettings: true,
+            mapSettings: false,
+        }
+    ]
+])

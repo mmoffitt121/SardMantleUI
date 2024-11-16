@@ -31,6 +31,10 @@ export class PageSettingsComponent extends DestroyableComponent implements OnIni
 
   }
 
+  public setDefault() {
+    this.pageEditorService.setDefault(this.page.id);
+  }
+
   private setItems() {
     this.items = [];
       this.items.push({

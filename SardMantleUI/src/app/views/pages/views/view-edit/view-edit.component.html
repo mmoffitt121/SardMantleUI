@@ -9,26 +9,29 @@
         <mat-menu #viewTypeMenu="matMenu">
             <button mat-menu-item *ngFor="let type of viewTypes" (click)="selectViewType(type)">{{type}}</button>
         </mat-menu>
-        <button mat-button class="topbar-icon-button" matTooltip="Select Document Types" (click)="selectDocumentTypes()">
+        <button mat-button class="topbar-icon-button" matTooltip="Select Document Types" (click)="selectDocumentTypes()" *ngIf="viewTypeSettings.get(view.viewType)?.querySettings">
             <mat-icon>receipt_long</mat-icon>
         </button>
-        <button mat-button class="topbar-icon-button" matTooltip="Change Query Options" (click)="configureFilter()">
+        <button mat-button class="topbar-icon-button" matTooltip="Change Query Options" (click)="configureFilter()" *ngIf="viewTypeSettings.get(view.viewType)?.querySettings">
             <mat-icon>search</mat-icon>
         </button>
-        <button mat-button class="topbar-icon-button" matTooltip="Change Parameters the User Can Search" (click)="configureUserFilter()">
+        <button mat-button class="topbar-icon-button" matTooltip="Change Parameters the User Can Search" (click)="configureUserFilter()" *ngIf="viewTypeSettings.get(view.viewType)?.querySettings">
             <mat-icon>manage_search</mat-icon>
         </button>
-        <button mat-button class="topbar-icon-button section-end" matTooltip="Change Which Parameters Appear" (click)="selectDisplayParameters()">
+        <button mat-button class="topbar-icon-button" matTooltip="Change Which Parameters Appear" (click)="selectDisplayParameters()" *ngIf="viewTypeSettings.get(view.viewType)?.querySettings">
             <mat-icon>list</mat-icon>
         </button>
-        <button mat-button class="topbar-icon-button" matTooltip="Change Default Parameter to Order By" (click)="selectOrderByParameter()">
+        <button mat-button class="topbar-icon-button section-end" matTooltip="Manage Search Bins" (click)="manageSearchBins()" *ngIf="viewTypeSettings.get(view.viewType)?.querySettings">
+            <mat-icon>pageview</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Change Default Parameter to Order By" (click)="selectOrderByParameter()" *ngIf="viewTypeSettings.get(view.viewType)?.querySettings">
             <mat-icon>swap_vert</mat-icon>
         </button>
-        <button mat-button class="topbar-icon-button" [matTooltip]="this.view.searchCriteriaOptions?.criteria?.orderByTypeParamDesc ? 'Descending' : 'Ascending'" (click)="toggleSortDirection()">
+        <button mat-button class="topbar-icon-button" [matTooltip]="this.view.searchCriteriaOptions?.criteria?.orderByTypeParamDesc ? 'Descending' : 'Ascending'" (click)="toggleSortDirection()" *ngIf="viewTypeSettings.get(view.viewType)?.querySettings">
             <mat-icon *ngIf="!this.view.searchCriteriaOptions?.criteria?.orderByTypeParamDesc">arrow_upward_alt</mat-icon>
             <mat-icon *ngIf="this.view.searchCriteriaOptions?.criteria?.orderByTypeParamDesc">arrow_downward_alt</mat-icon>
         </button>
-        <button mat-button class="topbar-icon-button section-end" matTooltip="Change Parameter the User Can Order By" (click)="selectUserOrderByParameter()">
+        <button mat-button class="topbar-icon-button section-end" matTooltip="Change Parameter the User Can Order By" (click)="selectUserOrderByParameter()" *ngIf="viewTypeSettings.get(view.viewType)?.querySettings">
             <mat-icon>sort</mat-icon>
         </button>
         <button mat-button class="topbar-icon-button" matTooltip="View Preview" (click)="displayPreview()">

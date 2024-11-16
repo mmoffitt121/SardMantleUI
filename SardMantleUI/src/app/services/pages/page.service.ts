@@ -17,6 +17,10 @@ export class PageService {
     }));
   }
 
+  public getDefault() {
+    return this.http.get<any>(environment.baseUrl + '/Library/Page/GetDefaultPage');
+  }
+
   public getCount(data: PageCriteria) {
     return this.http.get<any>(environment.baseUrl + '/Library/Page/GetPageCount', { params: data as any });
   }

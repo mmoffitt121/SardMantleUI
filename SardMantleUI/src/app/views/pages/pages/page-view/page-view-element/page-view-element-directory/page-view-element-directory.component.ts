@@ -11,7 +11,6 @@ export class PageViewElementDirectoryComponent extends PageViewElementBaseCompon
   public selectedItem: PageElement | undefined;
 
   public select(elem: PageElement | undefined) {
-    console.log(elem)
     this.selectedItem = elem;
   }
 }

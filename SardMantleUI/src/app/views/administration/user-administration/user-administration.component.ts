@@ -73,7 +73,6 @@ export class UserAdministrationComponent implements OnInit {
   }
 
   public resetPassword(user: any) {
-    console.log(user)
     const dialogRef = this.dialog.open(FormDialogComponent, {
       width: '500px',
       data: { 

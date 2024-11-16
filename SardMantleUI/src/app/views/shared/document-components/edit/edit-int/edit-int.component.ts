@@ -17,6 +17,7 @@ export class EditIntComponent implements OnInit {
   @Input() minValue: number | undefined = undefined;
   @Input() maxValue: number | undefined = undefined;
   public index: number;
+  @Input() default?: number = undefined;
 
   @Input() displayFilterOptions: boolean = false;
   @Input() filterOptions = [
@@ -66,6 +67,10 @@ export class EditIntComponent implements OnInit {
     });
     if (this.required) {
       this.control.addValidators([Validators.required]);
+    }
+
+    if (this.default !== undefined) {
+      this.setValue(this.default);
     }
 
     this.control.setValue(this.model);

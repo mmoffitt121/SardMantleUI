@@ -11,6 +11,7 @@ import { MenuItemService } from 'src/app/services/menu-items/menu-item.service';
 import { WorldService } from 'src/app/services/world/world.service';
 import { World } from 'src/app/models/world/world';
 import { RecentWorldService } from 'src/app/services/world/recent-world.service';
+import { SettingJsonService } from 'src/app/services/settings/setting-json.service';
 
 export const DISPLAY_EXPANDED = "DisplayGroupingExpanded";
 
@@ -33,6 +34,10 @@ export class SkeletonNavBarComponent {
   public bottomBarMenuOptions: MenuOption[];
 
   @Input() display: string | undefined = undefined;
+
+  public navigateHome() {
+    this.urlService.navigate(['home']);
+  }
 
   public navigate(option: MenuOption) {
     if (option.options?.length) {
@@ -149,6 +154,7 @@ export class SkeletonNavBarComponent {
     private menuItemService: MenuItemService,
     private worldService: WorldService,
     private recentWorldService: RecentWorldService,
+    private settingService: SettingJsonService
   ) { }
 
   ngOnInit() {

@@ -243,6 +243,7 @@ import { PageViewElementDocumentComponent } from './views/pages/pages/page-view/
 import { PageViewElementDirectoryComponent } from './views/pages/pages/page-view/page-view-element/page-view-element-directory/page-view-element-directory.component';
 import { PageViewElementBaseComponent } from './views/pages/pages/page-view/page-view-element/page-view-element-base/page-view-element-base.component';
 import { MapViewComponent } from './views/pages/views/map-view/map-view.component';
+import { EditSearchbinsComponent } from './views/pages/views/view-edit/edit-searchbins/edit-searchbins.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -448,6 +449,7 @@ export function tokenGetter() {
     PageViewElementDirectoryComponent,
     PageViewElementBaseComponent,
     MapViewComponent,
+    EditSearchbinsComponent,
     ],
   imports: [
     BrowserModule,

@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { take } from 'rxjs';
 import { Unit } from 'src/app/models/units/unit';
+import { UnitsService } from 'src/app/services/units/units.service';
 
 @Component({
   selector: 'app-edit-double',
@@ -12,6 +14,9 @@ export class EditDoubleComponent implements OnInit {
   @Input() parameterSummary: string = '';
   @Input() control = new FormControl();
   @Input() required: boolean = false;
+  @Input() thin: boolean = false;
+
+  @Input() default?: number = undefined;
 
   @Input() displayFilterOptions: boolean = false;
   @Input() filterOptions = [
@@ -24,6 +29,7 @@ export class EditDoubleComponent implements OnInit {
   @Output() onChanges = new EventEmitter();
 
   public unit: Unit | undefined;
+  @Input() unitId: number | undefined = undefined;
 
   public typeParameterId: number;
   private previousValue: any;
@@ -67,9 +73,21 @@ export class EditDoubleComponent implements OnInit {
     this.unit = unit;
   }
 
+  constructor(private unitService: UnitsService) {}
+
   ngOnInit() {
     if (this.required) {
       this.control.addValidators([Validators.required]);
+    }
+
+    if (this.default !== undefined) {
+      this.setValue(this.default);
+    }
+
+    if (this.unitId != undefined && this.unit == undefined) {
+      this.unitService.get({id: this.unitId}).pipe(take(1)).subscribe(result => {
+        this.unit = result;
+      })
     }
   }
 }

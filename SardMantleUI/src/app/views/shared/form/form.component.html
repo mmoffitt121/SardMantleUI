@@ -5,15 +5,78 @@
 </mat-card-header>
 <div style="padding: 10px;">
     <div *ngFor="let item of items">
-        <app-edit-string [(model)]="item.value" [parameterName]="item.name" [parameterSummary]="item.description" (modelChange)="onChange()" *ngIf="!item.type && !item.options?.length" />
-        <app-edit-selection (modelChange)="onChange()" *ngIf="!item.type && item.options?.length" [title]="item.name" [description]="item.description" [items]="item.options" keyIdentifier="value" nameIdentifier="name" [model]="item" />
+        <app-edit-string 
+            [(model)]="item.value" 
+            [parameterName]="item.name" 
+            [parameterSummary]="item.description" 
+            (modelChange)="onChange()" 
+            *ngIf="(!item.type || ['str', 'sum', 'doc'].includes(item.type)) && !item.options?.length" 
+            [thin]="thin" 
+        />
+        <app-edit-selection 
+            (modelChange)="onChange()" 
+            *ngIf="!item.type && item.options?.length" 
+            [title]="item.name" 
+            [description]="item.description" 
+            [items]="item.options" 
+            keyIdentifier="value" 
+            nameIdentifier="name" 
+            [model]="item" 
+            [thin]="thin" 
+        />
         <app-edit-data-point 
-            *ngIf="item.type == 'document'"
+            *ngIf="item.type == 'dat'"
             [automaticallyLoadAllDataPoints]="true" 
+            [parameterName]="item.name" 
+            [parameterSummary]="item.description" 
             [(model)]="item.intValue"
             (selected)="setIntValue(item, $event.id)"
             [clear]="false"
+            [thin]="thin"
         />
+        <app-edit-bool
+            *ngIf="item.type == 'bit'"
+            [default]="item.value.toLowerCase() == 'true'" 
+            [parameterName]="item.name" 
+            [parameterSummary]="item.description" 
+            (valueChanged)="item.value = '' + $event; onChange();" 
+        />
+        <app-edit-double
+            *ngIf="item.type == 'dub'"
+            [default]="Number(item.value)" 
+            [parameterName]="item.name" 
+            [parameterSummary]="item.description" 
+            (onChanges)="item.value = '' + $event; onChange()" 
+            [thin]="thin" 
+        />
+        <app-edit-int
+            *ngIf="item.type == 'int'"
+            [default]="Number(item.value)" 
+            [parameterName]="item.name" 
+            [parameterSummary]="item.description" 
+            (onChanges)="item.value = '' + $event; onChange()" 
+            [thin]="thin" 
+        />
+        <app-edit-double
+            *ngIf="item.type == 'uni'"
+            [default]="Number(item.value)" 
+            [parameterName]="item.name" 
+            [parameterSummary]="item.description" 
+            (onChanges)="item.value = '' + $event; onChange()" 
+            [thin]="thin"
+            [unitId]="item.settings?.unitId"
+        />
+        <app-edit-datetime
+            *ngIf="item.type == 'tim'"
+            [parameterName]="item.name" 
+            [parameterSummary]="item.description" 
+            (modelChange)="item.value = ($event && $event != undefined ? $event + '' : ''); onChange()" 
+            [model]="(item.value ? BigInt(item.value) : undefined)"
+            [calendarId]="item.settings?.calendarId"
+            [formatterId]="item.settings?.formatterId"
+        />
+    
         <mat-divider *ngIf="item.type == 'divider'" style="margin-bottom: 10px;" />
+        <div *ngIf="thin" style="height: 10px;"></div>
     </div>
 </div>
