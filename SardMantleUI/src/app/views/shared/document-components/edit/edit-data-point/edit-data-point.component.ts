@@ -107,12 +107,16 @@ export class EditDataPointComponent implements OnChanges, OnInit {
   public handleSelectionChange(event: any) {
     if (this.items === undefined) return;
     this.selectedItem = this.items.find(i => i.id == event?.option?.value);
-    this.formControl.setValue(this.selectedItem?.name);
-    this.filter = undefined;
-    this.selected.emit(this.selectedItem);
-    this.handleFilterChange();
-    this.model = this.selectedItem.id;
-    this.modelChange.emit(this.model);
+    if (!this.selectedItem) {
+      this.clearSelection();
+    } else {
+      this.formControl.setValue(this.selectedItem?.name);
+      this.filter = undefined;
+      this.selected.emit(this.selectedItem);
+      this.handleFilterChange();
+      this.model = this.selectedItem.id;
+      this.modelChange.emit(this.model);
+    }
   }
 
   public clearSelection() {

@@ -14,6 +14,7 @@ import { EditSettingsComponent } from 'src/app/views/shared/edit-settings/edit-s
 import { EditLabelledSelectionListComponent } from 'src/app/views/shared/edit/edit-labelled-selection-list/edit-labelled-selection-list.component';
 import { FormDialogComponent } from 'src/app/views/shared/form-dialog/form-dialog.component';
 import { EditSearchbinsComponent } from './edit-searchbins/edit-searchbins.component';
+import { ErrorService } from 'src/app/services/error.service';
 
 @Component({
   selector: 'app-view-edit',
@@ -199,10 +200,11 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result && this.view.searchCriteriaOptions) {
-        this.changes.next(true);
+      if (this.view.searchCriteriaOptions && result) {
         this.view.searchCriteriaOptions.criteria.parameterReturnOptions = result.map((p: any) => ({typeParameterId: p, shouldReturn: true}));
       }
+      this.configureViewOptions();
+      this.changes.next(true);
     });
   }
 
@@ -282,6 +284,9 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
 
   public onSave() {
     this.configureViewOptions();
+    if (!this.validate()) {
+      return;
+    }
     this.changes.next(false);
     this.save.emit(this.view);
   }
@@ -294,6 +299,12 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
     this.view!.searchCriteriaOptions!.criteria.includeParameters = true;
     this.view!.searchCriteriaOptions!.criteria.includeChildParameters = false;
 
+    if (this.view.viewType.includes("Timeline") && (this.view!.searchCriteriaOptions!.criteria!.searchBinCriteria ?? [])[0]?.typeValue == 'tim') {
+      this.view!.searchCriteriaOptions!.criteria.orderByBin = 0;
+    } else {
+      this.view!.searchCriteriaOptions!.criteria.orderByBin = undefined;
+    }
+
     switch (this.view.viewType) {
       case "Card":
         break;
@@ -305,6 +316,16 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
       default:
         break;
     }
+  }
+
+  private validate() {
+    if (this.view.viewType.includes('Timeline')) {
+      if (!((this.view.searchCriteriaOptions?.criteria.searchBinCriteria ?? [])[0]?.typeValue == 'tim')) {
+        this.errorService.showSnackBar("The top search bin must be of type Date/Time for timeline views. Open the \"Manage Search Bins\" menu and configure a Date/Time search bin, and make sure it is at the top of the list.", 10000)
+        return false;
+      }
+    }
+    return true;
   }
 
   public onDelete() {
@@ -352,7 +373,14 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
     this.changes.next(false);
   }
 
-  constructor(private dialog: MatDialog, private calendarService: CalendarService,  private editorService: ViewEditorService, private documentTypeService: DocumentTypeService, private cdref: ChangeDetectorRef) {}
+  constructor(
+    private dialog: MatDialog, 
+    private calendarService: CalendarService,  
+    private editorService: ViewEditorService, 
+    private documentTypeService: DocumentTypeService, 
+    private cdref: ChangeDetectorRef,
+    private errorService: ErrorService
+  ) {}
 
   ngOnDestroy(): void {
     this.destroyed$.next(true);

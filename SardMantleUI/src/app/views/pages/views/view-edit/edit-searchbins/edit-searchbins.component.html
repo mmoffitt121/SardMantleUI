@@ -1,11 +1,20 @@
 <div class="fill-absolute">
     <h2 style="position: absolute; left: 10px;">Search Bins</h2>
-    <div style="position: absolute; top: 50px; bottom: 0; left: 0; right: calc(100% - 250px); padding: 10px; overflow: auto;">
-        <button mat-button class="item" *ngFor="let sb of this.view.searchCriteriaOptions?.criteria?.searchBinCriteria; index as i" (click)="select(sb, i)" [ngStyle]="{backgroundColor: i == selectedIndex ? 'var(--lib-primary-accent-color-selected)' : 'var(--lib-primary-accent-color)'}">
-            <mat-card-content>
-                {{sb.name}}
-            </mat-card-content>
-        </button>
+    <div style="position: absolute; top: 50px; bottom: 0; left: 0; right: calc(100% - 250px); padding: 10px; overflow: auto;" cdkDropList class="example-list" (cdkDropListDropped)="drop($event)" >
+        <div *ngFor="let sb of this.view.searchCriteriaOptions?.criteria?.searchBinCriteria; index as i" style="display: grid; grid-template-columns: auto min-content;" cdkDrag>
+            <button
+                mat-button 
+                class="item"  
+                (click)="select(sb, i)" 
+                [ngStyle]="{backgroundColor: i == selectedIndex ? 'var(--lib-primary-accent-color-selected)' : 'var(--lib-primary-accent-color)'}"
+            >
+                <mat-card-content>
+                    {{sb.name}}
+                </mat-card-content>
+            </button>
+            <mat-icon cdkDragHandle style="margin: 8px;">drag_handle</mat-icon>
+        </div>
+        
         <button mat-button class="item-add" (click)="add()">
             <mat-card-content>
                 <mat-icon>add</mat-icon>
@@ -13,7 +22,12 @@
         </button>
     </div>
     <div style="position: absolute; top: 50px; bottom: 0; left: 250px; right: 0">
+        <div style="display: flex; margin-top: 10px;" *ngIf="isPrimaryForTimeline">
+            <mat-icon style="margin: 10px;">timeline</mat-icon>
+            <p>Timeline Search Bin</p>
+        </div>
         <app-form [thin]="true" *ngIf="selected" [items]="items" (valueChange)="change($event)" />
         <button style="margin-left: 10px;" mat-button *ngIf="selected" (click)="selectParameters()">Select Parameters... ({{this.selected.parameters.length}} selected)</button>
+        <button style="margin-left: 10px; background-color: var(--lib-destructive-action-color)" mat-button *ngIf="selected" (click)="remove()">Remove Search Bin</button>
     </div>
 </div>

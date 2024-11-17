@@ -1,0 +1,95 @@
+<div class="fill-absolute">
+    <mat-card class="card-view-header">
+        <mat-card-content class="card-view-grid">
+            <div style="display: flex;">
+                <button mat-icon-button class="topbar-icon-button" (click)="skeletonService.toggleSidebar()" *ngIf="isRoot">
+                    <mat-icon>menu</mat-icon>
+                </button>
+                <button mat-icon-button class="topbar-icon-button" (click)="showSearch = !showSearch" *ngIf="view.settings?.showFilterOptions == 'true'">
+                    <mat-icon>search</mat-icon>
+                </button>
+                <h3 class="card-view-h">
+                    {{title}}
+                </h3>
+            </div>
+            
+            <div style="display: flex">
+                <button mat-icon-button class="topbar-icon-button" *ngIf="this.data?.types?.length && view.settings?.showAddDocumentButton == 'true'" [matMenuTriggerFor]="addMenu" (click)="maybeAdd()">
+                    <mat-icon>add</mat-icon>
+                </button>
+                <mat-menu #addMenu="matMenu">
+                    <button mat-menu-item *ngFor="let type of this.data?.types" (click)="add(type)">{{type.name}}</button>
+                </mat-menu>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <mat-drawer-container class="fill-absolute" style="position: absolute !important">
+        <mat-drawer  style="width: 1fr; height: 100%"
+            #sidenav 
+            position="start" 
+            mode="side" 
+            [disableClose]="true" 
+            [opened]="showSearch"
+            (closed)="showSearch = false"
+        >
+            <mat-card [ngClass]="'sidebar ' + (view.settings?.sidebarStyle ?? 'sidebar-full')">
+                <app-document-form [document]="searchDocument" [queryOptions]="searchDocumentQueryOptions" [showSubmit]="true" submitText="Search" (submit)="onSearch()" [showFilterOptions]="true" [compact]="true" style="margin-top: 10px;" />
+            </mat-card>
+        </mat-drawer>
+        <mat-drawer-content>
+            <div class="fill-absolute timeline-container" style="top: 65px;">
+                <button mat-button style="min-width: 50px; width: 50px; height: calc(100% - 100px); margin-right: 30px;" *ngIf="pageIndex > 0" (click)="onPageChange({pageSize: 25, pageIndex: pageIndex - 1})">
+                    <mat-icon>
+                        chevron_left
+                    </mat-icon>
+                </button>
+                <div *ngFor="let item of data?.results; index as i" class="timeline-item-container" [class]="view.settings?.timelineDataPointDisplay == 'name' ? 'timeline-item-container-simple' : ''">
+                    <mat-card class="timeline-item" *ngIf="view.settings?.timelineDataPointDisplay == 'full'">
+                        <mat-card-content style="transform-origin: top left; transform: scale(0.7); position: absolute; top: 0; left: 0; width: 125%;">
+                            <app-document-presentation [document]="item"  />
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card class="timeline-item-simple" *ngIf="view.settings?.timelineDataPointDisplay == 'name'">
+                        <mat-card-content class="timeline-item-simple-content">
+                            <div>
+                                <div>
+                                    {{item.name}}
+                                </div>
+                                <div style="color: var(--lib-secondary-text-color); font-size: 10pt">
+                                    {{item.typeName}}
+                                </div>
+                            </div>
+                            <button mat-icon-button (click)="popupDocument(item)" class="timeline-item-simple-content-popup">
+                                <mat-icon>open_in_full</mat-icon>
+                            </button>
+                        </mat-card-content>
+                    </mat-card>
+                    <div class="bottom-triangle">
+                    
+                    </div>
+                    <div class="bottom-circle">
+                    
+                    </div>
+                    <div class="bottom-line" *ngIf="data.results[i + 1]">
+                        
+                    </div>
+                    <div class="bottom-text-container">
+                        <div class="bottom-text-item">
+                            {{resultData?.length && resultData![i] ? resultData![i].name : ''}}
+                        </div>
+                        <div class="bottom-text-item">
+                            {{resultData?.length && resultData![i] ? resultData![i].value  : ''}}
+                        </div>
+                    </div>
+                    
+                </div>
+                <button mat-button style="min-width: 50px; width: 50px; height: calc(100% - 100px); margin-left: 30px;"  *ngIf="(pageIndex + 1) * pageSize < pageLength" (click)="onPageChange({pageSize: 25, pageIndex: pageIndex + 1})">
+                    <mat-icon>
+                        chevron_right
+                    </mat-icon>
+                </button>
+            </div>    
+        </mat-drawer-content>
+    </mat-drawer-container>
+    
+</div>

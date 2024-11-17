@@ -38,6 +38,7 @@ export interface DataPointSearchCriteria {
     orderByTypeParam: DataPointTypeParameter | undefined;
     orderByTypeParamDesc: boolean | undefined;
     searchBinCriteria?: SearchBinCriteria[] | undefined;
+    orderByBin?: number;
     includeTypes: boolean | undefined;
     includeChildDataPoints: boolean | undefined;
     includeRelevantDataPoints: boolean | undefined;
@@ -77,8 +78,7 @@ export const ViewTypes = [
     "Card",
     "List",
     "Map",
-    "Timeline - Horizontal",
-    "Timeline - Vertical",
+    "Timeline",
 ]
 
 export const ViewTypeSettings = new Map([
@@ -86,6 +86,7 @@ export const ViewTypeSettings = new Map([
         "Card", 
         {
             querySettings: true,
+            orderSettings: true,
             mapSettings: false,
         }
     ],
@@ -93,6 +94,7 @@ export const ViewTypeSettings = new Map([
         "List", 
         {
             querySettings: true,
+            orderSettings: true,
             mapSettings: false,
         }
     ],
@@ -100,20 +102,15 @@ export const ViewTypeSettings = new Map([
         "Map", 
         {
             querySettings: false,
+            orderSettings: false,
             mapSettings: true,
         }
     ],
     [
-        "Timeline - Horizontal", 
+        "Timeline", 
         {
             querySettings: true,
-            mapSettings: false,
-        }
-    ],
-    [
-        "Timeline - Vertical", 
-        {
-            querySettings: true,
+            orderSettings: false,
             mapSettings: false,
         }
     ]

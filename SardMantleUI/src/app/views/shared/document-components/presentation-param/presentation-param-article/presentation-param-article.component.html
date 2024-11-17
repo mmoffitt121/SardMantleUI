@@ -1,6 +1,6 @@
 <div [ngClass]="windowed ? 'windowed-article' : 'inline-article'"  style="max-width: 100% !important; overflow: auto;">
     <div style="float: right">
-        <button mat-icon-button *ngIf="windowRef" (click)="windowRef.close()">
+        <button mat-icon-button *ngIf="windowed" (click)="windowRef?.close()">
             <mat-icon>close</mat-icon>
         </button>
     </div>

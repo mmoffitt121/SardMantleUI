@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { take } from 'rxjs';
 import { Page, PageCriteria } from 'src/app/models/pages/page';
@@ -24,9 +24,10 @@ export class PageViewComponent implements OnInit {
       this.topbarStyle = "display: none;";
       this.elementStyle = "top: 0px;";
     }
+    this.cdref.detectChanges();
   }
 
-  constructor(private route: ActivatedRoute, private pageService: PageService) {
+  constructor(private route: ActivatedRoute, private pageService: PageService, private cdref: ChangeDetectorRef) {
 
   } 
 

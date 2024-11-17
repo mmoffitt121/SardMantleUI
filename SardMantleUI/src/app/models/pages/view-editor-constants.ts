@@ -42,6 +42,16 @@ export const sidePanelStyles = [
     {id: "sidebar-card", name: "Card"},
 ]
 
+// Timeline Options
+
+export const timelineViewTypes = [
+    {id: "0px", name: "Rectangle"}, 
+    {id: "5px", name: "Slightly Rounded"},
+    {id: "10px", name: "Rounded"},
+    {id: "25px", name: "Very Rounded"},
+    {id: "40px", name: "Extremely Rounded"},
+]
+
 // -=-=-=-=-=-=-=-
 // Menu Items
 // -=-=-=-=-=-=-=-
@@ -138,6 +148,42 @@ export const listMenuItems = [
 
 ]
 
+// Timeline View
+
+export const timelineMenuItems = [
+    {
+        name: "Timeline Settings",
+        icon: "timeline",
+        children: [
+            {
+                name: "Appearance",
+                items: [
+                    {
+                        name: "Orientation",
+                        key: "timelineOrientation",
+                        value: undefined,
+                        type: "select",
+                        options: [
+                            {id: "h", name: "Horizontal"},
+                            {id: "v", name: "Vertical"},
+                        ],
+                    },
+                    {
+                        name: "Item Display",
+                        key: "timelineDataPointDisplay",
+                        value: undefined,
+                        type: "select",
+                        options: [
+                            {id: "name", name: "Name and Date"},
+                            {id: "full", name: "Full"},
+                        ],
+                    },
+                ]
+            },
+        ]
+    }
+]
+
 // -=-=-=-=-=-=-
 // Defaults
 // -=-=-=-=-=-=-
@@ -163,4 +209,11 @@ export const defaultCardViewSettings = {
 // List View
 
 export const defaultListViewSettings = {
+}
+
+// Timeline
+
+export const defaultTimelineViewSettings = {
+    "timelineOrientation": "h",
+    "timelineDataPointDisplay": "name"
 }

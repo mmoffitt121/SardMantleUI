@@ -5,6 +5,7 @@ import { SearchBinCriteria, SearchCriteriaOptions, View } from 'src/app/models/p
 import { FormItem, FormItemOption } from 'src/app/views/shared/form/form.component';
 import { DocumentIconMaps } from 'src/app/models/document/document-icon-maps/document-icon-maps';
 import { EditLabelledSelectionListComponent } from 'src/app/views/shared/edit/edit-labelled-selection-list/edit-labelled-selection-list.component';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-edit-searchbins',
@@ -15,6 +16,8 @@ export class EditSearchbinsComponent {
   public view: View;
   public selected?: SearchBinCriteria;
   public selectedIndex: number;
+
+  public isPrimaryForTimeline = false;
 
   private filterModeMap = new Map<number, string>([
     [0, "Equals"],
@@ -58,18 +61,25 @@ export class EditSearchbinsComponent {
       value: this.selected?.typeValue,
       options: this.typeValues.map(tv => ({ name: this.nameMap.get(tv), value: tv }))
     } as FormItem);
-    this.items.push({
-      name: "Filter Mode",
-      value: this.selected?.filterMode + "",
-      options: this.availableFilterModesMap.get(this.selected?.typeValue ?? "")?.map(tv => ({name: this.filterModeMap.get(tv) ?? "", value: tv + ""}))
-    } as FormItem);
-    this.items.push({
-      name: "Value (Blank to make user-searchable)",
-      value: this.selected?.value,
-      type: this.selected?.typeValue
-    } as FormItem);
-
+    this.isPrimaryForTimeline = this.isPrimaryTimelineBin();
+    // Do not show filter settings if this is the primary search bin for a timeline view
+    if (!this.isPrimaryTimelineBin()) {
+      this.items.push({
+        name: "Filter Mode",
+        value: this.selected?.filterMode + "",
+        options: this.availableFilterModesMap.get(this.selected?.typeValue ?? "")?.map(tv => ({name: this.filterModeMap.get(tv) ?? "", value: tv + ""}))
+      } as FormItem);
+      this.items.push({
+        name: "Value (Blank to make user-searchable)",
+        value: this.selected?.value,
+        type: this.selected?.typeValue
+      } as FormItem);
+    }
     this.filterAvailableParameters();
+  }
+
+  private isPrimaryTimelineBin() {
+    return (this.view.viewType.includes("Timeline") && this.selected?.typeValue == 'tim' && this.selectedIndex == 0);
   }
 
   public change(formData: any[]) {
@@ -85,12 +95,14 @@ export class EditSearchbinsComponent {
     }
 
     this.selected.name = formData[0].value;
-    this.selected.value = formData[3].value;
     this.selected.typeValue = formData[1].value;
-    this.selected.filterMode = Number(formData[2].value);
-
+    if (!this.isPrimaryTimelineBin()) {
+      this.selected.filterMode = Number(formData[2].value);
+      this.selected.value = formData[3].value;
+    }
+    
     let options = this.availableFilterModesMap.get(this.selected?.typeValue ?? "")?.map(tv => ({name: this.filterModeMap.get(tv) ?? "", value: tv + ""})) ?? [];
-    if (!options?.map(opt => Number(opt.value)).includes(Number(formData[2].value))) {
+    if (!this.isPrimaryTimelineBin() && !options?.map(opt => Number(opt.value)).includes(Number(formData[2].value))) {
       this.selected.filterMode = 0;
       this.selected.value = "";
       reload = true;
@@ -125,12 +137,22 @@ export class EditSearchbinsComponent {
     });
   }
 
+  public remove() {
+    this.view!.searchCriteriaOptions!.criteria!.searchBinCriteria!.splice(this.selectedIndex, 1);
+    this.selected = undefined;
+    this.selectedIndex = -1;
+  }
+
   public select(item: SearchBinCriteria | undefined, index?: number) {
     this.selected = item;
     if (index !== undefined) {
       this.selectedIndex = index;
     }
     this.setItems();
+  }
+
+  public drop(event: any) {
+    moveItemInArray(this.view!.searchCriteriaOptions!.criteria!.searchBinCriteria!, event.previousIndex, event.currentIndex);
   }
 
   public add() {

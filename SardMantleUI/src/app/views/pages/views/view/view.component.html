@@ -1,3 +1,4 @@
 <app-card-view *ngIf="view && view?.viewType == 'Card'" [view]="view" [isRoot]="isRoot" />
 <app-list-view *ngIf="view && view?.viewType == 'List'" [view]="view" [isRoot]="isRoot" />
 <app-map-view *ngIf="view && view?.viewType == 'Map'" [view]="view" />
+<app-timeline-view-horizontal *ngIf="view && view?.viewType == 'Timeline'" [view]="view" [isRoot]="isRoot" />

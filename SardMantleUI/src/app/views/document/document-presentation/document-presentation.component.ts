@@ -38,7 +38,7 @@ import { DocumentIOService } from 'src/app/services/document/document-io.service
   styleUrls: ['./document-presentation.component.scss']
 })
 export class DocumentPresentationComponent implements OnInit, OnChanges {
-  public document: QueriedDataPoint | undefined;
+  @Input() document: QueriedDataPoint | undefined;
 
   @Input() id: number = -1;
   @Input() showEditControls = true;

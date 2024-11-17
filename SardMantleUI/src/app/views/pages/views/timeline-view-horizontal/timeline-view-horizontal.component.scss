@@ -1,0 +1,250 @@
+.timeline-container {
+    overflow-x: auto;
+    padding: 10px;
+    display: flex;
+    flex-wrap: nowrap;
+    max-width: calc(100% - 20px);
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.timeline-item-container {
+    height: calc(100% - 10px);
+    max-width: 200px;
+    min-width: 200px;
+    width: 300px;
+    padding: 5px;
+}
+
+.timeline-item-container-simple {
+    height: 200px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.timeline-item {
+    position: relative;
+    height: calc(100% - 110px);
+    width: 100%;
+    overflow-y: auto;
+}
+
+.timeline-item-simple {
+    position: relative;
+    height: 100px;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.timeline-item-simple-content {
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    display: grid; 
+    grid-template-columns: 1fr min-content;
+}
+
+.timeline-item-simple-content:hover .timeline-item-simple-content-popup {
+    display: block;
+}
+
+.timeline-item-simple-content-popup {
+    display: none;
+}
+
+.bottom-triangle {
+    position: relative;
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid var(--lib-primary-color);
+    margin: auto;
+    margin-top: 0;
+    z-index: 0;
+}
+
+.bottom-circle {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    background-color: var(--lib-text-color);
+    border-color: var(--lib-primary-color);
+    border-style: solid;
+    border-width: 7px;
+    border-radius: 14px;
+    margin: auto;
+    margin-top: 15px;
+    z-index: 10;
+}
+
+.bottom-line {
+    position: relative;
+    left: 100px;
+    top: -21px;
+    width: 200px;
+    height: 5px;
+    background-color: var(--lib-text-color);
+    border-color: var(--lib-primary-color);
+    border-style: solid;
+    border-width: 5px;
+    background-color: var(--lib-text-color);
+    z-index: 9;
+}
+
+.bottom-text-container {
+    width: 200px;
+    overflow: hidden;
+}
+
+.bottom-text-item {
+    text-align: center;
+}
+
+.card-view-header {
+    z-index: 20;
+    min-height: 58px;
+    height: 58px;
+}
+
+.card-view-grid {
+    display: grid;
+    grid-template-columns: auto min-content;
+    padding: 8px !important;
+}
+
+.card-view-h {
+    margin: 0; 
+    margin-top: 8px;
+    margin-left: 5px;
+}
+
+
+.view-container {
+    display: grid;
+    grid-template-rows: min-content 1fr min-content;
+    height: 100%;
+}
+
+.card-view-header {
+    z-index: 20;
+    min-height: 58px;
+}
+
+.topbar-button {
+    margin-top: 0px;
+    margin-bottom: -10px;
+    min-width: 150px;
+    min-height: 35px;
+    height: 35px;
+    border-radius: 0px;
+    justify-content: left;
+    background-color: var(--lib-primary-color);
+    box-shadow: none;;
+}
+
+.topbar-icon-button {
+    margin: 0;
+}
+
+.viewable-cards-container {
+    width: 100%;
+    height: 100%;
+    background-color: #00000000;
+    background-image: none;
+}
+
+mat-drawer {
+    background-color: #00000000;
+    background-image: none;
+}
+
+.viewable-card-list {
+    overflow: auto;
+}
+
+.viewable-card-margin-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 100%;
+}
+
+.card-view-grid {
+    display: grid;
+    grid-template-columns: auto min-content;
+    padding: 8px;
+}
+
+.card-view-h {
+    margin: 0; 
+    margin-top: 8px;
+    margin-left: 5px;
+}
+
+.search-container {
+    height: 100%;
+}
+
+.sidebar {
+    overflow: auto;
+    width: 300px;
+}
+
+.sidebar-full {
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 58px;
+    height: calc(100% - 58px);
+    border-top: none !important;
+    padding: 10px;
+    border-radius: 0;
+}
+
+.sidebar-card {
+    margin: 10px;
+    margin-top: 70px;
+    height: calc(100% - 80px);
+    
+    padding: 10px;
+}
+
+.sort-container {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: auto min-content;
+}
+
+.sort-by-button {
+    background-color: #00000000;
+    border-radius: 0px;
+    box-shadow: none;
+}
+
+.list-item-container {
+    overflow: auto;
+    padding-bottom: 10px;
+}
+
+.presentation-container {
+    margin: 10px;
+}
+
+.bottom-bar {
+    z-index: 20;
+    min-height: 40px;
+}
+
+.paginator-container {
+    display: flex;
+}
+
+.list-result-item {
+    width: calc(100% - 20px);
+    text-align: left;
+    justify-content: left;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 5px;
+    min-height: 50px;
+}
