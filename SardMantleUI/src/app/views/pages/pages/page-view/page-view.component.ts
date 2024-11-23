@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { take } from 'rxjs';
 import { Page, PageCriteria } from 'src/app/models/pages/page';
+import { PageEditorService } from 'src/app/services/pages/page-editor.service';
 import { PageService } from 'src/app/services/pages/page.service';
 
 @Component({

@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { takeUntil } from 'rxjs';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { take, takeUntil } from 'rxjs';
 import { Page } from 'src/app/models/pages/page';
 import { PageEditorService } from 'src/app/services/pages/page-editor.service';
 import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
@@ -10,7 +11,7 @@ import { DestroyableComponent } from 'src/app/views/shared/util/destroyable/dest
   templateUrl: './page-view-topbar.component.html',
   styleUrls: ['./page-view-topbar.component.scss']
 })
-export class PageViewTopbarComponent extends DestroyableComponent implements OnInit {
+export class PageViewTopbarComponent extends DestroyableComponent implements OnInit, OnChanges {
   @Input() page: Page;
   public topbarSettingsObject: any;
   public topbarClasses: string;
@@ -55,11 +56,17 @@ export class PageViewTopbarComponent extends DestroyableComponent implements OnI
     this.topbarClasses = style;
   }
 
-  constructor(public skeletonService: SkeletonService, private service: PageEditorService) { super(); }
+  constructor(public skeletonService: SkeletonService, private service: PageEditorService, private router: Router) { super(); }
 
   ngOnInit(): void {
     this.updateStyle();
 
     this.service.styleUpdate.pipe(takeUntil(this.destroyed$)).subscribe(update => this.updateStyle());
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['page']) {
+      this.updateStyle();
+    }
   }
 }
