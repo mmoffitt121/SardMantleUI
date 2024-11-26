@@ -70,6 +70,9 @@ export class EditLocationComponent implements OnInit {
     }
     this.locationType = event;
     this.queryPotentialParents();
+    if (this.locationType) {
+      localStorage.setItem(`${this.urlService.getWorld()}-${this.SAVED_LOCATION_TYPE}`, this.locationType.id + "");
+    }
   }
 
   public setParent(event: any) {
@@ -78,6 +81,9 @@ export class EditLocationComponent implements OnInit {
 
   public setLayer(event: any) {
     this.layer = event;
+    if (this.layer) {
+      localStorage.setItem(`${this.urlService.getWorld()}-${this.SAVED_LAYER}`, this.layer.id + "");
+    }
   }
 
   public setSelectedMapObject(obj: any) {
@@ -237,6 +243,16 @@ export class EditLocationComponent implements OnInit {
     this.cancel.emit();
   }
 
+  private loadSavedLocationType() {
+    const savedLocationType = localStorage.getItem(`${this.urlService.getWorld()}-${this.SAVED_LOCATION_TYPE}`);
+    if (savedLocationType) {
+      const foundSavedLocationType = this.locationTypes.find(lt => lt.id + "" == savedLocationType);
+      if (foundSavedLocationType) {
+        this.setLocationType(foundSavedLocationType);
+      }
+    }
+  }
+
   constructor(
     public mapService: MapService, 
     private errorHandler: ErrorService,
@@ -250,14 +266,19 @@ export class EditLocationComponent implements OnInit {
     if (!this.editing) {
       this.mapService.getLocationTypes({}).subscribe(data => {
         this.locationTypes = data;
+        this.loadSavedLocationType();
         this.mapLayerService.getMapLayers({mapId: this.mapId, isIconLayer: true}).subscribe(data => {
           this.layers = data;
-          this.layer = data.find((l: MapLayer) => l.isBaseLayer);
+          const savedLayerId = localStorage.getItem(`${this.urlService.getWorld()}-${this.SAVED_LAYER}`);
+          let savedLayer = undefined;
+          if (savedLayerId) {
+            savedLayer = data.find((l: MapLayer) => l.id + "" == savedLayerId);
+          }
+          this.layer = savedLayer ?? data.find((l: MapLayer) => l.isBaseLayer);
         },
         error => {
           console.error(error);
         });
-        //localStorage.getItem(`${this.urlService.getWorld()}-${this.SAVED_LOCATION_TYPE}`)
       },
       error => {
         console.error(error);

@@ -80,3 +80,8 @@
         <div *ngIf="thin" style="height: 10px;"></div>
     </div>
 </div>
+
+<mat-card-actions *ngIf="data" style="display: grid; grid-template-columns: calc(50% - 5px) calc(50% - 5px); gap: 10px;">
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-button (click)="save()" color="primary">Save</button>
+</mat-card-actions>

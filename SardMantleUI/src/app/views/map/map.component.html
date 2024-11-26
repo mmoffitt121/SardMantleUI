@@ -85,7 +85,7 @@
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <ng-template matExpansionPanelContent>
-                        <app-map-layers [mapId]="mapData.id" #mapLayersComponent (layerSelectionChanged)="layerSelectionChanged($event)" (saved)="reloadPage()"></app-map-layers>
+                        <app-map-layers [mapConfig]="mapConfig" [mapId]="mapData.id" #mapLayersComponent (layerSelectionChanged)="layerSelectionChanged($event)" (saved)="reloadPage()"></app-map-layers>
                     </ng-template>
                 </mat-expansion-panel>
                 <mat-expansion-panel>
@@ -140,7 +140,7 @@
             </div>
         </div>
         <div class="map-overlay-buttons-container-left">
-            <button mat-raised-button class="map-overlay-button" matTooltip="Menu" (click)="skeletonService.toggleSidebar()">
+            <button mat-raised-button class="map-overlay-button" matTooltip="Menu" (click)="skeletonService.toggleSidebar()" *ngIf="!mapConfig">
                 <mat-icon> menu </mat-icon>
             </button>
         </div>

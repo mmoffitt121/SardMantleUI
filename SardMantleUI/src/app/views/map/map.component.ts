@@ -3,7 +3,7 @@ import { MapService } from '../../services/map/map.service';
 import { FormControl, Validators } from '@angular/forms';
 import { dataMarker, DataMarker } from 'src/app/models/leaflet/leaflet-extensions/data-marker/data-marker';
 import { ViewLocationComponent } from './view-location/view-location.component';
-import { Component, OnInit, ViewChild, EventEmitter, Output, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, Output, ElementRef, AfterViewInit, ChangeDetectorRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { take } from 'rxjs';
 import * as L from 'leaflet';
 import 'leaflet-draw';
@@ -37,13 +37,24 @@ const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
 const shadowUrl = 'assets/marker-shadow.png';
 
+export interface MapConfig {
+  map?: number;
+  selectedLayer?: number;
+  iconLayers?: number[];
+  selectedLocation?: number;
+  x?: number;
+  y?: number;
+  z?: number;
+}
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
   providers: [ MapService ]
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnChanges {
+  @Input() mapConfig?: MapConfig;
   private map: L.Map;
   private locations: Location[];
   private primaryMarkerLayer: any = L.layerGroup();
@@ -250,6 +261,9 @@ export class MapComponent implements OnInit {
   }
 
   public updateRoute() {
+    if (this.mapConfig) {
+      return;
+    }
     var route = this.urlService.getWorld() + '/map/' + this.mapData.id + "/" + this.map.getZoom() + "/" + this.map.getCenter().lat + "/" + this.map.getCenter().lng;
     if (this.viewingObject && this.selectedLocationId) {
       route += "/" + this.selectedLocationId;
@@ -320,16 +334,20 @@ export class MapComponent implements OnInit {
     var zoom = this.map.getZoom();
 
     this.locations = [] as any[];
-    let mapLayerIds = [];
+    let mapLayerIds: any[] = [];
     if (this.mapLayersComponent) {
       for (let l of this.mapLayersComponent?.iconLayers) {
         if (l.selected) {
           mapLayerIds.push(l.id);
         }
       }
-    }
-    else if (this.defaultIconLayer) {
-      mapLayerIds.push(this.defaultIconLayer.id);
+    } else {
+      if (this.mapConfig?.iconLayers) {
+        mapLayerIds = {...mapLayerIds, ...this.mapConfig.iconLayers}
+      }
+      if (this.defaultIconLayer && !mapLayerIds.includes(this.defaultIconLayer.id)) {
+        mapLayerIds.push(this.defaultIconLayer.id);
+      }
     }
 
     let locationTypes = this.locationTypeComponent?.locationTypes?.filter(lt => lt.selected);
@@ -696,6 +714,18 @@ export class MapComponent implements OnInit {
   }
   // #endregion
 
+  // #region Map Config
+  public initConfig() {
+    this.loadMap(this.mapConfig!.map!);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['mapConfig']) {
+      this.initConfig();
+    }
+  }
+  // #endregion
+
   constructor(
     private mapService: MapService, 
     private mapLayerService: MapLayerService,
@@ -715,6 +745,9 @@ export class MapComponent implements OnInit {
     public skeletonService: SkeletonService) { }
 
   ngOnInit(): void {
+    if (this.mapConfig?.map) {
+      return;
+    }
     this.route.params.subscribe(params => {
       if (params['locationId'] != undefined) {
         this.selectedLocationId = params['locationId'];

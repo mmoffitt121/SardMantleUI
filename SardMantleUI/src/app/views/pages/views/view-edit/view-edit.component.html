@@ -34,6 +34,15 @@
         <button mat-button class="topbar-icon-button section-end" matTooltip="Change Parameter the User Can Order By" (click)="selectUserOrderByParameter()" *ngIf="viewTypeSettings.get(view.viewType)?.orderSettings">
             <mat-icon>sort</mat-icon>
         </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Map" (click)="setMap()" *ngIf="viewTypeSettings.get(view.viewType)?.mapSettings">
+            <mat-icon>map</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button" matTooltip="Map Layer" (click)="setMapLayer()" *ngIf="viewTypeSettings.get(view.viewType)?.mapSettings">
+            <mat-icon>layers</mat-icon>
+        </button>
+        <button mat-button class="topbar-icon-button section-end" matTooltip="Icon Layers" (click)="setIconLayers()" *ngIf="viewTypeSettings.get(view.viewType)?.mapSettings">
+            <mat-icon>pin_drop</mat-icon>
+        </button>
         <button mat-button class="topbar-icon-button" matTooltip="View Preview" (click)="displayPreview()">
             <mat-icon>table_chart</mat-icon>
         </button>

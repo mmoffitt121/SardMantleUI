@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { BehaviorSubject, ReplaySubject, takeUntil } from 'rxjs';
+import { BehaviorSubject, forkJoin, map, ReplaySubject, take, takeUntil } from 'rxjs';
 import { DataPointSearchCriteria, DataPointTypeParameter, SearchCriteriaOptions, View, ViewTypes, ViewTypeSettings } from 'src/app/models/pages/view';
 import { CalendarService } from 'src/app/services/calendar/calendar.service';
 import { DocumentTypeService } from 'src/app/services/document/document-type.service';
@@ -15,6 +15,12 @@ import { EditLabelledSelectionListComponent } from 'src/app/views/shared/edit/ed
 import { FormDialogComponent } from 'src/app/views/shared/form-dialog/form-dialog.component';
 import { EditSearchbinsComponent } from './edit-searchbins/edit-searchbins.component';
 import { ErrorService } from 'src/app/services/error.service';
+import { FormComponent, FormItem } from 'src/app/views/shared/form/form.component';
+import { MapService } from 'src/app/services/map/map.service';
+import { MapLayerService } from 'src/app/services/map/map-layer.service';
+import { Map } from 'src/app/models/map/map';
+import { MapLayer } from 'src/app/models/map/map-layer';
+import { ViewCommunicationService } from 'src/app/services/pages/view-communication.service';
 
 @Component({
   selector: 'app-view-edit',
@@ -274,6 +280,86 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
     });
   }
 
+  public setMap() {
+    const items: FormItem[] = [];
+
+    this.mapService.getMaps({}).pipe(take(1)).subscribe(results => {
+      console.log(results)
+      items.push({
+        name: "Map",
+        value: this.settingsData['mapId'],
+        required: true,
+        options: results.map((res: Map) => ({name: res.name, value: res.id + ""}))
+      } as FormItem);
+  
+      const dialogRef = this.dialog.open(FormComponent, {
+        width: 'min(100vw, 400px)',
+        data: { 
+          items,
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe(results => {
+        if (results) {
+          this.settingsData = {...this.settingsData, "mapId": results[0].value}
+          this.handleSettingChanged(this.settingsData);
+        }
+      });
+    });
+  }
+
+  public setMapLayer() {
+    const items: FormItem[] = [];
+
+    this.mapLayerService.getMapLayers({isIconLayer: false, isBaseLayer: false, mapId: this.settingsData["mapId"] ? Number(this.settingsData["mapId"]) : ""}).pipe(take(1)).subscribe(results => {
+      items.push({
+        name: "Selected Map Layer",
+        value: this.settingsData['mapLayer'] ?? "-1",
+        required: true,
+        options: [{name: 'None', value: "-1"}, ...results.filter((r: MapLayer) => !r.isIconLayer).map((res: MapLayer) => ({name: res.name, value: res.id + ""}))]
+      } as FormItem);
+
+  
+      const dialogRef = this.dialog.open(FormComponent, {
+        width: 'min(100vw, 400px)',
+        data: { 
+          items,
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe(results => {
+        if (results) {
+          this.settingsData = {...this.settingsData, "mapLayer": results[0].value}
+          this.handleSettingChanged(this.settingsData);
+        }
+      });
+    });
+  }
+
+  public setIconLayers() {
+    this.mapLayerService.getMapLayers({isIconLayer: true, mapId: this.settingsData["mapId"] ? Number(this.settingsData["mapId"]) : ""}).pipe(take(1)).subscribe(results => {
+      let parameters = results.map((layer: MapLayer) => ({label: layer.name, value: layer.id + ""}));
+      let selectedItems = JSON.parse(this.settingsData['iconLayers'] ?? "[]");
+
+      const dialogRef = this.dialog.open(EditLabelledSelectionListComponent, {
+        width: '500px',
+        height: 'min(100vh, 600px)',
+        data: { 
+          title: "Selected Icon Layers", 
+          items: parameters,
+          selectedItems: selectedItems
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe(results => {
+        if (results) {
+          this.settingsData = {...this.settingsData, "iconLayers": JSON.stringify(results)}
+          this.handleSettingChanged(this.settingsData);
+        }
+      });
+    });
+  }
+
   public displayPreview() {
     this.displayMode = "View"
   }
@@ -357,6 +443,7 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
 
   handleSettingChanged(data: any) {
     this.view.settings = data;
+    this.viewCommsService.select();
   }
 
   public viewUpdated() {
@@ -379,7 +466,10 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
     private editorService: ViewEditorService, 
     private documentTypeService: DocumentTypeService, 
     private cdref: ChangeDetectorRef,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private mapService: MapService,
+    private mapLayerService: MapLayerService,
+    private viewCommsService: ViewCommunicationService
   ) {}
 
   ngOnDestroy(): void {

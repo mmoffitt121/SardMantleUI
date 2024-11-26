@@ -7,6 +7,7 @@ import { EditMapLayerComponent } from './edit-map-layer/edit-map-layer.component
 import { DomSanitizer } from '@angular/platform-browser';
 import { MapTileService } from 'src/app/services/map/map-tile-service';
 import { LoginService } from 'src/app/services/login/login.service';
+import { MapConfig } from '../map.component';
 
 @Component({
   selector: 'app-map-layers',
@@ -19,6 +20,8 @@ export class MapLayersComponent implements OnChanges {
   public baseLayer: MapLayer;
   public iconLayers: MapLayer[];
   public mapLayers: MapLayer[];
+
+  @Input() mapConfig?: MapConfig;
 
   @Output() layerSelectionChanged = new EventEmitter();
   @Output() saved = new EventEmitter();
@@ -36,7 +39,7 @@ export class MapLayersComponent implements OnChanges {
       this.iconLayers = data.filter((l: MapLayer) => l.isIconLayer);
       this.mapLayers = data.filter((l: MapLayer) => !l.isIconLayer && !l.isBaseLayer);
       this.baseLayer = data.find((l: MapLayer) => !l.isIconLayer && l.isBaseLayer);
-      let toSelect = data.find((l: MapLayer) => l.isIconLayer && l.isBaseLayer);
+      let toSelect = data.find((l: MapLayer) => (l.isIconLayer && l.isBaseLayer) || this.mapConfig?.iconLayers?.includes(l.id) || this.mapConfig?.selectedLayer == l.id);
       if (toSelect) {
         toSelect.selected = true;
       }

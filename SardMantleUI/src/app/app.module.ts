@@ -245,6 +245,7 @@ import { PageViewElementBaseComponent } from './views/pages/pages/page-view/page
 import { MapViewComponent } from './views/pages/views/map-view/map-view.component';
 import { EditSearchbinsComponent } from './views/pages/views/view-edit/edit-searchbins/edit-searchbins.component';
 import { TimelineViewHorizontalComponent } from './views/pages/views/timeline-view-horizontal/timeline-view-horizontal.component';
+import { EditMapSettingsComponent } from './views/pages/views/view-edit/edit-map-settings/edit-map-settings.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -452,6 +453,7 @@ export function tokenGetter() {
     MapViewComponent,
     EditSearchbinsComponent,
     TimelineViewHorizontalComponent,
+    EditMapSettingsComponent,
     ],
   imports: [
     BrowserModule,
