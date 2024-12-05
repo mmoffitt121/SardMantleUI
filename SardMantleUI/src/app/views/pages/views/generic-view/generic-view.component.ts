@@ -25,7 +25,7 @@ export class GenericViewComponent extends DestroyableComponent implements OnInit
   public dataLoaded$: ReplaySubject<DataPointQueryResult> = new ReplaySubject(1);
   public title: string;
 
-  @Input() previewMode: boolean = true;
+  @Input() previewMode: boolean = false;
   @Input() isRoot: boolean = false;
 
   public pageLength = 0;

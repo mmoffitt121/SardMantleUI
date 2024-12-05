@@ -284,7 +284,6 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
     const items: FormItem[] = [];
 
     this.mapService.getMaps({}).pipe(take(1)).subscribe(results => {
-      console.log(results)
       items.push({
         name: "Map",
         value: this.settingsData['mapId'],

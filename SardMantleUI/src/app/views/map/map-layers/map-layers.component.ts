@@ -39,10 +39,8 @@ export class MapLayersComponent implements OnChanges {
       this.iconLayers = data.filter((l: MapLayer) => l.isIconLayer);
       this.mapLayers = data.filter((l: MapLayer) => !l.isIconLayer && !l.isBaseLayer);
       this.baseLayer = data.find((l: MapLayer) => !l.isIconLayer && l.isBaseLayer);
-      let toSelect = data.find((l: MapLayer) => (l.isIconLayer && l.isBaseLayer) || this.mapConfig?.iconLayers?.includes(l.id) || this.mapConfig?.selectedLayer == l.id);
-      if (toSelect) {
-        toSelect.selected = true;
-      }
+      let toSelect = data.filter((l: MapLayer) => (l.isIconLayer && l.isBaseLayer && !this.mapConfig?.iconLayers) || this.mapConfig?.iconLayers?.includes(l.id) || this.mapConfig?.selectedLayer == l.id);
+      toSelect.forEach((l: MapLayer) => l.selected = true);
     })
   }
 

@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { cardMenuItems, defaultCardViewSettings, defaultListViewSettings, defaultTimelineViewSettings, defaultViewSettings, listMenuItems, searchableViewMenuItems, timelineMenuItems } from 'src/app/models/pages/view-editor-constants';
+import { cardMenuItems, defaultCardViewSettings, defaultListViewSettings, defaultMapViewSettings, defaultTimelineViewSettings, defaultViewSettings, listMenuItems, mapMenuItems, searchableViewMenuItems, timelineMenuItems } from 'src/app/models/pages/view-editor-constants';
 import { CalendarService } from '../calendar/calendar.service';
 
 @Injectable({
@@ -19,7 +19,6 @@ export class ViewEditorService {
                 break;
             case "Timeline":
                 let calendars = this.calendarService.calendars.map(cal => ({id: cal.id, name: cal.name}));
-                console.log(calendars)
                 menuItems = [
                     ...searchableViewMenuItems, 
                     ...JSON.parse(JSON.stringify(timelineMenuItems)), // Easy deep copy
@@ -38,6 +37,8 @@ export class ViewEditorService {
                     ]
                 });
                 break;
+            case "Map":
+                menuItems = [...mapMenuItems]
         }
 
         return menuItems;
@@ -56,6 +57,9 @@ export class ViewEditorService {
             case "Timeline":
                 let cal = this.calendarService.calendars[0];
                 viewSettings = {...defaultViewSettings, ...defaultTimelineViewSettings, "timelineCalendar": cal.id};
+                break;
+            case "Map":
+                viewSettings = {...defaultMapViewSettings};
                 break;
         }
 

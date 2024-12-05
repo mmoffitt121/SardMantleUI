@@ -1,3 +1,5 @@
+import { Location } from "../map/location-data-types/location-data-types";
+
 export interface DataPointQueryResult {
     count: number;
     results: QueriedDataPoint[];
@@ -13,6 +15,7 @@ export interface QueriedDataPoint {
     typeSummary: string | undefined;
     typeSettings: string | undefined;
     parameters: QueriedDataPointParameter[];
+    locations?: Location[];
 }
 
 export interface QueriedDataPointParameter {

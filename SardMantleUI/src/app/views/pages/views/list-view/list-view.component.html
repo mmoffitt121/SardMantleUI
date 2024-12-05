@@ -47,7 +47,7 @@
                 >
                     <mat-card [ngClass]="'search-container sidebar ' + (view.settings?.sidebarStyle ?? 'sidebar-full')">
                         <div class="list-item-container">
-                            <button mat-button *ngFor="let card of data?.results" class="list-result-item" (click)="select(card.id ?? -1)" [style]="'background-color: ' + (card.id == id ? 'var(--lib-primary-accent-color-selected)' : 'var(--lib-primary-accent-color)')">
+                            <button mat-button *ngFor="let card of data?.results" class="list-result-item" (click)="select(card ?? undefined)" [style]="'background-color: ' + (card.id == id ? 'var(--lib-primary-accent-color-selected)' : 'var(--lib-primary-accent-color)')">
                                 {{card.name}}
                             </button>
                         </div>

@@ -9,5 +9,27 @@ import { PageViewElementBaseComponent } from '../page-view-element-base/page-vie
   styleUrls: ['./page-view-element-splitcontainer.component.scss']
 })
 export class PageViewElementSplitcontainerComponent extends PageViewElementBaseComponent implements OnChanges {
-  
+  public getSize(index: number) {
+    if (index) {
+      switch (this.settingsObject.Split) {
+        case 'Left Focus':
+          return '67%';
+        case 'Right Focus':
+          return '33%';
+        case 'Half and Half':
+        default:
+          return '50%';
+      }
+    } else {
+      switch (this.settingsObject.Split) {
+        case 'Left Focus':
+          return '33%';
+        case 'Right Focus':
+          return '67%';
+        case 'Half and Half':
+        default:
+          return '50%';
+      }
+    }
+  }
 }

@@ -52,6 +52,23 @@ export const timelineViewTypes = [
     {id: "40px", name: "Extremely Rounded"},
 ]
 
+// Selection Options
+
+export const selectionBehaviors = [
+    {id: "none", name: "None"},
+    {id: "select", name: "Open upon Selection"},
+]
+
+export const behaviorsBeforeSelection = [
+    {id: "alwaysDisplay", name: "Always Display"},
+    {id: "onlySelected", name: "Only Display When Selected"},
+]
+
+export const locationPanelSelectedBehaviors = [
+    {id: "close", name: "Open the Location Panel"},
+    {id: "open", name: "Don't Open the Location Panel"},
+]
+
 // -=-=-=-=-=-=-=-
 // Menu Items
 // -=-=-=-=-=-=-=-
@@ -184,6 +201,62 @@ export const timelineMenuItems = [
     }
 ]
 
+// Map View
+
+export const mapMenuItems = [
+    {
+        name: "Map Settings",
+        icon: "map",
+        children: [
+            {
+                name: "Buttons",
+                items: [
+                    {
+                        name: "Map Menu Button",
+                        key: "showMapMenu",
+                        value: undefined,
+                        type: "select",
+                        options: showHide
+                    },
+                    {
+                        name: "Add Location Button",
+                        key: "showAddLocation",
+                        value: undefined,
+                        type: "select",
+                        options: showHide
+                    },
+                ]
+            },
+            {
+                name: "Selection",
+                items: [
+                    {
+                        name: "Add Location Button",
+                        key: "selectionBehavior",
+                        value: undefined,
+                        type: "select",
+                        options: selectionBehaviors
+                    },
+                    {
+                        name: "Behavior Before Selection",
+                        key: "behaviorBeforeSelection",
+                        value: undefined,
+                        type: "select",
+                        options: behaviorsBeforeSelection
+                    },
+                    {
+                        name: "Location Panel Behavior Upon Selection",
+                        key: "locationPanelSelectedBehavior",
+                        value: undefined,
+                        type: "select",
+                        options: locationPanelSelectedBehaviors
+                    },
+                ]
+            },
+        ]
+    }
+]
+
 // -=-=-=-=-=-=-
 // Defaults
 // -=-=-=-=-=-=-
@@ -216,4 +289,14 @@ export const defaultListViewSettings = {
 export const defaultTimelineViewSettings = {
     "timelineOrientation": "h",
     "timelineDataPointDisplay": "name"
+}
+
+// Map
+
+export const defaultMapViewSettings = {
+    "selectionBehavior": "none",
+    "behaviorBeforeSelection": "alwaysDisplay",
+    "locationPanelSelectedBehavior": "close",
+    "showMapMenu": "true",
+    "showAddLocation": "true",
 }

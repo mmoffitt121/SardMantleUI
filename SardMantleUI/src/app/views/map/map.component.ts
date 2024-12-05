@@ -42,9 +42,9 @@ export interface MapConfig {
   selectedLayer?: number;
   iconLayers?: number[];
   selectedLocation?: number;
-  x?: number;
-  y?: number;
-  z?: number;
+  openPanelOnSelect?: boolean;
+  showMapMenuButton?: boolean;
+  showAddLocationButton?: boolean;
 }
 
 @Component({
@@ -343,9 +343,9 @@ export class MapComponent implements OnInit, OnChanges {
       }
     } else {
       if (this.mapConfig?.iconLayers) {
-        mapLayerIds = {...mapLayerIds, ...this.mapConfig.iconLayers}
+        mapLayerIds = [...mapLayerIds, ...this.mapConfig.iconLayers]
       }
-      if (this.defaultIconLayer && !mapLayerIds.includes(this.defaultIconLayer.id)) {
+      if (this.defaultIconLayer && !this.mapConfig) {
         mapLayerIds.push(this.defaultIconLayer.id);
       }
     }
@@ -480,7 +480,9 @@ export class MapComponent implements OnInit, OnChanges {
       this.viewingObject = true;
       this.changeDetector.detectChanges();
       this.viewLocationComponent.setSelectedMapObject(locationData, 0);
-      this.drawer.open();
+      if (!this.mapConfig || this.mapConfig?.openPanelOnSelect) {
+        this.drawer.open();
+      }
       this.updateRoute();
     })
   }
@@ -716,12 +718,35 @@ export class MapComponent implements OnInit, OnChanges {
 
   // #region Map Config
   public initConfig() {
+    if (this.mapConfig?.selectedLocation) {
+      this.selectedLocationId = this.mapConfig.selectedLocation;
+      this.startViewing = true;
+    } else {
+      this.startViewing = false;
+    }
     this.loadMap(this.mapConfig!.map!);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['mapConfig']) {
-      this.initConfig();
+    if (changes['mapConfig'] && this.mapConfig) {
+      const previous = changes['mapConfig'].previousValue;
+      const current = changes['mapConfig'].currentValue;
+      var changeDetected = !(current?.map === previous?.map
+        && current?.openPanelOnSelect === previous?.openPanelOnSelect
+        && current?.selectedLayer === previous?.selectedLayer
+        && current?.showMapMenuButton === previous?.showAddLocationButton
+        && current?.showMapMenuButton === previous?.showMapMenuButton
+        && current?.iconLayers?.length === previous?.iconLayers?.length);
+
+      current?.iconLayers?.forEach((l: number) => changeDetected = changeDetected && !previous?.iconLayers?.includes(l));
+
+      if (changeDetected) {
+        this.initConfig();
+      } else if (this.mapConfig.selectedLocation) {
+        this.selectedLocationId = this.mapConfig.selectedLocation;
+        this.navigateToLocation(this.selectedLocationId);
+      }
+      
     }
   }
   // #endregion

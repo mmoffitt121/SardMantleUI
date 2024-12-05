@@ -21,25 +21,25 @@
                     </button>
                     <div *ngIf="option.expanded">
                         <div *ngFor="let option2 of option.options" style="display: grid;">
-                            <button mat-menu-item class="menu-item-content" (click)="navigate(option2)" style="margin-left: 15px;" *ngIf="option2.options?.length || option2.route">
+                            <button mat-menu-item class="menu-item-content" (click)="navigate(option2)" style="margin-left: 15px; width: calc(100% - 15px);" *ngIf="option2.options?.length || option2.route">
                                 <mat-icon *ngIf="option2.icon"> {{option2.icon}} </mat-icon>
                                 {{option2.name}}
                             </button>
                             <div *ngIf="option2.expanded">
                                 <div *ngFor="let option3 of option2.options" style="display: grid;">
-                                    <button mat-menu-item class="menu-item-content" (click)="navigate(option3)" style="margin-left: 30px;">
+                                    <button mat-menu-item class="menu-item-content" (click)="navigate(option3)" style="margin-left: 30px; width: calc(100% - 30px);">
                                         <mat-icon *ngIf="option3.icon"> {{option3.icon}} </mat-icon>
                                         {{option3.name}}
                                     </button>
                                     <div *ngIf="option3.expanded">
                                         <div *ngFor="let option4 of option3.options" style="display: grid;">
-                                            <button mat-menu-item class="menu-item-content" (click)="navigate(option4)" style="margin-left: 45px;">
+                                            <button mat-menu-item class="menu-item-content" (click)="navigate(option4)" style="margin-left: 45px; width: calc(100% - 45px);">
                                                 <mat-icon *ngIf="option4.icon"> {{option4.icon}} </mat-icon>
                                                 {{option4.name}}
                                             </button>
                                             <div *ngIf="option4.expanded">
                                                 <div *ngFor="let option5 of option4.options" style="display: grid;">
-                                                    <button mat-menu-item class="menu-item-content" (click)="navigate(option5)" style="margin-left: 60px;">
+                                                    <button mat-menu-item class="menu-item-content" (click)="navigate(option5)" style="margin-left: 60px; width: calc(100% - 60px);">
                                                         <mat-icon *ngIf="option5.icon"> {{option5.icon}} </mat-icon>
                                                         {{option5.name}}
                                                     </button>

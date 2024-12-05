@@ -145,8 +145,8 @@
             </button>
         </div>
         <div class="map-overlay-buttons-container-right">
-            <button mat-raised-button (click)="openMapSettings()" class="map-overlay-button"><mat-icon>map</mat-icon></button>
-            <button mat-raised-button (click)="openAddLocation()" class="map-overlay-button" requireRole [role]="'Library.Map'"><mat-icon>add</mat-icon></button>
+            <button mat-raised-button *ngIf="!this.mapConfig || this.mapConfig.showMapMenuButton" (click)="openMapSettings()" class="map-overlay-button"><mat-icon>map</mat-icon></button>
+            <button mat-raised-button *ngIf="!this.mapConfig || this.mapConfig.showAddLocationButton" (click)="openAddLocation()" class="map-overlay-button" requireRole [role]="'Library.Map'"><mat-icon>add</mat-icon></button>
         </div>
     </mat-drawer-content>
 </mat-drawer-container>

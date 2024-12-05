@@ -48,7 +48,6 @@ export class EditSettingsComponent implements OnInit {
     if (this.data) {
       this.settings.forEach(setting => {
         setting.children.forEach((child: any) => {
-          console.log(child, child.items)
           child.items.forEach((item: any) => {
             item.value = this.data[item.key];
           })
