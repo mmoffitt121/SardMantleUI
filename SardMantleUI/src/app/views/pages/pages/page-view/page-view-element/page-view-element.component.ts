@@ -16,7 +16,7 @@ export class PageViewElementComponent extends DestroyableComponent implements On
   public settings: any;
   public selected = false;
 
-  @Input() isRoot = false;
+  @Input() displayMenuButton = false;
   @Input() passthroughSettings: any | undefined;
 
   public edit() {
@@ -39,6 +39,7 @@ export class PageViewElementComponent extends DestroyableComponent implements On
   constructor (private service: PageEditorService) { super(); }
 
   ngOnInit(): void {
+    console.log(this.displayMenuButton)
     this.service.selected.pipe(takeUntil(this.destroyed$)).subscribe(selected => {
       if (selected && this.element && selected === this.element) {
         this.selected = true;

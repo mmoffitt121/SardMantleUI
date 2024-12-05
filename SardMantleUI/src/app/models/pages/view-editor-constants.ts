@@ -55,18 +55,18 @@ export const timelineViewTypes = [
 // Selection Options
 
 export const selectionBehaviors = [
-    {id: "none", name: "None"},
-    {id: "select", name: "Open upon Selection"},
+    {id: "none", name: "Do Nothing"},
+    {id: "select", name: "Reflect Selection in This View"},
 ]
 
 export const behaviorsBeforeSelection = [
-    {id: "alwaysDisplay", name: "Always Display"},
-    {id: "onlySelected", name: "Only Display When Selected"},
+    {id: "alwaysDisplay", name: "Display This View"},
+    {id: "onlySelected", name: "Do Not Display This View"},
 ]
 
 export const locationPanelSelectedBehaviors = [
-    {id: "close", name: "Open the Location Panel"},
-    {id: "open", name: "Don't Open the Location Panel"},
+    {id: "open", name: "Open"},
+    {id: "close", name: "Not Open"},
 ]
 
 // -=-=-=-=-=-=-=-
@@ -231,21 +231,21 @@ export const mapMenuItems = [
                 name: "Selection",
                 items: [
                     {
-                        name: "Add Location Button",
+                        name: "When a Document is Selected...",
                         key: "selectionBehavior",
                         value: undefined,
                         type: "select",
                         options: selectionBehaviors
                     },
                     {
-                        name: "Behavior Before Selection",
+                        name: "When No Document is Selected...",
                         key: "behaviorBeforeSelection",
                         value: undefined,
                         type: "select",
                         options: behaviorsBeforeSelection
                     },
                     {
-                        name: "Location Panel Behavior Upon Selection",
+                        name: "Upon Selection, the Location Panel Will...",
                         key: "locationPanelSelectedBehavior",
                         value: undefined,
                         type: "select",
@@ -296,7 +296,7 @@ export const defaultTimelineViewSettings = {
 export const defaultMapViewSettings = {
     "selectionBehavior": "none",
     "behaviorBeforeSelection": "alwaysDisplay",
-    "locationPanelSelectedBehavior": "close",
+    "locationPanelSelectedBehavior": "open",
     "showMapMenu": "true",
     "showAddLocation": "true",
 }

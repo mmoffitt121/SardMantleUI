@@ -16,7 +16,7 @@ export class ViewComponent implements OnChanges {
   @Input() editing = false;
   public settingsObject: any;
 
-  @Input() isRoot = false;
+  @Input() displayMenuButton = false;
 
   public edit() {
     this.urlService.navigate(['views']);

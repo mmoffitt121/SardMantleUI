@@ -26,7 +26,7 @@ export class GenericViewComponent extends DestroyableComponent implements OnInit
   public title: string;
 
   @Input() previewMode: boolean = false;
-  @Input() isRoot: boolean = false;
+  @Input() displayMenuButton: boolean = false;
 
   public pageLength = 0;
   public pageIndex = 0;
@@ -99,6 +99,9 @@ export class GenericViewComponent extends DestroyableComponent implements OnInit
   public initView() {
     this.pageIndex = 0;
     this.pageSize = 25;
+    if (!this.view.searchCriteriaOptions) {
+      return;
+    }
     this.view.searchCriteriaOptions!.criteria.pageNumber = this.pageIndex + 1;
     this.view.searchCriteriaOptions!.criteria.pageSize = this.pageSize;
 

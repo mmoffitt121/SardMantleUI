@@ -18,6 +18,8 @@ export class MapViewComponent extends DestroyableComponent implements OnInit {
   public mapConfig?: MapConfig;
   private selected?: QueriedDataPoint;
 
+  @Input() isRoot: boolean = false;
+
   public updateConfig() {
     this.settings = this.view.settings ?? {};
     const locId = this.selected?.locations?.length ? this.selected.locations[0].id : undefined
@@ -26,10 +28,12 @@ export class MapViewComponent extends DestroyableComponent implements OnInit {
       selectedLayer: this.settings['mapLayer'] ? Number(this.settings['mapLayer']) : undefined,
       iconLayers: this.settings['iconLayers'] ? JSON.parse(this.settings['iconLayers']).map((l: string) => Number(l)) : undefined,
       selectedLocation: locId,
-      openPanelOnSelect: this.settings['locationPanelSelectedBehavior'] === 'open' ? true : false,
+      openPanelOnSelect: this.settings['locationPanelSelectedBehavior'] === 'close' ? false : true,
       showMapMenuButton: this.settings['showMapMenu'] === 'false' ? false : true,
       showAddLocationButton: this.settings['showAddLocation'] === 'false' ? false : true,
+      showNavigationButton: this.isRoot,
     }
+    console.log(this.isRoot)
   }
 
   private alwaysDisplay() {

@@ -2,7 +2,7 @@
     <mat-card class="card-view-header">
         <mat-card-content class="card-view-grid">
             <div style="display: flex;">
-                <button mat-icon-button class="topbar-icon-button" (click)="skeletonService.toggleSidebar()" *ngIf="isRoot">
+                <button mat-icon-button class="topbar-icon-button" (click)="skeletonService.toggleSidebar()" *ngIf="displayMenuButton">
                     <mat-icon>menu</mat-icon>
                 </button>
                 <button mat-icon-button class="topbar-icon-button" (click)="showSearch = !showSearch" *ngIf="view.settings?.showFilterOptions == 'true'">

@@ -140,7 +140,7 @@
             </div>
         </div>
         <div class="map-overlay-buttons-container-left">
-            <button mat-raised-button class="map-overlay-button" matTooltip="Menu" (click)="skeletonService.toggleSidebar()" *ngIf="!mapConfig">
+            <button mat-raised-button class="map-overlay-button" matTooltip="Menu" (click)="skeletonService.toggleSidebar()" *ngIf="!mapConfig || mapConfig.showNavigationButton">
                 <mat-icon> menu </mat-icon>
             </button>
         </div>

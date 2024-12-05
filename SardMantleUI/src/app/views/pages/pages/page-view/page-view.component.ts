@@ -14,6 +14,8 @@ export class PageViewComponent implements OnInit {
   @Input() page: Page | undefined;
   @Input() editing = false;
 
+  public menuButtonInView: boolean = false;
+
   public topbarStyle = "height: 50px; max-height: 65px;";
   public elementStyle = "top: 65px;";
 
@@ -21,9 +23,11 @@ export class PageViewComponent implements OnInit {
     if (show) {
       this.topbarStyle = "height: 50px; max-height: 65px;";
       this.elementStyle = "top: 65px;";
+      this.menuButtonInView = false;
     } else {
       this.topbarStyle = "display: none;";
       this.elementStyle = "top: 0px;";
+      this.menuButtonInView = true;
     }
     this.cdref.detectChanges();
   }

@@ -4,7 +4,7 @@
     </div>
     <div [ngSwitch]="element?.objectType" [class]="'fill-absolute'" [style]="editing ? 'top: 50px; color: var(--lib-text-color)' : 'color: var(--lib-text-color)'">
         <app-page-view-element *ngSwitchCase="'Root'" class="inherited-size" [passthroughSettings]="passthroughSettings"></app-page-view-element>
-        <app-view *ngSwitchCase="'View'" class="inherited-size" [settings]="element?.objectSettings" [editing]="editing" [isRoot]="isRoot" />
+        <app-view *ngSwitchCase="'View'" class="inherited-size" [settings]="element?.objectSettings" [editing]="editing" [displayMenuButton]="displayMenuButton" />
         <app-page-view-element-splitcontainer *ngSwitchCase="'Split Container'" [element]="element" [settings]="element?.objectSettings" class="inherited-size" [passthroughSettings]="passthroughSettings"></app-page-view-element-splitcontainer>
         <app-page-view-element-tabgroup *ngSwitchCase="'Tab Group'" class="inherited-size" [element]="element" [settings]="element?.objectSettings" [editing]="editing" [passthroughSettings]="passthroughSettings" />
         <app-page-view-element-document *ngSwitchCase="'Document'" class="inherited-size" [element]="element" [settings]="element?.objectSettings" [passthroughSettings]="passthroughSettings" />

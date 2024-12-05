@@ -4,7 +4,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { dataMarker, DataMarker } from 'src/app/models/leaflet/leaflet-extensions/data-marker/data-marker';
 import { ViewLocationComponent } from './view-location/view-location.component';
 import { Component, OnInit, ViewChild, EventEmitter, Output, ElementRef, AfterViewInit, ChangeDetectorRef, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { take } from 'rxjs';
+import { forkJoin, take } from 'rxjs';
 import * as L from 'leaflet';
 import 'leaflet-draw';
 import { MatDrawer, } from '@angular/material/sidenav';
@@ -45,6 +45,7 @@ export interface MapConfig {
   openPanelOnSelect?: boolean;
   showMapMenuButton?: boolean;
   showAddLocationButton?: boolean;
+  showNavigationButton?: boolean;
 }
 
 @Component({
@@ -600,28 +601,40 @@ export class MapComponent implements OnInit, OnChanges {
         }
         
         this.loadMapIcon();
-        this.mapLayerService.getMapLayers({mapId: id, isBaseLayer: true, isIconLayer: false}).subscribe(data => {
-          if (data.length > 0) {
-            this.baseLayer = data[0];
+        let layerObservables = [
+          this.mapLayerService.getMapLayers({mapId: id, isBaseLayer: true, isIconLayer: false}),
+          this.mapLayerService.getMapLayers({mapId: id, isBaseLayer: true, isIconLayer: true})
+        ]
+        if (this.mapConfig?.selectedLayer) {
+          layerObservables.push(this.mapLayerService.getMapLayers({mapId: id, id: this.mapConfig.selectedLayer}))
+        }
+
+        forkJoin(layerObservables).pipe(take(1)).subscribe(results => {
+          const baseLayerResult = results[0];
+          if (baseLayerResult.length > 0) {
+            this.baseLayer = baseLayerResult[0];
           }
           else {
             this.baseLayer = undefined;
           }
-          this.mapLayerService.getMapLayers({mapId: id, isBaseLayer: true, isIconLayer: true}).subscribe(data => {
-            if (data.length > 0) {
-              this.defaultIconLayer = data[0];
-            }
-            else {
-              this.defaultIconLayer = undefined;
-            }
-            this.initMap();
-          },
-          error => {
-            this.errorService.showSnackBar("There was an error finding the default icon layer.");
-          })
-        },
-        error => {
-          this.errorService.showSnackBar("There was an error finding the map base layer.");
+
+          const iconLayerResult = results[1];
+          if (iconLayerResult?.length > 0) {
+            this.defaultIconLayer = iconLayerResult[0];
+          }
+          else {
+            this.defaultIconLayer = undefined;
+          }
+
+          const selectedLayerResult = results[2];
+          if ((selectedLayerResult?.length ?? 0) > 0) {
+            this.coverLayer = selectedLayerResult[0];
+          }
+          else {
+            this.coverLayer = undefined;
+          }
+
+          this.initMap();
         })
       } 
       else {
