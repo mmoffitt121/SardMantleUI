@@ -120,7 +120,8 @@ export class SkeletonNavBarComponent {
         } as MenuGrouping;
 
         grouping.options.forEach((option: any) => {
-          option.expanded = (expandSettings[option.name] !== undefined ? expandSettings[option.name] : option.expanded);
+          this.setExpanded(option, expandSettings)
+          //option.expanded = (expandSettings[option.name] !== undefined ? expandSettings[option.name] : option.expanded);
           if ((option.isRoot || this.inWorld) && this.loginService.userHasAnyOfRoles(option.roles)) {
             newGrouping.options.push(option);
           }
@@ -142,6 +143,11 @@ export class SkeletonNavBarComponent {
 
       this.menuOptions = newMenuOptions;
     });
+  }
+
+  private setExpanded(option: any, expandSettings: any) {
+    option.expanded = (expandSettings[option.name] !== undefined ? expandSettings[option.name] : option.expanded);
+    option.options?.forEach((opt: any) => this.setExpanded(opt, expandSettings))
   }
 
   constructor (
