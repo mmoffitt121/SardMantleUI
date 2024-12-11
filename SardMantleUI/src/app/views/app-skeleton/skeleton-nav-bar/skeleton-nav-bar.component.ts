@@ -121,7 +121,6 @@ export class SkeletonNavBarComponent {
 
         grouping.options.forEach((option: any) => {
           this.setExpanded(option, expandSettings)
-          //option.expanded = (expandSettings[option.name] !== undefined ? expandSettings[option.name] : option.expanded);
           if ((option.isRoot || this.inWorld) && this.loginService.userHasAnyOfRoles(option.roles)) {
             newGrouping.options.push(option);
           }

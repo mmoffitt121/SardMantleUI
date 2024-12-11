@@ -56,6 +56,8 @@ export interface MapConfig {
 })
 export class MapComponent implements OnInit, OnChanges {
   @Input() mapConfig?: MapConfig;
+  private needsNewLayerFromConfig = true;
+
   private map: L.Map;
   private locations: Location[];
   private primaryMarkerLayer: any = L.layerGroup();
@@ -605,7 +607,7 @@ export class MapComponent implements OnInit, OnChanges {
           this.mapLayerService.getMapLayers({mapId: id, isBaseLayer: true, isIconLayer: false}),
           this.mapLayerService.getMapLayers({mapId: id, isBaseLayer: true, isIconLayer: true})
         ]
-        if (this.mapConfig?.selectedLayer) {
+        if (this.mapConfig?.selectedLayer && this.needsNewLayerFromConfig) {
           layerObservables.push(this.mapLayerService.getMapLayers({mapId: id, id: this.mapConfig.selectedLayer}))
         }
 
@@ -627,11 +629,14 @@ export class MapComponent implements OnInit, OnChanges {
           }
 
           const selectedLayerResult = results[2];
-          if ((selectedLayerResult?.length ?? 0) > 0) {
-            this.coverLayer = selectedLayerResult[0];
-          }
-          else {
-            this.coverLayer = undefined;
+          if (this.mapConfig?.selectedLayer && this.needsNewLayerFromConfig) {
+            if ((selectedLayerResult?.length ?? 0) > 0) {
+              this.coverLayer = selectedLayerResult[0];
+              this.needsNewLayerFromConfig = false;
+            }
+            else {
+              this.coverLayer = undefined;
+            }
           }
 
           this.initMap();
