@@ -33,7 +33,6 @@ export class MapViewComponent extends DestroyableComponent implements OnInit {
       showAddLocationButton: this.settings['showAddLocation'] === 'false' ? false : true,
       showNavigationButton: this.isRoot,
     }
-    console.log(this.isRoot)
   }
 
   private alwaysDisplay() {

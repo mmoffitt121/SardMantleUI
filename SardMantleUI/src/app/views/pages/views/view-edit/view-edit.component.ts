@@ -395,7 +395,6 @@ export class ViewEditComponent implements OnDestroy, OnInit, OnChanges {
         break;
       case "List":
         this.view!.searchCriteriaOptions!.criteria.includeParameters = false;
-        this.view!.searchCriteriaOptions!.criteria.includeTypes = false;
         this.view!.searchCriteriaOptions!.criteria.includeChildDataPoints = false;
         break;
       default:

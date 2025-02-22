@@ -38,5 +38,7 @@ export class ListViewComponent extends GenericViewComponent {
   public select(item?: QueriedDataPoint) {
     this.id = item?.id ?? -1;
     this.service.select(item);
+    console.log(this.data)
+    console.log(this.data?.types?.length, this.view.settings?.showAddDocumentButton == 'true');
   }
 }
