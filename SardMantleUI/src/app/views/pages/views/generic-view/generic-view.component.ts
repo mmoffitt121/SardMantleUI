@@ -11,6 +11,7 @@ import { ViewQueryService } from 'src/app/services/document/view-query.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { SkeletonService } from 'src/app/services/skeleton/skeleton.service';
 import { UrlService } from 'src/app/services/url/url.service';
+import { DocumentEditComponent } from 'src/app/views/document/document-edit/document-edit.component';
 import { DocumentPopupComponent } from 'src/app/views/shared/document-components/document-popup/document-popup.component';
 import { DestroyableComponent } from 'src/app/views/shared/util/destroyable/destroyable.component';
 
@@ -152,7 +153,14 @@ export class GenericViewComponent extends DestroyableComponent implements OnInit
   }
 
   public add(type: any) {
-    this.router.navigate([this.urlService.getWorld(), 'document', 'add', type.id])
+    const ref = this.dialog.open(DocumentEditComponent,  {
+      width: 'min(100vw, 750px)',
+      height: 'min(100vh, 900px)',
+      data: { 
+        
+      }
+    })
+    //this.router.navigate([this.urlService.getWorld(), 'document', 'add', type.id])
   }
 
   constructor(

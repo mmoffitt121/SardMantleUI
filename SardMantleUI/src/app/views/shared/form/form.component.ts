@@ -34,6 +34,8 @@ export class FormComponent {
 
   public valid: boolean;
 
+  @Input() saveAndCancel: boolean = true;
+
   public onChange() {
     let valid = true
     this.items.forEach(item => {
