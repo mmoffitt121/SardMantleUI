@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Map } from 'src/app/models/map/map';
+import {Map, MapModeGroup} from 'src/app/models/map/map';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -101,6 +101,14 @@ export class MapService {
 
   public getIconUrl(id: string) {
     return environment.baseUrl + "/Library/Image/Icon?id=" + id + "&world=" + this.router.url.replace("/", "").substring(0, this.router.url.indexOf("/", 1) - 1)
+  }
+
+  public getMapModes(mapId: number) {
+    return this.http.get<any>(environment.baseUrl + '/Library/MapMode/GetMapModes?mapId=' + mapId);
+  }
+  
+  public putMapModes(mapId: number, groups: MapModeGroup[]) {
+      return this.http.put(environment.baseUrl + '/Library/MapMode/PutMapModes', {mapId: mapId, mapModeGroups: groups});
   }
 
   constructor(private http: HttpClient, private router: Router) { }

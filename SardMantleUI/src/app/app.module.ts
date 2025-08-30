@@ -246,6 +246,8 @@ import { MapViewComponent } from './views/pages/views/map-view/map-view.componen
 import { EditSearchbinsComponent } from './views/pages/views/view-edit/edit-searchbins/edit-searchbins.component';
 import { TimelineViewHorizontalComponent } from './views/pages/views/timeline-view-horizontal/timeline-view-horizontal.component';
 import { EditMapSettingsComponent } from './views/pages/views/view-edit/edit-map-settings/edit-map-settings.component';
+import { MapModesComponent } from './views/map/map-modes/map-modes.component';
+import { MapModesEditComponent } from './views/map/map-modes/map-modes-edit/map-modes-edit.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -454,6 +456,8 @@ export function tokenGetter() {
     EditSearchbinsComponent,
     TimelineViewHorizontalComponent,
     EditMapSettingsComponent,
+    MapModesComponent,
+    MapModesEditComponent,
     ],
   imports: [
     BrowserModule,

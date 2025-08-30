@@ -10,7 +10,7 @@
                         <mat-icon>close</mat-icon>
                     </button>
                 </div>
-                
+
                 <mat-expansion-panel [expanded]="true">
                     <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
                         <mat-panel-title>
@@ -37,18 +37,18 @@
                                 <mat-card class="map-card-over" style="z-index: 1000; position: absolute; " *ngIf="mapIconHovered" requireRole [role]="'Library.Map'">
                                     <mat-icon style="position: relative; left: 60px; top: 60px;">edit</mat-icon>
                                 </mat-card>
-                                <img 
-                                    class="map-card" 
-                                    [src]="mapData.iconId | thumbnail | async" 
-                                    *ngIf="!(mapData.iconId === null || mapData.iconId === '')" 
-                                    (mouseover)="mapIconHovered=true" 
+                                <img
+                                    class="map-card"
+                                    [src]="mapData.iconId | thumbnail | async"
+                                    *ngIf="!(mapData.iconId === null || mapData.iconId === '')"
+                                    (mouseover)="mapIconHovered=true"
                                     (mouseout)="mapIconHovered=false"
                                     (click)="editMapIcon()"
                                 />
-                                <mat-card 
-                                    class="map-card" 
-                                    *ngIf="(mapData.iconId === null || mapData.iconId === '')" 
-                                    (mouseover)="mapIconHovered=true" 
+                                <mat-card
+                                    class="map-card"
+                                    *ngIf="(mapData.iconId === null || mapData.iconId === '')"
+                                    (mouseover)="mapIconHovered=true"
                                     (mouseout)="mapIconHovered=false"
                                     (click)="editMapIcon()"
                                 >
@@ -108,14 +108,24 @@
                         <app-filter-location (add)="openAddLocation()"></app-filter-location>
                     </div>
                 </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
+                        <mat-panel-title>
+                            Map Modes
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ng-template matExpansionPanelContent>
+                        <app-map-modes [mapConfig]="mapConfig" [mapId]="mapData.id" #mapModesComponent></app-map-modes>
+                    </ng-template>
+                </mat-expansion-panel>
             </mat-accordion>
         </div>
         <div *ngIf="viewingObject">
-            <app-view-location 
-                *ngIf="!editingObject && !addingObject" 
-                (deleted)="deleteComplete()" 
-                (editBegin)="editBegin()" 
-                #locationViewer 
+            <app-view-location
+                *ngIf="!editingObject && !addingObject"
+                (deleted)="deleteComplete()"
+                (editBegin)="editBegin()"
+                #locationViewer
                 (navigate)="navigateToLocation($event)"
                 (hideRegions)="hideRegions()"
                 (showRegions)="showRegions($event)"
@@ -129,7 +139,7 @@
         </div>
         <mat-card class="centered-button-card" *ngIf="!editingObject && !addingObject">
             <button mat-icon-button (click)="viewCancel()" class="centered-button">
-                <mat-icon>close</mat-icon> 
+                <mat-icon>close</mat-icon>
             </button>
         </mat-card>
     </mat-drawer>

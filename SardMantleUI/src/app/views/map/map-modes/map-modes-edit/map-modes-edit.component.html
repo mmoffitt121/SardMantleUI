@@ -1,0 +1,16 @@
+<div class="map-modes-container">
+    <mat-card-header>
+        Map Modes
+    </mat-card-header>
+    <div class="content">
+        <div *ngFor="let mmg of mapModeGroups; index as i">Hello</div>
+        <button mat-button class="submit-button" (click)="add()">
+            +
+        </button>
+    </div>
+    <mat-card-footer class="footer">
+        <button mat-button class="submit-button" (click)="cancel()"> Cancel </button>
+        <button mat-button color="primary" class="submit-button" (click)="save()"> Save </button>
+    </mat-card-footer>
+</div>
+

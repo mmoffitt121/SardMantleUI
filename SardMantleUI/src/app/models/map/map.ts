@@ -19,3 +19,18 @@ export interface Map extends Selectable {
     isDefault: boolean;
     iconId: string | null;
 }
+
+export interface MapModeGroup extends Selectable {
+  id: number;
+  name: string;
+  icon: string; 
+  index: number;
+  mapModes: MapMode[];
+}
+
+export interface MapMode extends Selectable {
+  id: number;
+  name: string;
+  icon: string;
+  index: number;
+}
